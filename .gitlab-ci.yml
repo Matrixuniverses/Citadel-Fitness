@@ -1,0 +1,13 @@
+junit:
+  stage: test
+  script:
+    - cd team2fitness
+    - mvn -B clean test
+generate_artifacts:
+  stage: deploy
+  script:
+    - cd team2fitness
+    - mvn -B clean site package
+  artifacts:
+    paths:
+    - team2fitness/target/s202*.jar
