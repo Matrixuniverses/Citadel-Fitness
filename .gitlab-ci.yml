@@ -7,7 +7,7 @@ generate_artifacts:
   stage: deploy
   script:
     - cd team2fitness
-    - mvn -B clean site package
+    - mvn -B clean package
   artifacts:
     paths:
     - team2fitness/target/s202*.jar
