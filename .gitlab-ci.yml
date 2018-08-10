@@ -10,4 +10,4 @@ generate_artifacts:
     - mvn -B clean package
   artifacts:
     paths:
-    - team2fitness/target/s202*.jar
+    - team2fitness/target/team2*.jar
