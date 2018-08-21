@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="linear-gradient" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1078.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button contentDisplay="BOTTOM" layoutX="770.0" layoutY="169.0" mnemonicParsing="false" prefHeight="315.0" prefWidth="250.0" styleClass="curve" text="NewUser" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true">
+         <font>
+            <Font name="System Bold Italic" size="56.0" />
+         </font>
+      </Button>
+      <Button layoutX="68.0" layoutY="57.0" mnemonicParsing="false" prefHeight="133.0" prefWidth="156.0" style="-fx-background-image: url(/home/cosc/student/lwa383/Documents/3rd_year/seng202/seng202group2/team2fitness/src/main/java/seng202/group2/view/face1.jpg;" styleClass="profile" text="1" />
+      <Line endX="200.0" layoutX="500.0" layoutY="313.0" rotate="90.0" scaleX="3.5" scaleY="1.5" startX="50.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="644.0" layoutY="321.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="607.0" layoutY="323.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,28 @@
+.curve{
+    -fx-background-color: #e6fff9;
+    -fx-background-size: 100% 100%;
+    -fx-background-radius : 30;
+    -fx-border-radius : 30;
+
+}
+
+.profile{
+    -fx-background-image:  url(/home/cosc/student/lwa383/Documents/3rd_year/seng202/seng202group2/team2fitness/src/main/java/seng202/group2/view/face1.jpg);
+    -fx-padding: 10;
+    -fx-background-radius : 80;
+    -fx-background-size: 100% 100%;
+    -fx-border-radius : 50;
+}
+
+.nav {
+    -fx-background-color: #e6fff9;
+    -fx-background-size: 100% 100%;
+    -fx-border-radius: 0 30 30 0;
+    -fx-background-radius: 0 30 30 0;
+}
+
+.bodybg{
+    -fx-background-color: linear-gradient(#84fab0 0%, #8fd3f4 100%);
+    -fx-background-size: 100% 100%;
+
+}
