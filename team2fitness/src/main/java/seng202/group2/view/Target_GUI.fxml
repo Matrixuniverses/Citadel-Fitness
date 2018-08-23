@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.TargetGUI">
+   <children>
+      <AnchorPane fx:id="targetsScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1078.0" styleClass="bodybg" stylesheets="@style.css">
+         <children>
+            <AnchorPane fx:id="navBar" prefHeight="639.0" prefWidth="220.0" styleClass="nav" stylesheets="@style.css">
+               <children>
+                  <Button fx:id="targetLink" layoutY="156.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Target" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="myProfileLink" layoutY="424.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="My Profile" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="mapViewLink" layoutY="373.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Map View" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="viewGraphLink" layoutY="320.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="View Graph" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="exitLink" layoutY="479.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Exit" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="manageDataLink" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Manage Data" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="AddDataLink" layoutY="209.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Add Data" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <Label fx:id="pageTitle" layoutX="539.0" layoutY="29.0" prefHeight="37.0" prefWidth="193.0" text="Targets" textFill="#0d4868" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="27.0" />
+               </font>
+            </Label>
+            <ScrollPane fx:id="targetList" layoutX="270.0" layoutY="364.0" prefHeight="200.0" prefWidth="484.0">
+              <content>
+                <AnchorPane fx:id="targetList" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="468.0" style="-fx-background-color: #e6fff9;" />
+              </content>
+            </ScrollPane>
+            <AnchorPane id="timeTable" fx:id="timeTable" layoutX="270.0" layoutY="91.0" prefHeight="220.0" prefWidth="738.0" style="-fx-background-color: #e6fff9;" />
+            <Button id="newTarget" fx:id="newTarget" layoutX="782.0" layoutY="452.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="182.0" style="-fx-background-color: #0d4868;" text="New Target" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="22.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

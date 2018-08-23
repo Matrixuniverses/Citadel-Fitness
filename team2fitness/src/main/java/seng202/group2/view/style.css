@@ -3,6 +3,7 @@
     -fx-background-size: 100% 100%;
     -fx-background-radius : 30;
     -fx-border-radius : 30;
+    -fx-text-fill: #0d4868;
 
 }
 
@@ -13,6 +14,7 @@
     -fx-background-size: 100% 100%;
     -fx-border-radius : 50;
 }
+
 
 .nav {
     -fx-background-color: #e6fff9;
