@@ -6,7 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<BorderPane prefHeight="639.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.FXMLMain">
+    <center>
+        <fx:include fx:id="NavBar" source="FXMLNavBar.fxml" BorderPane.alignment="TOP_LEFT" />
 
-<AnchorPane prefHeight="639.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.FXMLMain">
+    </center>
+   <right>
+       <fx:include source="FXMLTarget.fxml" BorderPane.alignment="CENTER_RIGHT"></fx:include>
+   </right>
 
-</AnchorPane>
+</BorderPane>
