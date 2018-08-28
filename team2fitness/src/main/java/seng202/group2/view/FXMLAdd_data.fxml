@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="858.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Line endX="100.0" layoutX="496.0" layoutY="342.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
+      <Line endX="100.0" layoutX="518.0" layoutY="340.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
+      <Line endX="200.0" layoutX="383.0" layoutY="332.0" rotate="90.0" scaleX="3.5" scaleY="1.5" startX="50.0" stroke="WHITE" />
+      <Button fx:id="selectFileButton" contentDisplay="BOTTOM" layoutX="556.0" layoutY="188.0" mnemonicParsing="false" prefHeight="315.0" prefWidth="250.0" styleClass="curve" text="Select File" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true">
+         <font>
+            <Font name="System Bold Italic" size="46.0" />
+         </font>
+      </Button>
+      <Label fx:id="pageTitle" layoutX="331.0" layoutY="40.0" prefHeight="37.0" prefWidth="166.0" text="Add Data" textFill="#0d4868" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="27.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="27.0" layoutY="193.0" prefHeight="398.0" prefWidth="440.0" styleClass="curve">
+         <children>
+            <AnchorPane layoutY="-54.0" prefHeight="107.0" prefWidth="200.0" styleClass="curve">
+               <children>
+                  <Label layoutX="19.0" layoutY="4.0" prefHeight="52.0" prefWidth="166.0" text="Manual Entry" textAlignment="CENTER" textFill="#0d4868" underline="true" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <ChoiceBox fx:id="entryType" layoutX="33.0" layoutY="37.0" prefHeight="28.0" prefWidth="344.0" style="-fx-background-color: #ffffff; -fx-border-color: #0d4868; -fx-border-radius: 10;" />
+            <TextField fx:id="field1" layoutX="33.0" layoutY="96.0" prefHeight="25.0" prefWidth="282.0" />
+            <TextField fx:id="field2" layoutX="33.0" layoutY="148.0" prefHeight="25.0" prefWidth="282.0" />
+            <TextField fx:id="field3" layoutX="33.0" layoutY="199.0" prefHeight="25.0" prefWidth="282.0" />
+            <TextField fx:id="field4" layoutX="33.0" layoutY="243.0" prefHeight="25.0" prefWidth="282.0" />
+            <Button layoutX="297.0" layoutY="342.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #0d4868; -fx-border-radius: 30; -fx-background-radius: 30;" text="Submit" textFill="#fcfcfc">
+               <font>
+                  <Font name="System Bold Italic" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

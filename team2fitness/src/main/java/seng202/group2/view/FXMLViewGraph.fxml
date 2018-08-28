@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="viewGraphScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="858.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="pageTitle" layoutX="333.0" layoutY="40.0" prefHeight="37.0" prefWidth="193.0" text="Graph View" textFill="#0d4868" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="27.0" />
+         </font>
+      </Label>
+      <Button layoutX="51.0" layoutY="128.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" styleClass="curve" text="Graph 1" />
+      <Button layoutX="189.0" layoutY="128.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" styleClass="curve" text="Graph 2" />
+      <Button layoutX="337.0" layoutY="128.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" styleClass="curve" text="Graph 3" />
+      <Button layoutX="485.0" layoutY="128.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" styleClass="curve" text="Graph 4" />
+      <Button layoutX="636.0" layoutY="128.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" styleClass="curve" text="Graph 5" />
+      <AnchorPane layoutX="91.0" layoutY="222.0" prefHeight="363.0" prefWidth="676.0">
+         <children>
+            <AreaChart layoutX="-5.0" layoutY="-7.0" prefHeight="363.0" prefWidth="676.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </AreaChart>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

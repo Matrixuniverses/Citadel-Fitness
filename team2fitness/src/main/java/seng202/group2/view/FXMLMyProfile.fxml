@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MyProfileGUI">
+   <children>
+      <AnchorPane fx:id="mapViewScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="858.0" styleClass="bodybg" stylesheets="@style.css">
+         <children>
+            <Label fx:id="pageTitle" layoutX="334.0" layoutY="32.0" prefHeight="37.0" prefWidth="193.0" text="Profile" textFill="#0d4868" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="27.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="mapBox" layoutX="64.0" layoutY="123.0" prefHeight="459.0" prefWidth="743.0">
+               <children>
+                  <Text fill="#0d4868" layoutX="26.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <TextField layoutX="133.0" layoutY="21.0" />
+                  <Text fill="#0d4868" layoutX="26.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <TextField layoutX="133.0" layoutY="91.0" />
+                  <TextField layoutX="133.0" layoutY="155.0" />
+                  <TextField layoutX="133.0" layoutY="217.0" />
+                  <TextField layoutX="133.0" layoutY="288.0" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="491.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button layoutX="550.0" layoutY="192.0" mnemonicParsing="false" styleClass="curve" text="New Profile Picture" />
+                  <Button layoutX="591.0" layoutY="405.0" mnemonicParsing="false" styleClass="curve" text="Save Changes" />
+                  <Text fill="#0d4868" layoutX="28.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#0d4868" layoutX="28.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#0d4868" layoutX="23.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
