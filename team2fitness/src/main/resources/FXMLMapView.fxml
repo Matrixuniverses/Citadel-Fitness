@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mapViewScene" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MapViewGUI">
+<AnchorPane fx:id="mapViewScene" prefHeight="400.0" prefWidth="600.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MapViewController">
    <children>
       <AnchorPane fx:id="mapBox1" layoutX="68.0" layoutY="125.0" prefHeight="459.0" prefWidth="743.0" />
       <Label fx:id="pageTitle1" layoutX="343.0" layoutY="43.0" prefHeight="37.0" prefWidth="193.0" text="Map View" textFill="#0d4868" underline="true">

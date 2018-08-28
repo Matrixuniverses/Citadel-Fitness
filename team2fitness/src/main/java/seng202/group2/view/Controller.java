@@ -1,12 +1,22 @@
 package seng202.group2.view;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 
-public class Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
+
+    @FXML
+    private NavBarController navBarController;
+
+
 
 
     public AnchorPane getMainContainer() {
+
         return mainContainer;
     }
 
@@ -86,6 +96,8 @@ public class Controller {
     private AnchorPane myProfileScene;
     @FXML
     private AnchorPane exitScene;
+    @FXML
+    private AnchorPane navBar;
 
 
     public void insertInfoPane() {
@@ -93,4 +105,8 @@ public class Controller {
     }
 
 
+    public void initialize(URL location, ResourceBundle resources) {
+//        navBarController.setMainController(this);
+  //      navBarController.getValue().addListener((observable, oldValue, newValue));
+    }
 }
