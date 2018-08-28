@@ -12,7 +12,7 @@
 
     </center>
    <right>
-       <fx:include source="FXMLTarget.fxml" BorderPane.alignment="CENTER_RIGHT"></fx:include>
+      <AnchorPane fx:id="mainContainer" prefHeight="639.0" prefWidth="879.0" BorderPane.alignment="CENTER" />
    </right>
 
 </BorderPane>

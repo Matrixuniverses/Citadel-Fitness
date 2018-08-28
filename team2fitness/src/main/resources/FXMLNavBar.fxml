@@ -7,12 +7,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="639.0" prefWidth="193.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.NavBar">
    <children>
       <AnchorPane fx:id="navBar" prefHeight="639.0" prefWidth="220.0" styleClass="nav" stylesheets="@style.css">
          <children>
-            <Button fx:id="targetLink" layoutY="156.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Target" textFill="#0d4868" underline="true">
+            <Button fx:id="targetLink" layoutY="156.0" mnemonicParsing="false" onAction="#loadtargetScene" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Target" textFill="#0d4868" underline="true">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
