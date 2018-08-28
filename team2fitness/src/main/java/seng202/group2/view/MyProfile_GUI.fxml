@@ -1,14 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="seng202.group2.view.MyProfileGUI"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MyProfileGUI">
+   <children>
+      <AnchorPane fx:id="mapViewScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1078.0" styleClass="bodybg" stylesheets="@style.css">
+         <children>
+            <AnchorPane fx:id="navBar" prefHeight="639.0" prefWidth="220.0" styleClass="nav" stylesheets="@style.css">
+               <children>
+                  <Button fx:id="targetLink" layoutY="156.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Target" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="myProfileLink" layoutY="424.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="My Profile" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="mapViewLink" layoutY="373.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Map View" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="viewGraphLink" layoutY="320.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="View Graph" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="exitLink" layoutY="479.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Exit" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="manageDataLink" layoutY="265.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Manage Data" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="AddDataLink" layoutY="209.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Add Data" textFill="#0d4868" underline="true">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <Label fx:id="pageTitle" layoutX="539.0" layoutY="29.0" prefHeight="37.0" prefWidth="193.0" text="Profile" textFill="#0d4868" underline="true">
+               <font>
+                  <Font name="System Bold Italic" size="27.0" />
+               </font>
+            </Label>
+            <AnchorPane fx:id="mapBox" layoutX="269.0" layoutY="120.0" prefHeight="459.0" prefWidth="743.0">
+               <children>
+                  <Text fill="#0d4868" layoutX="26.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <TextField layoutX="133.0" layoutY="21.0" />
+                  <Text fill="#0d4868" layoutX="26.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <TextField layoutX="133.0" layoutY="91.0" />
+                  <TextField layoutX="133.0" layoutY="155.0" />
+                  <TextField layoutX="133.0" layoutY="217.0" />
+                  <TextField layoutX="133.0" layoutY="288.0" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="491.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button layoutX="550.0" layoutY="192.0" mnemonicParsing="false" styleClass="curve" text="New Profile Picture" />
+                  <Button layoutX="591.0" layoutY="405.0" mnemonicParsing="false" styleClass="curve" text="Save Changes" />
+                  <Text fill="#0d4868" layoutX="28.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#0d4868" layoutX="28.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#0d4868" layoutX="23.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
