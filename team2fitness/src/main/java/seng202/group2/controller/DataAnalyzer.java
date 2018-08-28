@@ -131,7 +131,7 @@ public class DataAnalyzer {
      * @param searchTerm The text that the google search results will be for.
      * @throws Exception TODO
      */
-    public static void webSearch_Google(String searchTerm) {
+    /*public static void webSearch_Google(String searchTerm) {
 
         String googleURL = "https://www.google.com/search?q=" + searchTerm;
         try {
@@ -143,5 +143,5 @@ public class DataAnalyzer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

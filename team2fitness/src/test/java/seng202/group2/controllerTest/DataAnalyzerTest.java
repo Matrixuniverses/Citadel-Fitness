@@ -1,8 +1,8 @@
 package seng202.group2.controllerTest;
 
+import org.junit.Test;
 import seng202.group2.controller.DataAnalyzer;
 
-import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -198,9 +198,9 @@ public class DataAnalyzerTest {
         result = DataAnalyzer.hasBradycardia(18, 50);
         assertTrue(result);
     }
-
+/*
     @Test
     public void webSearch_GoogleOpensCorrectSeachTerm1() {
         DataAnalyzer.webSearch_Google("calculator");
-    }
+    }*/
 }
