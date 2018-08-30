@@ -11,12 +11,12 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="manageDataLink" layoutX="10.0" layoutY="275.0" mnemonicParsing="false" onAction="#showManageData" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Manage Data" textFill="#0d4868" underline="true">
+      <Button fx:id="viewDataLink" layoutX="10.0" layoutY="275.0" mnemonicParsing="false" onAction="#viewData" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="View Data" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="exitLink" layoutX="10.0" layoutY="489.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Exit" textFill="#0d4868" underline="true">
+      <Button layoutX="10.0" layoutY="489.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Exit" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

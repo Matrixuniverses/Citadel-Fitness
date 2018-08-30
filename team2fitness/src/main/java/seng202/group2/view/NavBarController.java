@@ -21,7 +21,7 @@ public class NavBarController implements Initializable {
     private Button AddDataLink;
 
     @FXML
-    private Button manageDataLink;
+    private Button viewDataLink;
 
     @FXML
     private Button viewGraphLink;
@@ -47,8 +47,8 @@ public class NavBarController implements Initializable {
         currentView.set("addData");
     }
 
-    public void showManageData(){
-        currentView.set("manageData");
+    public void viewData(){
+        currentView.set("data");
     }
 
     public void showViewGraph(){
@@ -60,7 +60,7 @@ public class NavBarController implements Initializable {
     }
 
     public void showMyProfile(){
-        currentView.set("myProfile");
+        currentView.set("viewProfile");
     }
 
     public void exit(){

@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import seng202.group2.development_code.TestDataGenerator;
+import seng202.group2.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,111 +19,72 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    public AnchorPane getMapViewScene() {
-        return mapViewScene;
-    }
-
-    public void setMapViewScene(AnchorPane mapViewScene) {
-        this.mapViewScene = mapViewScene;
-    }
-
-    public AnchorPane getAddDataScene() {
-        return addDataScene;
-    }
-
-    public void setAddDataScene(AnchorPane addDataScene) {
-        this.addDataScene = addDataScene;
-    }
-
-    public AnchorPane getTargetScene() {
-        return targetScene;
-    }
-
-    public void setTargetScene(AnchorPane targetScene) {
-        this.targetScene = targetScene;
-    }
-
-    public AnchorPane getManageDataScene() {
-        return manageDataScene;
-    }
-
-    public void setManageDataScene(AnchorPane manageDataScene) {
-        this.manageDataScene = manageDataScene;
-    }
-
-    public AnchorPane getViewGraphScene() {
-        return viewGraphScene;
-    }
-
-    public void setViewGraphScene(AnchorPane viewGraphScene) {
-        this.viewGraphScene = viewGraphScene;
-    }
-
-    public AnchorPane getMyProfileScene() {
-        return myProfileScene;
-    }
-
-    public void setMyProfileScene(AnchorPane myProfileScene) {
-        this.myProfileScene = myProfileScene;
-    }
-
-    public AnchorPane getExitScene() {
-        return exitScene;
-    }
-
-    public void setExitScene(AnchorPane exitScene) {
-        this.exitScene = exitScene;
-    }
-
+    //Inject FXML
     @FXML
     private StackPane mainContainer;
     @FXML
-    private AnchorPane mapViewScene;
-    @FXML
-    private AnchorPane addDataScene;
-    @FXML
-    private AnchorPane targetScene;
-    @FXML
-    private AnchorPane manageDataScene;
-    @FXML
-    private AnchorPane viewGraphScene;
-    @FXML
-    private AnchorPane myProfileScene;
-    @FXML
-    private AnchorPane exitScene;
-    @FXML
     private AnchorPane navBar;
-    @FXML
-    private Label testText;
 
-    @FXML
-    private NavBarController navBarController;
+    //Initialize Panes to be added
+    private AnchorPane mapViewScene;
+    private AnchorPane addDataScene;
+    private AnchorPane targetScene;
+    private AnchorPane manageDataScene;
+    private AnchorPane viewGraphScene;
+    private AnchorPane myProfileScene;
+    private AnchorPane exitScene;
+    private AnchorPane activityView;
 
+    //Create Map of Panes for easy swapping
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
+    //Initialize Controllers
+    @FXML
+    private NavBarController navBarController;              //Used due to FXML Injection
 
+    private ActivityViewController activityViewController;
+
+    //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
         initializeNavBar();
+
+        User user = TestDataGenerator.createUser1();
+        activityViewController.updateUserData(user);
     }
 
     private void initializeViews(){
         try {
-            mapViewScene = FXMLLoader.load(getClass().getResource("/fxml/FXMLMapView.fxml"));
-            paneMap.put("mapView", mapViewScene);
-            addDataScene = FXMLLoader.load(getClass().getResource("/fxml/FXMLAddData.fxml"));
-            paneMap.put("addData", addDataScene);
-            targetScene = FXMLLoader.load(getClass().getResource("/fxml/FXMLTarget.fxml"));
-            paneMap.put("target", targetScene);
-            viewGraphScene = FXMLLoader.load(getClass().getResource("/fxml/FXMLViewGraph.fxml"));
-            paneMap.put("viewGraph", viewGraphScene);
-            manageDataScene = FXMLLoader.load(getClass().getResource("/fxml/FXMLManageData.fxml"));
-            paneMap.put("manageData", manageDataScene);
-            myProfileScene = FXMLLoader.load(getClass().getResource("/fxml/FXMLMyProfile.fxml"));
-            paneMap.put("myProfile", myProfileScene);
 
-            mainContainer.getChildren().addAll(mapViewScene, addDataScene, targetScene, viewGraphScene,
-                                                myProfileScene);
+            FXMLLoader loader;
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityView.fxml"));
+            activityView = loader.load();
+            activityViewController = loader.getController();
+            paneMap.put("data", activityView);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMapView.fxml"));
+            mapViewScene = loader.load();
+            paneMap.put("mapView", mapViewScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLAddData.fxml"));
+            addDataScene = loader.load();
+            paneMap.put("addData", addDataScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLTarget.fxml"));
+            targetScene = loader.load();
+            paneMap.put("target", targetScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLViewGraph.fxml"));
+            viewGraphScene = loader.load();
+            paneMap.put("viewGraph", viewGraphScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMyProfile.fxml"));
+            myProfileScene = loader.load();
+            paneMap.put("viewProfile", myProfileScene);
+
+            mainContainer.getChildren().addAll(activityView, mapViewScene, addDataScene, targetScene, viewGraphScene,
+                    myProfileScene);
+
         }
         catch (IOException ex_) {
             ex_.printStackTrace();

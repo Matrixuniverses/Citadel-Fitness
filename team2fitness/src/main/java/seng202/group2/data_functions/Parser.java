@@ -135,7 +135,7 @@ public class Parser {
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             for (Activity activity : test){
-                System.out.println(activity.getName());
+                System.out.println(activity.getActivityName());
                 System.out.println(activity.getTotalDistance());
             }
         } catch (FileFormatException e) {

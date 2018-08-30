@@ -1,23 +1,27 @@
 package seng202.group2.model;
 
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 public class User {
 
     private int id;
-    private String name;
-    private int age;
-    private float height;
-    private float weight;
-    ArrayList<Activity> activityList = new ArrayList<Activity>();
-    ArrayList<Target> targetList = new ArrayList<Target>();
+    private StringProperty name;
+    private IntegerProperty age;
+    private FloatProperty height;
+    private FloatProperty weight;
+    ObservableList<Activity> activityList = FXCollections.observableArrayList();
+    ObservableList<Target> targetList = FXCollections.observableArrayList();
 
 
     public User(String name, int age, float height, float weight){
-        this.name = name;
-        this.age = age;
-        this.height = height;
-        this.weight = weight;
+        this.name = new SimpleStringProperty(name);
+        this.age = new SimpleIntegerProperty(age);
+        this.height = new SimpleFloatProperty(height);
+        this.weight = new SimpleFloatProperty(weight);
     }
 
     public int getId() {
@@ -25,26 +29,26 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
-    public int getAge() {
-        return age;
+    public Integer getAge() {
+        return age.get();
     }
 
-    public float getHeight() {
-        return height;
+    public Float getHeight() {
+        return height.get();
     }
 
-    public float getWeight() {
-        return weight;
+    public Float getWeight() {
+        return weight.get();
     }
 
-    public ArrayList<Activity> getActivityList() {
+    public ObservableList<Activity> getActivityList() {
         return activityList;
     }
 
-    public ArrayList<Target> getTargetList() {
+    public ObservableList<Target> getTargetList() {
         return targetList;
     }
 

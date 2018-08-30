@@ -26,7 +26,7 @@ public class TestDataGenerator {
     }
 
     public static void main( String[] args ) {
-        System.out.println(createUser1().getActivityList().get(0).getName());
+        System.out.println(createUser1().getActivityList().get(0).getActivityName());
     }
 }
 
