@@ -3,23 +3,35 @@ package seng202.group2.Data_Analysis;
 import java.util.ArrayList;
 
 public class Activity {
-    private String activityTitle;
+    private String activityName;
     private String activityType;
     private int totalTime;
-    private int totalDistance;
+    private double totalDistance;
     private ArrayList<DataPoint> activityData = new ArrayList<DataPoint>();
 
     public Activity(String activityName){
-        this.activityTitle = activityName;
+        this.activityName = activityName;
     }
 
     public void addDataPoint(DataPoint toAdd) {
         activityData.add(toAdd);
     }
-    public void setActivityTitle(String title) {
-        this.activityTitle = title;
+
+    public double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public void setActivityName(String title) {
+        this.activityName = title;
     }
     public String getName(){
-        return this.activityTitle;
+        return this.activityName;
+    }
+    public ArrayList<DataPoint> getActivityData(){
+        return this.activityData;
     }
 }
