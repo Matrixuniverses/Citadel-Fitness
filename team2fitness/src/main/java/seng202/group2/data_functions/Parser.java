@@ -1,6 +1,8 @@
-package seng202.group2.Data_Analysis;
+package seng202.group2.data_functions;
 
 import com.opencsv.CSVReader;
+import seng202.group2.model.Activity;
+import seng202.group2.model.DataPoint;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

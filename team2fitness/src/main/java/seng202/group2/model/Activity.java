@@ -1,4 +1,4 @@
-package seng202.group2.Data_Analysis;
+package seng202.group2.model;
 
 import java.util.ArrayList;
 

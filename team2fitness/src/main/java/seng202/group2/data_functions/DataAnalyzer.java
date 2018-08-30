@@ -1,8 +1,6 @@
-package seng202.group2.controller;
+package seng202.group2.data_functions;
 
 import java.lang.Math;
-import java.awt.Desktop;
-import java.net.URI;
 
 
 public class DataAnalyzer {

@@ -20,7 +20,7 @@ public class App extends Application
     public void start(Stage mainStage) throws Exception{
         this.mainStage = mainStage;
         FXMLLoader fxml = new FXMLLoader();
-        fxml.setLocation(getClass().getResource("/FXMLMain.fxml"));
+        fxml.setLocation(getClass().getResource("/fxml/FXMLMain.fxml"));
         Parent root = fxml.load();
         Controller controller = fxml.getController();
         mainStage.setTitle("Citadel Fitness");
@@ -30,7 +30,6 @@ public class App extends Application
 
     public static void main( String[] args )
     {
-
         launch(args);
     }
 }

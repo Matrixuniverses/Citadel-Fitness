@@ -1,7 +1,7 @@
 package seng202.group2.controllerTest;
 
 import org.junit.Test;
-import seng202.group2.controller.DataAnalyzer;
+import seng202.group2.data_functions.DataAnalyzer;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
