@@ -29,6 +29,10 @@ public class DataPoint {
         }
     }
 
+    public DataPoint(Boolean malformed) {
+
+    }
+
     public Date getDate() { return date; }
 
     public void setDate(Date date) { this.date = date; }

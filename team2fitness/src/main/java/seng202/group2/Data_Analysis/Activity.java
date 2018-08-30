@@ -9,8 +9,8 @@ public class Activity {
     private int totalDistance;
     private ArrayList<DataPoint> activityData = new ArrayList<DataPoint>();
 
-    public Activity(String activityType){
-        this.activityType = activityType;
+    public Activity(String activityName){
+        this.activityTitle = activityName;
     }
 
     public void addDataPoint(DataPoint toAdd) {
