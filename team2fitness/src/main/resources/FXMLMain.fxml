@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 
-<BorderPane prefHeight="639.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.Controller">
+<BorderPane prefHeight="639.0" prefWidth="1078.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.Controller">
     <center>
-        <fx:include fx:id="NavBar" source="FXMLNavBar.fxml" BorderPane.alignment="TOP_LEFT" />
+        <fx:include fx:id="navBar" source="FXMLNavBar.fxml" BorderPane.alignment="TOP_LEFT" />
 
     </center>
    <right>
-      <AnchorPane fx:id="mainContainer" prefHeight="639.0" prefWidth="879.0" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="mainContainer" prefHeight="639.0" prefWidth="887.0" BorderPane.alignment="CENTER" />
    </right>
 
 </BorderPane>

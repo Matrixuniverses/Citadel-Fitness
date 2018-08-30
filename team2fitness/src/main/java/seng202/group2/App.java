@@ -23,7 +23,7 @@ public class App extends Application
         fxml.setLocation(getClass().getResource("/FXMLMain.fxml"));
         Parent root = fxml.load();
         Controller controller = fxml.getController();
-        mainStage.setTitle("hello");
+        mainStage.setTitle("Citadel Fitness");
         mainStage.setScene(new Scene(root));
         mainStage.show();
     }

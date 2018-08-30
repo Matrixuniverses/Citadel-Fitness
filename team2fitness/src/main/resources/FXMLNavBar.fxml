@@ -1,45 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="navBar" prefHeight="639.0" prefWidth="193.0" styleClass="nav" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.NavBarController">
+<AnchorPane fx:id="navBar" prefHeight="639.0" prefWidth="193.0" styleClass="nav" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.NavBarController">
    <children>
-      <Button fx:id="AddDataLink1" layoutX="10.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Add Data" textFill="#0d4868" underline="true">
+      <Button fx:id="AddDataLink" layoutX="10.0" layoutY="219.0" mnemonicParsing="false" onAction="#showAddDate" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Add Data" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="manageDataLink1" layoutX="10.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Manage Data" textFill="#0d4868" underline="true">
+      <Button fx:id="manageDataLink" layoutX="10.0" layoutY="275.0" mnemonicParsing="false" onAction="#showManageData" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Manage Data" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="exitLink1" layoutX="10.0" layoutY="489.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Exit" textFill="#0d4868" underline="true">
+      <Button fx:id="exitLink" layoutX="10.0" layoutY="489.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Exit" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="viewGraphLink1" layoutX="10.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="View Graph" textFill="#0d4868" underline="true">
+      <Button fx:id="viewGraphLink" layoutX="10.0" layoutY="330.0" mnemonicParsing="false" onAction="#showViewGraph" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="View Graph" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="mapViewLink1" layoutX="10.0" layoutY="383.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Map View" textFill="#0d4868" underline="true">
+      <Button fx:id="mapViewLink" layoutX="10.0" layoutY="383.0" mnemonicParsing="false" onAction="#showMapView" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Map View" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="myProfileLink1" layoutX="10.0" layoutY="434.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="My Profile" textFill="#0d4868" underline="true">
+      <Button fx:id="myProfileLink" layoutX="10.0" layoutY="434.0" mnemonicParsing="false" onAction="#showMyProfile" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="My Profile" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="targetLink1" layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#loadtargetScene" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Target" textFill="#0d4868" underline="true">
+      <Button fx:id="targetLink" layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#showTarget" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Target" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>

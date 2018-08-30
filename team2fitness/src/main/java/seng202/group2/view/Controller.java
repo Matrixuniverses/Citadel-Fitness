@@ -1,28 +1,18 @@
 package seng202.group2.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-
-    @FXML
-    private NavBarController navBarController;
-
-
-
-
-    public AnchorPane getMainContainer() {
-
-        return mainContainer;
-    }
-
-    public void setMainContainer(AnchorPane mainContainer) {
-        this.mainContainer = mainContainer;
-    }
 
     public AnchorPane getMapViewScene() {
         return mapViewScene;
@@ -81,7 +71,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private AnchorPane mainContainer;
+    private StackPane mainContainer;
     @FXML
     private AnchorPane mapViewScene;
     @FXML
@@ -98,6 +88,11 @@ public class Controller implements Initializable {
     private AnchorPane exitScene;
     @FXML
     private AnchorPane navBar;
+    @FXML
+    private Label testText;
+
+    @FXML
+    private NavBarController navBarController;
 
 
     public void insertInfoPane() {
@@ -106,7 +101,16 @@ public class Controller implements Initializable {
 
 
     public void initialize(URL location, ResourceBundle resources) {
+
+
 //        navBarController.setMainController(this);
   //      navBarController.getValue().addListener((observable, oldValue, newValue));
+        navBarController.getCurrentView().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.equals("target")) {
+                    mainContainer.getChildren().add(targetScene);
+                }
+            }
+        });
     }
 }

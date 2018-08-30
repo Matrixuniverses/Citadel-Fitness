@@ -11,18 +11,8 @@ import java.util.ResourceBundle;
 
 public class NavBarController implements Initializable {
 
-    private Controller mainController;
 
-    public StringProperty getValue() {
-        return value;
-
-    }
-
-    public StringProperty valueProperty() {
-        return value;
-    }
-
-    private StringProperty value = new SimpleStringProperty();
+    private StringProperty currentView = new SimpleStringProperty();
 
     @FXML
     private Button targetLink;
@@ -45,17 +35,36 @@ public class NavBarController implements Initializable {
     @FXML
     private Button exitLink;
 
-    public void loadtargetScene(){
-        value.set("target");
-
-//        mainController.getMainContainer().getChildren().clear();
-//        mainController.getMainContainer().getChildren().add(mainController.getTargetScene());
-
-
+    public StringProperty getCurrentView() {
+        return currentView;
     }
 
-    public void setMainController(Controller controller){
-        this.mainController = controller;
+    public void showTarget(){
+        currentView.set("target");
+    }
+
+    public void showAddDate(){
+        currentView.set("addData");
+    }
+
+    public void showManageData(){
+        currentView.set("manageData");
+    }
+
+    public void showViewGraph(){
+        currentView.set("viewGraph");
+    }
+
+    public void showMapView(){
+        currentView.set("mapView");
+    }
+
+    public void showMyProfile(){
+        currentView.set("myProfile");
+    }
+
+    public void exit(){
+        currentView.set("exit");
     }
 
     public void initialize(URL location, ResourceBundle resources) {
