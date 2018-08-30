@@ -1,11 +1,6 @@
 package seng202.group2.Data_Analysis;
 
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class DataPoint {
     private Date date;
@@ -16,17 +11,30 @@ public class DataPoint {
     private double distanceDelta;
     private double timeDelta;
 
-    public DataPoint(String timeStamp, int heartRate, double latitude, double longitude, double altitude){
-        DateFormat newDf = new SimpleDateFormat("dd/MM/yyyy,HH:mm:ss", Locale.ENGLISH);
-        try {
-            this.date = newDf.parse(timeStamp);
-            this.heartRate = heartRate;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.altitude = altitude;
-        } catch (ParseException parserException){
-            System.err.println(parserException);
-        }
+    public double getDistanceDelta() {
+        return distanceDelta;
+    }
+
+    public void setDistanceDelta(double distanceDelta) {
+        this.distanceDelta = distanceDelta;
+    }
+
+    public double getTimeDelta() {
+        return timeDelta;
+    }
+
+    public void setTimeDelta(double timeDelta) {
+        this.timeDelta = timeDelta;
+    }
+
+    public DataPoint(Date date, int heartRate, double latitude, double longitude, double altitude){
+        this.date = date;
+        this.heartRate = heartRate;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.altitude = altitude;
+
+
     }
 
     public DataPoint(Boolean malformed) {
