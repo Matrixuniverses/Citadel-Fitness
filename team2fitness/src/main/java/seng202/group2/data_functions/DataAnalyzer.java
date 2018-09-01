@@ -184,7 +184,7 @@ public class DataAnalyzer {
         } catch (IllegalArgumentException e) {
            //print error message and open up google search
            System.out.println("Found invalid character in searchTerm: " + searchTerm);
-           System.out.println("Cannot created Google Search URL correctly");
+           System.out.println("Cannot create Google Search URL correctly");
            googleURL = "https://www.google.com/search?q=";
         }
 
