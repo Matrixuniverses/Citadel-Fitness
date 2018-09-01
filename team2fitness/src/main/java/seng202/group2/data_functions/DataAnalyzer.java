@@ -1,6 +1,9 @@
 package seng202.group2.data_functions;
 
 import java.lang.Math;
+import java.awt.Desktop;
+import java.net.URI;
+import java.util.ArrayList;
 
 
 public class DataAnalyzer {
@@ -123,15 +126,68 @@ public class DataAnalyzer {
         }
     }
 
+
+    /**
+     * Helper Function which generates a valid search term substring for the generated Google Search URL
+     * @param searchTerm the inputted serach term as a String
+     * @return A valid URL substring
+     * @throws IllegalArgumentException if a invalid character is found in the inputted search Term
+     */
+    private static String genValidURLSearchTerm(String searchTerm) {
+
+        ArrayList<Integer> formatPositions = new ArrayList<>();
+        for (int i = 0; i < searchTerm.length(); i++) {
+            if (!(Character.isDigit(searchTerm.charAt(i)) || Character.isLetter(searchTerm.charAt(i)))) {
+
+                String strChr = Character.toString(searchTerm.charAt(i));
+                if (!(strChr.equals(" "))) {
+                    throw new IllegalArgumentException("Search term contains the unexpected character " + strChr);
+
+                } else {
+                    formatPositions.add(i);
+                }
+
+            }
+        }
+        String validURLSearchTerm;
+
+        if (formatPositions.size() > 0) {
+
+            StringBuffer sTBuff = new StringBuffer(searchTerm);
+            for (int j : formatPositions) {
+                if (Character.toString(searchTerm.charAt(j)).equals(" ")) {
+                    sTBuff.replace(j,j+1,"+");
+                }
+
+            }
+            validURLSearchTerm = sTBuff.toString();
+
+        } else {
+            validURLSearchTerm = searchTerm;
+        }
+
+        return validURLSearchTerm;
+    }
+
     /**
      * Uses the java Desktop API to open up the google search results for an inputted term in the default web browser
-     * of the system that the application is running on.
-     * @param searchTerm The text that the google search results will be for.
-     * @throws Exception TODO
+     * of the system that the application is running on. If the helper function throws an IllegalArgumentException the
+     * opens up the google search page and prints out a message to acknowledge the error.
+     * @param searchTerm The text that the google search results will be for.     *
      */
-    /*public static void webSearch_Google(String searchTerm) {
+    public static void webSearch_Google(String searchTerm) {
 
-        String googleURL = "https://www.google.com/search?q=" + searchTerm;
+        String googleURL;
+
+        try {
+           googleURL = "https://www.google.com/search?q=" + genValidURLSearchTerm(searchTerm);
+        } catch (IllegalArgumentException e) {
+           //print error message and open up google search
+           System.out.println("Found invalid character in searchTerm: " + searchTerm);
+           System.out.println("Cannot created Google Search URL correctly");
+           googleURL = "https://www.google.com/search?q=";
+        }
+
         try {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(googleURL));
@@ -141,5 +197,5 @@ public class DataAnalyzer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }
