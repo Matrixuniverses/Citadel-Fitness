@@ -135,7 +135,7 @@ public class DataAnalyzer {
      */
     private static String genValidURLSearchTerm(String searchTerm) {
 
-        ArrayList<Integer> formatPositions = new ArrayList<>();
+        ArrayList<Integer> formatPositions = new ArrayList<Integer>();
         for (int i = 0; i < searchTerm.length(); i++) {
             if (!(Character.isDigit(searchTerm.charAt(i)) || Character.isLetter(searchTerm.charAt(i)))) {
 
