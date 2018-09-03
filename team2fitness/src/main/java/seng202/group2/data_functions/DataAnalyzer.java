@@ -97,11 +97,11 @@ public class DataAnalyzer {
     }
 
     /**
-     * Implements a function that calculates if a user has tachycardia based on a persons age and resting heart rate.
+     * Implements a function that calculates if a user has Tachycardia based on a persons age and resting heart rate.
      * @param age The age of the person in years.
      * @param restingHR The resting heart rate of a person in beats per minute.
      * @return A boolean value, true if person has Tachycardia, false if person does not have Tachycardia.
-     * @throws IllegalArgumentException if any of the values inputted are negative.
+     * @throws IllegalArgumentException if any of the inputted values are negative.
      */
     public static boolean hasTachycardia(int age, int restingHR) {
         if (age < 0 || restingHR < 0) {
@@ -115,6 +115,13 @@ public class DataAnalyzer {
         }
     }
 
+    /**
+     * Implements a function that calculates if a user has Bradycardia based on a persons age and resting heart rate.
+     * @param age The age of the person in years.
+     * @param restingHR The resting heart rate of a person in beats per minute.
+     * @return A boolean value, true if person has Bradycardia, false if person does not have Bradycardia.
+     * @throws IllegalArgumentException if any of the inputted values are negative.
+     */
     public static boolean hasBradycardia(int age, int restingHR) {
         if (age < 0 || restingHR < 0) {
             throw new IllegalArgumentException("Inputted age and resting heart rate values cannot be negative");
