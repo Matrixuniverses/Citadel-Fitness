@@ -31,7 +31,7 @@ public class Controller implements Initializable {
     private AnchorPane targetScene;
     private AnchorPane manageDataScene;
     private AnchorPane viewGraphScene;
-    private AnchorPane myProfileScene;
+    private AnchorPane profileView;
     private AnchorPane exitScene;
     private AnchorPane activityView;
 
@@ -43,6 +43,7 @@ public class Controller implements Initializable {
     private NavBarController navBarController;              //Used due to FXML Injection
 
     private ActivityViewController activityViewController;
+    private ProfileController profileController;
 
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +52,7 @@ public class Controller implements Initializable {
 
         User user = TestDataGenerator.createUser1();
         activityViewController.updateUserData(user);
+        profileController.updateUserData(user);
     }
 
     private void initializeViews(){
@@ -78,12 +80,13 @@ public class Controller implements Initializable {
             viewGraphScene = loader.load();
             paneMap.put("viewGraph", viewGraphScene);
 
-            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMyProfile.fxml"));
-            myProfileScene = loader.load();
-            paneMap.put("viewProfile", myProfileScene);
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLProfileView.fxml"));
+            profileView = loader.load();
+            profileController = loader.getController();
+            paneMap.put("summaryView", profileView);
 
             mainContainer.getChildren().addAll(activityView, mapViewScene, addDataScene, targetScene, viewGraphScene,
-                    myProfileScene);
+                    profileView);
 
         }
         catch (IOException ex_) {

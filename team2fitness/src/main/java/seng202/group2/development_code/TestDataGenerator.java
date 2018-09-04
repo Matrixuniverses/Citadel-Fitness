@@ -10,7 +10,7 @@ public class TestDataGenerator {
 
     public static User createUser1() {
         Parser parser = null;
-        User user = new User("Adam", 20, 177, 70);
+        User user = new User("Adam", 20, 1.77, 70);
         try {
             parser = new Parser("team2fitness/src/main/java/seng202/group2/development_code/data/all.csv");
         }

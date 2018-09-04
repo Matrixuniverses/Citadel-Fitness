@@ -30,7 +30,7 @@ public class NavBarController implements Initializable {
     private Button mapViewLink;
 
     @FXML
-    private Button myProfileLink;
+    private Button summaryLink;
 
     @FXML
     private Button exitLink;
@@ -59,8 +59,8 @@ public class NavBarController implements Initializable {
         currentView.set("mapView");
     }
 
-    public void showMyProfile(){
-        currentView.set("viewProfile");
+    public void showSummary(){
+        currentView.set("summaryView");
     }
 
     public void exit(){
