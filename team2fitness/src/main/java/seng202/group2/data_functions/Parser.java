@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 public class Parser {
@@ -19,6 +20,12 @@ public class Parser {
     private ArrayList<Activity> activitiesRead = new ArrayList<Activity>();
     private Activity currentActivity;
 
+    /**
+     * Checks, given two string representing date and time, that the passed strings are of the correct CSV format
+     * @param date Textual date
+     * @param time Textual time
+     * @return DateFormat object representing the current DateTime of the passed strings
+     */
     private Date checkDateTimeFormat(String date, String time) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy,HH:mm:ss", Locale.ENGLISH);
 
@@ -29,6 +36,14 @@ public class Parser {
         }
     }
 
+    /**
+     * Calculates the Haversine distance between two given WSG84 points
+     * @param latitude1 Latitude of first point
+     * @param latitude2 Latitude of second point
+     * @param longitude1 Longitude of first point
+     * @param longitude2 Logitude of second point
+     * @return The distance between the two given points in meters
+     */
     private double haversineDistance(double latitude1, double latitude2, double longitude1, double longitude2){
         final double radius = 6.3781 * Math.pow(10, 6);
 
@@ -45,31 +60,30 @@ public class Parser {
         for (Activity activity : activitiesRead) {
             ArrayList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
-            double totalTime = 0;
+            int totalTime = 0;
 
             if (points.size() >= 2){
                 for (int i = 1; i < points.size(); i++){
                     double lat1 = points.get(i - 1).getLatitude();
                     double lon1 = points.get(i - 1).getLongitude();
-
                     double lat2 = points.get(i).getLatitude();
                     double lon2 = points.get(i).getLongitude();
-
                     double dist = haversineDistance(lat1, lat2, lon1, lon2);
 
-                    /* WIP
                     Date time1 = points.get(i - 1).getDate();
                     Date time2 = points.get(i).getDate();
-                    */
 
+                    long milliDiff = time2.getTime() - time1.getTime();
+                    long time = TimeUnit.SECONDS.convert(milliDiff, TimeUnit.MILLISECONDS);
 
                     points.get(i).setDistanceDelta(dist);
-                    // WIP
-                    // points.get(i).setTimeDelta(time);
+                    points.get(i).setTimeDelta(time);
 
                     totalDistance += dist;
+                    totalTime += time;
                 }
                 activity.setTotalDistance(totalDistance);
+                activity.setTotalTime(totalTime);
 
             }
 
@@ -77,7 +91,7 @@ public class Parser {
     }
 
 
-    public Parser(String filepath) throws FileFormatException, IOException {
+    public Parser(String filepath) throws FileFormatException {
         try {
             FileReader readFile = new FileReader(filepath);
             CSVReader readCSV = new CSVReader(readFile);
@@ -119,7 +133,12 @@ public class Parser {
         generateMetrics();
 
         } catch (IOException e) {
-                throw new FileFormatException(null, "Cannot read file format");
+            if (e instanceof FileNotFoundException){
+                throw new FileFormatException(null, "File not found");
+            } else {
+                throw new FileFormatException(null, "Unreadable file");
+            }
+
         }
 
     }
@@ -131,19 +150,15 @@ public class Parser {
 
     public static void main(String[] args) {
         try{
-            Parser testParser = new Parser("/home/cosc/student/sjs227/Uni/SENG202/seng202group2/team2fitness/seng202_2018_example_data.csv");
+            Parser testParser = new Parser("C:\\Users\\Sam Shankland\\IdeaProjects\\seng202group2\\team2fitness\\src\\main\\java\\seng202\\group2\\development_code\\data\\all.csv");
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             for (Activity activity : test){
                 System.out.println(activity.getActivityName());
                 System.out.println(activity.getTotalDistance());
             }
-        } catch (FileFormatException e) {
+        } catch (FileFormatException e){
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found");
-        } catch (IOException e) {
-            System.err.println("Unreadable file");
         }
 
     }

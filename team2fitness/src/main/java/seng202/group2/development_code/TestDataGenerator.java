@@ -14,9 +14,6 @@ public class TestDataGenerator {
         try {
             parser = new Parser("team2fitness/src/main/java/seng202/group2/development_code/data/all.csv");
         }
-        catch (IOException ex_) {
-            ex_.printStackTrace();
-        }
         catch (FileFormatException f) {
             f.printStackTrace();
         }
