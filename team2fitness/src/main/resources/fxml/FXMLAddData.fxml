@@ -17,7 +17,7 @@
             <Line endX="100.0" layoutX="518.0" layoutY="340.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
          </children>
       </Group>
-      <Button fx:id="selectFileButton" contentDisplay="BOTTOM" layoutX="689.0" layoutY="193.0" mnemonicParsing="false" prefHeight="315.0" prefWidth="250.0" styleClass="curve" text="Select File" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true">
+      <Button fx:id="selectFileButton" contentDisplay="BOTTOM" layoutX="689.0" layoutY="193.0" mnemonicParsing="false" onAction="#selectFileAction" prefHeight="315.0" prefWidth="250.0" styleClass="curve" text="Select File" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true">
          <font>
             <Font name="System Bold Italic" size="46.0" />
          </font>

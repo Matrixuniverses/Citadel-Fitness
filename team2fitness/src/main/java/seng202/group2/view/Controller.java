@@ -9,9 +9,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import seng202.group2.data_functions.FileFormatException;
+import seng202.group2.data_functions.Parser;
 import seng202.group2.development_code.TestDataGenerator;
 import seng202.group2.model.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -44,13 +47,16 @@ public class Controller implements Initializable {
 
     private ActivityViewController activityViewController;
     private ProfileController profileController;
+    private AddDataController addDataController;
+    private User user;
 
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
         initializeNavBar();
+        initializeSelectFile();
 
-        User user = TestDataGenerator.createUser1();
+        user = TestDataGenerator.createUser1();
         activityViewController.updateUserData(user);
         profileController.updateUserData(user);
     }
@@ -70,6 +76,7 @@ public class Controller implements Initializable {
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLAddData.fxml"));
             addDataScene = loader.load();
+            addDataController = loader.getController();
             paneMap.put("addData", addDataScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLTarget.fxml"));
@@ -100,5 +107,29 @@ public class Controller implements Initializable {
                 paneMap.get(newValue).toFront();
             }
         });
+    }
+
+    private void initializeSelectFile(){
+        addDataController.newFileProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (addDataController.getNewFile() != 0){
+                    File importedFile = addDataController.getSelectedFile();
+                    addDataController.setNewFile(0);
+                    Parser parser = null;
+                    try {
+                        parser = new Parser("team2fitness/src/main/java/seng202/group2/development_code/data/all.csv");
+                    }
+                    catch (FileFormatException f) {
+                        f.printStackTrace();
+                    }
+
+                    user.getActivityList().addAll(parser.getActivitiesRead());
+                    System.out.println(user.getActivityList().get(14));
+
+                }
+            }
+        });
+//
+
     }
 }
