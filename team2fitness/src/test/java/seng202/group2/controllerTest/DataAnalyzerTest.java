@@ -9,6 +9,52 @@ import static junit.framework.TestCase.assertTrue;
 
 
 public class DataAnalyzerTest {
+
+    @Test
+    public void calcDistanceReturnsCorrectResult1() {
+        double metres;
+        double umtPythag;
+        double pythagError;
+
+        metres = DataAnalyzer.calcDistance(-43.520745, 172.628365, -43.520800, 172.634780);
+        umtPythag = Math.sqrt(Math.pow(631599.94 - 632118.27, 2) + Math.pow(5180066.78 - 5180050.51, 2));
+        pythagError = 0.0025 * umtPythag;
+        assertEquals(umtPythag, metres, pythagError);   // Pythagoras is less accurate than the calcDistance method
+    }
+
+    @Test
+    public void calcDistanceReturnsCorrectResult2() {
+        double metres;
+        double umtPythag;
+        double pythagError;
+
+        metres = DataAnalyzer.calcDistance(-43.511429, 172.620444, -43.528793, 172.633692);
+        umtPythag = Math.sqrt(Math.pow(630979.93 - 632012.90, 2) + Math.pow(5181113.93 - 5179164.52, 2));
+        pythagError = 0.0025 * umtPythag;
+        assertEquals(umtPythag, metres, pythagError);   // Pythagoras is less accurate than the calcDistance method
+    }
+
+    @Test
+    public void calcDistanceReturnsCorrectResult3() {
+        double metres;
+        double umtPythag;
+        double pythagError;
+
+        metres = DataAnalyzer.calcDistance(-43.522526, 172.613248, -43.52254, 172.613272);
+        umtPythag = Math.sqrt(Math.pow(630374.37 - 630376.28, 2) + Math.pow(5179892.79 - 5179891.20, 2));
+        pythagError = 0.0025 * umtPythag;
+        assertEquals(umtPythag, metres, pythagError);   // Pythagoras is less accurate than the calcDistance method
+    }
+
+    @Test
+    public void calcAverageSpeedReturnsCorrectResult1() {
+        double averageSpeed;
+
+        averageSpeed = DataAnalyzer.calcAverageSpeed(100, 30, 40);
+        assertEquals(10.0, averageSpeed);
+
+    }
+
     @Test
     public void calcBMIReturnsCorrectResult1() {
         double BMI;
