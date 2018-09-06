@@ -35,7 +35,6 @@ public class ActivityViewController implements Initializable, UserData {
     TableColumn activityDistanceCol;
 
 
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
         activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Date>("date"));
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
@@ -45,7 +44,7 @@ public class ActivityViewController implements Initializable, UserData {
 
     }
 
-    @Override
+
     public void updateUserData(User user) {
         this.user = user;
         activityTable.setItems(user.getActivityList());
