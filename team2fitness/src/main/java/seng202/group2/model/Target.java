@@ -30,5 +30,4 @@ public class Target {
             completed.setValue(true);
         }
     }
-
 }

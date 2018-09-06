@@ -25,7 +25,11 @@
 
 .bodybg {
     -fx-background-color: #ffffff;
-    /*-fx-background-color: linear-gradient(#84fab0 0%, #8fd3f4 100%);*/
+    -fx-background-color: linear-gradient(#84fab0 0%, #8fd3f4 100%);
     -fx-background-size: 100% 100%;
 
+}
+
+.table {
+    -fx-title-color: #0d4868;
 }
