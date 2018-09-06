@@ -9,6 +9,39 @@ import java.util.ArrayList;
 public class DataAnalyzer {
 
 
+    /**
+     * Takes two points of latitude and longitude form and returns the distance between them in metres.
+     * @param latStart - Latitude of the start point
+     * @param longStart - Longitude of the start point
+     * @param latEnd - Latitude of the end point
+     * @param longEnd - Longitude of the end point
+     * @return A distance in metres between the start and end points
+     */
+    public static double calcDistance(double latStart, double longStart, double latEnd, double longEnd) {
+        double earthRad = 6378.137; // Radius of earth in KM
+        double diffLat = latEnd * Math.PI / 180 - latStart * Math.PI / 180;
+        double diffLong = longEnd * Math.PI / 180 - longStart * Math.PI / 180;
+        double sineResult = Math.sin(diffLat/2) * Math.sin(diffLat/2) + Math.cos(latStart * Math.PI / 180) *
+                Math.cos(latEnd * Math.PI / 180) * Math.sin(diffLong/2) * Math.sin(diffLong/2);
+        double result = 2 * Math.atan2(Math.sqrt(sineResult), Math.sqrt(1-sineResult));
+
+        return 1000 * earthRad * result;
+    }
+
+    /**
+     * Takes the distance between two points as well as a time value for each point and calculates the average speed
+     * between them.
+     * @param distance - Distance between two points in metres
+     * @param timeStart - Time value at the start point in seconds
+     * @param timeEnd - Time value at the end point in seconds
+     * @return The average speed between the start and end points in m/s
+     */
+    public static double calcAverageSpeed(double distance, double timeStart, double timeEnd) {
+        double timeTaken = timeEnd - timeStart;
+
+        return distance / timeTaken;
+    }
+
     /*
     Helper private function to convert weight from Kilograms to Pounds.
     */

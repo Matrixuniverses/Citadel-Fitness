@@ -22,6 +22,7 @@ public class User {
     ObservableList<Target> targetList = FXCollections.observableArrayList();
 
 
+
     public User(String name, int age, double height, float weight){
         this.name = new SimpleStringProperty(name);
         this.age = new SimpleIntegerProperty(age);

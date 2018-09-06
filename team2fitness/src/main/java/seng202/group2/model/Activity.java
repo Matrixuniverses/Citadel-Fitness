@@ -3,16 +3,18 @@ package seng202.group2.model;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Activity {
     private SimpleStringProperty activityName;
     private SimpleStringProperty activityType;
     private SimpleDoubleProperty totalTime;
     private SimpleDoubleProperty totalDistance;
-//    private SimpleDateFormat startDate = new SimpleDateFormat("01/01/1998");
+    private SimpleDateFormat startDate = new SimpleDateFormat("01/01/1998");
     private ArrayList<DataPoint> activityData = new ArrayList<DataPoint>();
 
     public Activity(String activityName){
@@ -82,4 +84,10 @@ public class Activity {
     public void setActivityList(ArrayList<DataPoint> activityData) {
         this.activityData = activityData;
     }
+
+    public Date getDate() {
+        Date date = activityData.get(0).getDate();
+        return date;
+    }
+
 }

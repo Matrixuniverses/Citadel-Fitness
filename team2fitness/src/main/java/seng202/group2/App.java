@@ -24,6 +24,7 @@ public class App extends Application
         Parent root = fxml.load();
         Controller controller = fxml.getController();
         mainStage.setTitle("Citadel Fitness");
+        mainStage.setResizable(false);
         mainStage.setScene(new Scene(root));
         mainStage.show();
     }

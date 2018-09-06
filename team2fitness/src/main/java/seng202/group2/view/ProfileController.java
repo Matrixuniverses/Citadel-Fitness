@@ -31,12 +31,10 @@ public class ProfileController implements Initializable, UserData {
     @FXML
     Label targetsLabel;
 
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-    @Override
     public void updateUserData(User user) {
         bmiLabel.textProperty().bind(Bindings.convert(user.bmiProperty()));
         nameLabel.textProperty().bind(user.nameProperty());
