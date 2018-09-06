@@ -67,6 +67,7 @@ public class Controller implements Initializable {
         profileController.updateUserData(user);
     }
 
+    //Initialize All Parts of the GUI and resulting controllers
     private void initializeViews(){
         try {
 
@@ -107,6 +108,7 @@ public class Controller implements Initializable {
         }
     }
 
+    //Initializes the navbar
     private void initializeNavBar(){
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -115,6 +117,7 @@ public class Controller implements Initializable {
         });
     }
 
+    //Initializes the activity view
     private void initializeActivityView(){
         activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -125,6 +128,7 @@ public class Controller implements Initializable {
         });
     }
 
+    //Initializes the select file view
     private void initializeSelectFile(){
         addDataController.newFileProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -140,7 +144,6 @@ public class Controller implements Initializable {
                     }
 
                     user.getActivityList().addAll(parser.getActivitiesRead());
-                    System.out.println(user.getActivityList().get(14));
 
                 }
             }

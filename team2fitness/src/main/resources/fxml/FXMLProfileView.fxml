@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -17,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="summaryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ProfileController">
+<AnchorPane fx:id="summaryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ProfileController">
    <children>
       <AnchorPane layoutX="75.0" layoutY="366.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="218.0" prefWidth="850.0" style="-fx-background-color: e6fff9;">
          <children>
@@ -44,14 +40,9 @@
          <children>
             <AnchorPane prefHeight="297.0" prefWidth="207.0" style="-fx-background-color: e6fff9;" GridPane.columnIndex="1">
                <children>
-                  <Text fill="#0d4868" layoutX="36.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Total Distance " textAlignment="CENTER" wrappingWidth="135.1640625">
+                  <Text fill="#0d4868" layoutX="36.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Total Distance Logged " textAlignment="CENTER" wrappingWidth="135.1640625">
                      <font>
                         <Font size="20.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="distanceText" fill="#0d4868" layoutX="85.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="0">
-                     <font>
-                        <Font size="64.0" />
                      </font>
                   </Text>
                   <Text fill="#0d4868" layoutX="83.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="km">
@@ -59,6 +50,11 @@
                         <Font size="28.0" />
                      </font>
                   </Text>
+                  <Label fx:id="totalDistanceLabel" layoutX="11.0" layoutY="83.0" prefHeight="85.0" prefWidth="186.0" text="0" textAlignment="CENTER" textFill="#0d4868" textOverrun="CLIP">
+                     <font>
+                        <Font size="58.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: e6fff9;" GridPane.columnIndex="2" GridPane.columnSpan="2">
@@ -89,7 +85,7 @@
                         </Text>
                      </top>
                      <center>
-                        <Label fx:id="bmiLabel" text="0" textFill="#0d4868" BorderPane.alignment="CENTER">
+                        <Label fx:id="bmiLabel" prefHeight="85.0" prefWidth="116.0" text="0" textAlignment="CENTER" textFill="#0d4868" textOverrun="CLIP" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="58.0" />
                            </font>

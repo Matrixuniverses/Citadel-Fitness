@@ -5,6 +5,7 @@ import javafx.beans.binding.FloatBinding;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class User {
     private DoubleProperty height;
     private DoubleProperty weight;
     private DoubleProperty bmi;
+    private DoubleProperty totalDistance;
 
     ObservableList<Activity> activityList = FXCollections.observableArrayList();
     ObservableList<Target> targetList = FXCollections.observableArrayList();
@@ -30,6 +32,22 @@ public class User {
         this.weight = new SimpleDoubleProperty(weight);
         this.bmi = new SimpleDoubleProperty();
         this.bmi.bind(this.weight.divide(this.height.multiply(this.height)));
+
+        totalDistance = new SimpleDoubleProperty(0);
+        activityList.addListener(new ListChangeListener<Activity>() {
+            @Override
+            public void onChanged(Change<? extends Activity> c) {
+                totalDistance.setValue(calculateTotalUserDistance()/1000);
+            }
+        });
+    }
+
+    private double calculateTotalUserDistance(){
+        double totalDistance = 0;
+        for (Activity activity : activityList){
+            totalDistance += activity.getTotalDistance();
+        }
+        return totalDistance;
     }
 
     public int getId() {
@@ -116,12 +134,15 @@ public class User {
         this.targetList = targetList;
     }
 
-    public static void main(String[] args )
-    {
-        User user = new User("Adam", 18, 173, 70);
-        System.out.println(user.getBmi());
-        user.setWeight(100);
-        System.out.println(user.getBmi());
+    public double getTotalDistance() {
+        return totalDistance.get();
+    }
 
+    public DoubleProperty totalDistanceProperty() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance.set(totalDistance);
     }
 }

@@ -22,8 +22,8 @@ public class ProfileController implements Initializable, UserData {
     @FXML
     Label weightLabel;
 
-//    @FXML
-//    Text distanceText;
+    @FXML
+    Label totalDistanceLabel;
 
     @FXML
     Label nameLabel;
@@ -39,5 +39,6 @@ public class ProfileController implements Initializable, UserData {
         bmiLabel.textProperty().bind(Bindings.convert(user.bmiProperty()));
         nameLabel.textProperty().bind(user.nameProperty());
         weightLabel.textProperty().bind(Bindings.convert(user.weightProperty()));
+        totalDistanceLabel.textProperty().bind(Bindings.convert(user.totalDistanceProperty()));
     }
 }

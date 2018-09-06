@@ -17,6 +17,8 @@ public class Activity {
     private SimpleDoubleProperty totalDistance;
     private SimpleDateFormat startDate = new SimpleDateFormat("01/01/1998");
     private ArrayList<DataPoint> activityData = new ArrayList<DataPoint>();
+    //Will add code functionality later
+    private boolean manualEntry = false;
 
     public Activity(String activityName){
         this.activityName = new SimpleStringProperty(activityName);
