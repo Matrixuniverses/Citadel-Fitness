@@ -2,6 +2,9 @@ package seng202.group2.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,11 +15,13 @@ import javafx.scene.layout.StackPane;
 import seng202.group2.data_functions.FileFormatException;
 import seng202.group2.data_functions.Parser;
 import seng202.group2.development_code.TestDataGenerator;
+import seng202.group2.model.Activity;
 import seng202.group2.model.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -55,6 +60,7 @@ public class Controller implements Initializable {
         initializeViews();
         initializeNavBar();
         initializeSelectFile();
+        initializeActivityView();
 
         user = TestDataGenerator.createUser1();
         activityViewController.updateUserData(user);
@@ -105,6 +111,16 @@ public class Controller implements Initializable {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 paneMap.get(newValue).toFront();
+            }
+        });
+    }
+
+    private void initializeActivityView(){
+        activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                ObservableList<Activity> activityList = activityViewController.getActivityTable().getSelectionModel().getSelectedItems();
+                ArrayList<Activity> rows = new ArrayList<>(activityList);
+                rows.forEach(row -> user.getActivityList().remove(row));
             }
         });
     }

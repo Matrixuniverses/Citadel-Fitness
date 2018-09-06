@@ -3,6 +3,7 @@ package seng202.group2.model;
 import java.util.Date;
 
 public class DataPoint {
+    private int id;
     private Date date;
     private int heartRate;
     private double latitude;
@@ -33,8 +34,6 @@ public class DataPoint {
         this.latitude = latitude;
         this.longitude = longitude;
         this.altitude = altitude;
-
-
     }
 
     public DataPoint(Boolean malformed) {
@@ -60,4 +59,12 @@ public class DataPoint {
     public double getAltitude() { return altitude; }
 
     public void setAltitude(double altitude) { this.altitude = altitude; }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

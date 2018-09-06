@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Activity {
+    private int id;
     private SimpleStringProperty activityName;
     private SimpleStringProperty activityType;
     private SimpleDoubleProperty totalTime;
@@ -83,6 +84,14 @@ public class Activity {
 
     public void setActivityList(ArrayList<DataPoint> activityData) {
         this.activityData = activityData;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDate() {

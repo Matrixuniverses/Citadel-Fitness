@@ -17,11 +17,11 @@ public class Target {
 
     private BooleanProperty completed = new SimpleBooleanProperty(false);
 
-    public Target(StringProperty tName, StringProperty tType, DoubleProperty tValue) {
-        name = tName;
-        type = tType;
-        initialValue = tValue;
-        currentValue = tValue;
+    public Target(String tName, String tType, Double tValue) {
+        name = new SimpleStringProperty(tName);
+        type = new SimpleStringProperty(tType);
+        initialValue =  new SimpleDoubleProperty(tValue);
+        currentValue =  new SimpleDoubleProperty(tValue);
     }
 
     public void updateProgress(DoubleProperty progress) {
@@ -29,5 +29,13 @@ public class Target {
         if (currentValue.get() >= finalValue.get()) {
             completed.setValue(true);
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
