@@ -37,7 +37,7 @@ public class ActivityViewController implements Initializable, UserData {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("startDate"));
+        activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Date>("date"));
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));
