@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
@@ -29,7 +30,7 @@ public class AddDataController {
     private TextField textFieldName;
 
     @FXML
-    private TextField textFieldDate;
+    private DatePicker dateInput;
 
     @FXML
     private TextField textFieldDistance;
@@ -42,6 +43,14 @@ public class AddDataController {
 
     @FXML
     private ChoiceBox choiceBoxType;
+
+    public DatePicker getDateInput() {
+        return dateInput;
+    }
+
+    public void setDateInput(DatePicker dateInput) {
+        this.dateInput = dateInput;
+    }
 
     public ChoiceBox getChoiceBoxType() {
         return choiceBoxType;
@@ -67,13 +76,13 @@ public class AddDataController {
         this.textFieldName = textFieldName;
     }
 
-    public TextField getTextFieldDate() {
+    /*public TextField getTextFieldDate() {
         return textFieldDate;
     }
 
     public void setTextFieldDate(TextField textFieldDate) {
         this.textFieldDate = textFieldDate;
-    }
+    }*/
 
     public TextField getTextFieldDistance() {
         return textFieldDistance;

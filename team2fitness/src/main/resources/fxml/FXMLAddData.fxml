@@ -3,6 +3,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -39,15 +40,15 @@
                   </Label>
                </children></AnchorPane>
             <ChoiceBox fx:id="choiceBoxType" layoutX="33.0" layoutY="37.0" prefHeight="28.0" prefWidth="463.0" style="-fx-background-color: #ffffff; -fx-border-color: #0d4868; -fx-border-radius: 10;" />
-            <TextField id="textFieldName" fx:id="textFieldName" layoutX="33.0" layoutY="96.0" prefHeight="25.0" prefWidth="360.0" />
-            <TextField id="textFieldDate" fx:id="textFieldDate" layoutX="33.0" layoutY="148.0" prefHeight="25.0" prefWidth="360.0" />
-            <TextField id="textFieldDistance" fx:id="textFieldDistance" layoutX="33.0" layoutY="199.0" prefHeight="25.0" prefWidth="360.0" />
-            <TextField fx:id="textFieldTime" layoutX="33.0" layoutY="243.0" prefHeight="25.0" prefWidth="360.0" />
+            <TextField id="textFieldName" fx:id="textFieldName" layoutX="33.0" layoutY="96.0" prefHeight="25.0" prefWidth="360.0" promptText="Name" />
+            <TextField id="textFieldDistance" fx:id="textFieldDistance" layoutX="33.0" layoutY="199.0" prefHeight="25.0" prefWidth="360.0" promptText="Distance (m)" />
+            <TextField fx:id="textFieldTime" layoutX="33.0" layoutY="250.0" prefHeight="25.0" prefWidth="360.0" promptText="Time (s)" />
             <Button fx:id="buttonSubmitData" layoutX="397.0" layoutY="342.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #0d4868; -fx-border-radius: 30; -fx-background-radius: 30;" text="Submit" textFill="#fcfcfc">
                <font>
                   <Font name="System Bold Italic" size="13.0" />
                </font>
             </Button>
+            <DatePicker fx:id="dateInput" layoutX="33.0" layoutY="151.0" prefHeight="26.0" prefWidth="360.0" promptText="Date of activity" />
          </children>
       </AnchorPane>
    </children>

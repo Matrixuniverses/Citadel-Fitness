@@ -1,15 +1,20 @@
 package seng202.group2.view;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -23,9 +28,12 @@ import seng202.group2.model.User;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 public class Controller implements Initializable {
 
@@ -70,7 +78,7 @@ public class Controller implements Initializable {
     }
 
     //Initialize All Parts of the GUI and resulting controllers
-    private void initializeViews(){
+    private void initializeViews() {
         try {
 
             FXMLLoader loader;
@@ -104,14 +112,13 @@ public class Controller implements Initializable {
             mainContainer.getChildren().addAll(activityView, mapViewScene, addDataScene, targetScene, viewGraphScene,
                     profileView);
 
-        }
-        catch (IOException ex_) {
+        } catch (IOException ex_) {
             ex_.printStackTrace();
         }
     }
 
     //Initializes the navbar
-    private void initializeNavBar(){
+    private void initializeNavBar() {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 paneMap.get(newValue).toFront();
@@ -120,7 +127,7 @@ public class Controller implements Initializable {
     }
 
     //Initializes the activity view
-    private void initializeActivityView(){
+    private void initializeActivityView() {
         activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 ObservableList<Activity> activityList = activityViewController.getActivityTable().getSelectionModel().getSelectedItems();
@@ -131,17 +138,27 @@ public class Controller implements Initializable {
     }
 
     //Initializes the select file view
-    private void initializeSelectFile(){
+    private void initializeSelectFile() {
+
+        ChoiceBox choiceBoxtype = addDataController.getChoiceBoxType();
+
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.add("Run");
+        typeOptions.add("Walk");
+        typeOptions.add("Cycle");
+        typeOptions.add("Swim");
+        choiceBoxtype.setItems(typeOptions);
+        choiceBoxtype.setValue("Run");
+
         addDataController.newFileProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (addDataController.getNewFile() != 0){
+                if (addDataController.getNewFile() != 0) {
                     File importedFile = addDataController.getSelectedFile();
                     addDataController.setNewFile(0);
                     Parser parser = null;
                     try {
                         parser = new Parser(importedFile);
-                    }
-                    catch (FileFormatException f) {
+                    } catch (FileFormatException f) {
                         f.printStackTrace();
                     }
 
@@ -153,17 +170,47 @@ public class Controller implements Initializable {
         addDataController.getButtonSubmitData().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String name = addDataController.getTextFieldName().getText();
-                String type = addDataController.getChoiceBoxType().getValue().toString();
-                Double distance = Double.parseDouble(addDataController.getTextFieldDistance().getText());
-                Double time = Double.parseDouble(addDataController.getTextFieldTime().getText());
 
-                Activity userActivity = new Activity(name, type, distance, time);
-                //user.
+                try {
+                    String name = addDataController.getTextFieldName().getText();
+                    String type = addDataController.getChoiceBoxType().getValue().toString();
+                    Double distance = Double.parseDouble(addDataController.getTextFieldDistance().getText());
+                    Double time = Double.parseDouble(addDataController.getTextFieldTime().getText());
+
+                    if (addDataController.getDateInput().getValue() == null) {
+                        throw new InputMismatchException();
+                    } else if (name.length() == 0) {
+                        throw new IllegalArgumentException();
+                    } else {
+                        Date date = Date.from(addDataController.getDateInput().getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        Activity userActivity = new Activity(name, date, type, time, distance);
+                        user.getActivityList().add(userActivity);
+
+                        //Clear fields
+                        addDataController.getTextFieldName().setText(null);
+                        addDataController.getTextFieldDistance().setText(null);
+                        addDataController.getTextFieldTime().setText(null);
+                        addDataController.getDateInput().setValue(null);
+                    }
+                } catch (NumberFormatException e) {
+                    raiseError("Error dialog", "Time and distance must be numbers");
+                } catch (InputMismatchException e) {
+                    raiseError("Error dialog", "Must select a date");
+                } catch (IllegalArgumentException e) {
+                    raiseError("Error dialog", "Activity must be named");
+                }
+
 
             }
         });
     }
 
-
+    private void raiseError(String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }
+    

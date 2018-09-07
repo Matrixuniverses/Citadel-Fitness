@@ -16,6 +16,7 @@ public class Activity {
     private SimpleDoubleProperty totalTime;
     private SimpleDoubleProperty totalDistance;
     private SimpleDateFormat startDate = new SimpleDateFormat("01/01/1998");
+    private Date activityDate;
     private ArrayList<DataPoint> activityData = new ArrayList<DataPoint>();
     //Will add code functionality later
     private boolean manualEntry = false;
@@ -27,11 +28,13 @@ public class Activity {
         this.totalDistance = new SimpleDoubleProperty(0);
     }
 
-    public Activity(String activityName, String activityType, Double totalTime, Double totalDistance) {
+    public Activity(String activityName, Date activityDate, String activityType, Double totalTime, Double totalDistance) {
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty(activityType);
+        this.activityDate = activityDate;
         this.totalTime = new SimpleDoubleProperty(totalTime);
         this.totalDistance = new SimpleDoubleProperty(totalDistance);
+        manualEntry = true;
     }
 
 
@@ -104,8 +107,12 @@ public class Activity {
     }
 
     public Date getDate() {
-        Date date = activityData.get(0).getDate();
-        return date;
+        if (!manualEntry) {
+            Date date = activityData.get(0).getDate();
+            return date;
+        } else {
+            return activityDate;
+        }
     }
 
 }
