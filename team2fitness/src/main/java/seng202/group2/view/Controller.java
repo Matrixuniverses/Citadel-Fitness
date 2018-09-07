@@ -1,5 +1,7 @@
 package seng202.group2.view;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -137,7 +139,7 @@ public class Controller implements Initializable {
                     addDataController.setNewFile(0);
                     Parser parser = null;
                     try {
-                        parser = new Parser("team2fitness/src/main/java/seng202/group2/development_code/data/all.csv");
+                        parser = new Parser(importedFile);
                     }
                     catch (FileFormatException f) {
                         f.printStackTrace();
@@ -148,7 +150,20 @@ public class Controller implements Initializable {
                 }
             }
         });
-//
+        addDataController.getButtonSubmitData().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String name = addDataController.getTextFieldName().getText();
+                String type = addDataController.getChoiceBoxType().getValue().toString();
+                Double distance = Double.parseDouble(addDataController.getTextFieldDistance().getText());
+                Double time = Double.parseDouble(addDataController.getTextFieldTime().getText());
 
+                Activity userActivity = new Activity(name, type, distance, time);
+                //user.
+
+            }
+        });
     }
+
+
 }

@@ -24,7 +24,14 @@ public class Activity {
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty("Default");
         this.totalTime = new SimpleDoubleProperty(10);
-        this.totalDistance = new SimpleDoubleProperty(3.5);
+        this.totalDistance = new SimpleDoubleProperty(0);
+    }
+
+    public Activity(String activityName, String activityType, Double totalTime, Double totalDistance) {
+        this.activityName = new SimpleStringProperty(activityName);
+        this.activityType = new SimpleStringProperty(activityType);
+        this.totalTime = new SimpleDoubleProperty(totalTime);
+        this.totalDistance = new SimpleDoubleProperty(totalDistance);
     }
 
 

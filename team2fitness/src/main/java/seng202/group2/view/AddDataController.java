@@ -7,8 +7,12 @@ import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
+import javax.xml.soap.Text;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,6 +24,72 @@ public class AddDataController {
 
     @FXML
     private Button selectFileButton;
+
+    @FXML
+    private TextField textFieldName;
+
+    @FXML
+    private TextField textFieldDate;
+
+    @FXML
+    private TextField textFieldDistance;
+
+    @FXML
+    private TextField textFieldTime;
+
+    @FXML
+    private Button buttonSubmitData;
+
+    @FXML
+    private ChoiceBox choiceBoxType;
+
+    public ChoiceBox getChoiceBoxType() {
+        return choiceBoxType;
+    }
+
+    public void setChoiceBoxType(ChoiceBox choiceBoxType) {
+        this.choiceBoxType = choiceBoxType;
+    }
+
+    public Button getButtonSubmitData() {
+        return buttonSubmitData;
+    }
+
+    public void setButtonSubmitData(Button buttonSubmitData) {
+        this.buttonSubmitData = buttonSubmitData;
+    }
+
+    public TextField getTextFieldName() {
+        return textFieldName;
+    }
+
+    public void setTextFieldName(TextField textFieldName) {
+        this.textFieldName = textFieldName;
+    }
+
+    public TextField getTextFieldDate() {
+        return textFieldDate;
+    }
+
+    public void setTextFieldDate(TextField textFieldDate) {
+        this.textFieldDate = textFieldDate;
+    }
+
+    public TextField getTextFieldDistance() {
+        return textFieldDistance;
+    }
+
+    public void setTextFieldDistance(TextField textFieldDistance) {
+        this.textFieldDistance = textFieldDistance;
+    }
+
+    public TextField getTextFieldTime() {
+        return textFieldTime;
+    }
+
+    public void setTextFieldTime(TextField textFieldTime) {
+        this.textFieldTime = textFieldTime;
+    }
 
     public File getSelectedFile() {
         return selectedFile;

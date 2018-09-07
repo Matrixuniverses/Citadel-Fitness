@@ -7,13 +7,13 @@ import javafx.collections.ObservableList;
 public class Target {
 
     private int id;
-    private StringProperty name;
-    private StringProperty dateAchieved;
-    private StringProperty type;
+    private SimpleStringProperty name;
+    private SimpleStringProperty dateAchieved;
+    private SimpleStringProperty type;
 
-    private DoubleProperty initialValue;
-    private DoubleProperty currentValue;
-    private DoubleProperty finalValue;
+    private SimpleDoubleProperty initialValue;
+    private SimpleDoubleProperty currentValue;
+    private SimpleDoubleProperty finalValue;
 
     private BooleanProperty completed = new SimpleBooleanProperty(false);
 
@@ -24,7 +24,7 @@ public class Target {
         currentValue =  new SimpleDoubleProperty(tValue);
     }
 
-    public void updateProgress(DoubleProperty progress) {
+    public void updateProgress(SimpleDoubleProperty progress) {
         currentValue = progress;
         if (currentValue.get() >= finalValue.get()) {
             completed.setValue(true);

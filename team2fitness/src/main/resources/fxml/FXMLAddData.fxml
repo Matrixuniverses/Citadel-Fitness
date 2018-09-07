@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="addDataScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.AddDataController">
+<AnchorPane fx:id="addDataScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.AddDataController">
    <children>
       <Group layoutX="122.0" layoutY="-6.0">
          <children>
@@ -37,12 +38,12 @@
                      </font>
                   </Label>
                </children></AnchorPane>
-            <ChoiceBox fx:id="entryType" layoutX="33.0" layoutY="37.0" prefHeight="28.0" prefWidth="463.0" style="-fx-background-color: #ffffff; -fx-border-color: #0d4868; -fx-border-radius: 10;" />
-            <TextField fx:id="field1" layoutX="33.0" layoutY="96.0" prefHeight="25.0" prefWidth="360.0" />
-            <TextField fx:id="field2" layoutX="33.0" layoutY="148.0" prefHeight="25.0" prefWidth="360.0" />
-            <TextField fx:id="field3" layoutX="33.0" layoutY="199.0" prefHeight="25.0" prefWidth="360.0" />
-            <TextField fx:id="field4" layoutX="33.0" layoutY="243.0" prefHeight="25.0" prefWidth="360.0" />
-            <Button layoutX="397.0" layoutY="342.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #0d4868; -fx-border-radius: 30; -fx-background-radius: 30;" text="Submit" textFill="#fcfcfc">
+            <ChoiceBox fx:id="choiceBoxType" layoutX="33.0" layoutY="37.0" prefHeight="28.0" prefWidth="463.0" style="-fx-background-color: #ffffff; -fx-border-color: #0d4868; -fx-border-radius: 10;" />
+            <TextField id="textFieldName" fx:id="textFieldName" layoutX="33.0" layoutY="96.0" prefHeight="25.0" prefWidth="360.0" />
+            <TextField id="textFieldDate" fx:id="textFieldDate" layoutX="33.0" layoutY="148.0" prefHeight="25.0" prefWidth="360.0" />
+            <TextField id="textFieldDistance" fx:id="textFieldDistance" layoutX="33.0" layoutY="199.0" prefHeight="25.0" prefWidth="360.0" />
+            <TextField fx:id="textFieldTime" layoutX="33.0" layoutY="243.0" prefHeight="25.0" prefWidth="360.0" />
+            <Button fx:id="buttonSubmitData" layoutX="397.0" layoutY="342.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #0d4868; -fx-border-radius: 30; -fx-background-radius: 30;" text="Submit" textFill="#fcfcfc">
                <font>
                   <Font name="System Bold Italic" size="13.0" />
                </font>
