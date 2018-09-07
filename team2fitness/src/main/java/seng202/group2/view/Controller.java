@@ -134,7 +134,29 @@ public class Controller implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 paneMap.get("editScene").toFront();
+                editProfileController.getfNameField().setText(user.getName());
+                editProfileController.getlNameField().setText(user.getName());
+                //TODO: seperate first and last name
+                editProfileController.getHeightField().setText(String.valueOf(user.getHeight()));
+                editProfileController.getDobField().setText(String.valueOf(user.getAge()));
+                editProfileController.getWeightField().setText(String.valueOf(user.getWeight()));
+                editProfileController.getSaveChangesButton().setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        try{
+                            user.setName(editProfileController.getfNameField().getText());
+                            user.setHeight(Double.valueOf(editProfileController.getHeightField().getText()));
+                            user.setAge(Integer.valueOf(editProfileController.getDobField().getText()));
+                            user.setWeight(Double.valueOf(editProfileController.getWeightField().getText()));
+                            paneMap.get("editScene").toBack();
+                        }catch (Exception f) {
+                            System.out.println(f);
+                        }
+                    }
+                });
             }
+
+
         });
 
     }

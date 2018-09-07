@@ -13,43 +13,75 @@ import java.lang.reflect.Field;
 
 public class EditProfileController {
 
-    private int userId;
-    private String name;
-    private int age;
-    private double height;
-    private double weight;
-    private File selectedPic;
 
     @FXML
     private TextField fNameField;
+
     @FXML
     private TextField lNameField;
+
     @FXML
     private TextField heightField;
+
     @FXML
     private TextField dobField;
+
     @FXML
     private TextField weightField;
+
     @FXML
     private Button newPic;
+
     @FXML
-    private Button createProfile;
+    private Button cancel;
+
     @FXML
     private Button saveChanges;
 
+    public TextField getfNameField() {
+        return fNameField;
+    }
+
+    public void setfNameField(TextField fNameField) {
+        this.fNameField = fNameField;
+    }
+
+    public TextField getlNameField() {
+        return lNameField;
+    }
+
+    public void setlNameField(TextField lNameField) {
+        this.lNameField = lNameField;
+    }
+
+    public TextField getHeightField() {
+        return heightField;
+    }
+
+    public void setHeightField(TextField heightField) {
+        this.heightField = heightField;
+    }
+
+    public TextField getDobField() {
+        return dobField;
+    }
+
+    public void setDobField(TextField dobField) {
+        this.dobField = dobField;
+    }
+
+    public TextField getWeightField() {
+        return weightField;
+    }
+
+    public void setWeightField(TextField weightField) {
+        this.weightField = weightField;
+    }
 
 
 
-    public void selectPicAction(ActionEvent event) {
-        FileChooser fc = new FileChooser();
-
-        selectedPic = fc.showOpenDialog(null);
-        if (selectedPic != null) {
-            //TODO: check img
-            //TODO: convert image to circle
-        } else {
-            System.out.println("File is not an image");
-        }
+    public Button getSaveChangesButton() {
+        return saveChanges;
     }
 
     public void createProfileAction(ActionEvent event){
