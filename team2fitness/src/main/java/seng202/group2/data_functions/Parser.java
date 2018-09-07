@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class Parser {
 
     /**
      * Checks, given two string representing date and time, that the passed strings are of the correct CSV format
+     *
      * @param date Textual date
      * @param time Textual time
      * @return DateFormat object representing the current DateTime of the passed strings
@@ -38,32 +40,33 @@ public class Parser {
 
     /**
      * Calculates the Haversine distance between two given WSG84 points
-     * @param latitude1 Latitude of first point
-     * @param latitude2 Latitude of second point
+     *
+     * @param latitude1  Latitude of first point
+     * @param latitude2  Latitude of second point
      * @param longitude1 Longitude of first point
      * @param longitude2 Logitude of second point
      * @return The distance between the two given points in meters
      */
-    private double haversineDistance(double latitude1, double latitude2, double longitude1, double longitude2){
+    private double haversineDistance(double latitude1, double latitude2, double longitude1, double longitude2) {
         final double radius = 6.3781 * Math.pow(10, 6);
 
         double deltaLat = Math.toRadians(latitude2 - latitude1);
         double deltaLon = Math.toRadians(longitude2 - longitude1);
 
-        double hav = Math.pow(Math.sin(deltaLat/ 2), 2) + Math.pow(Math.sin(deltaLon/ 2), 2)*Math.cos(latitude1)*Math.cos(latitude2);
+        double hav = Math.pow(Math.sin(deltaLat / 2), 2) + Math.pow(Math.sin(deltaLon / 2), 2) * Math.cos(latitude1) * Math.cos(latitude2);
         double invHav = 2 * Math.asin(Math.sqrt(hav));
 
         return invHav * radius;
     }
 
-    private void generateMetrics(){
+    private void generateMetrics() {
         for (Activity activity : activitiesRead) {
             ArrayList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
             int totalTime = 0;
 
-            if (points.size() >= 2){
-                for (int i = 1; i < points.size(); i++){
+            if (points.size() >= 2) {
+                for (int i = 1; i < points.size(); i++) {
                     double lat1 = points.get(i - 1).getLatitude();
                     double lon1 = points.get(i - 1).getLongitude();
                     double lat2 = points.get(i).getLatitude();
@@ -91,14 +94,14 @@ public class Parser {
     }
 
 
-    public Parser(String filepath) throws FileFormatException {
+    public Parser(File file) throws FileFormatException {
         try {
-            FileReader readFile = new FileReader(filepath);
+            FileReader readFile = new FileReader(file);
             CSVReader readCSV = new CSVReader(readFile);
 
             String[] line;
 
-            while((line = readCSV.readNext()) != null) {
+            while ((line = readCSV.readNext()) != null) {
 
                 if (line[0].equals("#start") && !line[1].equals("")) {
                     currentActivity = new Activity(line[1]);
@@ -130,10 +133,10 @@ public class Parser {
                 }
             }
 
-        generateMetrics();
+            generateMetrics();
 
         } catch (IOException e) {
-            if (e instanceof FileNotFoundException){
+            if (e instanceof FileNotFoundException) {
                 throw new FileFormatException(null, "File not found");
             } else {
                 throw new FileFormatException(null, "Unreadable file");
@@ -143,23 +146,23 @@ public class Parser {
 
     }
 
-    public ArrayList<Activity> getActivitiesRead(){
+    public ArrayList<Activity> getActivitiesRead() {
         return activitiesRead;
     }
-
-
-    public static void main(String[] args) {
-        try{
-            Parser testParser = new Parser("C:\\Users\\Sam Shankland\\IdeaProjects\\seng202group2\\team2fitness\\src\\main\\java\\seng202\\group2\\development_code\\data\\all.csv");
-            ArrayList<Activity> test = testParser.getActivitiesRead();
-
-            for (Activity activity : test){
-                System.out.println(activity.getActivityName());
-                System.out.println(activity.getTotalDistance());
-            }
-        } catch (FileFormatException e){
-            e.printStackTrace();
-        }
-
-    }
 }
+//
+//    public static void main(String[] args) {
+//        try{
+//            Parser testParser = new Parser("C:\\Users\\Sam Shankland\\IdeaProjects\\seng202group2\\team2fitness\\src\\main\\java\\seng202\\group2\\development_code\\data\\all.csv");
+//            ArrayList<Activity> test = testParser.getActivitiesRead();
+//
+//            for (Activity activity : test){
+//                System.out.println(activity.getActivityName());
+//                System.out.println(activity.getTotalDistance());
+//            }
+//        } catch (FileFormatException e){
+//            e.printStackTrace();
+//        }
+//
+//    }
+//}
