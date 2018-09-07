@@ -1,9 +1,12 @@
 package seng202.group2.view;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.Chart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import seng202.group2.model.User;
 
@@ -12,6 +15,20 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable, UserData {
+
+    private StringProperty currentView = new SimpleStringProperty();
+
+    public String getCurrentView() {
+        return currentView.get();
+    }
+
+    public StringProperty currentViewProperty() {
+        return currentView;
+    }
+
+    public void setCurrentView(String currentView) {
+        this.currentView.set(currentView);
+    }
 
     @FXML
     Chart activityGraph;
@@ -31,6 +48,15 @@ public class ProfileController implements Initializable, UserData {
     @FXML
     Label targetsLabel;
 
+
+    @FXML
+    Button editProfileButton;
+
+    public Button getEditProfileButton() {
+        return editProfileButton;
+    }
+
+
     public void initialize(URL location, ResourceBundle resources) {
 
     }
@@ -41,4 +67,9 @@ public class ProfileController implements Initializable, UserData {
         weightLabel.textProperty().bind(Bindings.convert(user.weightProperty()));
         totalDistanceLabel.textProperty().bind(Bindings.convert(user.totalDistanceProperty()));
     }
+
+    public void showEditProfile() {
+        setCurrentView("editProfileScene");
+    }
+
 }

@@ -9,46 +9,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MyProfileController">
+<AnchorPane fx:id="editScene" prefHeight="639.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.EditProfileController">
    <children>
-      <AnchorPane fx:id="mapViewScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css">
          <children>
-            <Label fx:id="pageTitle" layoutX="404.0" layoutY="30.0" prefHeight="37.0" prefWidth="193.0" text="Edit Profile" textFill="#0d4868" underline="true">
+            <Label fx:id="pageTitle" layoutX="389.0" layoutY="36.0" prefHeight="37.0" prefWidth="222.0" text="My Profile" textFill="#0d4868" underline="true">
                <font>
                   <Font name="System Bold Italic" size="27.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="mapBox" layoutX="64.0" layoutY="123.0" prefHeight="459.0" prefWidth="743.0">
+            <AnchorPane fx:id="mapBox" layoutX="58.0" layoutY="128.0" prefHeight="459.0" prefWidth="885.0">
                <children>
-                  <Text fill="#0d4868" layoutX="26.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age:">
+                  <Text fill="#0d4868" layoutX="71.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <TextField layoutX="133.0" layoutY="21.0" />
-                  <Text fill="#0d4868" layoutX="26.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:">
+                  <TextField fx:id="fNameField" layoutX="221.0" layoutY="23.0" promptText="John" />
+                  <Text fill="#0d4868" layoutX="68.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <TextField layoutX="133.0" layoutY="91.0" />
-                  <TextField layoutX="133.0" layoutY="155.0" />
-                  <TextField layoutX="133.0" layoutY="217.0" />
-                  <TextField layoutX="133.0" layoutY="288.0" />
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="491.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button layoutX="550.0" layoutY="192.0" mnemonicParsing="false" styleClass="curve" text="New Profile Picture" />
-                  <Button layoutX="591.0" layoutY="405.0" mnemonicParsing="false" styleClass="curve" text="Save Changes" />
-                  <Text fill="#0d4868" layoutX="28.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                  <TextField fx:id="lNameField" layoutX="224.0" layoutY="91.0" promptText="Smith" />
+                  <TextField fx:id="heightField" layoutX="222.0" layoutY="157.0" promptText="185cm" />
+                  <TextField fx:id="dobField" layoutX="224.0" layoutY="224.0" promptText="25/10/1997" />
+                  <TextField fx:id="weightField" layoutX="221.0" layoutY="287.0" promptText="79kg" />
+                  <ImageView fitHeight="250.0" fitWidth="250.0" layoutX="600.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button fx:id="newPic" layoutX="625.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="curve" text="New Profile Picture" />
+                  <Button fx:id="saveChanges" layoutX="699.0" layoutY="389.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="140.0" styleClass="curve" text="Save Changes" />
+                  <Text fill="#0d4868" layoutX="68.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text fill="#0d4868" layoutX="28.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                  <Text fill="#0d4868" layoutX="65.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text fill="#0d4868" layoutX="23.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
+                  <Text fill="#0d4868" layoutX="68.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:">
                      <font>
                         <Font size="22.0" />
                      </font>

@@ -1,12 +1,8 @@
 package seng202.group2.view;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -28,10 +23,6 @@ import seng202.group2.model.User;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -52,6 +43,7 @@ public class Controller implements Initializable {
     private AnchorPane profileView;
     private AnchorPane exitScene;
     private AnchorPane activityView;
+    private AnchorPane editScene;
 
     //Create Map of Panes for easy swapping
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -63,6 +55,8 @@ public class Controller implements Initializable {
     private ActivityViewController activityViewController;
     private ProfileController profileController;
     private AddDataController addDataController;
+    private EditProfileController editProfileController;
+
     private User user;
 
     //Initialize all Panes and Listeners
@@ -71,6 +65,8 @@ public class Controller implements Initializable {
         initializeNavBar();
         initializeSelectFile();
         initializeActivityView();
+        initializeEditProfileView();
+
 
         user = TestDataGenerator.createUser1();
         activityViewController.updateUserData(user);
@@ -82,6 +78,7 @@ public class Controller implements Initializable {
         try {
 
             FXMLLoader loader;
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityView.fxml"));
             activityView = loader.load();
             activityViewController = loader.getController();
@@ -104,13 +101,18 @@ public class Controller implements Initializable {
             viewGraphScene = loader.load();
             paneMap.put("viewGraph", viewGraphScene);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditProfile.fxml"));
+            editScene = loader.load();
+            editProfileController = loader.getController();
+            paneMap.put("editScene", editScene);
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLProfileView.fxml"));
             profileView = loader.load();
             profileController = loader.getController();
             paneMap.put("summaryView", profileView);
 
             mainContainer.getChildren().addAll(activityView, mapViewScene, addDataScene, targetScene, viewGraphScene,
-                    profileView);
+                    editScene, profileView);
 
         } catch (IOException ex_) {
             ex_.printStackTrace();
@@ -125,6 +127,18 @@ public class Controller implements Initializable {
             }
         });
     }
+
+    //Initializes the edit profile scene
+    private void initializeEditProfileView(){
+        profileController.getEditProfileButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                paneMap.get("editScene").toFront();
+            }
+        });
+
+    }
+
 
     //Initializes the activity view
     private void initializeActivityView() {
@@ -212,5 +226,7 @@ public class Controller implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+
 }
     
