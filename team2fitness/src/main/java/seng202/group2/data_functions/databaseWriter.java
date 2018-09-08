@@ -98,18 +98,21 @@ public class databaseWriter {
 
     }
 
-    public static ResultSet executeDBQuery(String queryStmt) {
-        ResultSet rSet = null;
-        try {
-            Statement dbStmt = dbConn.createStatement();
-            rSet = dbStmt.executeQuery(queryStmt);
+    public static ResultSet executeDBQuery(String queryStmt) throws SQLException{
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        Statement dbStmt = dbConn.createStatement();
+        ResultSet rSet = dbStmt.executeQuery(queryStmt);
 
-        }
         return rSet;
     }
+
+    public static void executeDBUpdate(String updateStmt) throws SQLException{
+
+        executeSQLStatement(updateStmt, dbConn);
+
+    }
+
+
 
 
 
