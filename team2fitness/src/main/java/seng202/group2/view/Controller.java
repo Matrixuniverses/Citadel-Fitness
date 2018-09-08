@@ -73,7 +73,9 @@ public class Controller implements Initializable {
         profileController.updateUserData(user);
     }
 
-    //Initialize All Parts of the GUI and resulting controllers
+    /**
+     * Initialises all parts of the GUI and controllers.
+     */
     private void initializeViews() {
         try {
 
@@ -119,7 +121,9 @@ public class Controller implements Initializable {
         }
     }
 
-    //Initializes the navbar
+    /**
+     * Initialises the nav bar.
+     */
     private void initializeNavBar() {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -128,7 +132,9 @@ public class Controller implements Initializable {
         });
     }
 
-    //Initializes the edit profile scene
+    /**
+     * Initialises the edit profile view.
+     */
     private void initializeEditProfileView(){
         profileController.getEditProfileButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -162,7 +168,9 @@ public class Controller implements Initializable {
     }
 
 
-    //Initializes the activity view
+    /**
+     * Initialises the activity view.
+     */
     private void initializeActivityView() {
         activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -173,7 +181,9 @@ public class Controller implements Initializable {
         });
     }
 
-    //Initializes the select file view
+    /**
+     * Initialises the select file view.
+     */
     private void initializeSelectFile() {
 
         ChoiceBox choiceBoxtype = addDataController.getChoiceBoxType();
@@ -203,6 +213,11 @@ public class Controller implements Initializable {
                 }
             }
         });
+
+        /**
+         * Creates an activity object with the data the user entered. Adds it to the user's activities list.
+         * If the user enters invalid information, an alert is opened with error message.
+         */
         addDataController.getButtonSubmitData().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -241,6 +256,11 @@ public class Controller implements Initializable {
         });
     }
 
+    /**
+     * Raises an alert panel when the user enters data incorrectly.
+     * @param header The message to be displayed in the alert's header
+     * @param content The message to be displayed as the alert's content
+     */
     private void raiseError(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error Dialog");

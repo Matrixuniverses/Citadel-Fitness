@@ -94,11 +94,6 @@ public class databaseWriter {
 
         }
 
-
-
-
-
-
         return success;
 
     }
@@ -120,8 +115,8 @@ public class databaseWriter {
 
     //for testing
 
-    /*
-    public static void main(String[] args) {
+
+    /*public static void main(String[] args) {
         try {
             connectToDB();
             boolean result = createDatabase();
@@ -136,8 +131,8 @@ public class databaseWriter {
             System.out.println(e.getMessage());
         }
 
-    }
-    */
+    }*/
+
 
 
 

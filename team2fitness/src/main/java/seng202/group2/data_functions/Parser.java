@@ -150,19 +150,20 @@ public class Parser {
         return activitiesRead;
     }
 }
-//
-//    public static void main(String[] args) {
-//        try{
-//            Parser testParser = new Parser("C:\\Users\\Sam Shankland\\IdeaProjects\\seng202group2\\team2fitness\\src\\main\\java\\seng202\\group2\\development_code\\data\\all.csv");
-//            ArrayList<Activity> test = testParser.getActivitiesRead();
-//
-//            for (Activity activity : test){
-//                System.out.println(activity.getActivityName());
-//                System.out.println(activity.getTotalDistance());
-//            }
-//        } catch (FileFormatException e){
-//            e.printStackTrace();
-//        }
-//
-//    }
-//}
+
+
+/*    public static void main(String[] args) {
+        try{
+            Parser testParser = new Parser("C:\\Users\\Sam Shankland\\IdeaProjects\\seng202group2\\team2fitness\\src\\main\\java\\seng202\\group2\\development_code\\data\\all.csv");
+            ArrayList<Activity> test = testParser.getActivitiesRead();
+
+            for (Activity activity : test){
+                System.out.println(activity.getActivityName());
+                System.out.println(activity.getTotalDistance());
+            }
+        } catch (FileFormatException e){
+            e.printStackTrace();
+        }
+
+    }
+}*/
