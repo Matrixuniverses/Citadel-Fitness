@@ -9,8 +9,16 @@ public class DataPoint {
     private double latitude;
     private double longitude;
     private double altitude;
-    private double distanceDelta;
+
+    // TODO - Get this working correctly (Parser needs modification)
+
+    private double distanceDelta;   // Geodetic distance
+    private double lengthDelta;     // Cartesian product, takes altitude into account
+
+    // END TODO
+
     private double timeDelta;
+    private double speedDelta;
 
     public double getDistanceDelta() {
         return distanceDelta;
