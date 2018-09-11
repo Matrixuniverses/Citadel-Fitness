@@ -15,7 +15,6 @@ public class Activity {
     private SimpleStringProperty activityType;
     private SimpleDoubleProperty totalTime;
     private SimpleDoubleProperty totalDistance;
-    private SimpleDateFormat startDate = new SimpleDateFormat("01/01/1998");
     private Date activityDate;
     private ArrayList<DataPoint> activityData = new ArrayList<DataPoint>();
     //Will add code functionality later

@@ -1,13 +1,12 @@
 package seng202.group2.data_functions;
+
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.sql.*;
 
 public class databaseWriter {
 
-
     private static String dbURL = "jdbc:sqlite:" + System.getProperty("user.dir") + "\\CitadelFitnessLocalDatabase.db";
-
     private static Connection dbConn = null;
 
 
@@ -22,23 +21,24 @@ public class databaseWriter {
             if (!dbConn.isClosed()) {
                 dbConn.close();
             }
-        }  
+        }
 
     }
 
     private static void executeSQLStatement(String sqlStmt, Connection dbConn) throws SQLException {
 
-            Statement newStmt = dbConn.createStatement();
-            newStmt.execute(sqlStmt);
+        Statement newStmt = dbConn.createStatement();
+        newStmt.execute(sqlStmt);
     }
 
 
     /**
      * Creates a new database for the application if it does not already exist. The database is stored in the project's
      * directory and consists of four tables: users, activities, datapoints and targets.
+     *
      * @return true if the method runs without encountering errors
      */
-    public static boolean createDatabase() throws SQLException{
+    public static boolean createDatabase() throws SQLException {
         boolean success = false;
         if (dbConn != null) {
             String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS users (\n"
@@ -81,7 +81,6 @@ public class databaseWriter {
                     + ");";
 
 
-
             executeSQLStatement(sqlCreateUserTable, dbConn);
             executeSQLStatement(sqlCreateActivityTable, dbConn);
             executeSQLStatement(sqlCreateDatapointTable, dbConn);
@@ -91,26 +90,23 @@ public class databaseWriter {
             success = true;
 
 
-
         }
 
         return success;
 
     }
 
-    public static ResultSet executeDBQuery(String queryStmt) {
-        ResultSet rSet = null;
-        try {
-            Statement dbStmt = dbConn.createStatement();
-            rSet = dbStmt.executeQuery(queryStmt);
+    public static ResultSet executeDBQuery(String queryStmt) throws SQLException {
+        Statement dbStmt = dbConn.createStatement();
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-
-        }
-        return rSet;
+        return dbStmt.executeQuery(queryStmt);
     }
 
+    public static void executeDBUpdate(String updateStmt) throws SQLException {
+
+        executeSQLStatement(updateStmt, dbConn);
+
+    }
 
 
     //for testing
@@ -132,8 +128,6 @@ public class databaseWriter {
         }
 
     }*/
-
-
 
 
 }
