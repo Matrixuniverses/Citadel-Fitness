@@ -28,6 +28,16 @@ public class Parser extends Thread {
      */
     public Parser(File file) throws FileFormatException {
         try {
+            String extension = "";
+            int extensionLoc = file.getName().lastIndexOf('.');
+            if (extensionLoc > 1 ) {
+                extension = file.getName().substring(extensionLoc + 1);
+            }
+
+            if (!extension.equals("csv")) {
+                throw new FileFormatException(null, "Incorrect file type");
+            }
+
             FileReader readFile = new FileReader(file);
             CSVReader readCSV = new CSVReader(readFile);
 
