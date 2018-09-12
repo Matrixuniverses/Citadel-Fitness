@@ -67,6 +67,8 @@ public class Parser {
         String[] line;
 
         while ((line = readCSV.readNext()) != null) {
+            readLine(line);
+
             int lineLen = line.length;
 
             if (lineLen == 0) {
@@ -88,7 +90,7 @@ public class Parser {
             Date pointDate = checkDateTimeFormat(line[0], line[1]);
             if (pointDate == null) {
                 malformedLines.add(line);
-                throw new FileFormatException(line, "Incorrect date format");
+                throw new FileFormatException(line, "Incorrect date/ time format");
             }
 
             try {
@@ -103,12 +105,11 @@ public class Parser {
                 throw new FileFormatException(line, "Invalid numerical input");
             }
         }
-
     }
+
 
     /**
      * Checks, given two string representing date and time, that the passed strings are of the correct CSV format
-     *
      * @param date Textual date
      * @param time Textual time
      * @return DateFormat object representing the current DateTime of the passed strings
@@ -172,7 +173,7 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/main/java/seng202/group2/development_code/data/all.csv"));
+            Parser testParser = new Parser(new File("team2fitness/src/main/java/seng202/group2/development_code/data/broken1.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             for (Activity activity : test) {
