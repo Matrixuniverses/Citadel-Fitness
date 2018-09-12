@@ -52,14 +52,13 @@ public class Parser {
     }
 
 
-    private void readLine(String line[]) {
+    public void readLine(String line[]) {
 
     }
 
 
     /**
      * Reads each line and creates an activity, filled with raw data
-     *
      * @param readCSV Object containing CSV file read from disk
      * @throws IOException         If unreadable file on disk
      * @throws FileFormatException If invalid line is encountered, allows controller to report line to user
@@ -71,7 +70,7 @@ public class Parser {
             int lineLen = line.length;
 
             if (lineLen == 0) {
-                // Blank line
+                // Blank line detection
                 continue;
             } else if (lineLen != 6) {
                 throw new FileFormatException(line, "Line contains unexpected data fields");
@@ -173,7 +172,7 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("seng202group2/team2fitness/src/main/java/seng202/group2/development_code/data/malformedData.csv"));
+            Parser testParser = new Parser(new File("team2fitness/src/main/java/seng202/group2/development_code/data/all.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             for (Activity activity : test) {
@@ -181,6 +180,7 @@ public class Parser {
                 System.out.println(activity.getTotalDistance());
             }
         } catch (FileFormatException e) {
+            System.out.println(new File(".").getAbsolutePath());
             e.printStackTrace();
         }
 

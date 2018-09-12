@@ -1,7 +1,5 @@
 package seng202.group2.data_functions;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.sql.*;
 
 public class databaseWriter {
