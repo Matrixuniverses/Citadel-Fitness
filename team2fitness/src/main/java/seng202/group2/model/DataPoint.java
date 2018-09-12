@@ -20,6 +20,24 @@ public class DataPoint {
     private double timeDelta;
     private double speedDelta;
 
+    /**
+     *
+     * @param date
+     * @param heartRate
+     * @param latitude
+     * @param longitude
+     * @param altitude
+     */
+    public DataPoint(Date date, int heartRate, double latitude, double longitude, double altitude) {
+        this.date = date;
+        this.heartRate = heartRate;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.altitude = altitude;
+    }
+
+
+
     public double getDistanceDelta() {
         return distanceDelta;
     }
@@ -36,37 +54,45 @@ public class DataPoint {
         this.timeDelta = timeDelta;
     }
 
-    public DataPoint(Date date, int heartRate, double latitude, double longitude, double altitude){
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getHeartRate() {
+        return heartRate;
+    }
+
+    public void setHeartRate(int heartRate) {
         this.heartRate = heartRate;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public double getAltitude() {
+        return altitude;
+    }
+
+    public void setAltitude(double altitude) {
         this.altitude = altitude;
     }
-
-    public DataPoint(Boolean malformed) {
-
-    }
-
-    public Date getDate() { return date; }
-
-    public void setDate(Date date) { this.date = date; }
-
-    public int getHeartRate() { return heartRate; }
-
-    public void setHeartRate(int heartRate) { this.heartRate = heartRate; }
-
-    public double getLatitude() { return latitude; }
-
-    public void setLatitude(double latitude) { this.latitude = latitude; }
-
-    public double getLongitude() { return longitude; }
-
-    public void setLongitude(double longitude) { this.longitude = longitude; }
-
-    public double getAltitude() { return altitude; }
-
-    public void setAltitude(double altitude) { this.altitude = altitude; }
 
     public int getId() {
         return id;

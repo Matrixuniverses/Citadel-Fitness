@@ -68,9 +68,9 @@ public class Controller implements Initializable {
         initializeEditProfileView();
 
 
-        user = TestDataGenerator.createUser1();
-        activityViewController.updateUserData(user);
-        profileController.updateUserData(user);
+        //user = TestDataGenerator.createUser1();
+        //activityViewController.updateUserData(user);
+        //profileController.updateUserData(user);
     }
 
     /**

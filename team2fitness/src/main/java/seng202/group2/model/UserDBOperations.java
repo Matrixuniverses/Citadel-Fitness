@@ -9,9 +9,11 @@ import java.sql.SQLException;
 
 public class UserDBOperations {
 
+    //TODO - Implement index structure to remove the loop
+
 
     /**
-     * Searches the database for a user in the table users using an inputted user_id and returns the User if the
+     * Searches the database for a user in the table users using a given user_id and returns the User if the
      * user has be found by the query in the database.
      * @param user_id the id of the user that will be searched for.
      * @return the User associated with the user id from the database if the user_id exists in the database.
@@ -24,6 +26,8 @@ public class UserDBOperations {
         ResultSet queryResult = databaseWriter.executeDBQuery(sqlQuery);
         databaseWriter.disconnectFromDB();
         User retrievedUser = null;
+
+        // TODO - Replace this with an index structure @Chris
         if (queryResult.next()) {
             int id = queryResult.getInt("user_id");
             String name = queryResult.getString("name");

@@ -16,13 +16,18 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 // TODO - Need to get multithreading working
-public class Parser extends Thread {
+
+/**
+ * Parser designed to read a CSV file for activity data
+ */
+public class Parser {
     private ArrayList<String[]> malformedLines = new ArrayList<String[]>();
     private ArrayList<Activity> activitiesRead = new ArrayList<Activity>();
     private Activity currentActivity;
 
     /**
      * Creates a new parser object and reads location and fitness information from CSV file
+     *
      * @param file Given file object to read data from
      * @throws FileFormatException If any error occurs in reading or parsing
      */
@@ -33,6 +38,7 @@ public class Parser extends Thread {
 
             readLines(readCSV);
             generateMetrics();
+            databaseWrite();
 
         } catch (IOException e) {
             if (e instanceof FileNotFoundException) {
@@ -46,26 +52,38 @@ public class Parser extends Thread {
     }
 
 
+    private void readLine(String line[]) {
+
+    }
+
+
     /**
      * Reads each line and creates an activity, filled with raw data
+     *
      * @param readCSV Object containing CSV file read from disk
-     * @throws IOException If unreadable file on disk
+     * @throws IOException         If unreadable file on disk
      * @throws FileFormatException If invalid line is encountered, allows controller to report line to user
      */
     private void readLines(CSVReader readCSV) throws IOException, FileFormatException {
         String[] line;
 
         while ((line = readCSV.readNext()) != null) {
+            int lineLen = line.length;
 
-            if (line[0].equals("#start") && !line[1].equals("")) {
-                currentActivity = new Activity(line[1]);
-                activitiesRead.add(currentActivity);
-                line = readCSV.readNext();
+            if (lineLen == 0) {
+                // Blank line
+                continue;
+            } else if (lineLen != 6) {
+                throw new FileFormatException(line, "Line contains unexpected data fields");
+            }
 
-            } else if (line[0].equals("#start")) {
+            if (line[0].equals("#start")) {
                 currentActivity = new Activity("Unnamed");
+                if (!line[1].equals("")) {
+                    currentActivity.setActivityName(line[1]);
+                }
                 activitiesRead.add(currentActivity);
-                line = readCSV.readNext();
+                continue;
             }
 
             Date pointDate = checkDateTimeFormat(line[0], line[1]);
@@ -107,27 +125,6 @@ public class Parser extends Thread {
     }
 
     /**
-     * Calculates the Haversine distance between two given WSG84 points
-     *
-     * @param latitude1  Latitude of first point
-     * @param latitude2  Latitude of second point
-     * @param longitude1 Longitude of first point
-     * @param longitude2 Longitude of second point
-     * @return The distance between the two given points in meters
-     */
-    private double haversineDistance(double latitude1, double latitude2, double longitude1, double longitude2) {
-        final double radius = 6.3781 * Math.pow(10, 6);
-
-        double deltaLat = Math.toRadians(latitude2 - latitude1);
-        double deltaLon = Math.toRadians(longitude2 - longitude1);
-
-        double hav = Math.pow(Math.sin(deltaLat / 2), 2) + Math.pow(Math.sin(deltaLon / 2), 2) * Math.cos(latitude1) * Math.cos(latitude2);
-        double invHav = 2 * Math.asin(Math.sqrt(hav));
-
-        return invHav * radius;
-    }
-
-    /**
      * Creates time, distance and speed metrics for each data point and activity
      */
     private void generateMetrics() {
@@ -142,7 +139,7 @@ public class Parser extends Thread {
                     double lon1 = points.get(i - 1).getLongitude();
                     double lat2 = points.get(i).getLatitude();
                     double lon2 = points.get(i).getLongitude();
-                    double dist = haversineDistance(lat1, lat2, lon1, lon2);
+                    double dist = DataAnalyzer.calcDistance(lat1, lon1, lat2, lon2);
 
                     Date time1 = points.get(i - 1).getDate();
                     Date time2 = points.get(i).getDate();
@@ -164,25 +161,28 @@ public class Parser extends Thread {
         }
     }
 
+    private void databaseWrite() {
+
+    }
+
 
     public ArrayList<Activity> getActivitiesRead() {
         return activitiesRead;
     }
-}
 
 
-/*    public static void main(String[] args) {
-        try{
-            Parser testParser = new Parser("C:\\Users\\Sam Shankland\\IdeaProjects\\seng202group2\\team2fitness\\src\\main\\java\\seng202\\group2\\development_code\\data\\all.csv");
+    public static void main(String[] args) {
+        try {
+            Parser testParser = new Parser(new File("seng202group2/team2fitness/src/main/java/seng202/group2/development_code/data/malformedData.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
-            for (Activity activity : test){
+            for (Activity activity : test) {
                 System.out.println(activity.getActivityName());
                 System.out.println(activity.getTotalDistance());
             }
-        } catch (FileFormatException e){
+        } catch (FileFormatException e) {
             e.printStackTrace();
         }
 
     }
-}*/
+}
