@@ -3,10 +3,8 @@ package seng202.group2.data_functions;
 import java.sql.*;
 
 public class databaseWriter {
-
-    private static String dbURL = "jdbc:sqlite:" + System.getProperty("user.dir") + "\\CitadelFitnessLocalDatabase.db";
+    private static String dbURL = "jdbc:sqlite:" + System.getProperty("user.home") + "/CitadelFitnessLocalDatabase.db";
     private static Connection dbConn = null;
-
 
     public static void connectToDB() throws SQLException {
         dbConn = DriverManager.getConnection(dbURL);
@@ -14,7 +12,6 @@ public class databaseWriter {
     }
 
     public static void disconnectFromDB() throws SQLException {
-
         if (dbConn != null) {
             if (!dbConn.isClosed()) {
                 dbConn.close();
