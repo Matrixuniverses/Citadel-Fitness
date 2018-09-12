@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -33,6 +34,8 @@ public class Controller implements Initializable {
     private StackPane mainContainer;
     @FXML
     private AnchorPane navBar;
+    @FXML
+    private AnchorPane appContainer;
 
     //Initialize Panes to be added
     private AnchorPane mapViewScene;
@@ -44,7 +47,7 @@ public class Controller implements Initializable {
     private AnchorPane exitScene;
     private AnchorPane activityView;
     private AnchorPane editScene;
-
+    private AnchorPane loginScene;
     //Create Map of Panes for easy swapping
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
@@ -56,21 +59,24 @@ public class Controller implements Initializable {
     private ProfileController profileController;
     private AddDataController addDataController;
     private EditProfileController editProfileController;
+    private LoginController loginSceneController;
 
-    private User user;
+    private ArrayList<User> users = new ArrayList<User>();
+    private User currentUser;
 
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
+        initializeLoginScene();
         initializeNavBar();
         initializeSelectFile();
         initializeActivityView();
         initializeEditProfileView();
 
 
-        //user = TestDataGenerator.createUser1();
-        //activityViewController.updateUserData(user);
-        //profileController.updateUserData(user);
+        currentUser = TestDataGenerator.createUser1();
+        activityViewController.updateUserData(currentUser);
+        profileController.updateUserData(currentUser);
     }
 
     /**
@@ -80,6 +86,11 @@ public class Controller implements Initializable {
         try {
 
             FXMLLoader loader;
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLLogin.fxml"));
+            loginScene = loader.load();
+            loginSceneController = loader.getController();
+            appContainer.getChildren().add(loginScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityView.fxml"));
             activityView = loader.load();
@@ -116,9 +127,33 @@ public class Controller implements Initializable {
             mainContainer.getChildren().addAll(activityView, mapViewScene, addDataScene, targetScene, viewGraphScene,
                     editScene, profileView);
 
+            loginScene.toFront();
+
         } catch (IOException ex_) {
             ex_.printStackTrace();
         }
+    }
+
+    /**
+     * Initialises LoginScene.
+     */
+    private void initializeLoginScene(){
+        loginSceneController.getNewUserButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                TextInputDialog dialog = new TextInputDialog("name");
+                dialog.setTitle("Create New User");
+                dialog.setHeaderText("Please Enter Your Details");
+                dialog.setContentText("Name:");
+
+                // Traditional way to get the response value.
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()){
+                    System.out.println("Your name: " + result.get());
+                }
+            }
+        });
+
     }
 
     /**
@@ -140,20 +175,20 @@ public class Controller implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 paneMap.get("editScene").toFront();
-                editProfileController.getfNameField().setText(user.getName());
-                editProfileController.getlNameField().setText(user.getName());
+                editProfileController.getfNameField().setText(currentUser.getName());
+                editProfileController.getlNameField().setText(currentUser.getName());
                 //TODO: seperate first and last name
-                editProfileController.getHeightField().setText(String.valueOf(user.getHeight()));
-                editProfileController.getDobField().setText(String.valueOf(user.getAge()));
-                editProfileController.getWeightField().setText(String.valueOf(user.getWeight()));
+                editProfileController.getHeightField().setText(String.valueOf(currentUser.getHeight()));
+                editProfileController.getDobField().setText(String.valueOf(currentUser.getAge()));
+                editProfileController.getWeightField().setText(String.valueOf(currentUser.getWeight()));
                 editProfileController.getSaveChangesButton().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         try{
-                            user.setName(editProfileController.getfNameField().getText());
-                            user.setHeight(Double.valueOf(editProfileController.getHeightField().getText()));
-                            user.setAge(Integer.valueOf(editProfileController.getDobField().getText()));
-                            user.setWeight(Double.valueOf(editProfileController.getWeightField().getText()));
+                            currentUser.setName(editProfileController.getfNameField().getText());
+                            currentUser.setHeight(Double.valueOf(editProfileController.getHeightField().getText()));
+                            currentUser.setAge(Integer.valueOf(editProfileController.getDobField().getText()));
+                            currentUser.setWeight(Double.valueOf(editProfileController.getWeightField().getText()));
                             paneMap.get("editScene").toBack();
                         }catch (Exception f) {
                             System.out.println(f);
@@ -176,7 +211,7 @@ public class Controller implements Initializable {
             public void handle(ActionEvent event) {
                 ObservableList<Activity> activityList = activityViewController.getActivityTable().getSelectionModel().getSelectedItems();
                 ArrayList<Activity> rows = new ArrayList<>(activityList);
-                rows.forEach(row -> user.getActivityList().remove(row));
+                rows.forEach(row -> currentUser.getActivityList().remove(row));
             }
         });
     }
@@ -208,7 +243,7 @@ public class Controller implements Initializable {
                         f.printStackTrace();
                     }
 
-                    user.getActivityList().addAll(parser.getActivitiesRead());
+                    currentUser.getActivityList().addAll(parser.getActivitiesRead());
 
                 }
             }
@@ -235,7 +270,7 @@ public class Controller implements Initializable {
                     } else {
                         Date date = Date.from(addDataController.getDateInput().getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                         Activity userActivity = new Activity(name, date, type, time, distance);
-                        user.getActivityList().add(userActivity);
+                        currentUser.getActivityList().add(userActivity);
 
                         //Clear fields
                         addDataController.getTextFieldName().setText(null);
