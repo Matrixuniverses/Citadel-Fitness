@@ -1,5 +1,6 @@
 package seng202.group2;
-import junit.framework.*;
+
+import junit.framework.TestCase;
 
 public class TestTest extends TestCase {
     int value1 = -5;
