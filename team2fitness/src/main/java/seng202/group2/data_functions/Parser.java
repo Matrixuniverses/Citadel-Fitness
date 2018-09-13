@@ -36,7 +36,7 @@ public class Parser {
                 throw new IllegalArgumentException("Passed file is null");
             } else {
                 String name = file.getName();
-                String extension = name.substring(name.lastIndexOf("."));
+                String extension = name.substring(name.lastIndexOf(".") + 1);
                 if (!extension.equals("csv")) {
                     throw new FileFormatException(null, "Incorrect file format");
                 }
