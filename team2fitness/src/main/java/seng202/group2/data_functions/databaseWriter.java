@@ -10,6 +10,9 @@ public class databaseWriter {
         dbConn = DriverManager.getConnection(dbURL);
 
     }
+    public static Connection getDbConnection() {
+        return dbConn;
+    }
 
     public static void disconnectFromDB() throws SQLException {
         if (dbConn != null) {
@@ -36,24 +39,26 @@ public class databaseWriter {
     public static boolean createDatabase() throws SQLException {
         boolean success = false;
         if (dbConn != null) {
-            String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS users (\n"
-                    + "user_id integer PRIMARY KEY, \n"
+            String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS Users (\n"
+                    + "user_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "name varchar(20) NOT NULL, \n"
                     + "age integer NOT NULL, \n"
                     + "height real NOT NULL, \n"
                     + "weight real NOT NULL \n"
                     + ");";
 
-            String sqlCreateActivityTable = "CREATE TABLE IF NOT EXISTS activities (\n"
-                    + "activity_id integer PRIMARY KEY, \n"
+            String sqlCreateActivityTable = "CREATE TABLE IF NOT EXISTS Activities (\n"
+                    + "activity_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "user_id integer NOT NULL, \n"
                     + "name varchar(100) NOT NULL, \n"
                     + "type varchar(20) NOT NULL, \n"
+                    + "total_distance real NOT NULL,"
+                    + "total_time real NOT NULL,"
                     + "FOREIGN KEY(user_id) REFERENCES users(user_id)"
                     + ");";
 
-            String sqlCreateDatapointTable = "CREATE TABLE IF NOT EXISTS datapoints (\n"
-                    + "dp_id integer PRIMARY KEY, \n"
+            String sqlCreateDatapointTable = "CREATE TABLE IF NOT EXISTS Datapoints (\n"
+                    + "dp_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "activity_id integer NOT NULL, \n"
                     + "dp_date datetime NOT NULL, \n"
                     + "heart_rate integer NOT NULL, \n"
@@ -63,8 +68,8 @@ public class databaseWriter {
                     + "FOREIGN KEY(activity_id) REFERENCES activities(activity_id)"
                     + ");";
 
-            String sqlCreateTargetTable = "CREATE TABLE IF NOT EXISTS targets (\n"
-                    + "target_id integer PRIMARY KEY, \n"
+            String sqlCreateTargetTable = "CREATE TABLE IF NOT EXISTS Targets (\n"
+                    + "target_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "user_id integer NOT NULL, \n"
                     + "name varchar(100) NOT NULL, \n"
                     + "date_achieved date, \n"
@@ -102,6 +107,7 @@ public class databaseWriter {
         executeSQLStatement(updateStmt, dbConn);
 
     }
+
 
 
     //for testing

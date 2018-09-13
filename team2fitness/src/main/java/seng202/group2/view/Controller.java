@@ -48,6 +48,7 @@ public class Controller implements Initializable {
     private AnchorPane activityView;
     private AnchorPane editScene;
     private AnchorPane loginScene;
+    private AnchorPane createProfileScene;
     //Create Map of Panes for easy swapping
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
@@ -60,23 +61,28 @@ public class Controller implements Initializable {
     private AddDataController addDataController;
     private EditProfileController editProfileController;
     private LoginController loginSceneController;
+    private CreateProfileController createProfileController;
 
-    private ArrayList<User> users = new ArrayList<User>();
+    private ArrayList<User> userList = new ArrayList<User>(6);
     private User currentUser;
+
+
+
 
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
         initializeLoginScene();
+        initializeCreateProfileScene();
         initializeNavBar();
         initializeSelectFile();
         initializeActivityView();
         initializeEditProfileView();
 
 
-        currentUser = TestDataGenerator.createUser1();
-        activityViewController.updateUserData(currentUser);
-        profileController.updateUserData(currentUser);
+        //currentUser = TestDataGenerator.createUser1();
+//        activityViewController.updateUserData(currentUser);
+//        profileController.updateUserData(currentUser);
     }
 
     /**
@@ -91,6 +97,11 @@ public class Controller implements Initializable {
             loginScene = loader.load();
             loginSceneController = loader.getController();
             appContainer.getChildren().add(loginScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLCreateProfile.fxml"));
+            createProfileScene = loader.load();
+            createProfileController = loader.getController();
+            appContainer.getChildren().add(createProfileScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityView.fxml"));
             activityView = loader.load();
@@ -124,6 +135,8 @@ public class Controller implements Initializable {
             profileController = loader.getController();
             paneMap.put("summaryView", profileView);
 
+            paneMap.put("exit", loginScene);
+
             mainContainer.getChildren().addAll(activityView, mapViewScene, addDataScene, targetScene, viewGraphScene,
                     editScene, profileView);
 
@@ -141,16 +154,63 @@ public class Controller implements Initializable {
         loginSceneController.getNewUserButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                TextInputDialog dialog = new TextInputDialog("name");
-                dialog.setTitle("Create New User");
-                dialog.setHeaderText("Please Enter Your Details");
-                dialog.setContentText("Name:");
+                createProfileScene.toFront();
 
-                // Traditional way to get the response value.
-                Optional<String> result = dialog.showAndWait();
-                if (result.isPresent()){
-                    System.out.println("Your name: " + result.get());
-                }
+            }
+        });
+        loginSceneController.getUser1Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(0);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+
+        loginSceneController.getUser2Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(1);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser3Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(2);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser4Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(3);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser5Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(4);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser6Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(5);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
             }
         });
 
@@ -166,6 +226,45 @@ public class Controller implements Initializable {
             }
         });
     }
+
+    private void initializeCreateProfileScene(){
+        createProfileController.getCreateButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try{
+                    int id = loginSceneController.getCount();
+                    String name = createProfileController.getfNameField().getText();
+                    Integer age = Integer.valueOf(createProfileController.getDobField().getText());
+                    Double height = Double.valueOf(createProfileController.getHeightField().getText());
+                    Float weight = Float.valueOf(createProfileController.getWeightField().getText());
+                    User user = new User(id, name, age, height, weight);
+                    userList.add(user);
+
+
+
+                } catch (NumberFormatException e) {
+                    raiseError("Error dialog", "Time and distance must be numbers");
+                } catch (InputMismatchException e) {
+                    raiseError("Error dialog", "Must select a date");
+                } catch (IllegalArgumentException e) {
+                    raiseError("Error dialog", "Activity must be named");
+
+                }
+                loginSceneController.showButton();
+                createProfileScene.toBack();
+            }
+        });
+
+        createProfileController.getCancel().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                createProfileScene.toBack();
+            }
+        });
+    }
+
+
+
 
     /**
      * Initialises the edit profile view.
