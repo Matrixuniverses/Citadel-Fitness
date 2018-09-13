@@ -1,15 +1,28 @@
 package seng202.group2.data_functions;
 
+import org.sqlite.SQLiteConfig;
+
 import java.sql.*;
 
 public class databaseWriter {
     private static String dbURL = "jdbc:sqlite:" + System.getProperty("user.home") + "/CitadelFitnessLocalDatabase.db";
+    private static final String driver = "org.sqlite.JDBC";
     private static Connection dbConn = null;
 
     public static void connectToDB() throws SQLException {
-        dbConn = DriverManager.getConnection(dbURL);
+        try {
+            Class.forName(driver);
+            SQLiteConfig sqlConfig = new SQLiteConfig();
+            sqlConfig.enforceForeignKeys(true);
+            dbConn = DriverManager.getConnection(dbURL, sqlConfig.toProperties());
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
+
+
     public static Connection getDbConnection() {
         return dbConn;
     }
@@ -37,6 +50,7 @@ public class databaseWriter {
      * @return true if the method runs without encountering errors
      */
     public static boolean createDatabase() throws SQLException {
+        connectToDB();
         boolean success = false;
         if (dbConn != null) {
             String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS Users (\n"
@@ -54,7 +68,7 @@ public class databaseWriter {
                     + "type varchar(20) NOT NULL, \n"
                     + "total_distance real NOT NULL,"
                     + "total_time real NOT NULL,"
-                    + "FOREIGN KEY(user_id) REFERENCES users(user_id)"
+                    + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE"
                     + ");";
 
             String sqlCreateDatapointTable = "CREATE TABLE IF NOT EXISTS Datapoints (\n"
@@ -65,7 +79,7 @@ public class databaseWriter {
                     + "latitude real NOT NULL, \n"
                     + "longitude real NOT NULL, \n"
                     + "altitude real NOT NULL, \n"
-                    + "FOREIGN KEY(activity_id) REFERENCES activities(activity_id)"
+                    + "FOREIGN KEY(activity_id) REFERENCES activities(activity_id) ON DELETE CASCADE"
                     + ");";
 
             String sqlCreateTargetTable = "CREATE TABLE IF NOT EXISTS Targets (\n"
@@ -77,7 +91,7 @@ public class databaseWriter {
                     + "initial_value real NOT NULL, \n"
                     + "current_value real NOT NULL, \n"
                     + "final_value real NOT NULL, \n"
-                    + "FOREIGN KEY(user_id) REFERENCES users(user_id) \n"
+                    + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE\n"
                     + ");";
 
 
@@ -91,6 +105,7 @@ public class databaseWriter {
 
 
         }
+        disconnectFromDB();
 
         return success;
 
@@ -110,25 +125,6 @@ public class databaseWriter {
 
 
 
-    //for testing
-
-
-    /*public static void main(String[] args) {
-        try {
-            connectToDB();
-            boolean result = createDatabase();
-            if (result) {
-                System.out.println("Database created successfully!");
-                disconnectFromDB();
-            } else {
-                System.out.println("Failed to create Database!");
-                disconnectFromDB();
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }*/
 
 
 }

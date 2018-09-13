@@ -21,7 +21,9 @@ public class UserDBOperations {
      * @return the User associated with the user id from the database if the user_id exists in the database.
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
-    public static User getUserFromRS(String user_id) throws SQLException {
+    public static User getUserFromRS(int user_id) throws SQLException {
+
+        databaseWriter.connectToDB();
 
         String sqlQuery = "SELECT * FROM Users WHERE user_id = "+ user_id + ";";
 
@@ -36,12 +38,13 @@ public class UserDBOperations {
             String name = queryResult.getString("name");
             int age = queryResult.getInt("age");
             double height = queryResult.getDouble("height");
-            float weight = queryResult.getFloat("weight");
-            retrievedUser = new User(id, name, age, height, weight);
-            retrievedUser.setId(id);
+            double weight = queryResult.getDouble("weight");
+            retrievedUser = new User(id,name, age, height, weight);
+
 
 
         }
+        databaseWriter.disconnectFromDB();
 
 
         return retrievedUser;
@@ -55,6 +58,7 @@ public class UserDBOperations {
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
     public static ObservableList<User> getAllUsers() throws SQLException {
+        databaseWriter.connectToDB();
 
         String sqlQuery = "SELECT * from Users";
 
@@ -68,11 +72,12 @@ public class UserDBOperations {
             String name = queryResult.getString("name");
             int age = queryResult.getInt("age");
             double height = queryResult.getDouble("height");
-            float weight = queryResult.getFloat("weight");
-            User retrievedUser = new User(id, name, age, height, weight);
-            retrievedUser.setId(id);
+            double weight = queryResult.getDouble("weight");
+            User retrievedUser = new User(id,name, age, height, weight);
+
             retrievedUsers.add(retrievedUser);
         }
+        databaseWriter.disconnectFromDB();
 
         return retrievedUsers;
 
@@ -83,39 +88,62 @@ public class UserDBOperations {
 
     /**
      * Inserts a new user into the users table in the database.
-     * @param userName the name of the user as a String.
-     * @param userAge the age of the user as an Integer.
-     * @param userHeight the height of the user in meters as a double.
-     * @param userWeight the weight of the user in kg as a floating point value.
+     *
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
-    public static void insertNewUser(String userName, int userAge, double userHeight, float userWeight) throws SQLException {
+    public static void insertNewUser(User user) throws SQLException {
+        databaseWriter.connectToDB();
         String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight) VALUES(?,?,?,?)";
-        try {
 
+        Connection dbConn = databaseWriter.getDbConnection();
+
+        PreparedStatement pInsertStmt = dbConn.prepareStatement(sqlInsertStmt);
+        pInsertStmt.setString(1, user.getName());
+        pInsertStmt.setInt(2, user.getAge());
+        pInsertStmt.setDouble(3,  user.getHeight());
+        pInsertStmt.setDouble(4, user.getWeight());
+        pInsertStmt.executeUpdate();
+        databaseWriter.disconnectFromDB();
+
+
+
+
+    }
+
+    public static boolean updateExistingUser(User user) throws SQLException{
+
+        String sqlUpdateStmt = "UPDATE Users SET name = ?, age = ?, height = ?, weight = ? WHERE user_id = ?";
+        if (getUserFromRS(user.getId()) != null) {
+            databaseWriter.connectToDB();
             Connection dbConn = databaseWriter.getDbConnection();
-            PreparedStatement pInsertStmt = dbConn.prepareStatement(sqlInsertStmt);
-            pInsertStmt.setString(1, userName);
-            pInsertStmt.setInt(2, userAge);
-            pInsertStmt.setDouble(3, userHeight);
-            pInsertStmt.setFloat(4, userWeight);
-            pInsertStmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlUpdateStmt);
+            pUpdateStatement.setString(1, user.getName());
+            pUpdateStatement.setInt(2, user.getAge());
+            pUpdateStatement.setDouble(3, user.getHeight());
+            pUpdateStatement.setDouble(4, user.getWeight());
+            pUpdateStatement.setInt(5, user.getId());
+            pUpdateStatement.executeUpdate();
+            databaseWriter.disconnectFromDB();
+            return true;
+        } else {
+
+            return false;
         }
 
 
     }
 
+
     public static boolean deleteExistingUser(int userId) throws SQLException {
+        databaseWriter.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Users WHERE user_id = ?";
         Connection dbConn = databaseWriter.getDbConnection();
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, userId);
         pDeleteStmt.executeUpdate();
-        if (getUserFromRS(Integer.toString(userId)) == null) {
+        databaseWriter.disconnectFromDB();
+        if (getUserFromRS(userId) == null) {
             return true;
         } else {
             return false;
@@ -124,16 +152,64 @@ public class UserDBOperations {
     }
 
 
+
+
+
+
+    //Function for manually testing UserDBOperations.
+    //Uncomment this method to test functionality
+    //Creates DB
+    //Inserts 5 users into the Users Table
+    //Changes user with id 2's name to Bob
+    //Prints out User 3's details (id, name and bmi)
+    //Deletes user 3 and displays the results
+    //Inserts another user called Jimmy and displays the results
     /*
     public static void main(String args[]) {
         try {
-            databaseWriter.connectToDB();
+
             databaseWriter.createDatabase();
-            System.out.println(deleteExistingUser(5));
-            //insertNewUser("Test5", 18, 1.75, 76);
-            //User user3 = getUserFromRS("3");
-            //System.out.println(user3.getId() + " " + user3.getName());
-            /*ObservableList<User> retrievedUsers = getAllUsers();
+            User testUser = new User(0,"Test0", 17, 1.8, 75);
+            for (int i = 1; i < 6; i++) {
+                testUser.setName(testUser.getName().substring(0, testUser.getName().length() - 1) + Integer.toString(i));
+                insertNewUser(testUser);
+            }
+            User editedUser = getUserFromRS(2);
+            editedUser.setName("Bob");
+            System.out.println("User has been updated: " + updateExistingUser(editedUser));
+
+
+
+
+            ObservableList<User> retrievedUsers = getAllUsers();
+            if (retrievedUsers != null) {
+                for (User user : retrievedUsers) {
+                    System.out.println(user.getId() + " " + user.getName());
+
+                }
+            }
+            System.out.println("");
+            User user3 = getUserFromRS(3);
+            if (user3 != null) {
+                System.out.println(user3.getId() + " name =" + user3.getName() + ", bmi = " + user3.getBmi());
+                System.out.println(deleteExistingUser(3));
+            }
+
+            System.out.println("");
+
+            retrievedUsers = getAllUsers();
+            if (retrievedUsers != null) {
+                for (User user : retrievedUsers) {
+                    System.out.println(user.getId() + " " + user.getName());
+
+                }
+            }
+            System.out.println("");
+            User insertedUser = new User(0,"Jimmy", 18, 1.6, 65);
+            insertNewUser(insertedUser);
+            System.out.println("");
+            System.out.println("After inserting Jimmy:");
+            retrievedUsers = getAllUsers();
             if (retrievedUsers != null) {
                 for (User user : retrievedUsers) {
                     System.out.println(user.getId() + " " + user.getName());
@@ -141,15 +217,16 @@ public class UserDBOperations {
                 }
             }
 
-            databaseWriter.disconnectFromDB();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
 
         }
 
 
-    }
-    */
+    }*/
+
 
 
 }

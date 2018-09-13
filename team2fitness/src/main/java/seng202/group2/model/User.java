@@ -25,7 +25,7 @@ public class User {
 
 
 
-    public User(int id, String name, int age, double height, float weight){
+    public User(int id, String name, int age, double height, double weight){
         this.id = id;
         this.name = new SimpleStringProperty(name);
         this.age = new SimpleIntegerProperty(age);
