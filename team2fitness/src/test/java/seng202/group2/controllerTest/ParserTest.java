@@ -24,7 +24,6 @@ public class ParserTest {
             assertEquals("Run around the block", test.get(0).getActivityName());
 
         } catch (Exception e) {
-            e.printStackTrace();
             fail("Should not throw exception.");
         }
     }
@@ -78,6 +77,7 @@ public class ParserTest {
             distance += DataAnalyzer.calcDistance(30.247105, -97.821064, 30.247719, -97.820641);
             distance += DataAnalyzer.calcDistance(30.247719, -97.820641, 30.248482, -97.820708);
             distance += DataAnalyzer.calcDistance(30.248482, -97.820708, 30.24915, -97.820722);
+
             ArrayList<Activity> test = testParser.getActivitiesRead();
             assertEquals(distance, test.get(0).getTotalDistance());
         } catch (Exception e) {
