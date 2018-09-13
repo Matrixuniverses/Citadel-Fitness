@@ -21,19 +21,20 @@ import java.util.concurrent.TimeUnit;
  * Parser designed to read a CSV file for activity data
  */
 public class Parser {
-    private ArrayList<String[]> malformedLines = new ArrayList<String[]>();
-    private ArrayList<Activity> activitiesRead = new ArrayList<Activity>();
+    private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
+    private ArrayList<Activity> activitiesRead = new ArrayList<>();
+
 
     /**
      * Creates a new parser object and reads location and fitness information from CSV file
      *
      * @param file Given file object to read data from
-     * @throws FileFormatException If any error occurs in reading or parsing
+     * @throws FileFormatException If the passed file is not valid for reading
      */
     public Parser(File file) throws FileFormatException {
         try {
             if (file == null) {
-                throw new IllegalArgumentException("Passed file is null");
+                throw new FileFormatException("File is null");
             }
 
             FileReader readFile = new FileReader(file);
@@ -43,7 +44,7 @@ public class Parser {
             String extension = name.substring(name.lastIndexOf(".") + 1);
 
             if (!extension.equals("csv")) {
-                throw new FileFormatException(null, "Incorrect file format");
+                throw new FileFormatException("Incorrect file format");
             }
 
             readLines(readCSV);
@@ -51,24 +52,32 @@ public class Parser {
             databaseWrite();
 
         } catch (FileNotFoundException e) {
-            throw new FileFormatException(null, "File not found");
+            throw new FileFormatException("File not found");
         } catch (IOException e) {
-            throw new FileFormatException(null, "Unreadable file");
+            throw new FileFormatException("Unreadable file");
         }
 
     }
 
-
-    public static DataPoint validPoint(String line[], int fields) throws FileFormatException {
+    /**
+     * Creates a new datapoint for each line, whilst checking the values are as expected
+     * @param line Containing the CSV line to read data from
+     * @param fields Number of fields per line
+     * @param currentActivity Current activity that the line should belong to
+     * @return Datapoint containing parsed line, null if no line could be parsed
+     */
+    public DataPoint validPoint(String line[], int fields, Activity currentActivity) {
         int lineLength = line.length;
 
         if (lineLength != fields) {
-            throw new FileFormatException(line, "Line contains unexpected number of fields");
+            malformedLines.add(new MalformedLine(line, currentActivity, "Unexpected number of fields"));
+            return null;
         }
 
         Date date = checkDateTimeFormat(line[0], line[1]);
         if (date == null) {
-            throw new FileFormatException(line, "Line has invalid Date/ Time format");
+            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect date format"));
+            return null;
         }
 
         try {
@@ -80,7 +89,8 @@ public class Parser {
             return new DataPoint(date, heart, lat, lon, alt);
 
         } catch (NumberFormatException e) {
-            throw new FileFormatException(line, "Line has invalid numerical format");
+            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect numerical format"));
+            return null;
         }
     }
 
@@ -91,9 +101,8 @@ public class Parser {
      * delimiter is found
      * @param readCSV Object containing CSV file read from disk
      * @throws IOException         If unreadable file on disk
-     * @throws FileFormatException If invalid line is encountered, allows controller to report line to user
      */
-    private void readLines(CSVReader readCSV) throws IOException, FileFormatException {
+    private void readLines(CSVReader readCSV) throws IOException {
         Activity currentActivity = new Activity("Unnamed");
         String[] line;
         int fields = 6;
@@ -111,8 +120,10 @@ public class Parser {
                     }
 
                 } else {
-                    DataPoint validLine = validPoint(line, fields);
-                    currentActivity.addDataPoint(validLine);
+                    DataPoint validLine = validPoint(line, fields, currentActivity);
+                    if (validLine != null) {
+                        currentActivity.addDataPoint(validLine);
+                    }
                 }
             }
         }
@@ -173,12 +184,19 @@ public class Parser {
     }
 
     private void databaseWrite() {
-
     }
 
 
     public ArrayList<Activity> getActivitiesRead() {
-        return activitiesRead;
+        return this.activitiesRead;
+    }
+
+    public ArrayList<MalformedLine> getMalformedLines() {
+        return this.malformedLines;
+    }
+
+    public static boolean isValidLine(String[] line) {
+        return false;
     }
 
 
