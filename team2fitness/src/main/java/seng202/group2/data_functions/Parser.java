@@ -32,8 +32,19 @@ public class Parser {
      */
     public Parser(File file) throws FileFormatException {
         try {
+            if (file == null) {
+                throw new IllegalArgumentException("Passed file is null");
+            }
+
             FileReader readFile = new FileReader(file);
             CSVReader readCSV = new CSVReader(readFile);
+
+            String name = file.getName();
+            String extension = name.substring(name.lastIndexOf(".") + 1);
+
+            if (!extension.equals("csv")) {
+                throw new FileFormatException(null, "Incorrect file format");
+            }
 
             readLines(readCSV);
             generateMetrics();
@@ -41,7 +52,7 @@ public class Parser {
 
         } catch (FileNotFoundException e) {
             throw new FileFormatException(null, "File not found");
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new FileFormatException(null, "Unreadable file");
         }
 
@@ -75,7 +86,9 @@ public class Parser {
 
 
     /**
-     * Reads lines contained in CSVReader object, and creates activities populated with data points
+     * Reads lines contained in CSVReader object, and creates activities populated with data points. If there is no
+     * 'activity start' delimiter '#start' then the following data points are discarded until an 'activity start'
+     * delimiter is found
      * @param readCSV Object containing CSV file read from disk
      * @throws IOException         If unreadable file on disk
      * @throws FileFormatException If invalid line is encountered, allows controller to report line to user
@@ -86,16 +99,16 @@ public class Parser {
         int fields = 6;
 
         while ((line = readCSV.readNext()) != null) {
-
             if (line.length >= 2) {
                 if (line[0] != null && line[0].equals("#start")) {
+                    currentActivity = new Activity("Unnamed");
+                    activitiesRead.add(currentActivity);
+
                     if (line[1] != null && !line[1].equals("")) {
                         currentActivity.setActivityName(line[1]);
-
                     } else {
                         currentActivity.setActivityName("Unnamed");
                     }
-                    activitiesRead.add(currentActivity);
 
                 } else {
                     DataPoint validLine = validPoint(line, fields);
