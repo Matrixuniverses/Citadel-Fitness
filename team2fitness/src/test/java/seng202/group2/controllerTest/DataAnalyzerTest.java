@@ -10,6 +10,7 @@ import static junit.framework.TestCase.assertTrue;
 
 public class DataAnalyzerTest {
 
+
     @Test
     public void calcDistanceReturnsCorrectResult1() {
         double metres;
