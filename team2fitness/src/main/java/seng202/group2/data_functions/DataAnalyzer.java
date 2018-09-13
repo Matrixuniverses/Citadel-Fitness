@@ -10,12 +10,12 @@ public class DataAnalyzer {
 
 
     /**
-     * Takes two points of latitude and longitude form and returns the distance between them in metres.
+     * Calculates the Haversine Distance between two WSG84 geodetic points
      * @param latStart - Latitude of the start point
      * @param longStart - Longitude of the start point
      * @param latEnd - Latitude of the end point
      * @param longEnd - Longitude of the end point
-     * @return A distance in metres between the start and end points
+     * @return Distance in meters between points
      */
     public static double calcDistance(double latStart, double longStart, double latEnd, double longEnd) {
         double earthRad = 6378.137; // Radius of earth in KM
@@ -41,6 +41,12 @@ public class DataAnalyzer {
 
         return distance / timeTaken;
     }
+
+    public static double calcSpeed(double distance1, double distance2, double time) {
+
+        return 0.0;
+    }
+
 
     /*
     Helper private function to convert weight from Kilograms to Pounds.

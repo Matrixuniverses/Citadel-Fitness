@@ -12,7 +12,7 @@ public class UserTest {
 
     User user;
     @Before public void setup(){
-        user = new User("Adam", 20, 1.80, 80);
+        user = new User(1, "Adam", 20, 1.80, 80);
     }
 
     @Test

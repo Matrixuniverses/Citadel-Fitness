@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="linear-gradient" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1193.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.LoginController">
+    <children>
+        <Button contentDisplay="BOTTOM" layoutX="869.0" layoutY="166.0" mnemonicParsing="false" prefHeight="315.0" prefWidth="250.0" styleClass="curve" text="NewUser" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true">
+            <font>
+                <Font name="System Bold Italic" size="56.0" />
+            </font>
+        </Button>
+        <Button fx:id="user1" layoutX="101.0" layoutY="96.0" mnemonicParsing="false" onAction="#" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="1" />
+        <Group layoutX="154.0" layoutY="6.0">
+            <children>
+                <Line endX="100.0" layoutX="644.0" layoutY="321.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
+                <Line endX="100.0" layoutX="607.0" layoutY="323.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
+                <Line endX="200.0" layoutX="500.0" layoutY="313.0" rotate="90.0" scaleX="3.5" scaleY="1.5" startX="50.0" stroke="WHITE" />
+            </children>
+        </Group>
+        <Button fx:id="user2" layoutX="323.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="2" />
+        <Button fx:id="user3" layoutX="527.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="3" />
+        <Button fx:id="user4" layoutX="101.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="4" />
+        <Button fx:id="user5" layoutX="323.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="5" />
+        <Button fx:id="user6" layoutX="527.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="6" />
+    </children>
+</AnchorPane>

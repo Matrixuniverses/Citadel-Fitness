@@ -4,14 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.data_functions.databaseWriter;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDBOperations {
 
+    //TODO - Implement index structure to remove the loop
+
 
     /**
-     * Searches the database for a user in the table users using an inputted user_id and returns the User if the
+     * Searches the database for a user in the table users using a given user_id and returns the User if the
      * user has be found by the query in the database.
      * @param user_id the id of the user that will be searched for.
      * @return the User associated with the user id from the database if the user_id exists in the database.
@@ -19,22 +23,26 @@ public class UserDBOperations {
      */
     public static User getUserFromRS(String user_id) throws SQLException {
 
-        String sqlQuery = "SELECT * FROM users WHERE user_id = "+ user_id;
-        databaseWriter.connectToDB();
+        String sqlQuery = "SELECT * FROM Users WHERE user_id = "+ user_id + ";";
+
         ResultSet queryResult = databaseWriter.executeDBQuery(sqlQuery);
-        databaseWriter.disconnectFromDB();
+
         User retrievedUser = null;
+
+        // TODO - Replace this with an index structure @Chris
         if (queryResult.next()) {
+
             int id = queryResult.getInt("user_id");
             String name = queryResult.getString("name");
             int age = queryResult.getInt("age");
             double height = queryResult.getDouble("height");
             float weight = queryResult.getFloat("weight");
-            retrievedUser = new User(name, age, height, weight);
+            retrievedUser = new User(id, name, age, height, weight);
             retrievedUser.setId(id);
 
 
         }
+
 
         return retrievedUser;
 
@@ -48,10 +56,10 @@ public class UserDBOperations {
      */
     public static ObservableList<User> getAllUsers() throws SQLException {
 
-        String sqlQuery = "SELECT * from users";
-        databaseWriter.connectToDB();
+        String sqlQuery = "SELECT * from Users";
+
         ResultSet queryResult = databaseWriter.executeDBQuery(sqlQuery);
-        databaseWriter.disconnectFromDB();
+
 
         ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
 
@@ -61,9 +69,8 @@ public class UserDBOperations {
             int age = queryResult.getInt("age");
             double height = queryResult.getDouble("height");
             float weight = queryResult.getFloat("weight");
-            User retrievedUser = new User(name, age, height, weight);
+            User retrievedUser = new User(id, name, age, height, weight);
             retrievedUser.setId(id);
-
             retrievedUsers.add(retrievedUser);
         }
 
@@ -83,17 +90,66 @@ public class UserDBOperations {
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
     public static void insertNewUser(String userName, int userAge, double userHeight, float userWeight) throws SQLException {
-        String sqlInsertStmt = "BEGIN\n" +
-                "INSERT INTO users\n" +
-                "(name, age, height, weight)\n" +
-                "VALUES\n" +
-                "('" + userName + "', "+ userAge +" ,"+ userHeight +", " + userWeight + ");\n" +
-                "END;";
+        String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight) VALUES(?,?,?,?)";
+        try {
 
-        databaseWriter.connectToDB();
-        databaseWriter.executeDBUpdate(sqlInsertStmt);
-        databaseWriter.disconnectFromDB();
+            Connection dbConn = databaseWriter.getDbConnection();
+            PreparedStatement pInsertStmt = dbConn.prepareStatement(sqlInsertStmt);
+            pInsertStmt.setString(1, userName);
+            pInsertStmt.setInt(2, userAge);
+            pInsertStmt.setDouble(3, userHeight);
+            pInsertStmt.setFloat(4, userWeight);
+            pInsertStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+
     }
+
+    public static boolean deleteExistingUser(int userId) throws SQLException {
+        String sqlDeleteStmt = "DELETE FROM Users WHERE user_id = ?";
+        Connection dbConn = databaseWriter.getDbConnection();
+        PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
+        pDeleteStmt.setInt(1, userId);
+        pDeleteStmt.executeUpdate();
+        if (getUserFromRS(Integer.toString(userId)) == null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+    /*
+    public static void main(String args[]) {
+        try {
+            databaseWriter.connectToDB();
+            databaseWriter.createDatabase();
+            System.out.println(deleteExistingUser(5));
+            //insertNewUser("Test5", 18, 1.75, 76);
+            //User user3 = getUserFromRS("3");
+            //System.out.println(user3.getId() + " " + user3.getName());
+            /*ObservableList<User> retrievedUsers = getAllUsers();
+            if (retrievedUsers != null) {
+                for (User user : retrievedUsers) {
+                    System.out.println(user.getId() + " " + user.getName());
+
+                }
+            }
+
+            databaseWriter.disconnectFromDB();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+
+
+    }
+    */
 
 
 }
