@@ -32,6 +32,16 @@ public class Parser {
      */
     public Parser(File file) throws FileFormatException {
         try {
+            if (file == null) {
+                throw new IllegalArgumentException("Passed file is null");
+            } else {
+                String name = file.getName();
+                String extension = name.substring(name.lastIndexOf("."));
+                if (!extension.equals("csv")) {
+                    throw new FileFormatException(null, "Incorrect file format");
+                }
+            }
+
             FileReader readFile = new FileReader(file);
             CSVReader readCSV = new CSVReader(readFile);
 
@@ -41,7 +51,7 @@ public class Parser {
 
         } catch (FileNotFoundException e) {
             throw new FileFormatException(null, "File not found");
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new FileFormatException(null, "Unreadable file");
         }
 
