@@ -27,8 +27,8 @@ public class ParserFileTests {
 
     @Test
     public void TestNullFilePointer() throws Exception {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Passed file is null");
+        thrown.expect(FileFormatException.class);
+        thrown.expectMessage("File is null");
         Parser parser = new Parser(null);
     }
 
