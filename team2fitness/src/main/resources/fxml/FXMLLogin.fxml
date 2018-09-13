@@ -21,11 +21,11 @@
             <Line endX="200.0" layoutX="500.0" layoutY="313.0" rotate="90.0" scaleX="3.5" scaleY="1.5" startX="50.0" stroke="WHITE" />
          </children>
       </Group>
-      <Button fx:id="user1" layoutX="101.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="1" visible="false" />
-      <Button fx:id="user2" layoutX="323.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="2" visible="false" />
-      <Button fx:id="user3" layoutX="527.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="3" visible="false" />
-      <Button fx:id="user4" layoutX="101.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="4" visible="false" />
-      <Button fx:id="user5" layoutX="323.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="5" visible="false" />
-      <Button fx:id="user6" layoutX="527.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="6" visible="false" />
+      <Button fx:id="user1Button" layoutX="101.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="1" visible="false" />
+      <Button fx:id="user2Button" layoutX="323.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="2" visible="false" />
+      <Button fx:id="user3Button" layoutX="527.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="3" visible="false" />
+      <Button fx:id="user4Button" layoutX="101.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="4" visible="false" />
+      <Button fx:id="user5Button" layoutX="323.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="5" visible="false" />
+      <Button fx:id="user6Button" layoutX="527.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="6" visible="false" />
    </children>
 </AnchorPane>
