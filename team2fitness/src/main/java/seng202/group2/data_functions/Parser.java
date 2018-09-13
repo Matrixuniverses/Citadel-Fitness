@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 public class Parser {
     private ArrayList<String[]> malformedLines = new ArrayList<String[]>();
     private ArrayList<Activity> activitiesRead = new ArrayList<Activity>();
-    private Activity currentActivity;
 
     /**
      * Creates a new parser object and reads location and fitness information from CSV file
@@ -40,80 +39,80 @@ public class Parser {
             generateMetrics();
             databaseWrite();
 
-        } catch (IOException e) {
-            if (e instanceof FileNotFoundException) {
-                throw new FileFormatException(null, "File not found");
-            } else {
-                throw new FileFormatException(null, "Unreadable file");
-            }
-
+        } catch (FileNotFoundException e) {
+            throw new FileFormatException(null, "File not found");
+        } catch (Exception e) {
+            throw new FileFormatException(null, "Unreadable file");
         }
 
     }
 
 
-    public void readLine(String line[]) {
+    public static DataPoint validPoint(String line[], int fields) throws FileFormatException {
+        int lineLength = line.length;
 
+        if (lineLength != fields) {
+            throw new FileFormatException(line, "Line contains unexpected number of fields");
+        }
+
+        Date date = checkDateTimeFormat(line[0], line[1]);
+        if (date == null) {
+            throw new FileFormatException(line, "Line has invalid Date/ Time format");
+        }
+
+        try {
+            int heart = Integer.parseInt(line[2]);
+            double lat = Double.parseDouble(line[3]);
+            double lon = Double.parseDouble(line[4]);
+            double alt = Double.parseDouble(line[5]);
+
+            return new DataPoint(date, heart, lat, lon, alt);
+
+        } catch (NumberFormatException e) {
+            throw new FileFormatException(line, "Line has invalid numerical format");
+        }
     }
 
 
     /**
-     * Reads each line and creates an activity, filled with raw data
+     * Reads lines contained in CSVReader object, and creates activities populated with data points
      * @param readCSV Object containing CSV file read from disk
      * @throws IOException         If unreadable file on disk
      * @throws FileFormatException If invalid line is encountered, allows controller to report line to user
      */
     private void readLines(CSVReader readCSV) throws IOException, FileFormatException {
+        Activity currentActivity = new Activity("Unnamed");
         String[] line;
+        int fields = 6;
 
         while ((line = readCSV.readNext()) != null) {
-            int lineLen = line.length;
 
-            if (lineLen == 0) {
-                // Blank line detection
-                continue;
-            } else if (lineLen != 6) {
-                throw new FileFormatException(line, "Line contains unexpected data fields");
-            }
+            if (line.length >= 2) {
+                if (line[0] != null && line[0].equals("#start")) {
+                    if (line[1] != null && !line[1].equals("")) {
+                        currentActivity.setActivityName(line[1]);
 
-            if (line[0].equals("#start")) {
-                currentActivity = new Activity("Unnamed");
-                if (!line[1].equals("")) {
-                    currentActivity.setActivityName(line[1]);
+                    } else {
+                        currentActivity.setActivityName("Unnamed");
+                    }
+                    activitiesRead.add(currentActivity);
+
+                } else {
+                    DataPoint validLine = validPoint(line, fields);
+                    currentActivity.addDataPoint(validLine);
                 }
-                activitiesRead.add(currentActivity);
-                continue;
-            }
-
-            Date pointDate = checkDateTimeFormat(line[0], line[1]);
-            if (pointDate == null) {
-                malformedLines.add(line);
-                throw new FileFormatException(line, "Incorrect date format");
-            }
-
-            try {
-                int heart = Integer.parseInt(line[2]);
-                double lat = Double.parseDouble(line[3]);
-                double lon = Double.parseDouble(line[4]);
-                double alt = Double.parseDouble(line[5]);
-
-                currentActivity.addDataPoint(new DataPoint(pointDate, heart, lat, lon, alt));
-
-            } catch (NumberFormatException e) {
-                throw new FileFormatException(line, "Invalid numerical input");
             }
         }
-
     }
+
 
     /**
      * Checks, given two string representing date and time, that the passed strings are of the correct CSV format
-     *
      * @param date Textual date
      * @param time Textual time
      * @return DateFormat object representing the current DateTime of the passed strings
      */
-    private Date checkDateTimeFormat(String date, String time) {
+    private static Date checkDateTimeFormat(String date, String time) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy,HH:mm:ss", Locale.ENGLISH);
 
         try {
@@ -172,7 +171,7 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/main/java/seng202/group2/development_code/data/all.csv"));
+            Parser testParser = new Parser(new File("team2fitness/src/main/java/seng202/group2/development_code/data/broken1.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             for (Activity activity : test) {
