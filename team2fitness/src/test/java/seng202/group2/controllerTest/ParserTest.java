@@ -24,6 +24,7 @@ public class ParserTest {
             assertEquals("Run around the block", test.get(0).getActivityName());
 
         } catch (Exception e) {
+            e.printStackTrace();
             fail("Should not throw exception.");
         }
     }
