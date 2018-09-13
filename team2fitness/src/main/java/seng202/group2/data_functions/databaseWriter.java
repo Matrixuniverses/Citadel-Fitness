@@ -9,6 +9,13 @@ public class databaseWriter {
     private static final String driver = "org.sqlite.JDBC";
     private static Connection dbConn = null;
 
+    /**
+     * Establishes a connection to a sql database with the filename CitadelFitnessLocalDatabase.db which is assigned to
+     * the local java.sql.Connection object. The connection is set up with the configuration that Foreign Keys in the
+     * database are enforced. The database is located in the User's home directory and the database is created in this
+     * directory if it does not already exist.
+     * @throws SQLException if an error occurs preforming sql operations on the database.
+     */
     public static void connectToDB() throws SQLException {
         try {
             Class.forName(driver);
@@ -23,10 +30,18 @@ public class databaseWriter {
     }
 
 
+    /**
+     *
+     * @return the Connection object that is linked to the database if not null.
+     */
     public static Connection getDbConnection() {
         return dbConn;
     }
 
+    /**
+     * Closes down the connection to the database by setting the database Connection object to null.
+     * @throws SQLException if an error occurs disconnecting from the database
+     */
     public static void disconnectFromDB() throws SQLException {
         if (dbConn != null) {
             if (!dbConn.isClosed()) {
@@ -44,10 +59,11 @@ public class databaseWriter {
 
 
     /**
-     * Creates a new database for the application if it does not already exist. The database is stored in the project's
-     * directory and consists of four tables: users, activities, datapoints and targets.
-     *
-     * @return true if the method runs without encountering errors
+     *  Creates a new database for the application if it does not already exist and creates the databases structure (tables
+     *  and attributes). The database is stored in the project's directory and consists of four tables:
+     *  users, activities, datapoints and targets.
+     * @return true if the function runs without error
+     * @throws SQLException if an sql related problem is encountered trying to set up the database.
      */
     public static boolean createDatabase() throws SQLException {
         connectToDB();
@@ -111,6 +127,12 @@ public class databaseWriter {
 
     }
 
+    /**
+     * Executes a inputted sql query (as a string) and returns the result set from the query
+     * @param queryStmt A string representation of a sql query statement
+     * @return The result set from querying the database.
+     * @throws SQLException if an error occurs querying the database.
+     */
     public static ResultSet executeDBQuery(String queryStmt) throws SQLException {
         Statement dbStmt = dbConn.createStatement();
 
