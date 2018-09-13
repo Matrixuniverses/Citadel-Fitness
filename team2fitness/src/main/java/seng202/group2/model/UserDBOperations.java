@@ -11,9 +11,6 @@ import java.sql.SQLException;
 
 public class UserDBOperations {
 
-    //TODO - Implement index structure to remove the loop
-
-
     /**
      * Searches the database for a user in the table users using a given user_id and returns the User if the
      * user has be found by the query in the database.
@@ -52,8 +49,9 @@ public class UserDBOperations {
 
     }
 
+
     /**
-     * Querys the database for all user records in the database and returns them as an observable list.
+     * Queries the database for all user records in the database and returns them as an observable list.
      * @return an Observable list of all the current users in the database.
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
@@ -87,9 +85,9 @@ public class UserDBOperations {
 
 
     /**
-     * Inserts a new user into the users table in the database.
-     *
-     * @throws SQLException if any error occurs preforming the sql operations on the database.
+     * Inserts a new User into the database.
+     * @param user The User object to be stored in the database.
+     * @throws SQLException If there is a sql related error when trying to preform the insert operation on the database.
      */
     public static void insertNewUser(User user) throws SQLException {
         databaseWriter.connectToDB();
@@ -110,6 +108,13 @@ public class UserDBOperations {
 
     }
 
+
+    /**
+     * Updates a user that is already stored within the database
+     * @param user The updated version of the a particular USer object that will have its database record updated
+     * @return true if the user does exist inside the database. false otherwise
+     * @throws SQLException If there was a sql related error when trying to update a user in the database.
+     */
     public static boolean updateExistingUser(User user) throws SQLException{
 
         String sqlUpdateStmt = "UPDATE Users SET name = ?, age = ?, height = ?, weight = ? WHERE user_id = ?";
@@ -135,6 +140,12 @@ public class UserDBOperations {
     }
 
 
+    /**
+     * Deletes a user from the database using the user's ID.
+     * @param userId The ID of the user to be removed from the database
+     * @return true if the user with the inputted id no longer exists within the database
+     * @throws SQLException if an sql related error occurs while attempting to delete a user from the database.
+     */
     public static boolean deleteExistingUser(int userId) throws SQLException {
         databaseWriter.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Users WHERE user_id = ?";
@@ -164,8 +175,8 @@ public class UserDBOperations {
     //Prints out User 3's details (id, name and bmi)
     //Deletes user 3 and displays the results
     //Inserts another user called Jimmy and displays the results
-    /*
-    public static void main(String args[]) {
+
+    /*public static void main(String[] args) {
         try {
 
             databaseWriter.createDatabase();
