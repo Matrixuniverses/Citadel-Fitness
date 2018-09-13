@@ -37,7 +37,7 @@ public class UserDBOperations {
             int age = queryResult.getInt("age");
             double height = queryResult.getDouble("height");
             float weight = queryResult.getFloat("weight");
-            retrievedUser = new User(name, age, height, weight);
+            retrievedUser = new User(id, name, age, height, weight);
             retrievedUser.setId(id);
 
 
@@ -69,7 +69,7 @@ public class UserDBOperations {
             int age = queryResult.getInt("age");
             double height = queryResult.getDouble("height");
             float weight = queryResult.getFloat("weight");
-            User retrievedUser = new User(name, age, height, weight);
+            User retrievedUser = new User(id, name, age, height, weight);
             retrievedUser.setId(id);
             retrievedUsers.add(retrievedUser);
         }
