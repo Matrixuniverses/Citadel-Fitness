@@ -80,9 +80,9 @@ public class Controller implements Initializable {
         initializeEditProfileView();
 
 
-        currentUser = TestDataGenerator.createUser1();
-        activityViewController.updateUserData(currentUser);
-        profileController.updateUserData(currentUser);
+        //currentUser = TestDataGenerator.createUser1();
+//        activityViewController.updateUserData(currentUser);
+//        profileController.updateUserData(currentUser);
     }
 
     /**
@@ -135,6 +135,8 @@ public class Controller implements Initializable {
             profileController = loader.getController();
             paneMap.put("summaryView", profileView);
 
+            paneMap.put("exit", loginScene);
+
             mainContainer.getChildren().addAll(activityView, mapViewScene, addDataScene, targetScene, viewGraphScene,
                     editScene, profileView);
 
@@ -159,7 +161,56 @@ public class Controller implements Initializable {
         loginSceneController.getUser1Button().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                currentUser = userList.get(0);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
 
+        loginSceneController.getUser2Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(1);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser3Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(2);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser4Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(3);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser5Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(4);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
+            }
+        });
+        loginSceneController.getUser6Button().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                currentUser = userList.get(5);
+                activityViewController.updateUserData(currentUser);
+                profileController.updateUserData(currentUser);
+                loginScene.toBack();
             }
         });
 

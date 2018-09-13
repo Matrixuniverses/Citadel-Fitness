@@ -33,9 +33,9 @@
                                 <Font size="22.0" />
                             </font>
                         </Text>
-                        <TextField fx:id="lNameField" layoutX="224.0" layoutY="91.0" promptText="Smith" />
+                        <TextField fx:id="lNameField" layoutX="224.0" layoutY="91.0" promptText="useless field" />
                         <TextField fx:id="heightField" layoutX="222.0" layoutY="157.0" promptText="185cm" />
-                        <TextField fx:id="dobField" layoutX="224.0" layoutY="224.0" promptText="25/10/1997" />
+                        <TextField fx:id="dobField" layoutX="224.0" layoutY="224.0" promptText="21" />
                         <TextField fx:id="weightField" layoutX="221.0" layoutY="287.0" promptText="79kg" />
                         <ImageView fitHeight="250.0" fitWidth="250.0" layoutX="600.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
                         <Button fx:id="newPic" layoutX="625.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="curve" text="New Profile Picture" />
@@ -50,7 +50,7 @@
                                 <Font size="22.0" />
                             </font>
                         </Text>
-                        <Text fill="#0d4868" layoutX="68.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:">
+                        <Text fill="#0d4868" layoutX="68.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Age:">
                             <font>
                                 <Font size="22.0" />
                             </font>
