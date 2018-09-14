@@ -132,6 +132,22 @@ public class ActivityDBOperations {
         }
     }
 
+    public static boolean deleteExistingActivity(int activityID) throws SQLException{
+        databaseWriter.connectToDB();
+        String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
+        Connection dbConn = databaseWriter.getDbConnection();
+        PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
+        pDeleteStmt.setInt(1, activityID);
+        pDeleteStmt.executeUpdate();
+        databaseWriter.disconnectFromDB();
+        if (getActivityFromRS(activityID) == null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     /*public static void main(String[] args) {
         try {
             Activity test = getActivityFromRS(3);
@@ -144,6 +160,7 @@ public class ActivityDBOperations {
 
                 }
             }
+            deleteExistingActivity(1);
 
         } catch (Exception e) {
             e.printStackTrace();
