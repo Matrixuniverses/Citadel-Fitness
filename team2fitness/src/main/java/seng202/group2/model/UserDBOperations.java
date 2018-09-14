@@ -190,6 +190,15 @@ public class UserDBOperations {
             System.out.println("User has been updated: " + updateExistingUser(editedUser));
 
 
+            java.util.Date currDate = new java.util.Date();
+            Activity activity = new Activity("Original Activity",currDate,"Cycle",60.0,120.0);
+            Activity activity2 = new Activity("Clashing Activity",currDate,"Cycle",60.0,120.0);
+            ActivityDBOperations.insertNewActivity(activity, 1);
+            ActivityDBOperations.insertNewActivity(activity2, 2);
+            Activity clashingActivity = ActivityDBOperations.getClashingActivity(1, activity2.getDate());
+            if (clashingActivity != null) {
+                System.out.println("Clash detected with: " + clashingActivity.getActivityName() + " when trying to assign Clashing Activity to User 1");
+            }
 
 
             ObservableList<User> retrievedUsers = getAllUsers();
