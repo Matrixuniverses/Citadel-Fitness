@@ -1,6 +1,5 @@
 package seng202.group2.controllerTest;
 
-import org.junit.Before;
 import org.junit.Test;
 import seng202.group2.data_functions.MalformedLine;
 import seng202.group2.data_functions.Parser;
