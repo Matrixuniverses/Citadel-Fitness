@@ -14,6 +14,37 @@ public class ActivityDBOperations {
 
 
 
+    public static Activity getClashingActivity(int user_id, java.util.Date activityDate) throws SQLException {
+
+        databaseWriter.connectToDB();
+        String dateString = activityDate.toString();
+        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + user_id + " AND date_string = '" + dateString + "'";
+        ResultSet queryResult = databaseWriter.executeDBQuery(sqlQueryStatement);
+
+        Activity clashingActivity = null;
+
+        if (queryResult.next()) {
+            int activityID = queryResult.getInt("activity_id");
+            String activityName = queryResult.getString("name");
+            activityDate = null;
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+            try {
+                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+            } catch (ParseException e) {
+                System.out.println("Unable to parse date");
+                e.printStackTrace();
+            }
+            String activityType = queryResult.getString("type");
+            double totalDistance = queryResult.getDouble("total_distance");
+            double totalTime = queryResult.getDouble("total_time");
+            clashingActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
+            clashingActivity.setId(activityID);
+
+        }
+        databaseWriter.disconnectFromDB();
+        return clashingActivity;
+
+    }
 
 
     public static boolean insertNewActivity(Activity activity, int user_id) throws SQLException {
