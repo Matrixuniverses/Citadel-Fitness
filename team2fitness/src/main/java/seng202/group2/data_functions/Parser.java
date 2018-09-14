@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 // TODO - Need to get multithreading working
 
 /**
- * Parser designed to read a CSV file for activity data
+ * Parser designed to read a CSV file for activity data.
  */
 public class Parser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
@@ -49,7 +49,10 @@ public class Parser {
 
             readLines(readCSV);
             generateMetrics(this.activitiesRead);
-            databaseWrite();
+
+            // Needs to be written to after the user has validated their data?
+            // databaseWrite();
+
 
         } catch (FileNotFoundException e) {
             throw new FileFormatException("File not found");
@@ -62,8 +65,8 @@ public class Parser {
     /**
      * Creates a new Datapoint for each line, whilst checking the values are as expected
      *
-     * @param line            Containing the CSV line to read data from
-     * @param fields          Number of fields per line
+     * @param line Containing the CSV line to read data from
+     * @param fields Number of fields per line
      * @param currentActivity Current activity that the line should belong to
      * @return Datapoint containing parsed line, null if no line could be parsed
      */
@@ -131,7 +134,7 @@ public class Parser {
 
 
     /**
-     * Checks, given two string representing date and time, that the passed strings are of the correct CSV format
+     * Checks, given two string representing date and time, that the passed strings are of the correct format
      *
      * @param date Textual date
      * @param time Textual time
@@ -150,7 +153,7 @@ public class Parser {
     /**
      * Creates time, distance and speed metrics for each data point and activity
      */
-    private void generateMetrics(ArrayList<Activity> activities) {
+    private static void generateMetrics(ArrayList<Activity> activities) {
         for (Activity activity : activities) {
             ArrayList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
@@ -184,7 +187,8 @@ public class Parser {
         }
     }
 
-    private void databaseWrite() {
+    private void databaseWrite(ArrayList<Activity> activities) {
+        // Send data to database when the functionality is implemented
     }
 
 
@@ -198,6 +202,7 @@ public class Parser {
 
     /**
      * Checks a passed line to see if it is valid or not
+     *
      * @param line Line to be checked
      * @return True if line is valid, false if not
      */
@@ -231,7 +236,7 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/main/java/seng202/group2/development_code/data/broken1.csv"));
+            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/latLongBroken.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             for (Activity activity : test) {
