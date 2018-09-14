@@ -1,11 +1,7 @@
 package seng202.group2.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import org.apache.commons.lang3.StringUtils;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,13 +12,13 @@ public class Activity {
     private SimpleDoubleProperty totalTime;
     private SimpleDoubleProperty totalDistance;
     private Date activityDate;
-    private ArrayList<DataPoint> activityData = new ArrayList<DataPoint>();
+    private ArrayList<DataPoint> activityData = new ArrayList<>();
     //Will add code functionality later
     private boolean manualEntry = false;
 
     public Activity(String activityName){
         this.activityName = new SimpleStringProperty(activityName);
-        this.activityType = new SimpleStringProperty("Default");
+        this.activityType = new SimpleStringProperty("Exercise");
         this.totalTime = new SimpleDoubleProperty(10);
         this.totalDistance = new SimpleDoubleProperty(0);
     }

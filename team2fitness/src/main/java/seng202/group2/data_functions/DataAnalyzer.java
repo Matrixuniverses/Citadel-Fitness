@@ -43,7 +43,6 @@ public class DataAnalyzer {
     }
 
     public static double calcSpeed(double distance1, double distance2, double time) {
-
         return 0.0;
     }
 
