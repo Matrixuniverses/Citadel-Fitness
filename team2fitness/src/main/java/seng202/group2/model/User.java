@@ -20,8 +20,8 @@ public class User {
     private DoubleProperty bmi;
     private DoubleProperty totalDistance;
 
-    ObservableList<Activity> activityList = FXCollections.observableArrayList();
-    ObservableList<Target> targetList = FXCollections.observableArrayList();
+    private ObservableList<Activity> activityList = FXCollections.observableArrayList();
+    private ObservableList<Target> targetList = FXCollections.observableArrayList();
 
 
 
