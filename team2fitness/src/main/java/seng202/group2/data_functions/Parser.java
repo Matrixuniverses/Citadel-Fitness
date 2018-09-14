@@ -1,8 +1,7 @@
 package seng202.group2.data_functions;
 
 import com.opencsv.CSVReader;
-import seng202.group2.model.Activity;
-import seng202.group2.model.DataPoint;
+import seng202.group2.model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,7 +50,7 @@ public class Parser {
             generateMetrics(this.activitiesRead);
 
             // Needs to be written to after the user has validated their data?
-            // databaseWrite();
+            // databaseWrite(this.activitiesRead, );
 
 
         } catch (FileNotFoundException e) {
@@ -65,8 +64,8 @@ public class Parser {
     /**
      * Creates a new Datapoint for each line, whilst checking the values are as expected
      *
-     * @param line Containing the CSV line to read data from
-     * @param fields Number of fields per line
+     * @param line            Containing the CSV line to read data from
+     * @param fields          Number of fields per line
      * @param currentActivity Current activity that the line should belong to
      * @return Datapoint containing parsed line, null if no line could be parsed
      */
@@ -181,13 +180,12 @@ public class Parser {
                 }
                 activity.setTotalDistance(totalDistance);
                 activity.setTotalTime(totalTime);
-
             }
 
         }
     }
 
-    private void databaseWrite(ArrayList<Activity> activities) {
+    private void databaseWrite(ArrayList<Activity> activities, int user_id) {
         // Send data to database when the functionality is implemented
     }
 
@@ -239,12 +237,17 @@ public class Parser {
             Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/latLongBroken.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
+            databaseWriter.createDatabase();
+            UserDBOperations.insertNewUser(new User(1, "test", 24, 180, 80));
+            ActivityDBOperations.insertNewActivity(test.get(0), 1);
             for (Activity activity : test) {
                 System.out.println(activity.getActivityName());
                 System.out.println(activity.getTotalDistance());
             }
         } catch (FileFormatException e) {
             System.out.println(new File(".").getAbsolutePath());
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
