@@ -48,7 +48,7 @@ public class Parser {
             }
 
             readLines(readCSV);
-            generateMetrics();
+            generateMetrics(this.activitiesRead);
             databaseWrite();
 
         } catch (FileNotFoundException e) {
@@ -60,13 +60,14 @@ public class Parser {
     }
 
     /**
-     * Creates a new datapoint for each line, whilst checking the values are as expected
-     * @param line Containing the CSV line to read data from
-     * @param fields Number of fields per line
+     * Creates a new Datapoint for each line, whilst checking the values are as expected
+     *
+     * @param line            Containing the CSV line to read data from
+     * @param fields          Number of fields per line
      * @param currentActivity Current activity that the line should belong to
      * @return Datapoint containing parsed line, null if no line could be parsed
      */
-    public DataPoint validPoint(String line[], int fields, Activity currentActivity) {
+    public DataPoint readLine(String line[], int fields, Activity currentActivity) {
         int lineLength = line.length;
 
         if (lineLength != fields) {
@@ -99,8 +100,9 @@ public class Parser {
      * Reads lines contained in CSVReader object, and creates activities populated with data points. If there is no
      * 'activity start' delimiter '#start' then the following data points are discarded until an 'activity start'
      * delimiter is found
+     *
      * @param readCSV Object containing CSV file read from disk
-     * @throws IOException         If unreadable file on disk
+     * @throws IOException If unreadable file on disk
      */
     private void readLines(CSVReader readCSV) throws IOException {
         Activity currentActivity = new Activity("Unnamed");
@@ -115,14 +117,12 @@ public class Parser {
 
                     if (line[1] != null && !line[1].equals("")) {
                         currentActivity.setActivityName(line[1]);
-                    } else {
-                        currentActivity.setActivityName("Unnamed");
                     }
 
                 } else {
-                    DataPoint validLine = validPoint(line, fields, currentActivity);
-                    if (validLine != null) {
-                        currentActivity.addDataPoint(validLine);
+                    DataPoint point = readLine(line, fields, currentActivity);
+                    if (point != null) {
+                        currentActivity.addDataPoint(point);
                     }
                 }
             }
@@ -132,6 +132,7 @@ public class Parser {
 
     /**
      * Checks, given two string representing date and time, that the passed strings are of the correct CSV format
+     *
      * @param date Textual date
      * @param time Textual time
      * @return DateFormat object representing the current DateTime of the passed strings
@@ -149,8 +150,8 @@ public class Parser {
     /**
      * Creates time, distance and speed metrics for each data point and activity
      */
-    private void generateMetrics() {
-        for (Activity activity : activitiesRead) {
+    private void generateMetrics(ArrayList<Activity> activities) {
+        for (Activity activity : activities) {
             ArrayList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
             int totalTime = 0;
@@ -195,8 +196,36 @@ public class Parser {
         return this.malformedLines;
     }
 
+    /**
+     * Checks a passed line to see if it is valid or not
+     * @param line Line to be checked
+     * @return True if line is valid, false if not
+     */
     public static boolean isValidLine(String[] line) {
-        return false;
+        int lineLength = line.length;
+
+        // Default number of fields that should be contained in the line
+        if (lineLength != 6) {
+            return false;
+        }
+
+        // Checks date
+        Date date = checkDateTimeFormat(line[0], line[1]);
+        if (date == null) {
+            return false;
+        }
+
+        // Checks only the data type of the line fields
+        try {
+            Integer.parseInt(line[2]); // HeartRate check
+            Double.parseDouble(line[3]); // Latitude check
+            Double.parseDouble(line[4]); // Longitude check
+            Double.parseDouble(line[5]); // Altitude check
+            return true;
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 

@@ -2,7 +2,6 @@ package seng202.group2.controllerTest;
 
 import org.junit.Test;
 import seng202.group2.data_functions.DataAnalyzer;
-import seng202.group2.data_functions.FileFormatException;
 import seng202.group2.data_functions.Parser;
 import seng202.group2.model.Activity;
 
