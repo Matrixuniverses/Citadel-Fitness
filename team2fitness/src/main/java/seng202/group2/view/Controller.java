@@ -62,6 +62,7 @@ public class Controller implements Initializable {
     private EditProfileController editProfileController;
     private LoginController loginSceneController;
     private CreateProfileController createProfileController;
+    private MapViewController mapViewController;
 
     private ArrayList<User> userList = new ArrayList<User>(6);
     private User currentUser;
@@ -78,6 +79,7 @@ public class Controller implements Initializable {
         initializeSelectFile();
         initializeActivityView();
         initializeEditProfileView();
+        initializeMapView();
 
 
         //currentUser = TestDataGenerator.createUser1();
@@ -110,6 +112,7 @@ public class Controller implements Initializable {
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMapView.fxml"));
             mapViewScene = loader.load();
+            mapViewController = loader.getController();
             paneMap.put("mapView", mapViewScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLAddData.fxml"));
@@ -239,8 +242,9 @@ public class Controller implements Initializable {
                     Float weight = Float.valueOf(createProfileController.getWeightField().getText());
                     User user = new User(id, name, age, height, weight);
                     userList.add(user);
-
-
+                    loginSceneController.showButton(name);
+                    //loginSceneController.getUser1Button();
+                    createProfileScene.toBack();
 
                 } catch (NumberFormatException e) {
                     raiseError("Error dialog", "Time and distance must be numbers");
@@ -250,8 +254,6 @@ public class Controller implements Initializable {
                     raiseError("Error dialog", "Activity must be named");
 
                 }
-                loginSceneController.showButton();
-                createProfileScene.toBack();
             }
         });
 
@@ -262,6 +264,11 @@ public class Controller implements Initializable {
             }
         });
     }
+
+    private void initializeMapView() {
+
+    }
+
 
 
 
@@ -344,11 +351,15 @@ public class Controller implements Initializable {
 
                     currentUser.getActivityList().addAll(parser.getActivitiesRead());
 
+                    // Check if this is correct
+                    mapViewController.updateUserData(currentUser);
+
                 }
             }
         });
 
         /**
+         * Button for manual data entry.
          * Creates an activity object with the data the user entered. Adds it to the user's activities list.
          * If the user enters invalid information, an alert is opened with error message.
          */
@@ -370,6 +381,9 @@ public class Controller implements Initializable {
                         Date date = Date.from(addDataController.getDateInput().getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                         Activity userActivity = new Activity(name, date, type, time, distance);
                         currentUser.getActivityList().add(userActivity);
+
+                        // Check if this is correct
+                        mapViewController.updateUserData(currentUser);
 
                         //Clear fields
                         addDataController.getTextFieldName().setText(null);
