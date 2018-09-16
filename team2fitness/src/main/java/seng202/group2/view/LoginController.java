@@ -1,16 +1,22 @@
 package seng202.group2.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
     int count = 1;
+
+    Controller masterController;
 
     @FXML
     Button newUserButton;
@@ -34,13 +40,19 @@ public class LoginController implements Initializable {
     @FXML
     Button user6Button;
 
+    private ObservableList<Button> buttonList = FXCollections.observableArrayList();
+
+
+    public ObservableList<Button> getButtonList() {
+        return buttonList;
+    }
 
     public Button getNewUserButton() {
         return newUserButton;
     }
 
 
-    public void showButton(String name){
+/*    public void showButton(String name){
         int userID = getCount();
         switch(userID) {
             case(1):
@@ -69,7 +81,7 @@ public class LoginController implements Initializable {
                 break;
         }
         setCount(userID + 1);
-    }
+    }*/
 
     public int getCount() {
         return count;
@@ -103,12 +115,9 @@ public class LoginController implements Initializable {
         return user6Button;
     }
 
-
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        buttonList.addAll(user1Button, user2Button, user3Button, user4Button, user5Button, user6Button);
 
     }
 }

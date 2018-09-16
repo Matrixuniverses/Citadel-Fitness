@@ -3,6 +3,8 @@ package seng202.group2.view;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
@@ -64,7 +67,7 @@ public class Controller implements Initializable {
     private CreateProfileController createProfileController;
     private MapViewController mapViewController;
 
-    private ArrayList<User> userList = new ArrayList<User>(6);
+    private ObservableList<User> userList = FXCollections.observableArrayList();
     private User currentUser;
 
 
@@ -72,6 +75,9 @@ public class Controller implements Initializable {
 
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
+
+        User testUser = new User(1, "Adam Conway", 20, 170, 70);
+
         initializeViews();
         initializeLoginScene();
         initializeCreateProfileScene();
@@ -79,12 +85,15 @@ public class Controller implements Initializable {
         initializeSelectFile();
         initializeActivityView();
         initializeEditProfileView();
+
         initializeMapView();
+
+        userList.add(testUser);
 
 
         //currentUser = TestDataGenerator.createUser1();
-//        activityViewController.updateUserData(currentUser);
-//        profileController.updateUserData(currentUser);
+        //activityViewController.updateUserData(currentUser);
+        //profileController.updateUserData(currentUser);
     }
 
     /**
@@ -154,6 +163,7 @@ public class Controller implements Initializable {
      * Initialises LoginScene.
      */
     private void initializeLoginScene(){
+
         loginSceneController.getNewUserButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -161,62 +171,37 @@ public class Controller implements Initializable {
 
             }
         });
-        loginSceneController.getUser1Button().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                currentUser = userList.get(0);
-                activityViewController.updateUserData(currentUser);
-                profileController.updateUserData(currentUser);
-                loginScene.toBack();
-            }
-        });
 
-        loginSceneController.getUser2Button().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                currentUser = userList.get(1);
-                activityViewController.updateUserData(currentUser);
-                profileController.updateUserData(currentUser);
-                loginScene.toBack();
-            }
-        });
-        loginSceneController.getUser3Button().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                currentUser = userList.get(2);
-                activityViewController.updateUserData(currentUser);
-                profileController.updateUserData(currentUser);
-                loginScene.toBack();
-            }
-        });
-        loginSceneController.getUser4Button().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                currentUser = userList.get(3);
-                activityViewController.updateUserData(currentUser);
-                profileController.updateUserData(currentUser);
-                loginScene.toBack();
-            }
-        });
-        loginSceneController.getUser5Button().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                currentUser = userList.get(4);
-                activityViewController.updateUserData(currentUser);
-                profileController.updateUserData(currentUser);
-                loginScene.toBack();
-            }
-        });
-        loginSceneController.getUser6Button().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                currentUser = userList.get(5);
-                activityViewController.updateUserData(currentUser);
-                profileController.updateUserData(currentUser);
-                loginScene.toBack();
-            }
-        });
 
+        ObservableList<Button> buttonList = loginSceneController.getButtonList();
+
+
+        userList.addListener(new ListChangeListener<User>() {
+            @Override
+            public void onChanged(Change<? extends User> c) {
+                // Sets actions for select user buttons.
+                for (int i = 0; i < buttonList.size(); i++) {
+                    int number = i;
+                    buttonList.get(number).setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            currentUser = userList.get(number);
+                            activityViewController.updateUserData(currentUser);
+                            profileController.updateUserData(currentUser);
+                            loginScene.toBack();
+                            createProfileScene.toBack();
+                            mainContainer.toFront();
+                        }
+                    });
+                    buttonList.get(i).setVisible(false);
+                }
+
+                for (int i = 0 ; i < userList.size() ; i++) {
+                    buttonList.get(i).setVisible(true);
+                    buttonList.get(i).textProperty().bind(userList.get(i).nameProperty());
+                }
+            }
+        });
     }
 
     /**
@@ -226,6 +211,8 @@ public class Controller implements Initializable {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 paneMap.get(newValue).toFront();
+
+                System.out.println(currentUser.getBmi());
             }
         });
     }
@@ -242,8 +229,6 @@ public class Controller implements Initializable {
                     Float weight = Float.valueOf(createProfileController.getWeightField().getText());
                     User user = new User(id, name, age, height, weight);
                     userList.add(user);
-                    loginSceneController.showButton(name);
-                    //loginSceneController.getUser1Button();
                     createProfileScene.toBack();
 
                 } catch (NumberFormatException e) {
