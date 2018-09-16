@@ -44,7 +44,7 @@ public class DatapointDBOperations {
     }
 
 
-    public static DataPoint getDataPointFromRS(int datapoint_id) throws SQLException{
+    public static DataPoint getDataPointFromRS(int datapoint_id) throws SQLException {
         databaseWriter.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = " + datapoint_id;
         ResultSet queryResult = databaseWriter.executeDBQuery(sqlQueryStmt);
@@ -73,11 +73,11 @@ public class DatapointDBOperations {
     }
 
 
-    public static boolean insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
+    public static int insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
 
         //If the activity doesn't exist. Return false.
         if (ActivityDBOperations.getActivityFromRS(activityID) == null) {
-            return false;
+            return -1;
         }
         databaseWriter.connectToDB();
         String sqlInsertStmt = "INSERT INTO Datapoints(activity_id, dp_date_string, dp_date, heart_rate, latitude, longitude, altitude) \n"
@@ -94,13 +94,17 @@ public class DatapointDBOperations {
         pUpdateStatement.setDouble(6, datapoint.getLongitude());
         pUpdateStatement.setDouble(7, datapoint.getAltitude());
         pUpdateStatement.executeUpdate();
-        databaseWriter.disconnectFromDB();
-        return true;
 
+        ResultSet results = pUpdateStatement.getGeneratedKeys();
+        results.next();
+        int datapoint_id = results.getInt(1);
+
+        databaseWriter.disconnectFromDB();
+        return datapoint_id;
 
     }
 
-    public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException{
+    public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException {
 
         String sqlUpdateStmt = "UPDATE Datapoints SET dp_date_string = ?, dp_date = ?, heart_rate = ?, latitude = ?, longitude = ?, altitude = ? WHERE dp_id = ?";
         if (getDataPointFromRS(updatedDP.getId()) != null) {
@@ -127,7 +131,7 @@ public class DatapointDBOperations {
     }
 
 
-    public static boolean deleteExistingDataPoint(int datapointID) throws SQLException{
+    public static boolean deleteExistingDataPoint(int datapointID) throws SQLException {
         databaseWriter.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Datapoints WHERE dp_id = ?";
         Connection dbConn = databaseWriter.getDbConnection();

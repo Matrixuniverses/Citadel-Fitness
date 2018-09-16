@@ -47,11 +47,11 @@ public class ActivityDBOperations {
     }
 
 
-    public static boolean insertNewActivity(Activity activity, int user_id) throws SQLException {
+    public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
 
         //check that the user is actually in the database
         if (UserDBOperations.getUserFromRS(user_id) == null) {
-            return false;
+            return -1;
         }
         databaseWriter.connectToDB();
 
@@ -71,8 +71,13 @@ public class ActivityDBOperations {
         pUpdateStatement.setDouble(6, activity.getTotalDistance());
         pUpdateStatement.setDouble(7, activity.getTotalTime());
         pUpdateStatement.executeUpdate();
+
+        ResultSet results = pUpdateStatement.getGeneratedKeys();
+        results.next();
+        int activity_id = results.getInt(1);
+
         databaseWriter.disconnectFromDB();
-        return true;
+        return activity_id;
 
 
     }

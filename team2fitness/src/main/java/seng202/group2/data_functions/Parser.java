@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,10 +23,11 @@ import java.util.concurrent.TimeUnit;
 public class Parser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
     private ArrayList<Activity> activitiesRead = new ArrayList<>();
+    private int user_id = -1;
 
 
     /**
-     * Creates a new parser object and reads location and fitness information from CSV file
+     * Creates a new parser object, reading location and fitness information into Activities and Datapoints
      *
      * @param file Given file object to read data from
      * @throws FileFormatException If the passed file is not valid for reading
@@ -49,9 +51,6 @@ public class Parser {
             readLines(readCSV);
             generateMetrics(this.activitiesRead);
 
-            // Needs to be written to after the user has validated their data?
-            // databaseWrite(this.activitiesRead, );
-
 
         } catch (FileNotFoundException e) {
             throw new FileFormatException("File not found");
@@ -59,6 +58,18 @@ public class Parser {
             throw new FileFormatException("Unreadable file");
         }
 
+    }
+
+    /**
+     * Creates a new parser object, reading location and fitness information, tied to the passed user, into a database
+     * @param file CSV file to read
+     * @param user User to read the file into
+     * @throws FileFormatException If passed file is not valid for reading
+     */
+    public Parser(File file, int user) throws FileFormatException {
+        this(file);
+        this.user_id = user;
+        databaseWrite(this.activitiesRead, this.user_id);
     }
 
     /**
@@ -185,8 +196,28 @@ public class Parser {
         }
     }
 
-    private void databaseWrite(ArrayList<Activity> activities, int user_id) {
+    private static void databaseWrite(ArrayList<Activity> activities, int user_id) throws IllegalArgumentException {
         // Send data to database when the functionality is implemented
+        try {
+            if (user_id == -1) {
+                throw new IllegalArgumentException("Cannot find user to parse activities to!");
+            }
+
+            databaseWriter.connectToDB();
+            databaseWriter.createDatabase();
+
+            for (Activity activity : activities) {
+                int activityId = ActivityDBOperations.insertNewActivity(activity, user_id);
+                for (DataPoint point : activity.getActivityData()) {
+                    DatapointDBOperations.insertNewDataPoint(point, activityId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
 
@@ -234,12 +265,9 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/latLongBroken.csv"));
+            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/latLongBroken.csv"), 1);
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
-            databaseWriter.createDatabase();
-            UserDBOperations.insertNewUser(new User(1, "test", 24, 180, 80));
-            ActivityDBOperations.insertNewActivity(test.get(0), 1);
             for (Activity activity : test) {
                 System.out.println(activity.getActivityName());
                 System.out.println(activity.getTotalDistance());
