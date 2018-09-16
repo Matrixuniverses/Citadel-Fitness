@@ -10,9 +10,9 @@ public class DataPoint {
     private double longitude;
     private double altitude;
 
-    // TODO - Get this working correctly (Parser needs modification)
+    // TODO - Add code for finding actual length instead of ground distance (Parser needs modification)
 
-    private double distanceDelta;   // Geodetic distance
+    private double distanceDelta;   // Geodetic distance from last point
     private double lengthDelta;     // Cartesian product, takes altitude into account
 
     // END TODO
@@ -20,13 +20,13 @@ public class DataPoint {
     private double timeDelta;
     private double speedDelta;
 
-    /**
+    /** Constructor for a new Datapoint, each of the basic measurements are required
      *
-     * @param date
-     * @param heartRate
-     * @param latitude
-     * @param longitude
-     * @param altitude
+     * @param date Date/ Time of the measurements
+     * @param heartRate Heart rate measured at ate
+     * @param latitude WSG84 latitude measured at date
+     * @param longitude WSG84 longitude measured at date
+     * @param altitude Vertical distance from sea level at date
      */
     public DataPoint(Date date, int heartRate, double latitude, double longitude, double altitude) {
         this.date = date;
@@ -35,7 +35,6 @@ public class DataPoint {
         this.longitude = longitude;
         this.altitude = altitude;
     }
-
 
 
     public double getDistanceDelta() {

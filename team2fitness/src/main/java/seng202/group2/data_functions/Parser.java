@@ -1,8 +1,7 @@
 package seng202.group2.data_functions;
 
 import com.opencsv.CSVReader;
-import seng202.group2.model.Activity;
-import seng202.group2.model.DataPoint;
+import seng202.group2.model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,22 +17,23 @@ import java.util.concurrent.TimeUnit;
 // TODO - Need to get multithreading working
 
 /**
- * Parser designed to read a CSV file for activity data
+ * Parser designed to read a CSV file for activity data.
  */
 public class Parser {
-    private ArrayList<String[]> malformedLines = new ArrayList<String[]>();
-    private ArrayList<Activity> activitiesRead = new ArrayList<Activity>();
+    private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
+    private ArrayList<Activity> activitiesRead = new ArrayList<>();
+
 
     /**
      * Creates a new parser object and reads location and fitness information from CSV file
      *
      * @param file Given file object to read data from
-     * @throws FileFormatException If any error occurs in reading or parsing
+     * @throws FileFormatException If the passed file is not valid for reading
      */
     public Parser(File file) throws FileFormatException {
         try {
             if (file == null) {
-                throw new IllegalArgumentException("Passed file is null");
+                throw new FileFormatException("File is null");
             }
 
             FileReader readFile = new FileReader(file);
@@ -43,32 +43,44 @@ public class Parser {
             String extension = name.substring(name.lastIndexOf(".") + 1);
 
             if (!extension.equals("csv")) {
-                throw new FileFormatException(null, "Incorrect file format");
+                throw new FileFormatException("Incorrect file format");
             }
 
             readLines(readCSV);
-            generateMetrics();
-            databaseWrite();
+            generateMetrics(this.activitiesRead);
+
+            // Needs to be written to after the user has validated their data?
+            // databaseWrite(this.activitiesRead, );
+
 
         } catch (FileNotFoundException e) {
-            throw new FileFormatException(null, "File not found");
+            throw new FileFormatException("File not found");
         } catch (IOException e) {
-            throw new FileFormatException(null, "Unreadable file");
+            throw new FileFormatException("Unreadable file");
         }
 
     }
 
-
-    public static DataPoint validPoint(String line[], int fields) throws FileFormatException {
+    /**
+     * Creates a new Datapoint for each line, whilst checking the values are as expected
+     *
+     * @param line            Containing the CSV line to read data from
+     * @param fields          Number of fields per line
+     * @param currentActivity Current activity that the line should belong to
+     * @return Datapoint containing parsed line, null if no line could be parsed
+     */
+    public DataPoint readLine(String line[], int fields, Activity currentActivity) {
         int lineLength = line.length;
 
         if (lineLength != fields) {
-            throw new FileFormatException(line, "Line contains unexpected number of fields");
+            malformedLines.add(new MalformedLine(line, currentActivity, "Unexpected number of fields"));
+            return null;
         }
 
         Date date = checkDateTimeFormat(line[0], line[1]);
         if (date == null) {
-            throw new FileFormatException(line, "Line has invalid Date/ Time format");
+            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect date format"));
+            return null;
         }
 
         try {
@@ -80,7 +92,8 @@ public class Parser {
             return new DataPoint(date, heart, lat, lon, alt);
 
         } catch (NumberFormatException e) {
-            throw new FileFormatException(line, "Line has invalid numerical format");
+            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect numerical format"));
+            return null;
         }
     }
 
@@ -89,11 +102,11 @@ public class Parser {
      * Reads lines contained in CSVReader object, and creates activities populated with data points. If there is no
      * 'activity start' delimiter '#start' then the following data points are discarded until an 'activity start'
      * delimiter is found
+     *
      * @param readCSV Object containing CSV file read from disk
-     * @throws IOException         If unreadable file on disk
-     * @throws FileFormatException If invalid line is encountered, allows controller to report line to user
+     * @throws IOException If unreadable file on disk
      */
-    private void readLines(CSVReader readCSV) throws IOException, FileFormatException {
+    private void readLines(CSVReader readCSV) throws IOException {
         Activity currentActivity = new Activity("Unnamed");
         String[] line;
         int fields = 6;
@@ -106,13 +119,13 @@ public class Parser {
 
                     if (line[1] != null && !line[1].equals("")) {
                         currentActivity.setActivityName(line[1]);
-                    } else {
-                        currentActivity.setActivityName("Unnamed");
                     }
 
                 } else {
-                    DataPoint validLine = validPoint(line, fields);
-                    currentActivity.addDataPoint(validLine);
+                    DataPoint point = readLine(line, fields, currentActivity);
+                    if (point != null) {
+                        currentActivity.addDataPoint(point);
+                    }
                 }
             }
         }
@@ -120,7 +133,8 @@ public class Parser {
 
 
     /**
-     * Checks, given two string representing date and time, that the passed strings are of the correct CSV format
+     * Checks, given two string representing date and time, that the passed strings are of the correct format
+     *
      * @param date Textual date
      * @param time Textual time
      * @return DateFormat object representing the current DateTime of the passed strings
@@ -138,8 +152,8 @@ public class Parser {
     /**
      * Creates time, distance and speed metrics for each data point and activity
      */
-    private void generateMetrics() {
-        for (Activity activity : activitiesRead) {
+    private static void generateMetrics(ArrayList<Activity> activities) {
+        for (Activity activity : activities) {
             ArrayList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
             int totalTime = 0;
@@ -166,33 +180,74 @@ public class Parser {
                 }
                 activity.setTotalDistance(totalDistance);
                 activity.setTotalTime(totalTime);
-
             }
 
         }
     }
 
-    private void databaseWrite() {
-
+    private void databaseWrite(ArrayList<Activity> activities, int user_id) {
+        // Send data to database when the functionality is implemented
     }
 
 
     public ArrayList<Activity> getActivitiesRead() {
-        return activitiesRead;
+        return this.activitiesRead;
+    }
+
+    public ArrayList<MalformedLine> getMalformedLines() {
+        return this.malformedLines;
+    }
+
+    /**
+     * Checks a passed line to see if it is valid or not
+     *
+     * @param line Line to be checked
+     * @return True if line is valid, false if not
+     */
+    public static boolean isValidLine(String[] line) {
+        int lineLength = line.length;
+
+        // Default number of fields that should be contained in the line
+        if (lineLength != 6) {
+            return false;
+        }
+
+        // Checks date
+        Date date = checkDateTimeFormat(line[0], line[1]);
+        if (date == null) {
+            return false;
+        }
+
+        // Checks only the data type of the line fields
+        try {
+            Integer.parseInt(line[2]); // HeartRate check
+            Double.parseDouble(line[3]); // Latitude check
+            Double.parseDouble(line[4]); // Longitude check
+            Double.parseDouble(line[5]); // Altitude check
+            return true;
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/main/java/seng202/group2/development_code/data/broken1.csv"));
+            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/latLongBroken.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
+            databaseWriter.createDatabase();
+            UserDBOperations.insertNewUser(new User(1, "test", 24, 180, 80));
+            ActivityDBOperations.insertNewActivity(test.get(0), 1);
             for (Activity activity : test) {
                 System.out.println(activity.getActivityName());
                 System.out.println(activity.getTotalDistance());
             }
         } catch (FileFormatException e) {
             System.out.println(new File(".").getAbsolutePath());
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

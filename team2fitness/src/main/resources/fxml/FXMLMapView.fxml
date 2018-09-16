@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane fx:id="mapViewScene" prefHeight="623.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MapViewController">
+<AnchorPane fx:id="mapViewScene" prefHeight="623.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MapViewController">
    <children>
-      <AnchorPane fx:id="mapBox1" layoutX="68.0" layoutY="125.0" prefHeight="459.0" prefWidth="743.0" />
+      <AnchorPane fx:id="mapBox1" layoutX="22.0" layoutY="125.0" prefHeight="459.0" prefWidth="743.0">
+         <children>
+            <WebView fx:id="mapWebView" prefHeight="459.0" prefWidth="746.0" visible="true" />
+         </children></AnchorPane>
       <Label fx:id="pageTitle1" layoutX="343.0" layoutY="43.0" prefHeight="37.0" prefWidth="193.0" text="Map View" textFill="#0d4868" underline="true">
          <font>
             <Font name="System Bold Italic" size="27.0" />
          </font>
       </Label>
+      <TableView fx:id="mapActivityTable" layoutX="783.0" layoutY="125.0" prefHeight="415.0" prefWidth="200.0">
+          <columns>
+          <TableColumn fx:id="mapActivityNameCol" editable="false" prefWidth="200.0" text="Activity" />
+          </columns>
+      </TableView>
+      <Button fx:id="showRouteButton" layoutX="783.0" layoutY="547.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="200.0" text="Show route" />
    </children>
 </AnchorPane>

@@ -20,12 +20,12 @@ public class User {
     private DoubleProperty bmi;
     private DoubleProperty totalDistance;
 
-    ObservableList<Activity> activityList = FXCollections.observableArrayList();
-    ObservableList<Target> targetList = FXCollections.observableArrayList();
+    private ObservableList<Activity> activityList = FXCollections.observableArrayList();
+    private ObservableList<Target> targetList = FXCollections.observableArrayList();
 
 
 
-    public User(int id, String name, int age, double height, float weight){
+    public User(int id, String name, int age, double height, double weight){
         this.id = id;
         this.name = new SimpleStringProperty(name);
         this.age = new SimpleIntegerProperty(age);
