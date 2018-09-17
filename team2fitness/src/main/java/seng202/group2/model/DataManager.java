@@ -6,7 +6,20 @@ import javafx.collections.ObservableList;
 public class DataManager {
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
-    private User currentUser;
+    private User currentUser = new User("", 0, 0, 0);
+
+    public void setCurrentUser(int i) {
+
+        System.out.print("Current user:" + userList.get(i).getName() + "\n");
+        currentUser.setName(userList.get(i).getName());
+        currentUser.setAge(userList.get(i).getAge());
+        currentUser.setWeight(userList.get(i).getWeight());
+        currentUser.setHeight(userList.get(i).getHeight());
+        currentUser.setName(userList.get(i).getName());
+        currentUser.setActivityList(userList.get(i).getActivityList());
+        currentUser.setTargetList(userList.get(i).getTargetList());
+
+    }
 
     // User Data Functions
 
@@ -56,7 +69,6 @@ public class DataManager {
     public void addActivity(Activity activity){
         // TODO Add Database Connection!
         currentUser.addActivity(activity);
-
     }
 
     /**
@@ -75,6 +87,10 @@ public class DataManager {
 
 
 
+    //Getters and setters
 
 
+    public ObservableList<User> getUserList() {
+        return userList;
+    }
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.model.Activity;
+import seng202.group2.model.DataManager;
 import seng202.group2.model.User;
 
 import javax.swing.text.TableView;
@@ -19,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class ActivityViewController implements Initializable, UserData {
 
-    private User user;
+    private DataManager dataManager;
 
     @FXML
     javafx.scene.control.TableView<Activity> activityTable;
@@ -56,9 +57,12 @@ public class ActivityViewController implements Initializable, UserData {
         return activityDeleteButton;
     }
 
-    public void updateUserData(User user) {
-        this.user = user;
-        activityTable.setItems(user.getActivityList());
+
+    @Override
+    public void updateUserData(DataManager newDataManager) {
+        this.dataManager = newDataManager;
+
+        activityTable.setItems(dataManager.getCurrentUser().getActivityList());
     }
 }
 

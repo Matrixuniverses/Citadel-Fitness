@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import seng202.group2.model.DataManager;
 import seng202.group2.model.User;
 
 import javax.xml.soap.Text;
@@ -25,6 +26,8 @@ public class ProfileController implements Initializable, UserData {
     public StringProperty currentViewProperty() {
         return currentView;
     }
+
+    private DataManager dataManager;
 
     public void setCurrentView(String currentView) {
         this.currentView.set(currentView);
@@ -61,15 +64,17 @@ public class ProfileController implements Initializable, UserData {
 
     }
 
-    public void updateUserData(User user) {
-        bmiLabel.textProperty().bind(Bindings.convert(user.bmiProperty()));
-        nameLabel.textProperty().bind(user.nameProperty());
-        weightLabel.textProperty().bind(Bindings.convert(user.weightProperty()));
-        totalDistanceLabel.textProperty().bind(Bindings.convert(user.totalDistanceProperty()));
-    }
 
     public void showEditProfile() {
         setCurrentView("editProfileScene");
     }
 
+    @Override
+    public void updateUserData(DataManager newDataManager) {
+        this.dataManager = newDataManager;
+        bmiLabel.textProperty().bind(Bindings.convert(dataManager.getCurrentUser().bmiProperty()));
+        nameLabel.textProperty().bind(dataManager.getCurrentUser().nameProperty());
+        weightLabel.textProperty().bind(Bindings.convert(dataManager.getCurrentUser().weightProperty()));
+        totalDistanceLabel.textProperty().bind(Bindings.convert(dataManager.getCurrentUser().totalDistanceProperty()));
+    }
 }

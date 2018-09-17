@@ -22,11 +22,9 @@ import javafx.scene.web.WebEngine;
 import seng202.group2.data_functions.FileFormatException;
 import seng202.group2.data_functions.Parser;
 import seng202.group2.development_code.TestDataGenerator;
-import seng202.group2.model.Activity;
-import seng202.group2.model.Route;
-import seng202.group2.model.User;
-import seng202.group2.model.UserDBOperations;
+import seng202.group2.model.*;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -71,16 +69,17 @@ public class Controller implements Initializable {
     private CreateProfileController createProfileController;
     private MapViewController mapViewController;
 
-    private ObservableList<User> userList = FXCollections.observableArrayList();
-    private User currentUser;
+
+    private DataManager dataManager = new DataManager();
+
+    private ObservableList<User> userList = dataManager.getUserList();
+   // private User currentUser;
 
 
 
 
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
-
-        User testUser = new User(1, "Adam Conway", 20, 170, 70);
 
         initializeViews();
         initializeLoginScene();
@@ -89,16 +88,12 @@ public class Controller implements Initializable {
         initializeSelectFile();
         initializeActivityView();
         initializeEditProfileView();
+        initializeProfileScene();
 
         initializeMapView();
 
-        try {
-            userList = UserDBOperations.getAllUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        userList.add(testUser);
+        dataManager.createNewUser("Bob Johnson", 30, 190, 100);
+        dataManager.createNewUser("John Smith", 20, 165, 70);
 
         //currentUser = TestDataGenerator.createUser1();
         //activityViewController.updateUserData(currentUser);
@@ -173,6 +168,20 @@ public class Controller implements Initializable {
      */
     private void initializeLoginScene(){
 
+        loginSceneController.updateUserData(dataManager);
+
+        loginSceneController.statusProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.equals("logged in")){
+                    mainContainer.toFront();
+                    loginScene.toBack();
+                    createProfileScene.toBack();
+                    loginSceneController.statusProperty().setValue("none");
+                }
+            }
+        });
+
         loginSceneController.getNewUserButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -182,35 +191,6 @@ public class Controller implements Initializable {
         });
 
 
-        ObservableList<Button> buttonList = loginSceneController.getButtonList();
-
-
-        userList.addListener(new ListChangeListener<User>() {
-            @Override
-            public void onChanged(Change<? extends User> c) {
-                // Sets actions for select user buttons.
-                for (int i = 0; i < buttonList.size(); i++) {
-                    int number = i;
-                    buttonList.get(number).setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            currentUser = userList.get(number);
-                            activityViewController.updateUserData(currentUser);
-                            profileController.updateUserData(currentUser);
-                            loginScene.toBack();
-                            createProfileScene.toBack();
-                            mainContainer.toFront();
-                        }
-                    });
-                    buttonList.get(i).setVisible(false);
-                }
-
-                for (int i = 0 ; i < userList.size() ; i++) {
-                    buttonList.get(i).setVisible(true);
-                    buttonList.get(i).textProperty().bind(userList.get(i).nameProperty());
-                }
-            }
-        });
     }
 
     /**
@@ -220,10 +200,12 @@ public class Controller implements Initializable {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 paneMap.get(newValue).toFront();
-
-                System.out.println(currentUser.getBmi());
             }
         });
+    }
+
+    private void initializeProfileScene() {
+        profileController.updateUserData(dataManager);
     }
 
     private void initializeCreateProfileScene(){
@@ -235,9 +217,7 @@ public class Controller implements Initializable {
                     Integer age = Integer.valueOf(createProfileController.getDobField().getText());
                     Double height = Double.valueOf(createProfileController.getHeightField().getText());
                     Float weight = Float.valueOf(createProfileController.getWeightField().getText());
-                    User user = new User(-1, name, age, height, weight);
-                    user.setId(UserDBOperations.insertNewUser(user));
-                    userList.add(user);
+                    dataManager.createNewUser(name, age, height, weight);
                     createProfileScene.toBack();
 
                 } catch (NumberFormatException e) {
@@ -246,8 +226,6 @@ public class Controller implements Initializable {
                     raiseError("Error dialog", "Must select a date");
                 } catch (IllegalArgumentException e) {
                     raiseError("Error dialog", "Activity must be named");
-                } catch (SQLException e) {
-                    raiseError("Database Error", "Could not read from database");
                 }
             }
         });
@@ -283,20 +261,20 @@ public class Controller implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 paneMap.get("editScene").toFront();
-                editProfileController.getfNameField().setText(currentUser.getName());
-                editProfileController.getlNameField().setText(currentUser.getName());
+                editProfileController.getfNameField().setText(dataManager.getCurrentUser().getName());
+                editProfileController.getlNameField().setText(dataManager.getCurrentUser().getName());
                 //TODO: seperate first and last name
-                editProfileController.getHeightField().setText(String.valueOf(currentUser.getHeight()));
-                editProfileController.getDobField().setText(String.valueOf(currentUser.getAge()));
-                editProfileController.getWeightField().setText(String.valueOf(currentUser.getWeight()));
+                editProfileController.getHeightField().setText(String.valueOf(dataManager.getCurrentUser().getHeight()));
+                editProfileController.getDobField().setText(String.valueOf(dataManager.getCurrentUser().getAge()));
+                editProfileController.getWeightField().setText(String.valueOf(dataManager.getCurrentUser().getWeight()));
                 editProfileController.getSaveChangesButton().setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         try{
-                            currentUser.setName(editProfileController.getfNameField().getText());
-                            currentUser.setHeight(Double.valueOf(editProfileController.getHeightField().getText()));
-                            currentUser.setAge(Integer.valueOf(editProfileController.getDobField().getText()));
-                            currentUser.setWeight(Double.valueOf(editProfileController.getWeightField().getText()));
+                            dataManager.getCurrentUser().setName(editProfileController.getfNameField().getText());
+                            dataManager.getCurrentUser().setHeight(Double.valueOf(editProfileController.getHeightField().getText()));
+                            dataManager.getCurrentUser().setAge(Integer.valueOf(editProfileController.getDobField().getText()));
+                            dataManager.getCurrentUser().setWeight(Double.valueOf(editProfileController.getWeightField().getText()));
                             paneMap.get("editScene").toBack();
                         }catch (Exception f) {
                             System.out.println(f);
@@ -315,95 +293,24 @@ public class Controller implements Initializable {
      * Initialises the activity view.
      */
     private void initializeActivityView() {
-        activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                ObservableList<Activity> activityList = activityViewController.getActivityTable().getSelectionModel().getSelectedItems();
-                ArrayList<Activity> rows = new ArrayList<>(activityList);
-                rows.forEach(row -> currentUser.getActivityList().remove(row));
-            }
-        });
+        activityViewController.updateUserData(dataManager);
+
+//        activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                ObservableList<Activity> activityList = activityViewController.getActivityTable().getSelectionModel().getSelectedItems();
+//                ArrayList<Activity> rows = new ArrayList<>(activityList);
+//                rows.forEach(row -> dataManager.getCurrentUser().getActivityList().remove(row));
+//            }
+//        });
     }
 
     /**
      * Initialises the select file view.
      */
     private void initializeSelectFile() {
-
-        ChoiceBox choiceBoxtype = addDataController.getChoiceBoxType();
-
-        ObservableList<String> typeOptions = FXCollections.observableArrayList();
-        typeOptions.add("Run");
-        typeOptions.add("Walk");
-        typeOptions.add("Cycle");
-        typeOptions.add("Swim");
-        choiceBoxtype.setItems(typeOptions);
-        choiceBoxtype.setValue("Run");
-
-        addDataController.newFileProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (addDataController.getNewFile() != 0) {
-                    File importedFile = addDataController.getSelectedFile();
-                    addDataController.setNewFile(0);
-                    Parser parser = null;
-                    try {
-                        parser = new Parser(importedFile);
-                    } catch (FileFormatException f) {
-                        f.printStackTrace();
-                    }
-
-                    currentUser.getActivityList().addAll(parser.getActivitiesRead());
-
-                    // Check if this is correct
-                    mapViewController.updateUserData(currentUser);
-
-                }
-            }
-        });
-
-        /**
-         * Button for manual data entry.
-         * Creates an activity object with the data the user entered. Adds it to the user's activities list.
-         * If the user enters invalid information, an alert is opened with error message.
-         */
-        addDataController.getButtonSubmitData().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-                try {
-                    String name = addDataController.getTextFieldName().getText();
-                    String type = addDataController.getChoiceBoxType().getValue().toString();
-                    Double distance = Double.parseDouble(addDataController.getTextFieldDistance().getText());
-                    Double time = Double.parseDouble(addDataController.getTextFieldTime().getText());
-
-                    if (addDataController.getDateInput().getValue() == null) {
-                        throw new InputMismatchException();
-                    } else if (name.length() == 0) {
-                        throw new IllegalArgumentException();
-                    } else {
-                        Date date = Date.from(addDataController.getDateInput().getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        Activity userActivity = new Activity(name, date, type, time, distance);
-                        currentUser.getActivityList().add(userActivity);
-
-                        // Check if this is correct
-                        mapViewController.updateUserData(currentUser);
-
-                        //Clear fields
-                        addDataController.getTextFieldName().setText(null);
-                        addDataController.getTextFieldDistance().setText(null);
-                        addDataController.getTextFieldTime().setText(null);
-                        addDataController.getDateInput().setValue(null);
-                    }
-                } catch (NumberFormatException e) {
-                    raiseError("Error dialog", "Time and distance must be numbers");
-                } catch (InputMismatchException e) {
-                    raiseError("Error dialog", "Must select a date");
-                } catch (IllegalArgumentException e) {
-                    raiseError("Error dialog", "Activity must be named");
-                }
+        addDataController.updateUserData(dataManager);
 
 
-            }
-        });
     }
 
     /**

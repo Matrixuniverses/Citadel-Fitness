@@ -1,22 +1,27 @@
 package seng202.group2.view;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import seng202.group2.model.DataManager;
+import seng202.group2.model.User;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class LoginController implements Initializable, UserData {
 
-    int count = 1;
-
-    Controller masterController;
+    private DataManager dataManager;
+    private StringProperty status = new SimpleStringProperty("logged out");
 
     @FXML
     Button newUserButton;
@@ -43,81 +48,51 @@ public class LoginController implements Initializable {
     private ObservableList<Button> buttonList = FXCollections.observableArrayList();
 
 
-    public ObservableList<Button> getButtonList() {
-        return buttonList;
-    }
-
     public Button getNewUserButton() {
         return newUserButton;
     }
 
 
-/*    public void showButton(String name){
-        int userID = getCount();
-        switch(userID) {
-            case(1):
-                user1Button.setVisible(true);
-                user1Button.setText(name);
-                break;
-            case(2):
-                user2Button.setVisible(true);
-                user2Button.setText(name);
-                break;
-            case(3):
-                user3Button.setVisible(true);
-                user3Button.setText(name);
-                break;
-            case(4):
-                user4Button.setVisible(true);
-                user4Button.setText(name);
-                break;
-            case(5):
-                user5Button.setVisible(true);
-                user5Button.setText(name);
-                break;
-            case(6):
-                user6Button.setVisible(true);
-                user6Button.setText(name);
-                break;
-        }
-        setCount(userID + 1);
-    }*/
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public Button getUser1Button() {
-        return user1Button;
-    }
-
-    public Button getUser2Button() {
-        return user2Button;
-    }
-
-    public Button getUser3Button() {
-        return user3Button;
-    }
-
-    public Button getUser4Button() {
-        return user4Button;
-    }
-
-    public Button getUser5Button() {
-        return user5Button;
-    }
-
-    public Button getUser6Button() {
-        return user6Button;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         buttonList.addAll(user1Button, user2Button, user3Button, user4Button, user5Button, user6Button);
 
+    }
+
+    /**
+     * Sets the DataManager to the instance passed from the main controller.
+     * Adds listeners to the login buttons and the new user buttons.
+     * Disables/Enables the buttons when users exist
+     * @param newDataManager
+     */
+    public void updateUserData(DataManager newDataManager) {
+        this.dataManager = newDataManager;
+
+        dataManager.getUserList().addListener(new ListChangeListener<User>() {
+            @Override
+            public void onChanged(Change<? extends User> c) {
+                // Sets actions for select user buttons.
+                for (int i = 0; i < buttonList.size(); i++) {
+                    int number = i;
+                    buttonList.get(number).setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            dataManager.setCurrentUser(number);
+                            status.setValue("logged in");
+                        }
+                    });
+                    buttonList.get(i).setVisible(false);
+                }
+
+                for (int i = 0 ; i < dataManager.getUserList().size() ; i++) {
+                    buttonList.get(i).setVisible(true);
+                    buttonList.get(i).textProperty().bind(dataManager.getUserList().get(i).nameProperty());
+                }
+            }
+        });
+    }
+
+    public StringProperty statusProperty() {
+        return status;
     }
 }
