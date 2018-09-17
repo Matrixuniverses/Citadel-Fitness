@@ -4,7 +4,7 @@ import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
 
-public class databaseWriter {
+public class DatabaseWriter {
     private static String dbURL = "jdbc:sqlite:" + System.getProperty("user.home") + "/CitadelFitnessLocalDatabase.db";
     private static final String driver = "org.sqlite.JDBC";
     private static Connection dbConn = null;
