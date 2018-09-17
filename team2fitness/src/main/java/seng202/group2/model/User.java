@@ -4,6 +4,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.FloatBinding;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -56,6 +58,42 @@ public class User {
             @Override
             public void onChanged(Change<? extends Activity> c) {
                 totalDistance.setValue(calculateTotalUserDistance()/1000);
+            }
+        });
+
+        setupDatabaseHandlers();
+    }
+
+
+    /*
+     * assigns listeners to all properties that are stored in the database. When changed it updates the database.
+     */
+    private void setupDatabaseHandlers() {
+        this.name.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //Update Here
+            }
+        });
+
+        this.age.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+            }
+        });
+
+        this.height.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+            }
+        });
+
+        this.weight.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
             }
         });
     }
