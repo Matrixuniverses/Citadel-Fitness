@@ -14,13 +14,44 @@ public class ActivityDBOperations {
 
 
 
+    public static Activity getClashingActivity(int user_id, java.util.Date activityDate) throws SQLException {
+
+        databaseWriter.connectToDB();
+        String dateString = activityDate.toString();
+        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + user_id + " AND date_string = '" + dateString + "'";
+        ResultSet queryResult = databaseWriter.executeDBQuery(sqlQueryStatement);
+
+        Activity clashingActivity = null;
+
+        if (queryResult.next()) {
+            int activityID = queryResult.getInt("activity_id");
+            String activityName = queryResult.getString("name");
+            activityDate = null;
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+            try {
+                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+            } catch (ParseException e) {
+                System.out.println("Unable to parse date");
+                e.printStackTrace();
+            }
+            String activityType = queryResult.getString("type");
+            double totalDistance = queryResult.getDouble("total_distance");
+            double totalTime = queryResult.getDouble("total_time");
+            clashingActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
+            clashingActivity.setId(activityID);
+
+        }
+        databaseWriter.disconnectFromDB();
+        return clashingActivity;
+
+    }
 
 
-    public static boolean insertNewActivity(Activity activity, int user_id) throws SQLException {
+    public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
 
         //check that the user is actually in the database
         if (UserDBOperations.getUserFromRS(user_id) == null) {
-            return false;
+            return -1;
         }
         databaseWriter.connectToDB();
 
@@ -40,8 +71,13 @@ public class ActivityDBOperations {
         pUpdateStatement.setDouble(6, activity.getTotalDistance());
         pUpdateStatement.setDouble(7, activity.getTotalTime());
         pUpdateStatement.executeUpdate();
+
+        ResultSet results = pUpdateStatement.getGeneratedKeys();
+        results.next();
+        int activity_id = results.getInt(1);
+
         databaseWriter.disconnectFromDB();
-        return true;
+        return activity_id;
 
 
     }
@@ -132,6 +168,22 @@ public class ActivityDBOperations {
         }
     }
 
+    public static boolean deleteExistingActivity(int activityID) throws SQLException{
+        databaseWriter.connectToDB();
+        String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
+        Connection dbConn = databaseWriter.getDbConnection();
+        PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
+        pDeleteStmt.setInt(1, activityID);
+        pDeleteStmt.executeUpdate();
+        databaseWriter.disconnectFromDB();
+        if (getActivityFromRS(activityID) == null) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     /*public static void main(String[] args) {
         try {
             Activity test = getActivityFromRS(3);
@@ -144,6 +196,7 @@ public class ActivityDBOperations {
 
                 }
             }
+            deleteExistingActivity(1);
 
         } catch (Exception e) {
             e.printStackTrace();

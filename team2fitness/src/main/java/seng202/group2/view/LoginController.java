@@ -1,16 +1,22 @@
 package seng202.group2.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
     int count = 1;
+
+    Controller masterController;
 
     @FXML
     Button newUserButton;
@@ -34,29 +40,48 @@ public class LoginController implements Initializable {
     @FXML
     Button user6Button;
 
+    private ObservableList<Button> buttonList = FXCollections.observableArrayList();
+
+
+    public ObservableList<Button> getButtonList() {
+        return buttonList;
+    }
 
     public Button getNewUserButton() {
         return newUserButton;
     }
 
-    public void showButton(){
+
+/*    public void showButton(String name){
         int userID = getCount();
-        if (userID == 1){
-            user1Button.setVisible(true);
-        } else if (userID == 2){
-            user2Button.setVisible(true);
-        } else if (userID == 3){
-            user3Button.setVisible(true);
-        } else if (userID == 4) {
-            user4Button.setVisible(true);
-        } else if (userID == 5) {
-            user5Button.setVisible(true);
-        }else if (userID == 6){
-            user6Button.setVisible(true);
-            newUserButton.setVisible(false);
+        switch(userID) {
+            case(1):
+                user1Button.setVisible(true);
+                user1Button.setText(name);
+                break;
+            case(2):
+                user2Button.setVisible(true);
+                user2Button.setText(name);
+                break;
+            case(3):
+                user3Button.setVisible(true);
+                user3Button.setText(name);
+                break;
+            case(4):
+                user4Button.setVisible(true);
+                user4Button.setText(name);
+                break;
+            case(5):
+                user5Button.setVisible(true);
+                user5Button.setText(name);
+                break;
+            case(6):
+                user6Button.setVisible(true);
+                user6Button.setText(name);
+                break;
         }
         setCount(userID + 1);
-    }
+    }*/
 
     public int getCount() {
         return count;
@@ -90,12 +115,9 @@ public class LoginController implements Initializable {
         return user6Button;
     }
 
-
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        buttonList.addAll(user1Button, user2Button, user3Button, user4Button, user5Button, user6Button);
 
     }
 }
