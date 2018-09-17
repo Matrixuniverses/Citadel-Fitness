@@ -32,7 +32,7 @@ public class User {
         this.height = new SimpleDoubleProperty(height);
         this.weight = new SimpleDoubleProperty(weight);
         this.bmi = new SimpleDoubleProperty();
-        this.bmi.bind(this.weight.divide(this.height.multiply(this.height.divide(100))));
+        this.bmi.bind(this.weight.divide(this.height.divide(100).multiply(this.height.divide(100))));
 
         totalDistance = new SimpleDoubleProperty(0);
         activityList.addListener(new ListChangeListener<Activity>() {
