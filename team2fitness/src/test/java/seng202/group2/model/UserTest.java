@@ -12,7 +12,7 @@ public class UserTest {
 
     User user;
     @Before public void setup(){
-        user = new User(1, "Adam", 20, 1.80, 80);
+        user = new User(1, "Adam", 20, 180, 80);
     }
 
     @Test
@@ -28,7 +28,7 @@ public class UserTest {
 
     @Test
     public void testBmiHeightUpdate(){
-        user.setHeight(1.90);
+        user.setHeight(190);
         assertEquals(22.16, user.getBmi(), 1e-2);
     }
 

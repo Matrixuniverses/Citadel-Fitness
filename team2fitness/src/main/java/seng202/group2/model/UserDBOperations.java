@@ -2,7 +2,7 @@ package seng202.group2.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seng202.group2.data_functions.databaseWriter;
+import seng202.group2.data_functions.DatabaseWriter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,11 +20,11 @@ public class UserDBOperations {
      */
     public static User getUserFromRS(int user_id) throws SQLException {
 
-        databaseWriter.connectToDB();
+        DatabaseWriter.connectToDB();
 
         String sqlQuery = "SELECT * FROM Users WHERE user_id = "+ user_id + ";";
 
-        ResultSet queryResult = databaseWriter.executeDBQuery(sqlQuery);
+        ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQuery);
 
         User retrievedUser = null;
 
@@ -41,7 +41,7 @@ public class UserDBOperations {
 
 
         }
-        databaseWriter.disconnectFromDB();
+        DatabaseWriter.disconnectFromDB();
 
 
         return retrievedUser;
@@ -56,11 +56,12 @@ public class UserDBOperations {
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
     public static ObservableList<User> getAllUsers() throws SQLException {
-        databaseWriter.connectToDB();
+        DatabaseWriter.createDatabase();
+        DatabaseWriter.connectToDB();
 
         String sqlQuery = "SELECT * from Users";
 
-        ResultSet queryResult = databaseWriter.executeDBQuery(sqlQuery);
+        ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQuery);
 
 
         ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
@@ -75,7 +76,7 @@ public class UserDBOperations {
 
             retrievedUsers.add(retrievedUser);
         }
-        databaseWriter.disconnectFromDB();
+        DatabaseWriter.disconnectFromDB();
 
         return retrievedUsers;
 
@@ -89,11 +90,11 @@ public class UserDBOperations {
      * @param user The User object to be stored in the database.
      * @throws SQLException If there is a sql related error when trying to preform the insert operation on the database.
      */
-    public static void insertNewUser(User user) throws SQLException {
-        databaseWriter.connectToDB();
+    public static int insertNewUser(User user) throws SQLException {
+        DatabaseWriter.connectToDB();
         String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight) VALUES(?,?,?,?)";
 
-        Connection dbConn = databaseWriter.getDbConnection();
+        Connection dbConn = DatabaseWriter.getDbConnection();
 
         PreparedStatement pInsertStmt = dbConn.prepareStatement(sqlInsertStmt);
         pInsertStmt.setString(1, user.getName());
@@ -101,10 +102,12 @@ public class UserDBOperations {
         pInsertStmt.setDouble(3,  user.getHeight());
         pInsertStmt.setDouble(4, user.getWeight());
         pInsertStmt.executeUpdate();
-        databaseWriter.disconnectFromDB();
 
-
-
+        ResultSet results = pInsertStmt.getGeneratedKeys();
+        results.next();
+        int user_id = results.getInt(1);
+        DatabaseWriter.disconnectFromDB();
+        return user_id;
 
     }
 
@@ -119,8 +122,8 @@ public class UserDBOperations {
 
         String sqlUpdateStmt = "UPDATE Users SET name = ?, age = ?, height = ?, weight = ? WHERE user_id = ?";
         if (getUserFromRS(user.getId()) != null) {
-            databaseWriter.connectToDB();
-            Connection dbConn = databaseWriter.getDbConnection();
+            DatabaseWriter.connectToDB();
+            Connection dbConn = DatabaseWriter.getDbConnection();
 
             PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStatement.setString(1, user.getName());
@@ -129,7 +132,7 @@ public class UserDBOperations {
             pUpdateStatement.setDouble(4, user.getWeight());
             pUpdateStatement.setInt(5, user.getId());
             pUpdateStatement.executeUpdate();
-            databaseWriter.disconnectFromDB();
+            DatabaseWriter.disconnectFromDB();
             return true;
         } else {
 
@@ -147,13 +150,13 @@ public class UserDBOperations {
      * @throws SQLException if an sql related error occurs while attempting to delete a user from the database.
      */
     public static boolean deleteExistingUser(int userId) throws SQLException {
-        databaseWriter.connectToDB();
+        DatabaseWriter.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Users WHERE user_id = ?";
-        Connection dbConn = databaseWriter.getDbConnection();
+        Connection dbConn = DatabaseWriter.getDbConnection();
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, userId);
         pDeleteStmt.executeUpdate();
-        databaseWriter.disconnectFromDB();
+        DatabaseWriter.disconnectFromDB();
         if (getUserFromRS(userId) == null) {
             return true;
         } else {
@@ -179,7 +182,7 @@ public class UserDBOperations {
     /*public static void main(String[] args) {
         try {
 
-            databaseWriter.createDatabase();
+            DatabaseWriter.createDatabase();
             User testUser = new User(0,"Test0", 17, 1.8, 75);
             for (int i = 1; i < 6; i++) {
                 testUser.setName(testUser.getName().substring(0, testUser.getName().length() - 1) + Integer.toString(i));

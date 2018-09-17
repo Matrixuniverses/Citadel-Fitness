@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -61,4 +62,27 @@ public class MapViewController implements Initializable, UserData  {
         mapActivityTable.setItems(user.getActivityList());
     }
 
+    public Button getShowRouteButton() {
+        return showRouteButton;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public TableView<Activity> getMapActivityTable() {
+        return mapActivityTable;
+    }
+
+    public TableColumn getMapActivityNameCol() {
+        return mapActivityNameCol;
+    }
+
+    public WebView getMapWebView() {
+        return mapWebView;
+    }
+
+    public WebEngine getWebEngine() {
+        return webEngine;
+    }
 }

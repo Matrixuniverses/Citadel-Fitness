@@ -32,7 +32,24 @@ public class User {
         this.height = new SimpleDoubleProperty(height);
         this.weight = new SimpleDoubleProperty(weight);
         this.bmi = new SimpleDoubleProperty();
-        this.bmi.bind(this.weight.divide(this.height.multiply(this.height.divide(100))));
+        this.bmi.bind(this.weight.divide(this.height.divide(100).multiply(this.height.divide(100))));
+
+        totalDistance = new SimpleDoubleProperty(0);
+        activityList.addListener(new ListChangeListener<Activity>() {
+            @Override
+            public void onChanged(Change<? extends Activity> c) {
+                totalDistance.setValue(calculateTotalUserDistance()/1000);
+            }
+        });
+    }
+
+    public User(String name, int age, double height, double weight){
+        this.name = new SimpleStringProperty(name);
+        this.age = new SimpleIntegerProperty(age);
+        this.height = new SimpleDoubleProperty(height);
+        this.weight = new SimpleDoubleProperty(weight);
+        this.bmi = new SimpleDoubleProperty();
+        this.bmi.bind(this.weight.divide(this.height.divide(100).multiply(this.height.divide(100))));
 
         totalDistance = new SimpleDoubleProperty(0);
         activityList.addListener(new ListChangeListener<Activity>() {
@@ -49,6 +66,14 @@ public class User {
             totalDistance += activity.getTotalDistance();
         }
         return totalDistance;
+    }
+
+    public void addActivity(Activity activity){
+        this.activityList.add(activity);
+    }
+
+    public void deleteActivity(Activity activity) {
+        this.activityList.remove(activity);
     }
 
     public int getId() {
