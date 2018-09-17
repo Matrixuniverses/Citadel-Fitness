@@ -56,6 +56,7 @@ public class UserDBOperations {
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
     public static ObservableList<User> getAllUsers() throws SQLException {
+        databaseWriter.createDatabase();
         databaseWriter.connectToDB();
 
         String sqlQuery = "SELECT * from Users";
@@ -89,7 +90,7 @@ public class UserDBOperations {
      * @param user The User object to be stored in the database.
      * @throws SQLException If there is a sql related error when trying to preform the insert operation on the database.
      */
-    public static void insertNewUser(User user) throws SQLException {
+    public static int insertNewUser(User user) throws SQLException {
         databaseWriter.connectToDB();
         String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight) VALUES(?,?,?,?)";
 
@@ -101,10 +102,12 @@ public class UserDBOperations {
         pInsertStmt.setDouble(3,  user.getHeight());
         pInsertStmt.setDouble(4, user.getWeight());
         pInsertStmt.executeUpdate();
+
+        ResultSet results = pInsertStmt.getGeneratedKeys();
+        results.next();
+        int user_id = results.getInt(1);
         databaseWriter.disconnectFromDB();
-
-
-
+        return user_id;
 
     }
 

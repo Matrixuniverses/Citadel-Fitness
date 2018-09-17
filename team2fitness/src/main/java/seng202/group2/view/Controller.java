@@ -25,10 +25,12 @@ import seng202.group2.development_code.TestDataGenerator;
 import seng202.group2.model.Activity;
 import seng202.group2.model.Route;
 import seng202.group2.model.User;
+import seng202.group2.model.UserDBOperations;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -90,8 +92,13 @@ public class Controller implements Initializable {
 
         initializeMapView();
 
-        userList.add(testUser);
+        try {
+            userList = UserDBOperations.getAllUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        userList.add(testUser);
 
         //currentUser = TestDataGenerator.createUser1();
         //activityViewController.updateUserData(currentUser);
@@ -224,12 +231,12 @@ public class Controller implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 try{
-                    int id = loginSceneController.getCount();
                     String name = createProfileController.getfNameField().getText();
                     Integer age = Integer.valueOf(createProfileController.getDobField().getText());
                     Double height = Double.valueOf(createProfileController.getHeightField().getText());
                     Float weight = Float.valueOf(createProfileController.getWeightField().getText());
-                    User user = new User(id, name, age, height, weight);
+                    User user = new User(-1, name, age, height, weight);
+                    user.setId(UserDBOperations.insertNewUser(user));
                     userList.add(user);
                     createProfileScene.toBack();
 
@@ -239,7 +246,8 @@ public class Controller implements Initializable {
                     raiseError("Error dialog", "Must select a date");
                 } catch (IllegalArgumentException e) {
                     raiseError("Error dialog", "Activity must be named");
-
+                } catch (SQLException e) {
+                    raiseError("Database Error", "Could not read from database");
                 }
             }
         });

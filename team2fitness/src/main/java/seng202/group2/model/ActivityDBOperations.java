@@ -13,7 +13,6 @@ import seng202.group2.data_functions.databaseWriter;
 public class ActivityDBOperations {
 
 
-
     public static Activity getClashingActivity(int user_id, java.util.Date activityDate) throws SQLException {
 
         databaseWriter.connectToDB();
@@ -54,7 +53,7 @@ public class ActivityDBOperations {
             return false;
         }*/
 
-      public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
+    public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
 
         //check that the user is actually in the database
         if (UserDBOperations.getUserFromRS(user_id) == null) {
@@ -64,24 +63,24 @@ public class ActivityDBOperations {
         databaseWriter.connectToDB();
 
 
-            String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
-                    "VALUES(?,?,?,?,?,?,?)";
+        String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
+                "VALUES(?,?,?,?,?,?,?)";
 
 
-            Connection dbConn = databaseWriter.getDbConnection();
+        Connection dbConn = databaseWriter.getDbConnection();
 
-            PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlInsertStmt);
-            pUpdateStatement.setInt(1, user_id);
-            pUpdateStatement.setString(2, activity.getActivityName());
-            pUpdateStatement.setString(3, activity.getDate().toString());
-            pUpdateStatement.setDate(4, new java.sql.Date(activity.getDate().getTime()));
-            pUpdateStatement.setString(5, activity.getActivityType());
-            pUpdateStatement.setDouble(6, activity.getTotalDistance());
-            pUpdateStatement.setDouble(7, activity.getTotalTime());
-            pUpdateStatement.executeUpdate();
+        PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlInsertStmt);
+        pUpdateStatement.setInt(1, user_id);
+        pUpdateStatement.setString(2, activity.getActivityName());
+        pUpdateStatement.setString(3, activity.getDate().toString());
+        pUpdateStatement.setDate(4, new java.sql.Date(activity.getDate().getTime()));
+        pUpdateStatement.setString(5, activity.getActivityType());
+        pUpdateStatement.setDouble(6, activity.getTotalDistance());
+        pUpdateStatement.setDouble(7, activity.getTotalTime());
+        pUpdateStatement.executeUpdate();
 
-            databaseWriter.disconnectFromDB();
-            //return true;
+        databaseWriter.disconnectFromDB();
+        //return true;
 
         ResultSet results = pUpdateStatement.getGeneratedKeys();
         results.next();
@@ -90,7 +89,7 @@ public class ActivityDBOperations {
         databaseWriter.disconnectFromDB();
         return activity_id;
 
-        }
+    }
 
 
 /*    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
@@ -128,9 +127,9 @@ public class ActivityDBOperations {
 
     public static Activity getActivityFromRS(int activity_id) throws SQLException {
         databaseWriter.connectToDB();
-        String sqlQuery = "SELECT * FROM Activities WHERE activity_id = "+ activity_id + ";";
+        String sqlQuery = "SELECT * FROM Activities WHERE activity_id = " + activity_id + ";";
         ResultSet queryResult = databaseWriter.executeDBQuery(sqlQuery);
-        Activity retrievedActivity= null;
+        Activity retrievedActivity = null;
 
         if (queryResult.next()) {
             int activityID = queryResult.getInt("activity_id");
@@ -155,7 +154,7 @@ public class ActivityDBOperations {
     }
 
 
-    public static boolean updateExistingActivity(Activity activity) throws SQLException{
+    public static boolean updateExistingActivity(Activity activity) throws SQLException {
 
         String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ? WHERE activity_id = ?";
         if (getActivityFromRS(activity.getId()) != null) {
@@ -178,7 +177,7 @@ public class ActivityDBOperations {
         }
     }
 
-    public static boolean deleteExistingActivity(int activityID) throws SQLException{
+    public static boolean deleteExistingActivity(int activityID) throws SQLException {
         databaseWriter.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
         Connection dbConn = databaseWriter.getDbConnection();
@@ -212,7 +211,6 @@ public class ActivityDBOperations {
             e.printStackTrace();
         }
     }*/
-
 
 
 }
