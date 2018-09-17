@@ -2,6 +2,10 @@ package seng202.group2.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seng202.group2.data_functions.DatabaseWriter;
+
+import javax.xml.crypto.Data;
+import java.sql.SQLException;
 
 public class DataManager {
 
@@ -11,16 +15,23 @@ public class DataManager {
     // User Data Functions
 
     public void createNewUser(String name, int age, double height, double weight) {
-        // TODO Add Database Connection!
         User newUser = new User(name, age, height, weight);
-
-        // newUser.setId = ..... get ID from database
-
+        try {
+            DatabaseWriter.createDatabase();
+            newUser.setId(UserDBOperations.insertNewUser(newUser));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         userList.add(newUser);
     }
 
     public void deleteUser(User user) {
-        // TODO Add Database Connection!
+        try {
+            DatabaseWriter.createDatabase();
+            UserDBOperations.deleteExistingUser(user.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         userList.remove(user);
     }
 

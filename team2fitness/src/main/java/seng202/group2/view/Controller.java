@@ -93,7 +93,10 @@ public class Controller implements Initializable {
         initializeMapView();
 
         try {
-            userList = UserDBOperations.getAllUsers();
+            for (User user : UserDBOperations.getAllUsers()) {
+                userList.add(user);
+            }
+            System.out.println(userList.size());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -184,10 +187,24 @@ public class Controller implements Initializable {
 
         ObservableList<Button> buttonList = loginSceneController.getButtonList();
 
+        for (User user : userList) {
+            buttonList.get(userList.indexOf(user)).setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    currentUser = user;
+                    activityViewController.updateUserData(currentUser);
+                    profileController.updateUserData(currentUser);
+                    loginScene.toBack();
+                    createProfileScene.toBack();
+                    mainContainer.toFront();
+                }
+            });
+        }
 
         userList.addListener(new ListChangeListener<User>() {
             @Override
             public void onChanged(Change<? extends User> c) {
+                System.out.println("action fired");
                 // Sets actions for select user buttons.
                 for (int i = 0; i < buttonList.size(); i++) {
                     int number = i;
