@@ -47,38 +47,53 @@ public class ActivityDBOperations {
     }
 
 
-    public static boolean insertNewActivity(Activity activity, int user_id) throws SQLException {
+/*    public static boolean insertNewActivity(Activity activity, int user_id) throws SQLException {
 
         //check that the user is actually in the database
         if (UserDBOperations.getUserFromRS(user_id) == null) {
             return false;
+        }*/
+
+      public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
+
+        //check that the user is actually in the database
+        if (UserDBOperations.getUserFromRS(user_id) == null) {
+            return -1;
+
         }
         databaseWriter.connectToDB();
 
 
-        String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
-                "VALUES(?,?,?,?,?,?,?)";
+            String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
+                    "VALUES(?,?,?,?,?,?,?)";
 
 
-        Connection dbConn = databaseWriter.getDbConnection();
+            Connection dbConn = databaseWriter.getDbConnection();
 
-        PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlInsertStmt);
-        pUpdateStatement.setInt(1,user_id);
-        pUpdateStatement.setString(2,activity.getActivityName());
-        pUpdateStatement.setString(3,activity.getDate().toString());
-        pUpdateStatement.setDate(4,new java.sql.Date(activity.getDate().getTime()));
-        pUpdateStatement.setString(5, activity.getActivityType());
-        pUpdateStatement.setDouble(6, activity.getTotalDistance());
-        pUpdateStatement.setDouble(7, activity.getTotalTime());
-        pUpdateStatement.executeUpdate();
+            PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlInsertStmt);
+            pUpdateStatement.setInt(1, user_id);
+            pUpdateStatement.setString(2, activity.getActivityName());
+            pUpdateStatement.setString(3, activity.getDate().toString());
+            pUpdateStatement.setDate(4, new java.sql.Date(activity.getDate().getTime()));
+            pUpdateStatement.setString(5, activity.getActivityType());
+            pUpdateStatement.setDouble(6, activity.getTotalDistance());
+            pUpdateStatement.setDouble(7, activity.getTotalTime());
+            pUpdateStatement.executeUpdate();
+
+            databaseWriter.disconnectFromDB();
+            //return true;
+
+        ResultSet results = pUpdateStatement.getGeneratedKeys();
+        results.next();
+        int activity_id = results.getInt(1);
+
         databaseWriter.disconnectFromDB();
-        return true;
+        return activity_id;
+
+        }
 
 
-    }
-
-
-    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
+/*    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
 
         databaseWriter.connectToDB();
         String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = "+ user_id + " ORDER BY date;";
@@ -109,9 +124,9 @@ public class ActivityDBOperations {
         return userActivities;
 
 
-    }
+    }*/
 
-    public static Activity getActivityFromRS(int activity_id) throws SQLException{
+    public static Activity getActivityFromRS(int activity_id) throws SQLException {
         databaseWriter.connectToDB();
         String sqlQuery = "SELECT * FROM Activities WHERE activity_id = "+ activity_id + ";";
         ResultSet queryResult = databaseWriter.executeDBQuery(sqlQuery);

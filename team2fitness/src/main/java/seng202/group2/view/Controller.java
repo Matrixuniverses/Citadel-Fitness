@@ -18,10 +18,12 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
 import seng202.group2.data_functions.FileFormatException;
 import seng202.group2.data_functions.Parser;
 import seng202.group2.development_code.TestDataGenerator;
 import seng202.group2.model.Activity;
+import seng202.group2.model.Route;
 import seng202.group2.model.User;
 
 import java.io.File;
@@ -252,11 +254,18 @@ public class Controller implements Initializable {
 
     private void initializeMapView() {
 
+        mapViewController.getShowRouteButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Activity selectedActivity = mapViewController.getActivityTable().getSelectionModel().getSelectedItem();
+                WebEngine webEngine = mapViewController.getWebEngine();
+
+                Route path = new Route(selectedActivity.getActivityData());
+                String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
+                webEngine.executeScript(scriptToExecute);
+            }
+        });
     }
-
-
-
-
 
     /**
      * Initialises the edit profile view.
