@@ -8,11 +8,14 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import seng202.group2.data_functions.DatabaseWriter;
 import seng202.group2.model.Activity;
+import seng202.group2.model.ActivityDBOperations;
 import seng202.group2.model.User;
 
 import javax.swing.text.TableView;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;

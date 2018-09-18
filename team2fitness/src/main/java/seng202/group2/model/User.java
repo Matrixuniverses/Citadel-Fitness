@@ -7,7 +7,9 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import seng202.group2.data_functions.DatabaseWriter;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class User {
@@ -58,6 +60,18 @@ public class User {
                 totalDistance.setValue(calculateTotalUserDistance()/1000);
             }
         });
+    }
+
+    public void loadDataFromDB() {
+        try {
+            DatabaseWriter.createDatabase();
+            DatabaseWriter.connectToDB();
+
+            activityList = ActivityDBOperations.getAllUsersActivities(id);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private double calculateTotalUserDistance(){

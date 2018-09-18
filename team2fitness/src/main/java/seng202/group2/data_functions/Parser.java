@@ -270,6 +270,7 @@ public class Parser {
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             DatabaseWriter.createDatabase();
+
             UserDBOperations.insertNewUser(new User(1, "test", 24, 180, 80));
             ActivityDBOperations.insertNewActivity(test.get(0), 1);
             for (Activity activity : test) {

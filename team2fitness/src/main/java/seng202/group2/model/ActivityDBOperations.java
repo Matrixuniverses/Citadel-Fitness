@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seng202.group2.data_functions.DatabaseWriter;
 
 public class ActivityDBOperations {
@@ -57,6 +59,7 @@ public class ActivityDBOperations {
             return -1;
 
         }
+
         DatabaseWriter.connectToDB();
 
 
@@ -75,8 +78,6 @@ public class ActivityDBOperations {
         pUpdateStatement.setDouble(6, activity.getTotalDistance());
         pUpdateStatement.setDouble(7, activity.getTotalTime());
         pUpdateStatement.executeUpdate();
-
-        DatabaseWriter.disconnectFromDB();
         //return true;
 
         ResultSet results = pUpdateStatement.getGeneratedKeys();
@@ -89,10 +90,10 @@ public class ActivityDBOperations {
     }
 
 
-/*    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
+    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException {
 
         DatabaseWriter.connectToDB();
-        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = "+ user_id + " ORDER BY date;";
+        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + user_id + " ORDER BY date;";
         ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQueryStatement);
 
         ObservableList<Activity> userActivities = FXCollections.observableArrayList();
@@ -103,7 +104,7 @@ public class ActivityDBOperations {
             java.util.Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
             try {
-                 activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
             } catch (ParseException e) {
                 System.out.println("Unable to parse date");
                 e.printStackTrace();
@@ -118,9 +119,8 @@ public class ActivityDBOperations {
         }
         DatabaseWriter.disconnectFromDB();
         return userActivities;
+    }
 
-
-    }*/
 
     public static Activity getActivityFromRS(int activity_id) throws SQLException {
         DatabaseWriter.connectToDB();

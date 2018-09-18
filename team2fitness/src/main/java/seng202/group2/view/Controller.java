@@ -101,7 +101,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
 
-        userList.add(testUser);
+        //userList.add(testUser);
 
         //currentUser = TestDataGenerator.createUser1();
         //activityViewController.updateUserData(currentUser);
@@ -187,44 +187,27 @@ public class Controller implements Initializable {
 
         ObservableList<Button> buttonList = loginSceneController.getButtonList();
 
-        for (User user : userList) {
-            buttonList.get(userList.indexOf(user)).setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    currentUser = user;
-                    activityViewController.updateUserData(currentUser);
-                    profileController.updateUserData(currentUser);
-                    loginScene.toBack();
-                    createProfileScene.toBack();
-                    mainContainer.toFront();
-                }
-            });
-        }
-
         userList.addListener(new ListChangeListener<User>() {
             @Override
             public void onChanged(Change<? extends User> c) {
-                System.out.println("action fired");
-                // Sets actions for select user buttons.
-                for (int i = 0; i < buttonList.size(); i++) {
-                    int number = i;
-                    buttonList.get(number).setOnAction(new EventHandler<ActionEvent>() {
+
+                for (User user_loaded : userList) {
+                    int user_index = userList.indexOf(user_loaded);
+                    buttonList.get(user_index).setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            currentUser = userList.get(number);
+                            currentUser = user_loaded;
+                            user_loaded.loadDataFromDB();
                             activityViewController.updateUserData(currentUser);
                             profileController.updateUserData(currentUser);
+                            mapViewController.updateUserData(currentUser);
                             loginScene.toBack();
                             createProfileScene.toBack();
                             mainContainer.toFront();
                         }
                     });
-                    buttonList.get(i).setVisible(false);
-                }
-
-                for (int i = 0 ; i < userList.size() ; i++) {
-                    buttonList.get(i).setVisible(true);
-                    buttonList.get(i).textProperty().bind(userList.get(i).nameProperty());
+                    buttonList.get(user_index).setVisible(true);
+                    buttonList.get(user_index).textProperty().bind(user_loaded.nameProperty());
                 }
             }
         });
