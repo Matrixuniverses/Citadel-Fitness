@@ -2,11 +2,28 @@ package seng202.group2.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seng202.group2.data_functions.DatabaseWriter;
+
+import javax.xml.crypto.Data;
+import java.sql.SQLException;
 
 public class DataManager {
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
     private User currentUser = new User("", 0, 0, 0);
+
+
+    public DataManager() {
+        try {
+            for (User user : UserDBOperations.getAllUsers()) {
+                userList.add(user);
+            }
+            System.out.println(userList.size());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void setCurrentUser(int i) {
 
@@ -23,17 +40,24 @@ public class DataManager {
 
     // User Data Functions
 
-    public void createNewUser(String name, int age, double height, double weight) {
-        // TODO Add Database Connection!
+    public void addUser(String name, int age, double height, double weight) {
         User newUser = new User(name, age, height, weight);
-
-        // newUser.setId = ..... get ID from database
-
+        try {
+            DatabaseWriter.createDatabase();
+            newUser.setId(UserDBOperations.insertNewUser(newUser));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         userList.add(newUser);
     }
 
     public void deleteUser(User user) {
-        // TODO Add Database Connection!
+        try {
+            DatabaseWriter.createDatabase();
+            UserDBOperations.deleteExistingUser(user.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         userList.remove(user);
     }
 
@@ -67,8 +91,20 @@ public class DataManager {
      * @param activity
      */
     public void addActivity(Activity activity){
-        // TODO Add Database Connection!
+        try {
+            DatabaseWriter.createDatabase();
+            activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         currentUser.addActivity(activity);
+    }
+
+    public void addActivity(Iterable<Activity> activityList) {
+        for (Activity activity : activityList) {
+            addActivity(activity);
+        }
     }
 
     /**

@@ -92,8 +92,8 @@ public class Controller implements Initializable {
 
         initializeMapView();
 
-        dataManager.createNewUser("Bob Johnson", 30, 190, 100);
-        dataManager.createNewUser("John Smith", 20, 165, 70);
+//        dataManager.addUser("Bob Johnson", 30, 190, 100);
+//        dataManager.addUser("John Smith", 20, 165, 70);
 
         //currentUser = TestDataGenerator.createUser1();
         //activityViewController.updateUserData(currentUser);
@@ -217,7 +217,7 @@ public class Controller implements Initializable {
                     Integer age = Integer.valueOf(createProfileController.getDobField().getText());
                     Double height = Double.valueOf(createProfileController.getHeightField().getText());
                     Float weight = Float.valueOf(createProfileController.getWeightField().getText());
-                    dataManager.createNewUser(name, age, height, weight);
+                    dataManager.addUser(name, age, height, weight);
                     createProfileScene.toBack();
 
                 } catch (NumberFormatException e) {

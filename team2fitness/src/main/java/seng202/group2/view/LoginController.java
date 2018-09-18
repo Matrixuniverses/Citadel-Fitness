@@ -67,29 +67,34 @@ public class LoginController implements Initializable, UserData {
      */
     public void updateUserData(DataManager newDataManager) {
         this.dataManager = newDataManager;
+        updateLoginScreen();
 
         dataManager.getUserList().addListener(new ListChangeListener<User>() {
             @Override
             public void onChanged(Change<? extends User> c) {
-                // Sets actions for select user buttons.
-                for (int i = 0; i < buttonList.size(); i++) {
-                    int number = i;
-                    buttonList.get(number).setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            dataManager.setCurrentUser(number);
-                            status.setValue("logged in");
-                        }
-                    });
-                    buttonList.get(i).setVisible(false);
-                }
-
-                for (int i = 0 ; i < dataManager.getUserList().size() ; i++) {
-                    buttonList.get(i).setVisible(true);
-                    buttonList.get(i).textProperty().bind(dataManager.getUserList().get(i).nameProperty());
-                }
+                updateLoginScreen();
             }
         });
+    }
+
+    public void updateLoginScreen() {
+        // Sets actions for select user buttons.
+        for (int i = 0; i < buttonList.size(); i++) {
+            int number = i;
+            buttonList.get(number).setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    dataManager.setCurrentUser(number);
+                    status.setValue("logged in");
+                }
+            });
+            buttonList.get(i).setVisible(false);
+        }
+
+        for (int i = 0 ; i < dataManager.getUserList().size() ; i++) {
+            buttonList.get(i).setVisible(true);
+            buttonList.get(i).textProperty().bind(dataManager.getUserList().get(i).nameProperty());
+        }
     }
 
     public StringProperty statusProperty() {
