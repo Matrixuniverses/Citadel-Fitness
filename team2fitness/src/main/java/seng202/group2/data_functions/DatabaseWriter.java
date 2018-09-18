@@ -65,9 +65,8 @@ public class DatabaseWriter {
      * @return true if the function runs without error
      * @throws SQLException if an sql related problem is encountered trying to set up the database.
      */
-    public static boolean createDatabase() throws SQLException {
+    public static void createDatabase() throws SQLException {
         connectToDB();
-        boolean success = false;
         if (dbConn != null) {
             String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS Users (\n"
                     + "user_id integer PRIMARY KEY AUTOINCREMENT, \n"
@@ -119,15 +118,8 @@ public class DatabaseWriter {
             executeSQLStatement(sqlCreateDatapointTable, dbConn);
             executeSQLStatement(sqlCreateTargetTable, dbConn);
 
-
-            success = true;
-
-
         }
         disconnectFromDB();
-
-        return success;
-
     }
 
     /**
