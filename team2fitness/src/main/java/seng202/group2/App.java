@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import seng202.group2.view.Controller;
+import seng202.group2.view.AppController;
 
 import static javafx.application.Application.launch;
 
@@ -20,10 +20,12 @@ public class App extends Application
     public void start(Stage mainStage) throws Exception{
         this.mainStage = mainStage;
         FXMLLoader fxml = new FXMLLoader();
-        fxml.setLocation(getClass().getResource("/fxml/FXMLMain.fxml"));
+        fxml.setLocation(getClass().getResource("/fxml/FXMLApp.fxml"));
         Parent root = fxml.load();
-        Controller controller = fxml.getController();
+        AppController controller = fxml.getController();
         mainStage.setTitle("Citadel Fitness");
+        mainStage.setHeight(700);
+        mainStage.setMaxWidth(1200);
         mainStage.setResizable(false);
         mainStage.setScene(new Scene(root));
         mainStage.show();

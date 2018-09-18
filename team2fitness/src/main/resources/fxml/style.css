@@ -1,35 +1,44 @@
-.curve{
-    -fx-background-color: #e6fff9;
-    -fx-background-size: 100% 100%;
-    -fx-background-radius : 30;
-    -fx-border-radius : 30;
-    -fx-text-fill: #0d4868;
-
-}
-
-.profile{
-    -fx-background-image:  url(/home/cosc/student/lwa383/Documents/3rd_year/seng202/seng202group2/team2fitness/src/main/java/seng202/group2/view/face1.jpg);
-    -fx-padding: 10;
-    -fx-background-radius : 80;
-    -fx-background-size: 100% 100%;
-    -fx-border-radius : 50;
-}
-
-
-.nav {
-    -fx-background-color: #e6fff9;
-    -fx-background-size: 100% 100%;
-    -fx-border-radius: 0 30 30 0;
-    -fx-background-radius: 0 30 30 0;
+.navbg {
+    -fx-background-color: #2d3035;
 }
 
 .bodybg {
-    -fx-background-color: #ffffff;
-    -fx-background-color: linear-gradient(#84fab0 0%, #8fd3f4 100%);
-    -fx-background-size: 100% 100%;
-
+ -fx-background-color: #202225;
 }
 
-.table {
-    -fx-title-color: #0d4868;
+.headerbg {
+	-fx-background-color: #36393f;
+}
+
+.panelbg {
+   -fx-background-color: #2f3136;
+}
+
+
+.chart-title {
+    -fx-text-fill: orange;
+}
+
+.chart-legend {
+    -fx-text-fill: orange;
+}
+
+.bottom-border {
+    -fx-border-width: 0 0 10 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: black;
+}
+
+.infobg {
+    -fx-background-color: #4f545c;
+}
+
+.curve{
+    -fx-background-color: #2d3035;
+    -fx-background-size: 100% 100%;
+    -fx-background-radius : 30;
+    -fx-border-width: 3px;
+    -fx-border-radius : 30;
+    -fx-text-fill: white;
+    -fx-border-color: orange;
 }

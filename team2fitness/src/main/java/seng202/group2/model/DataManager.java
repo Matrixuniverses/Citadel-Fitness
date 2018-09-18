@@ -10,19 +10,21 @@ import java.sql.SQLException;
 public class DataManager {
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
-    private User currentUser = new User("", 0, 0, 0);
+    private User currentUser = new User("John Smith", 18, 180, 75);
 
 
     public DataManager() {
-        try {
-            for (User user : UserDBOperations.getAllUsers()) {
-                userList.add(user);
-            }
-            System.out.println(userList.size());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            for (User user : UserDBOperations.getAllUsers()) {
+//                userList.add(user);
+//            }
+//            System.out.println(userList.size());
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
+        userList.add(new User( "John Smith", 20, 170, 70));
+        userList.add(new User( "Bob Johnson", 15, 130, 50));
     }
 
     public void setCurrentUser(int i) {

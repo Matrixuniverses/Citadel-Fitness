@@ -9,7 +9,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import seng202.group2.model.Activity;
 import seng202.group2.model.DataManager;
 import seng202.group2.model.User;
 
@@ -22,42 +24,51 @@ public class LoginController implements Initializable, UserData {
 
     private DataManager dataManager;
     private StringProperty status = new SimpleStringProperty("logged out");
-
-    @FXML
-    Button newUserButton;
-
-    @FXML
-    Button user1Button;
-
-    @FXML
-
-    Button user2Button;
-
-    @FXML
-    Button user3Button;
-
-    @FXML
-    Button user4Button;
-
-    @FXML
-    Button user5Button;
-
-    @FXML
-    Button user6Button;
-
     private ObservableList<Button> buttonList = FXCollections.observableArrayList();
 
+    @FXML
+    private Button loginButton;
 
-    public Button getNewUserButton() {
-        return newUserButton;
+    @FXML
+    private TableView userTable;
+
+    @FXML
+    private TableColumn userTableCol;
+
+    @FXML
+    private Button createButton;
+
+    @FXML
+    private TextField nameField;
+
+    @FXML
+    private TextField ageField;
+
+    @FXML
+    private TextField weightField;
+
+    @FXML
+    private TextField heightField;
+
+    @FXML
+    private Label errorLabel;
+
+
+    public void login(){
+
+
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        buttonList.addAll(user1Button, user2Button, user3Button, user4Button, user5Button, user6Button);
+    public void create() {
+        String name = nameField.getText();
+        Integer age = Integer.valueOf(ageField.getText());
+        Double height = Double.valueOf(heightField.getText());
+        Float weight = Float.valueOf(weightField.getText());
+        User user = new User(name, age, height, weight);
+        dataManager.getUserList().add(user);
 
     }
+
 
     /**
      * Sets the DataManager to the instance passed from the main controller.
@@ -67,37 +78,25 @@ public class LoginController implements Initializable, UserData {
      */
     public void updateUserData(DataManager newDataManager) {
         this.dataManager = newDataManager;
-        updateLoginScreen();
+        userTable.setItems(dataManager.getUserList());
+
 
         dataManager.getUserList().addListener(new ListChangeListener<User>() {
             @Override
             public void onChanged(Change<? extends User> c) {
-                updateLoginScreen();
+
             }
         });
     }
 
-    public void updateLoginScreen() {
-        // Sets actions for select user buttons.
-        for (int i = 0; i < buttonList.size(); i++) {
-            int number = i;
-            buttonList.get(number).setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    dataManager.setCurrentUser(number);
-                    status.setValue("logged in");
-                }
-            });
-            buttonList.get(i).setVisible(false);
-        }
-
-        for (int i = 0 ; i < dataManager.getUserList().size() ; i++) {
-            buttonList.get(i).setVisible(true);
-            buttonList.get(i).textProperty().bind(dataManager.getUserList().get(i).nameProperty());
-        }
-    }
 
     public StringProperty statusProperty() {
         return status;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
     }
 }

@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class User {
@@ -72,7 +73,11 @@ public class User {
         this.name.addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                //Update Here
+                try {
+                    UserDBOperations.updateExistingUser(User.this);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

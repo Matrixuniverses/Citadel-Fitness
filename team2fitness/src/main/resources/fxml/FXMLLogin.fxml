@@ -1,31 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="linear-gradient" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1193.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.LoginController">
+<AnchorPane fx:id="loginScene" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.LoginController">
    <children>
-      <Button fx:id="newUserButton" contentDisplay="BOTTOM" layoutX="869.0" layoutY="166.0" mnemonicParsing="false" prefHeight="315.0" prefWidth="250.0" styleClass="curve" text="NewUser" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true">
-         <font>
-            <Font name="System Bold Italic" size="56.0" />
-         </font>
-      </Button>
-
-      <Group layoutX="154.0" layoutY="6.0">
-         <children>
-            <Line endX="100.0" layoutX="644.0" layoutY="321.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
-            <Line endX="100.0" layoutX="607.0" layoutY="323.0" rotate="90.0" scaleY="1.5" startX="-100.0" stroke="WHITE" />
-            <Line endX="200.0" layoutX="500.0" layoutY="313.0" rotate="90.0" scaleX="3.5" scaleY="1.5" startX="50.0" stroke="WHITE" />
-         </children>
-      </Group>
-      <Button fx:id="user1Button" layoutX="101.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="1" visible="false" />
-      <Button fx:id="user2Button" layoutX="323.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="2" visible="false" />
-      <Button fx:id="user3Button" layoutX="527.0" layoutY="96.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="3" visible="false" />
-      <Button fx:id="user4Button" layoutX="101.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="4" visible="false" />
-      <Button fx:id="user5Button" layoutX="323.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="5" visible="false" />
-      <Button fx:id="user6Button" layoutX="527.0" layoutY="363.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="140.0" styleClass="profile" text="6" visible="false" />
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1200.0" styleClass="bodybg" stylesheets="@style.css">
+         <center>
+            <GridPane hgap="30.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="15.0" left="15.0" right="7.5" top="15.0" />
+               </BorderPane.margin>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <BorderPane>
+                     <right>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="panelbg" stylesheets="@style.css" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label layoutX="20.0" layoutY="14.0" prefHeight="63.0" prefWidth="228.0" text="Select User" textAlignment="CENTER" textFill="ORANGE">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="loginButton" layoutX="81.0" layoutY="417.0" mnemonicParsing="false" onAction="#login" prefHeight="41.0" prefWidth="139.0" styleClass="curve" stylesheets="@style.css" text="Login">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <TableView fx:id="userTable" layoutX="14.0" layoutY="102.0" prefHeight="275.0" prefWidth="274.0">
+                                <columns>
+                                  <TableColumn fx:id="userTableCol" editable="false" prefWidth="273.0" text="Users" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </right>
+                  </BorderPane>
+                  <BorderPane GridPane.columnIndex="1">
+                     <left>
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="panelbg" BorderPane.alignment="CENTER">
+                           <children>
+                              <Accordion layoutX="23.0" layoutY="169.0" />
+                              <Button fx:id="createButton" layoutX="81.0" layoutY="417.0" mnemonicParsing="false" onAction="#create" prefHeight="41.0" prefWidth="139.0" styleClass="curve" stylesheets="@style.css" text="Create">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Button>
+                              <Label layoutX="20.0" layoutY="14.0" prefHeight="63.0" prefWidth="228.0" text="Create User" textAlignment="CENTER" textFill="ORANGE">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                              <GridPane alignment="CENTER" layoutX="23.0" layoutY="101.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="237.0" prefWidth="222.0" vgap="20.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="153.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="71.0" minWidth="10.0" prefWidth="53.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints percentHeight="25.0" valignment="CENTER" />
+                                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+                                    <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+                                  <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <TextField fx:id="nameField" prefHeight="30.0" prefWidth="130.0" promptText="Name" />
+                                    <TextField fx:id="ageField" prefHeight="30.0" prefWidth="130.0" promptText="Age" GridPane.rowIndex="1" />
+                                    <TextField fx:id="heightField" prefHeight="30.0" prefWidth="130.0" promptText="Height" GridPane.rowIndex="3" />
+                                    <TextField fx:id="weightField" prefHeight="30.0" prefWidth="130.0" promptText="Weight" GridPane.rowIndex="2" />
+                                 </children>
+                              </GridPane>
+                              <Label fx:id="errorLabel" layoutX="20.0" layoutY="359.0" prefHeight="37.0" prefWidth="190.0" text="Error Message" textFill="RED" visible="false" />
+                           </children>
+                        </AnchorPane>
+                     </left>
+                  </BorderPane>
+               </children>
+            </GridPane>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

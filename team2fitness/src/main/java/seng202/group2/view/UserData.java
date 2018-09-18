@@ -9,3 +9,4 @@ public interface UserData {
 
     void updateUserData(DataManager newDataManager);
 }
+
