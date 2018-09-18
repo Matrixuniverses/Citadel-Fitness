@@ -208,6 +208,10 @@ public class Controller implements Initializable {
         profileController.updateUserData(dataManager);
     }
 
+
+    private void initializeGraphView()  {
+
+    }
     private void initializeCreateProfileScene(){
         createProfileController.getCreateButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -239,6 +243,7 @@ public class Controller implements Initializable {
     }
 
     private void initializeMapView() {
+
 
         mapViewController.getShowRouteButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -309,8 +314,6 @@ public class Controller implements Initializable {
      */
     private void initializeSelectFile() {
         addDataController.updateUserData(dataManager);
-
-
     }
 
     /**

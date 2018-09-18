@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -8,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="viewGraphScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="viewGraphScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ViewGraphController">
    <children>
       <Label fx:id="pageTitle" layoutX="389.0" layoutY="30.0" prefHeight="37.0" prefWidth="193.0" text="Graph View" textFill="#0d4868" underline="true">
          <font>
@@ -22,15 +27,21 @@
       <Button layoutX="741.0" layoutY="127.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="103.0" styleClass="curve" text="Graph 5" />
       <AnchorPane layoutX="91.0" layoutY="222.0" prefHeight="363.0" prefWidth="676.0">
          <children>
-            <AreaChart fx:id="activityChart" layoutX="-5.0" layoutY="-7.0" prefHeight="363.0" prefWidth="812.0">
+            <LineChart fx:id="lineChart" layoutX="-11.0" layoutY="1.0" prefHeight="348.0" prefWidth="667.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
               <yAxis>
                 <NumberAxis side="LEFT" />
               </yAxis>
-            </AreaChart>
+            </LineChart>
          </children>
       </AnchorPane>
+      <TableView fx:id="activityTable" layoutX="774.0" layoutY="204.0" prefHeight="363.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="activityNameCol" prefWidth="199.0" text="C1" />
+        </columns>
+      </TableView>
+      <Button fx:id="showButton" layoutX="843.0" layoutY="585.0" mnemonicParsing="false" onAction="#updateGraph" text="Temp" />
    </children>
 </AnchorPane>
