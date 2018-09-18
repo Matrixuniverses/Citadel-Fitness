@@ -14,6 +14,7 @@ public class UserDBOperations {
     /**
      * Searches the database for a user in the table users using a given user_id and returns the User if the
      * user has be found by the query in the database.
+     * This function automatically connects to and disconnects from the database.
      * @param user_id the id of the user that will be searched for.
      * @return the User associated with the user id from the database if the user_id exists in the database.
      * @throws SQLException if any error occurs preforming the sql operations on the database.
@@ -52,6 +53,7 @@ public class UserDBOperations {
 
     /**
      * Queries the database for all user records in the database and returns them as an observable list.
+     * This function automatically connects to and disconnects from the database.
      * @return an Observable list of all the current users in the database.
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
@@ -87,6 +89,7 @@ public class UserDBOperations {
 
     /**
      * Inserts a new User into the database.
+     * This function automatically connects to and disconnects from the database.
      * @param user The User object to be stored in the database.
      * @throws SQLException If there is a sql related error when trying to preform the insert operation on the database.
      */
@@ -114,6 +117,7 @@ public class UserDBOperations {
 
     /**
      * Updates a user that is already stored within the database
+     * This function automatically connects to and disconnects from the database.
      * @param user The updated version of the a particular USer object that will have its database record updated
      * @return true if the user does exist inside the database. false otherwise
      * @throws SQLException If there was a sql related error when trying to update a user in the database.
@@ -145,6 +149,7 @@ public class UserDBOperations {
 
     /**
      * Deletes a user from the database using the user's ID.
+     * This function automatically connects to and disconnects from the database.
      * @param userId The ID of the user to be removed from the database
      * @return true if the user with the inputted id no longer exists within the database
      * @throws SQLException if an sql related error occurs while attempting to delete a user from the database.
