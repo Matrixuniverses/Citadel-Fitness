@@ -1,15 +1,54 @@
 package seng202.group2.analysis;
 
+import seng202.group2.model.Activity;
+import seng202.group2.model.DataPoint;
+
 import java.lang.Math;
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Collection of methods to calculate fitness metrics
  */
 public class DataAnalyzer {
 
+    public static ArrayList<Activity> calculateDeltas(ArrayList<Activity> activitiesToUpdate) {
+        for (Activity activity : activitiesToUpdate) {
+            ArrayList<DataPoint> points = activity.getActivityData();
+            double totalDistance = 0;
+            int totalTime = 0;
+
+            if (points.size() >= 2) {
+                for (int i = 1; i < points.size(); i++) {
+                    double lat1 = points.get(i - 1).getLatitude();
+                    double lon1 = points.get(i - 1).getLongitude();
+                    double lat2 = points.get(i).getLatitude();
+                    double lon2 = points.get(i).getLongitude();
+                    double dist = calcDistance(lat1, lon1, lat2, lon2);
+
+                    Date time1 = points.get(i - 1).getDate();
+                    Date time2 = points.get(i).getDate();
+
+                    long milliDiff = time2.getTime() - time1.getTime();
+                    long time = TimeUnit.SECONDS.convert(milliDiff, TimeUnit.MILLISECONDS);
+
+                    points.get(i).setDistanceDelta(dist);
+                    points.get(i).setTimeDelta(time);
+
+                    totalDistance += dist;
+                    totalTime += time;
+                }
+                activity.setTotalDistance(totalDistance);
+                activity.setTotalTime(totalTime);
+            }
+
+        }
+
+        return activitiesToUpdate;
+    }
 
     /**
      * Calculates the Haversine Distance between two WSG84 geodetic points

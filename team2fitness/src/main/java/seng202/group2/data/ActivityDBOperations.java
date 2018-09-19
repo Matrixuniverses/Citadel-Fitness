@@ -45,7 +45,6 @@ public class ActivityDBOperations {
 
         DatabaseOperations.connectToDB();
 
-
         String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
                 "VALUES(?,?,?,?,?,?,?)";
 
@@ -60,7 +59,6 @@ public class ActivityDBOperations {
         pUpdateStatement.setDouble(6, activity.getTotalDistance());
         pUpdateStatement.setDouble(7, activity.getTotalTime());
         pUpdateStatement.executeUpdate();
-        //return true;
 
         ResultSet results = pUpdateStatement.getGeneratedKeys();
         results.next();
@@ -160,12 +158,15 @@ public class ActivityDBOperations {
 
     public static boolean deleteExistingActivity(int activityID) throws SQLException {
         DatabaseOperations.connectToDB();
+
         String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
+
         Connection dbConn = DatabaseOperations.getDbConnection();
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, activityID);
         pDeleteStmt.executeUpdate();
         DatabaseOperations.disconnectFromDB();
+
         if (getActivityFromRS(activityID) == null) {
             return true;
         } else {

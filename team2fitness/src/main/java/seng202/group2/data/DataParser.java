@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DataParser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
-    private ArrayList<Activity> activitiesRead = new ArrayList<>();
+    private ArrayList<Activity> activitiesRead;
 
 
     /**
@@ -47,8 +47,11 @@ public class DataParser {
                 throw new FileFormatException("Incorrect file format");
             }
 
+            this.activitiesRead = new ArrayList<>();
             readLines(readCSV);
-            generateMetrics(this.activitiesRead);
+
+            // Updating the activities read by calculating distances for each datapoint and activity
+            this.activitiesRead = DataAnalyzer.calculateDeltas(this.activitiesRead);
 
 
         } catch (FileNotFoundException e) {
@@ -147,41 +150,6 @@ public class DataParser {
         }
     }
 
-    /**
-     * Creates time, distance and speed metrics for each data point and activity
-     */
-    private static void generateMetrics(ArrayList<Activity> activities) {
-        for (Activity activity : activities) {
-            ArrayList<DataPoint> points = activity.getActivityData();
-            double totalDistance = 0;
-            int totalTime = 0;
-
-            if (points.size() >= 2) {
-                for (int i = 1; i < points.size(); i++) {
-                    double lat1 = points.get(i - 1).getLatitude();
-                    double lon1 = points.get(i - 1).getLongitude();
-                    double lat2 = points.get(i).getLatitude();
-                    double lon2 = points.get(i).getLongitude();
-                    double dist = DataAnalyzer.calcDistance(lat1, lon1, lat2, lon2);
-
-                    Date time1 = points.get(i - 1).getDate();
-                    Date time2 = points.get(i).getDate();
-
-                    long milliDiff = time2.getTime() - time1.getTime();
-                    long time = TimeUnit.SECONDS.convert(milliDiff, TimeUnit.MILLISECONDS);
-
-                    points.get(i).setDistanceDelta(dist);
-                    points.get(i).setTimeDelta(time);
-
-                    totalDistance += dist;
-                    totalTime += time;
-                }
-                activity.setTotalDistance(totalDistance);
-                activity.setTotalTime(totalTime);
-            }
-
-        }
-    }
 
     public ArrayList<Activity> getActivitiesRead() {
         return this.activitiesRead;
