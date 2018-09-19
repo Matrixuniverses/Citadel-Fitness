@@ -354,7 +354,7 @@ public class Controller implements Initializable {
                     currentUser.getActivityList().addAll(parser.getActivitiesRead());
 
                     // Check if this is correct
-                    mapViewController.updateUserData(currentUser);
+                    //mapViewController.updateUserData(currentUser);
 
                 }
             }
@@ -385,7 +385,7 @@ public class Controller implements Initializable {
                         currentUser.getActivityList().add(userActivity);
 
                         // Check if this is correct
-                        mapViewController.updateUserData(currentUser);
+                        //mapViewController.updateUserData(currentUser);
 
                         //Clear fields
                         addDataController.getTextFieldName().setText(null);

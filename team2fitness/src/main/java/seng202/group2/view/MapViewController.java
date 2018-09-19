@@ -1,4 +1,7 @@
 package seng202.group2.view;
+/**
+ * Controller class for the map view. Initialises the maps webview and table containing activity data.
+ */
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,6 +37,12 @@ public class MapViewController implements Initializable, UserData  {
 
     private WebEngine webEngine;
 
+    /**
+     * Initialises the map view controller. Loads the Google Map in a webview, sets the tableview to single selection
+     * and sets the table to display activity names.
+     * @param location
+     * @param resources
+     */
     public void initialize(URL location, ResourceBundle resources) {
         initMap();
         mapActivityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -46,10 +55,6 @@ public class MapViewController implements Initializable, UserData  {
     private void initMap() {
         webEngine = mapWebView.getEngine();
         webEngine.load(this.getClass().getClassLoader().getResource("fitnessMap.html").toExternalForm());
-    }
-
-    public javafx.scene.control.TableView<Activity> getActivityTable() {
-        return mapActivityTable;
     }
 
     /**
@@ -84,5 +89,9 @@ public class MapViewController implements Initializable, UserData  {
 
     public WebEngine getWebEngine() {
         return webEngine;
+    }
+
+    public javafx.scene.control.TableView<Activity> getActivityTable() {
+        return mapActivityTable;
     }
 }

@@ -28,11 +28,10 @@
             center: {lat: -43.522551, lng: 172.581065},
             zoom: 16
         });
-
     }
 
     function displayRoute(flightPath) {
-        // CLEAR EXISTING MARKERS
+        // Clears any existing markers
         if (marker1 !== undefined && marker2 !== undefined && path !== undefined) {
             marker1.setMap(null);
             marker2.setMap(null);
@@ -43,7 +42,7 @@
             return;
         }
 
-        // CREATE MARKERS AT START AND FINISH
+        // Marks the start and end of the route
         marker1 = new google.maps.Marker({
             position: flightPath[0],
             map: map
@@ -54,14 +53,14 @@
             map: map
         });
 
-        // DRAW POLYLINE FOR ROUTE
+        // Draws the polyline indicating route
         path = new google.maps.Polyline({
             path: flightPath,
             geodesic: true,
             strokeColor: '#4852ff',
 
             strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeWeight: 1.6
         });
 
         path.setMap(map);
