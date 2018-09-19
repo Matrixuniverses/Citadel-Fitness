@@ -32,7 +32,6 @@ public class DataManager {
             System.out.println(user.getActivityList().size());
             for (Activity activity : user.getActivityList()) {
                 activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
-                System.out.println(activity.getActivityData().size());
 
             }
         } catch (SQLException e) {
@@ -85,17 +84,21 @@ public class DataManager {
     public User getCurrentUser() {
         return currentUser;
     }
-// Activity Functions
 
     /**
-     * adds an activity to the current user and updates the database
-     * @param activity
+     * Adds an activity to the database, this is first done by checking if an activity of the same name and date/ time
+     * already exists for the user, if it does not then it is added to the database and to the users current
+     * activity list
+     * @param activity Activity to be added to database
      */
     public void addActivity(Activity activity){
         try {
             DatabaseWriter.createDatabase();
             if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.getId())) {
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
+                for (DataPoint datapoint : activity.getActivityData()) {
+                    datapoint.setId(DatapointDBOperations.insertNewDataPoint(datapoint, activity.getId()));
+                }
                 currentUser.addActivity(activity);
             }
         } catch (SQLException e) {
@@ -104,7 +107,7 @@ public class DataManager {
 
     }
 
-    public void addActivity(Iterable<Activity> activityList) {
+    public void addActivities(Iterable<Activity> activityList) {
         for (Activity activity : activityList) {
             addActivity(activity);
         }
