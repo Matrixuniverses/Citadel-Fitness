@@ -1,15 +1,13 @@
 package seng202.group2.view;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.data_functions.GraphGenerator;
 import seng202.group2.model.Activity;
@@ -24,10 +22,10 @@ public class ViewGraphController implements UserData, Initializable{
     private DataManager dataManager;
 
     @FXML
-    private LineChart lineChart;
+    private LineChart<?, ?> lineChart;
 
     @FXML
-    private Button showButton;
+    private ChoiceBox graphTypeChoice;
 
     @FXML
     private TableView<Activity> activityTable;
@@ -42,6 +40,9 @@ public class ViewGraphController implements UserData, Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time", "Heart Rate / Time",
+                new Separator(), "Calories Burned", "Stress / Time"));
+
         //creating the chart
         lineChart.setTitle("Distance over Time");
 
