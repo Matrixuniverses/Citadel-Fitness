@@ -25,24 +25,10 @@ public class ActivityDBOperations {
         ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQueryStatement);
 
         if (queryResult.next()) {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-            Date retrievedDate = null;
-
-            try {
-                retrievedDate = dateFormatter.parse(queryResult.getString("date_string"));
-                System.out.println(queryResult.getString("date_string"));
-            } catch (ParseException e) {
-                System.err.println("[ERROR] Unable to parse date");
-                e.printStackTrace();
+            if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
+                DatabaseWriter.disconnectFromDB();
+                return true;
             }
-
-            if (retrievedDate != null && retrievedDate.equals(activityToCheck.getDate())) {
-                if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
-                    DatabaseWriter.disconnectFromDB();
-                    return true;
-                }
-            }
-
         }
 
         DatabaseWriter.disconnectFromDB();
