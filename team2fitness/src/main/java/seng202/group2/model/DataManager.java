@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DataManager {
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
-    private User currentUser = new User("John Smith", 18, 180, 75);
+    private User currentUser;
 
 
     public DataManager() {
@@ -27,17 +27,8 @@ public class DataManager {
         userList.add(new User( "Bob Johnson", 15, 130, 50));
     }
 
-    public void setCurrentUser(int i) {
-
-        System.out.print("Current user:" + userList.get(i).getName() + "\n");
-        currentUser.setName(userList.get(i).getName());
-        currentUser.setAge(userList.get(i).getAge());
-        currentUser.setWeight(userList.get(i).getWeight());
-        currentUser.setHeight(userList.get(i).getHeight());
-        currentUser.setName(userList.get(i).getName());
-        currentUser.setActivityList(userList.get(i).getActivityList());
-        currentUser.setTargetList(userList.get(i).getTargetList());
-
+    public void setCurrentUser(User user) {
+        currentUser = user;
     }
 
     // User Data Functions
