@@ -12,6 +12,16 @@ import java.util.Locale;
 public class DatapointDBOperations {
 
 
+    /**
+     * Queries the database for all data points that belong to the Activity represented by an inputted Activity id. The
+     * result of the query is returned from the function in the form of an ObservableList. If the activity id is invalid
+     * or the activity has no datapoints in the database an empty ObservableList is returned. The Datapoints in the
+     * ObservableList are sorted in order by their date from oldest to most recent.
+     * This function automatically connects to and disconnects from the database.
+     * @param activity_id The id of the activity that's datapoints are being queried for as an integer.
+     * @return an ObservableList of the Datapoints that are returned by the query.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
+     */
     public static ObservableList<DataPoint> getAllActivityDatapoints(int activity_id) throws SQLException {
 
         DatabaseWriter.connectToDB();
@@ -44,7 +54,15 @@ public class DatapointDBOperations {
     }
 
 
-
+    /**
+     * Queries the database for a particular datapoint specified by the datapoint_id. If a Datapoint is found in the
+     * database with a matching ID it is returned by the function. If the Query fails to find a Datapoint with the
+     * specified ID or the ID is invalid a null value is returned by the function.
+     * This function automatically connects to and disconnects from the database.
+     * @param datapoint_id The ID of the data point being queried for as an integer
+     * @return The Datapoint that has been quered for from the database if the datapoint_id exists, null otherwise.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
+     */
     public static DataPoint getDataPointFromRS(int datapoint_id) throws SQLException {
         DatabaseWriter.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = " + datapoint_id;
@@ -80,6 +98,15 @@ public class DatapointDBOperations {
         if (ActivityDBOperations.getActivityFromRS(activityID) == null) {
             return false;*/
 
+    /**
+     *Inserts a new Datapoint into the database for a given Activity denoted by the activityID parameter. The Datapoint
+     *does not need to have been assigned a datapoint id before being used in this function. If the activity_id is invalid
+     *the function returns an error value of -1. Else the function returns with the code 1.
+     * @param datapoint The Datapoint which will to inserted into the database.
+     * @param activityID The id of the activity that the Datapoint belongs to as an Integer.
+     * @return An int value based on the result of the insertion: 1 for success, -1 for error
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
+     */
     public static int insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
 
         //If the activity doesn't exist. Return false.
@@ -121,6 +148,18 @@ public class DatapointDBOperations {
     }
 */
 
+
+    /**
+     * Updates a datapoint that is already in the database. Returns a boolean value based on whether the update operation
+     * has been created successfully. A value of false is returned if the Datapoint is not present in the database. That is
+     * there is no Datapoint already in the database that has the same datapoint id as the Datapoint that is to be updated.
+     * The inputted Activity must have an assigned id.
+     * This function automatically connects to and disconnects from the database.
+     * @param updatedDP The Datapoint which will have its recorded updated in the database providing that the Datapoint
+     *                  already exists in the Database.
+     * @return true if the datapoint is updated successfully, false if the Datapoint was not found in the database.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
+     */
     public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException {
 
         String sqlUpdateStmt = "UPDATE Datapoints SET dp_date_string = ?, dp_date = ?, heart_rate = ?, latitude = ?, longitude = ?, altitude = ? WHERE dp_id = ?";
@@ -148,6 +187,14 @@ public class DatapointDBOperations {
     }
 
 
+    /**
+     * Removes an existing datapoint from the database. Returns true if the datapoint with the inputted id no longer exists
+     * in the database, false otherwise.
+     * This function automatically connects to and disconnects from the database.
+     * @param datapointID The ID of the datapoint to be removed from the database.
+     * @return true if a datapoint with the inputted id no longer exists in the database, false otherwise.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
+     */
     public static boolean deleteExistingDataPoint(int datapointID) throws SQLException {
         DatabaseWriter.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Datapoints WHERE dp_id = ?";
