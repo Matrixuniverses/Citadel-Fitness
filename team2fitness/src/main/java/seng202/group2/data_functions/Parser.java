@@ -24,7 +24,6 @@ import java.util.concurrent.TimeUnit;
 public class Parser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
     private ArrayList<Activity> activitiesRead = new ArrayList<>();
-    private int user_id = -1;
 
 
     /**
@@ -59,18 +58,6 @@ public class Parser {
             throw new FileFormatException("Unreadable file");
         }
 
-    }
-
-    /**
-     * Creates a new parser object, reading location and fitness information, tied to the passed user, into a database
-     * @param file CSV file to read
-     * @param user User to read the file into
-     * @throws FileFormatException If passed file is not valid for reading
-     */
-    public Parser(File file, int user) throws FileFormatException {
-        this(file);
-        this.user_id = user;
-        databaseWrite(this.activitiesRead, this.user_id);
     }
 
     /**
@@ -197,30 +184,6 @@ public class Parser {
         }
     }
 
-    private static void databaseWrite(ArrayList<Activity> activities, int user_id) throws IllegalArgumentException {
-        // Send data to database when the functionality is implemented
-        try {
-            if (user_id == -1) {
-                throw new IllegalArgumentException("Cannot find user to parse activities to!");
-            }
-
-            for (Activity activity : activities) {
-                if (!ActivityDBOperations.checkDuplicateActivity(activity, user_id)) {
-                    int activityId = ActivityDBOperations.insertNewActivity(activity, user_id);
-                    activity.setId(activityId);
-                    for (DataPoint point : activity.getActivityData()) {
-                        DatapointDBOperations.insertNewDataPoint(point, activityId);
-                    }
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
     public ArrayList<Activity> getActivitiesRead() {
         return this.activitiesRead;
     }
@@ -265,7 +228,7 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/all.csv"), 1);
+            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/all.csv"));
 
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
