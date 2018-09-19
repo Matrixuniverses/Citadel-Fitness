@@ -9,6 +9,12 @@ public class DatabaseWriter {
     private static final String driver = "org.sqlite.JDBC";
     private static Connection dbConn = null;
 
+    private static SQLiteConfig configureSQl() {
+        SQLiteConfig sqlConfig = new SQLiteConfig();
+        sqlConfig.enforceForeignKeys(true);
+        return sqlConfig;
+    }
+
     /**
      * Establishes a connection to a sql database with the filename CitadelFitnessLocalDatabase.db which is assigned to
      * the local java.sql.Connection object. The connection is set up with the configuration that Foreign Keys in the
@@ -19,8 +25,7 @@ public class DatabaseWriter {
     public static void connectToDB() throws SQLException {
         try {
             Class.forName(driver);
-            SQLiteConfig sqlConfig = new SQLiteConfig();
-            sqlConfig.enforceForeignKeys(true);
+            SQLiteConfig sqlConfig = configureSQl();
             dbConn = DriverManager.getConnection(dbURL, sqlConfig.toProperties());
 
         } catch (ClassNotFoundException e) {
@@ -28,6 +33,16 @@ public class DatabaseWriter {
         }
 
     }
+
+    /**
+     * Sets a new database URL.
+     * @param newDatabaseURL The new URL for the database
+     */
+    public static void setDatabaseURL(String newDatabaseURL) {
+        dbURL = newDatabaseURL;
+    }
+
+
 
 
     /**
@@ -61,8 +76,7 @@ public class DatabaseWriter {
     /**
      *  Creates a new database for the application if it does not already exist and creates the databases structure (tables
      *  and attributes). The database is stored in the project's directory and consists of four tables:
-     *  users, activities, datapoints and targets.
-     * @return true if the function runs without error
+     *  users, activities, datapoints and targets.     *
      * @throws SQLException if an sql related problem is encountered trying to set up the database.
      */
     public static void createDatabase() throws SQLException {
@@ -117,6 +131,32 @@ public class DatabaseWriter {
             executeSQLStatement(sqlCreateActivityTable, dbConn);
             executeSQLStatement(sqlCreateDatapointTable, dbConn);
             executeSQLStatement(sqlCreateTargetTable, dbConn);
+
+        }
+        disconnectFromDB();
+    }
+
+    public static void resetDatabase(boolean totalReset) throws SQLException {
+        connectToDB();
+        if (totalReset) {
+            String sqlDropUserTableStmt = "DROP TABLE IF EXISTS Users";
+            String sqlDropActivityTableStmt = "DROP TABLE IF EXISTS Activities";
+            String sqlDropDatapointsTableStmt = "DROP TABLE IF EXISTS Datapoints";
+            String sqlDropTargetsTableStmt = "DROP TABLE IF EXISTS Targets";
+            PreparedStatement pDropTableStmt = dbConn.prepareStatement(sqlDropUserTableStmt);
+            pDropTableStmt.executeUpdate();
+            pDropTableStmt = dbConn.prepareStatement(sqlDropActivityTableStmt);
+            pDropTableStmt.executeUpdate();
+            pDropTableStmt = dbConn.prepareStatement(sqlDropDatapointsTableStmt);
+            pDropTableStmt.executeUpdate();
+            pDropTableStmt = dbConn.prepareStatement(sqlDropTargetsTableStmt);
+            pDropTableStmt.executeUpdate();
+
+        } else {
+
+            String sqlDeleteUsersStmt = "DELETE FROM Users";
+            PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteUsersStmt);
+            pDeleteStmt.executeUpdate();
 
         }
         disconnectFromDB();
