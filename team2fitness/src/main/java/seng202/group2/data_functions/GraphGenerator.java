@@ -1,0 +1,24 @@
+package seng202.group2.data_functions;
+
+import javafx.scene.chart.XYChart;
+import seng202.group2.model.Activity;
+import seng202.group2.model.DataPoint;
+
+public class GraphGenerator {
+
+    public static XYChart.Series createTimeSeries(Activity activity) {
+        double time = 0;
+        double distance = 0;
+
+        XYChart.Series series = new XYChart.Series();
+        for (DataPoint dataPoint : activity.getActivityData()) {
+            time += dataPoint.getTimeDelta();
+            distance += dataPoint.getDistanceDelta();
+            System.out.println(dataPoint.getTimeDelta());
+            System.out.println(dataPoint.getDistanceDelta());
+            series.getData().add(new XYChart.Data(time, distance));
+        }
+
+        return series;
+    }
+}

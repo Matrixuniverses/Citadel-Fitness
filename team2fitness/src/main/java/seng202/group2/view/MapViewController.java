@@ -11,6 +11,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataManager;
+import seng202.group2.model.Route;
 import seng202.group2.model.User;
 
 import java.io.File;
@@ -39,6 +40,15 @@ public class MapViewController implements Initializable, UserData  {
         initMap();
         mapActivityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         mapActivityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
+
+        mapActivityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                Activity selectedActivity =mapActivityTable.getSelectionModel().getSelectedItem();
+                Route path = new Route(selectedActivity.getActivityData());
+                String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
+                webEngine.executeScript(scriptToExecute);
+            }
+        });
     }
 
     /**

@@ -35,20 +35,6 @@ public class Activity {
     }
 
 
-    public XYChart.Series createTimeSeries() {
-        double time = 0;
-        double distance = 0;
-
-        XYChart.Series series = new XYChart.Series();
-        for (DataPoint dataPoint : activityData) {
-            time += dataPoint.getTimeDelta();
-            distance += dataPoint.getDistanceDelta();
-            series.getData().add(new XYChart.Data(time, distance));
-        }
-
-        return series;
-    }
-
     public void addDataPoint(DataPoint toAdd) {
         activityData.add(toAdd);
     }
