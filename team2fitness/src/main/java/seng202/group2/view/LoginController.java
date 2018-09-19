@@ -30,7 +30,7 @@ public class LoginController implements Initializable, UserData {
     private Button loginButton;
 
     @FXML
-    private TableView userTable;
+    private TableView<User> userTable;
 
     @FXML
     private TableColumn userTableCol;
@@ -54,8 +54,12 @@ public class LoginController implements Initializable, UserData {
     private Label errorLabel;
 
 
-    public void login(){
 
+    public void login(){
+        System.out.println(userTable.getSelectionModel().getSelectedItem().getName());
+        dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
+        System.out.println(dataManager.getCurrentUser().getName());
+        status.setValue("logged in");
 
     }
 
@@ -64,8 +68,7 @@ public class LoginController implements Initializable, UserData {
         Integer age = Integer.valueOf(ageField.getText());
         Double height = Double.valueOf(heightField.getText());
         Float weight = Float.valueOf(weightField.getText());
-        User user = new User(name, age, height, weight);
-        dataManager.getUserList().add(user);
+        dataManager.addUser(name, age, height, weight);
 
     }
 
@@ -76,17 +79,10 @@ public class LoginController implements Initializable, UserData {
      * Disables/Enables the buttons when users exist
      * @param newDataManager
      */
-    public void updateUserData(DataManager newDataManager) {
+    public void setDataManager(DataManager newDataManager) {
         this.dataManager = newDataManager;
         userTable.setItems(dataManager.getUserList());
-
-
-        dataManager.getUserList().addListener(new ListChangeListener<User>() {
-            @Override
-            public void onChanged(Change<? extends User> c) {
-
-            }
-        });
+        userTable.getSelectionModel().selectFirst();
     }
 
 

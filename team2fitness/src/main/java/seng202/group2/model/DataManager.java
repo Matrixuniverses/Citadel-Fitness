@@ -28,7 +28,7 @@ public class DataManager {
     }
 
     public void setCurrentUser(User user) {
-        currentUser = user;
+        this.currentUser = user;
     }
 
     // User Data Functions
@@ -111,6 +111,10 @@ public class DataManager {
 
     public void updateActivity(Activity activity) {
         // TODO Add Database Connection!
+    }
+
+    public ObservableList<Activity> getActivityList() {
+        return currentUser.getActivityList();
     }
 
 

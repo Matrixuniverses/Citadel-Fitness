@@ -7,6 +7,7 @@ import javax.xml.crypto.Data;
 
 public interface UserData {
 
-    void updateUserData(DataManager newDataManager);
+    void setDataManager(DataManager newDataManager);
 }
+
 

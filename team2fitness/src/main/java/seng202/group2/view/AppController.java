@@ -44,7 +44,7 @@ public class AppController implements Initializable {
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
-        setupDataManager();
+        setupViews();
     }
 
 
@@ -54,6 +54,7 @@ public class AppController implements Initializable {
     private void initializeViews() {
         try {
 
+            System.out.println("App" + dataManager);
             appContainer.setCenter(appStack);
 
             FXMLLoader loader;
@@ -61,12 +62,16 @@ public class AppController implements Initializable {
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLLogin.fxml"));
             loginScene = loader.load();
             loginSceneController = loader.getController();
+            loginSceneController.setDataManager(dataManager);
             appStack.getChildren().add(loginScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMain.fxml"));
             mainScene = loader.load();
             mainSceneController = loader.getController();
             appStack.getChildren().add(mainScene);
+            mainSceneController.setDataManager(dataManager);
+
+
 
             loginScene.toFront();
 
@@ -75,9 +80,18 @@ public class AppController implements Initializable {
         }
     }
 
-    private void setupDataManager(){
-        loginSceneController.updateUserData(dataManager);
-        mainSceneController.updateUserData(dataManager);
+    private void setupViews(){
+        loginSceneController.statusProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.equals("logged in")) {
+
+                    mainSceneController.updateViews();
+                    loginScene.toBack();
+                    mainScene.toFront();
+                }
+            }
+        });
     }
 
 }

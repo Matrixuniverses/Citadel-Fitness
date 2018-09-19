@@ -13,6 +13,7 @@ import seng202.group2.model.DataManager;
 import seng202.group2.model.User;
 
 import javax.swing.text.TableView;
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,12 +58,14 @@ public class ActivityViewController implements Initializable, UserData {
         return activityDeleteButton;
     }
 
-
-    @Override
-    public void updateUserData(DataManager newDataManager) {
+    public void setDataManager(DataManager newDataManager) {
         this.dataManager = newDataManager;
+    }
 
-        activityTable.setItems(dataManager.getCurrentUser().getActivityList());
+    public void updateUser() {
+        System.out.println("Activ" + dataManager);
+//        System.out.println(dataManager.getCurrentUser());
+//        activityTable.setItems(dataManager.getActivityList());
     }
 }
 

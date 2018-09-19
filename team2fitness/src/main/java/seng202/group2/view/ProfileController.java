@@ -70,7 +70,7 @@ public class ProfileController implements Initializable, UserData {
     }
 
     @Override
-    public void updateUserData(DataManager newDataManager) {
+    public void setDataManager(DataManager newDataManager) {
         this.dataManager = newDataManager;
         bmiLabel.textProperty().bind(Bindings.convert(dataManager.getCurrentUser().bmiProperty()));
         nameLabel.textProperty().bind(dataManager.getCurrentUser().nameProperty());
