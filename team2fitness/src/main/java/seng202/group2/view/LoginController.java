@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable, UserData {
+public class LoginController implements Initializable {
 
     private DataManager dataManager;
     private StringProperty status = new SimpleStringProperty("logged out");

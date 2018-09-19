@@ -47,6 +47,17 @@
     -fx-background-color: white;
 }
 
+.login .table-view {
+    -fx-background-color: transparent;
+
+}
+
+.login .table-row-cell {
+    -fx-cell-size: 40;
+    -fx-background-color: white;
+
+}
+
 .app {
     -fx-border-style: solid;
     -fx-border-color: #d8d8d8;

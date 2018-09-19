@@ -156,6 +156,11 @@ public class AddDataController implements UserData {
         choiceBoxType.setValue("Run");
     }
 
+    @Override
+    public void updateUser() {
+
+    }
+
     /**
      * Button for manual data entry.
      * Creates an activity object with the data the user entered. Adds it to the user's activities list.

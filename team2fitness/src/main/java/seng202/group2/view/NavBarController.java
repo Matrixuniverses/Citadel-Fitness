@@ -5,6 +5,7 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ public class NavBarController implements Initializable {
 
     @FXML
     private Button logoutButton;
+
 
     public StringProperty getCurrentView() {
         return currentView;
@@ -46,11 +48,7 @@ public class NavBarController implements Initializable {
     }
 
     public void showSummary(){
-        currentView.set("Profile");
-    }
-
-    public void logout(){
-        currentView.set("exit");
+        currentView.set("Summary");
     }
 
     public void initialize(URL location, ResourceBundle resources) {

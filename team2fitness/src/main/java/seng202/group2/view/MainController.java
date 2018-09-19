@@ -1,10 +1,15 @@
 package seng202.group2.view;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -18,6 +23,7 @@ import java.util.Stack;
 
 public class MainController implements UserData, Initializable {
 
+    private SimpleStringProperty status = new SimpleStringProperty("loggedout");
     private DataManager dataManager;
 
     @FXML
@@ -34,6 +40,8 @@ public class MainController implements UserData, Initializable {
     private ProfileController profileViewController;
     private MapViewController mapViewController;
 
+    @FXML
+    private HeaderController headerController;
 
     @FXML
     private NavBarController navBarController;
@@ -57,6 +65,9 @@ public class MainController implements UserData, Initializable {
         this.dataManager = newDataManager;
         activityViewController.setDataManager(dataManager);
         addDataController.setDataManager(dataManager);
+        viewGraphController.setDataManager(dataManager);
+        profileViewController.setDataManager(dataManager);
+        mapViewController.setDataManager(dataManager);
     }
 
     @Override
@@ -86,7 +97,7 @@ public class MainController implements UserData, Initializable {
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLProfileView.fxml"));
             profileView = loader.load();
             profileViewController = loader.getController();
-            paneMap.put("Profile", profileView);
+            paneMap.put("Summary", profileView);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMapView.fxml"));
             mapView = loader.load();
@@ -106,15 +117,36 @@ public class MainController implements UserData, Initializable {
     public void initializeNavBar() {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                paneMap.get(newValue).toFront();
+                if (!newValue.equals("")) {
+                    paneMap.get(newValue).toFront();
+                    headerController.getViewLabel().setText(newValue);
+                    navBarController.getCurrentView().setValue("");
+                }
+            }
+        });
+
+        navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                status.set("loggedout");
             }
         });
 
     }
 
-    public void updateViews(){
-
+    public void updateUser(){
+        profileView.toFront();
+        headerController.getNameLabel().setText(dataManager.getCurrentUser().getName());
         activityViewController.updateUser();
+        addDataController.updateUser();
+        viewGraphController.updateUser();
+        profileViewController.updateUser();
+        mapViewController.updateUser();
 
     }
+
+    public Button getLogoutButton() {
+        return navBarController.getLogoutButton();
+    }
+
 }

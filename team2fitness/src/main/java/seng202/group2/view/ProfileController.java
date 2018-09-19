@@ -46,9 +46,6 @@ public class ProfileController implements Initializable, UserData {
     Label totalDistanceLabel;
 
     @FXML
-    Label nameLabel;
-
-    @FXML
     Label targetsLabel;
 
 
@@ -64,16 +61,14 @@ public class ProfileController implements Initializable, UserData {
 
     }
 
-
-    public void showEditProfile() {
-        setCurrentView("editProfileScene");
-    }
-
     @Override
     public void setDataManager(DataManager newDataManager) {
         this.dataManager = newDataManager;
+    }
+
+    @Override
+    public void updateUser() {
         bmiLabel.textProperty().bind(Bindings.convert(dataManager.getCurrentUser().bmiProperty()));
-        nameLabel.textProperty().bind(dataManager.getCurrentUser().nameProperty());
         weightLabel.textProperty().bind(Bindings.convert(dataManager.getCurrentUser().weightProperty()));
         totalDistanceLabel.textProperty().bind(Bindings.convert(dataManager.getCurrentUser().totalDistanceProperty()));
     }

@@ -10,15 +10,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.model.Activity;
+import seng202.group2.model.DataManager;
 import seng202.group2.model.User;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MapViewController implements Initializable  {
+public class MapViewController implements Initializable, UserData  {
 
-    private User user;
+    private DataManager dataManager;
 
     @FXML
     private javafx.scene.control.TableView<Activity> mapActivityTable;
@@ -52,23 +53,12 @@ public class MapViewController implements Initializable  {
         return mapActivityTable;
     }
 
-    /**
-     * Populates the map table with the user's activities. Done so that the user can select one to view on the map as
-     * a route.
-     * @param user The user who's activity data is to be added to the table.
-     */
-    public void updateUserData(User user) {
-        this.user = user;
-        mapActivityTable.setItems(user.getActivityList());
-    }
+
 
     public Button getShowRouteButton() {
         return showRouteButton;
     }
 
-    public User getUser() {
-        return user;
-    }
 
     public TableView<Activity> getMapActivityTable() {
         return mapActivityTable;
@@ -84,5 +74,20 @@ public class MapViewController implements Initializable  {
 
     public WebEngine getWebEngine() {
         return webEngine;
+    }
+
+    @Override
+    public void setDataManager(DataManager newDataManager) {
+        this.dataManager = newDataManager;
+    }
+
+    @Override
+    /**
+     * Populates the map table with the user's activities. Done so that the user can select one to view on the map as
+     * a route.
+     * @param user The user who's activity data is to be added to the table.
+     */
+    public void updateUser() {
+        mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
     }
 }

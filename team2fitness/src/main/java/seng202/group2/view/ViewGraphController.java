@@ -58,4 +58,9 @@ public class ViewGraphController implements UserData, Initializable{
     public void setDataManager(DataManager newDataManager) {
         dataManager = newDataManager;
     }
+
+    @Override
+    public void updateUser() {
+
+    }
 }

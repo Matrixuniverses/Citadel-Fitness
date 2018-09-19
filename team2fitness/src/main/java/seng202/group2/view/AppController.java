@@ -81,13 +81,27 @@ public class AppController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (newValue.equals("logged in")) {
-
-                    mainSceneController.updateViews();
-                    loginScene.toBack();
-                    mainScene.toFront();
+                    login();
                 }
             }
         });
+
+        mainSceneController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                logout();
+            }
+        });
+    }
+
+    private void logout(){
+        loginScene.toFront();
+        loginSceneController.statusProperty().setValue("logged out");
+    }
+
+    private void login(){
+        mainSceneController.updateUser();
+        mainScene.toFront();
     }
 
 }
