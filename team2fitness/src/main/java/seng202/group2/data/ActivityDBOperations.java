@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javafx.collections.FXCollections;
@@ -25,24 +24,10 @@ public class ActivityDBOperations {
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
 
         if (queryResult.next()) {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-            Date retrievedDate = null;
-
-            try {
-                retrievedDate = dateFormatter.parse(queryResult.getString("date_string"));
-                System.out.println(queryResult.getString("date_string"));
-            } catch (ParseException e) {
-                System.err.println("[ERROR] Unable to parse date");
-                e.printStackTrace();
+            if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
+                DatabaseOperations.disconnectFromDB();
+                return true;
             }
-
-            if (retrievedDate != null && retrievedDate.equals(activityToCheck.getDate())) {
-                if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
-                    DatabaseOperations.disconnectFromDB();
-                    return true;
-                }
-            }
-
         }
 
         DatabaseOperations.disconnectFromDB();
@@ -52,7 +37,7 @@ public class ActivityDBOperations {
 
 
     public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
-        //check that the user is actually in the data
+        //check that the user is actually in the database
         if (UserDBOperations.getUserFromRS(user_id) == null) {
             return -1;
 
@@ -109,7 +94,6 @@ public class ActivityDBOperations {
             String activityType = queryResult.getString("type");
             double totalDistance = queryResult.getDouble("total_distance");
             double totalTime = queryResult.getDouble("total_time");
-            System.out.println(totalDistance);
             Activity newActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
             newActivity.setId(activityID);
             userActivities.add(newActivity);
