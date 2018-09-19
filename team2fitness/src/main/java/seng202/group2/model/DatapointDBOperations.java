@@ -47,7 +47,7 @@ public class DatapointDBOperations {
             double dpLongitude = queryResult.getDouble("longitude");
             double dpAltitude = queryResult.getDouble("altitude");
             double dpTimeDelta = queryResult.getDouble("time_delta");
-            double dpDistDelta = queryResult.getDouble("test_delta");
+            double dpDistDelta = queryResult.getDouble("dist_delta");
 
             DataPoint newDP = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
             newDP.setTimeDelta(dpTimeDelta);
