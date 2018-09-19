@@ -49,6 +49,8 @@ public class AppController implements Initializable {
 
     /**
      * Initialises all parts of the GUI and controllers.
+     * Loads the mainScene, and loginScene. All other scenes are loaded as children of main
+     * Pulls login screen to front on first load
      */
     private void initializeViews() {
         try {
@@ -76,6 +78,10 @@ public class AppController implements Initializable {
         }
     }
 
+    /**
+     * Sets up the logout/login buttons.
+     * login() is called when the string property is changed in the login scene.
+     */
     private void setupViews(){
         loginSceneController.statusProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -94,11 +100,19 @@ public class AppController implements Initializable {
         });
     }
 
+    /**
+     * Called when the user clicks the logout button.
+     *
+     */
     private void logout(){
         loginScene.toFront();
         loginSceneController.statusProperty().setValue("logged out");
     }
 
+    /**
+     * Called when the user clicks the login button or selected a User
+     * in the login view.
+     */
     private void login(){
         mainSceneController.updateUser();
         mainScene.toFront();

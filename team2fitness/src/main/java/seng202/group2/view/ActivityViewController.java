@@ -42,6 +42,11 @@ public class ActivityViewController implements Initializable, UserData {
     Button activityDeleteButton;
 
 
+    /**
+     * Initializes the activity table. Sets the Col's to display the right fields of activity
+     * @param location
+     * @param resources
+     */
     public void initialize(URL location, ResourceBundle resources) {
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Date>("date"));
