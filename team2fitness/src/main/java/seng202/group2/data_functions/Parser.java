@@ -51,8 +51,6 @@ public class Parser {
 
             readLines(readCSV);
             generateMetrics(this.activitiesRead);
-            // Needs to be written to after the user has validated their data?
-            // databaseWrite(this.activitiesRead, );
 
 
         } catch (FileNotFoundException e) {

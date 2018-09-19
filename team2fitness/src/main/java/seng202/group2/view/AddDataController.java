@@ -136,7 +136,7 @@ public class AddDataController implements UserData {
         if (selectedFile != null) {
             Parser parser = null;
             try {
-                parser = new Parser(selectedFile);
+                parser = new Parser(selectedFile, dataManager.getCurrentUser().getId());
                 dataManager.addActivity(parser.getActivitiesRead());
             } catch (FileFormatException f) {
                 f.printStackTrace();
