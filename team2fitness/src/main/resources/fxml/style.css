@@ -27,6 +27,10 @@
     -fx-border-color: #d8d8d8;
 }
 
+.main-panel Button {
+    -fx-cursor: hand;
+}
+
 .main-popup {
     -fx-background-color: white;
     -fx-border-color: #d8d8d8;
