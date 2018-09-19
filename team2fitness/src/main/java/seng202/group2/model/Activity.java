@@ -18,7 +18,7 @@ public class Activity {
     //Will add code functionality later
     private boolean manualEntry = false;
 
-    public Activity(String activityName){
+    public Activity(String activityName) {
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty("Exercise");
         this.totalTime = new SimpleDoubleProperty(10);
