@@ -1,30 +1,64 @@
-.navbg {
+.navbar {
     -fx-background-color: #2d3035;
 }
 
-.bodybg {
- -fx-background-color: #202225;
+.navbar Button {
+    -fx-text-fill: White;
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
 }
 
-.headerbg {
-	-fx-background-color: #36393f;
+.navbar Button:hover {
+    -fx-text-fill: orange;
 }
 
-.panelbg {
-   -fx-background-color: #2f3136;
+.navbar-header {
+    -fx-background-color: #36393f;
 }
 
-.navbutton {
-
+.main {
+    -fx-background-color: #eaeaea;
 }
+
+.main-panel {
+    -fx-background-color: white;
+    -fx-border-color: #d8d8d8;
+}
+
+.main-popup {
+    -fx-background-color: white;
+    -fx-border-color: #d8d8d8;
+}
+
+.header {
+    /*-fx-background-color: #36393f;*/
+    -fx-background-color: white;
+    -fx-border-style: solid hidden solid hidden;
+    -fx-border-color: #d8d8d8;
+}
+
+.header-login {
+    -fx-background-color: #36393f;
+}
+
+.login {
+    -fx-background-color: white;
+}
+
+.app {
+    -fx-border-style: solid;
+    -fx-border-color: #d8d8d8;
+}
+
 
 
 .chart-title {
-    -fx-text-fill: orange;
+    -fx-text-fill: black;
 }
 
 .chart-legend {
-    -fx-text-fill: orange;
+    -fx-text-fill: black;
 }
 
 .bottom-border {

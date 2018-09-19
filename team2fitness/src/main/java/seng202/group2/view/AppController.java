@@ -26,8 +26,6 @@ public class AppController implements Initializable {
     //Inject FXML
     @FXML
     private StackPane appStack;
-    @FXML
-    private BorderPane appContainer;
 
     //Initialize Panes to be added
     private AnchorPane loginScene;
@@ -54,7 +52,6 @@ public class AppController implements Initializable {
      */
     private void initializeViews() {
         try {
-            appContainer.setCenter(appStack);
 
             FXMLLoader loader;
 

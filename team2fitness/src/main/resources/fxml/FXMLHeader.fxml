@@ -5,32 +5,36 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1200.0" styleClass="navbg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-   <left>
-      <AnchorPane prefHeight="50.0" prefWidth="200.0" stylesheets="@style.css" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="CENTER" layoutX="14.0" layoutY="9.0" prefHeight="17.0" prefWidth="172.0" text="Citadel Fitness" textFill="WHITE">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </left>
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="14.0" layoutY="11.0" prefHeight="17.0" prefWidth="172.0" text="Adam Conway" textFill="WHITE" visible="false">
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER_RIGHT" layoutX="763.0" layoutY="9.0" prefHeight="32.0" prefWidth="223.0" text="Login" textFill="ORANGE">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </center>
-</BorderPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1200.0" styleClass="header" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane prefHeight="50.0" prefWidth="1200.0">
+         <center>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1000.0" styleClass="header" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="nameLabel" alignment="CENTER_RIGHT" layoutX="861.0" layoutY="10.0" prefHeight="17.0" prefWidth="125.0" text="John Smith" textAlignment="RIGHT" textFill="#36393f">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="viewLabel" layoutX="14.0" layoutY="8.0" prefHeight="17.0" prefWidth="300.0" text="Current Screen" textFill="#36393f">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </center>
+         <left>
+            <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="navbar-header" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutX="5.0" layoutY="4.0" prefHeight="43.0" prefWidth="192.0" text="Citadell Fitness" textFill="WHITE">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </left>
+      </BorderPane>
+   </children>
+</AnchorPane>

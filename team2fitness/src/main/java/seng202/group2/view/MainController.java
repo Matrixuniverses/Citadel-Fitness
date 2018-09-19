@@ -32,6 +32,7 @@ public class MainController implements UserData, Initializable {
     private AddDataController addDataController;
     private ViewGraphController viewGraphController;
     private ProfileController profileViewController;
+    private MapViewController mapViewController;
 
 
     @FXML
@@ -44,6 +45,8 @@ public class MainController implements UserData, Initializable {
     private AnchorPane addDataView;
     private AnchorPane viewGraphScene;
     private AnchorPane profileView;
+    private AnchorPane mapView;
+
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
@@ -75,20 +78,24 @@ public class MainController implements UserData, Initializable {
             addDataController = loader.getController();
             paneMap.put("Import Data", addDataView);
 
-
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLViewGraph.fxml"));
             viewGraphScene = loader.load();
             viewGraphController = loader.getController();
             paneMap.put("Graphs", viewGraphScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLProfileView.fxml"));
-            addDataView = loader.load();
+            profileView = loader.load();
             profileViewController = loader.getController();
             paneMap.put("Profile", profileView);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMapView.fxml"));
+            mapView = loader.load();
+            mapViewController = loader.getController();
+            paneMap.put("Maps", mapView);
 
-            mainStack.getChildren().addAll(addDataView, activityView, viewGraphScene);
 
+            mainStack.getChildren().addAll(profileView, addDataView, activityView, viewGraphScene, mapView);
+            profileView.toFront();
 
         } catch (IOException ex_) {
             ex_.printStackTrace();

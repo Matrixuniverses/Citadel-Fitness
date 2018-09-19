@@ -41,7 +41,7 @@ public class NavBarController implements Initializable {
         currentView.set("Graphs");
     }
 
-    public void showMapView(){
+    public void showMap(){
         currentView.set("Maps");
     }
 
