@@ -29,9 +29,6 @@ public class MapViewController implements Initializable, UserData  {
     @FXML
     private WebView mapWebView;
 
-    @FXML
-    private Button showRouteButton;
-
     private WebEngine webEngine;
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,7 +38,7 @@ public class MapViewController implements Initializable, UserData  {
 
         mapActivityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                Activity selectedActivity =mapActivityTable.getSelectionModel().getSelectedItem();
+                Activity selectedActivity = mapActivityTable.getSelectionModel().getSelectedItem();
                 Route path = new Route(selectedActivity.getActivityData());
                 String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
                 webEngine.executeScript(scriptToExecute);
@@ -50,7 +47,8 @@ public class MapViewController implements Initializable, UserData  {
     }
 
     /**
-     * Initialises the Google Maps in a web view.
+     * Initialises Google Maps as a new web view, however as no API keys exist this method is subject to bandwidth
+     * restrictions or network congestion
      */
     private void initMap() {
         webEngine = mapWebView.getEngine();
@@ -60,13 +58,6 @@ public class MapViewController implements Initializable, UserData  {
     public javafx.scene.control.TableView<Activity> getActivityTable() {
         return mapActivityTable;
     }
-
-
-
-    public Button getShowRouteButton() {
-        return showRouteButton;
-    }
-
 
     public TableView<Activity> getMapActivityTable() {
         return mapActivityTable;
