@@ -16,7 +16,7 @@
                         <Font size="21.0" />
                      </font>
                   </Label>
-                  <Label fx:id="viewLabel" layoutX="14.0" layoutY="8.0" prefHeight="17.0" prefWidth="300.0" text="Current Screen" textFill="#36393f">
+                  <Label fx:id="viewLabel" layoutX="14.0" layoutY="8.0" prefHeight="17.0" prefWidth="300.0" text="Summary" textFill="#36393f">
                      <font>
                         <Font size="24.0" />
                      </font>
