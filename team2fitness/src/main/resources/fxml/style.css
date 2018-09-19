@@ -1,35 +1,94 @@
+.navbar {
+    -fx-background-color: #2d3035;
+}
+
+.navbar Button {
+    -fx-text-fill: White;
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.navbar Button:hover {
+    -fx-text-fill: orange;
+}
+
+.navbar-header {
+    -fx-background-color: #36393f;
+}
+
+.main {
+    -fx-background-color: #eaeaea;
+}
+
+.main-panel {
+    -fx-background-color: white;
+    -fx-border-color: #d8d8d8;
+}
+
+.main-popup {
+    -fx-background-color: white;
+    -fx-border-color: #d8d8d8;
+}
+
+.header {
+    /*-fx-background-color: #36393f;*/
+    -fx-background-color: white;
+    -fx-border-style: solid hidden solid hidden;
+    -fx-border-color: #d8d8d8;
+}
+
+.header-login {
+    -fx-background-color: #36393f;
+}
+
+.login {
+    -fx-background-color: white;
+}
+
+.login .table-view {
+    -fx-background-color: transparent;
+
+}
+
+.login .table-row-cell {
+    -fx-cell-size: 40;
+    -fx-background-color: white;
+
+}
+
+.app {
+    -fx-border-style: solid;
+    -fx-border-color: #d8d8d8;
+}
+
+
+
+.chart-title {
+    -fx-text-fill: black;
+}
+
+.chart-legend {
+    -fx-text-fill: black;
+}
+
+.bottom-border {
+    -fx-border-width: 0 0 10 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: black;
+}
+
+.infobg {
+    -fx-background-color: #4f545c;
+}
+
 .curve{
-    -fx-background-color: #e6fff9;
+    -fx-background-color: #2d3035;
     -fx-background-size: 100% 100%;
     -fx-background-radius : 30;
+    -fx-border-width: 3px;
     -fx-border-radius : 30;
-    -fx-text-fill: #0d4868;
-
-}
-
-.profile{
-    -fx-background-image:  url(/home/cosc/student/lwa383/Documents/3rd_year/seng202/seng202group2/team2fitness/src/main/java/seng202/group2/view/face1.jpg);
-    -fx-padding: 10;
-    -fx-background-radius : 80;
-    -fx-background-size: 100% 100%;
-    -fx-border-radius : 50;
-}
-
-
-.nav {
-    -fx-background-color: #e6fff9;
-    -fx-background-size: 100% 100%;
-    -fx-border-radius: 0 30 30 0;
-    -fx-background-radius: 0 30 30 0;
-}
-
-.bodybg {
-    -fx-background-color: #ffffff;
-    -fx-background-color: linear-gradient(#84fab0 0%, #8fd3f4 100%);
-    -fx-background-size: 100% 100%;
-
-}
-
-.table {
-    -fx-title-color: #0d4868;
+    -fx-text-fill: white;
+    -fx-border-color: #4dd9da;
 }

@@ -10,11 +10,38 @@ import java.sql.SQLException;
 public class DataManager {
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
-    private User currentUser;
+    private User currentUser = new User("", 0, 0,0);
 
-    // User Data Functions
 
-    public void createNewUser(String name, int age, double height, double weight) {
+    public DataManager() {
+        try {
+            userList.addAll(UserDBOperations.getAllUsers());
+            System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+//        userList.add(new User( "John Smith", 20, 170, 70));
+//        userList.add(new User( "Bob Johnson", 15, 130, 50));
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
+        try {
+            user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
+            System.out.println(user.getActivityList().size());
+            for (Activity activity : user.getActivityList()) {
+                activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
+                System.out.println(activity.getActivityData().size());
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addUser(String name, int age, double height, double weight) {
         User newUser = new User(name, age, height, weight);
         try {
             DatabaseWriter.createDatabase();
@@ -65,9 +92,20 @@ public class DataManager {
      * @param activity
      */
     public void addActivity(Activity activity){
-        // TODO Add Database Connection!
-        currentUser.addActivity(activity);
+        try {
+            DatabaseWriter.createDatabase();
+            activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        currentUser.addActivity(activity);
+    }
+
+    public void addActivity(Iterable<Activity> activityList) {
+        for (Activity activity : activityList) {
+            addActivity(activity);
+        }
     }
 
     /**
@@ -83,9 +121,17 @@ public class DataManager {
         // TODO Add Database Connection!
     }
 
+    public ObservableList<Activity> getActivityList() {
+        return currentUser.getActivityList();
+    }
 
 
 
 
+    //Getters and setters
 
+
+    public ObservableList<User> getUserList() {
+        return userList;
+    }
 }

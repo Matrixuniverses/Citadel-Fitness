@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="addDataScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.AddDataController">
+<AnchorPane fx:id="addDataScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.AddDataController">
    <children>
       <Group layoutX="122.0" layoutY="-6.0">
          <children>
@@ -43,7 +43,7 @@
             <TextField id="textFieldName" fx:id="textFieldName" layoutX="33.0" layoutY="96.0" prefHeight="25.0" prefWidth="360.0" promptText="Name" />
             <TextField id="textFieldDistance" fx:id="textFieldDistance" layoutX="33.0" layoutY="199.0" prefHeight="25.0" prefWidth="360.0" promptText="Distance (m)" />
             <TextField fx:id="textFieldTime" layoutX="33.0" layoutY="250.0" prefHeight="25.0" prefWidth="360.0" promptText="Time (s)" />
-            <Button fx:id="buttonSubmitData" layoutX="397.0" layoutY="342.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #0d4868; -fx-border-radius: 30; -fx-background-radius: 30;" text="Submit" textFill="#fcfcfc">
+            <Button fx:id="buttonSubmitData" layoutX="397.0" layoutY="342.0" mnemonicParsing="false" onAction="#addManualData" prefHeight="25.0" prefWidth="112.0" style="-fx-background-color: #0d4868; -fx-border-radius: 30; -fx-background-radius: 30;" text="Submit" textFill="#fcfcfc">
                <font>
                   <Font name="System Bold Italic" size="13.0" />
                </font>

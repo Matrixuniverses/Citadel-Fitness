@@ -109,6 +109,7 @@ public class UserDBOperations {
         ResultSet results = pInsertStmt.getGeneratedKeys();
         results.next();
         int user_id = results.getInt(1);
+
         DatabaseWriter.disconnectFromDB();
         return user_id;
 

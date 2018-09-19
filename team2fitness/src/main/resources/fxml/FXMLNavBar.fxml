@@ -1,49 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="navBar" prefHeight="639.0" prefWidth="193.0" styleClass="nav" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.NavBarController">
+<AnchorPane fx:id="navBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="200.0" styleClass="navbar" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.NavBarController">
    <children>
-      <Button fx:id="AddDataLink" layoutX="10.0" layoutY="219.0" mnemonicParsing="false" onAction="#showAddDate" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Add Data" textFill="#0d4868" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="viewDataLink" layoutX="10.0" layoutY="275.0" mnemonicParsing="false" onAction="#viewData" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Activities" textFill="#0d4868" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Button>
-      <Button layoutX="10.0" layoutY="489.0" mnemonicParsing="false" onAction="#exit" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Exit" textFill="#0d4868" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="viewGraphLink" layoutX="10.0" layoutY="330.0" mnemonicParsing="false" onAction="#showViewGraph" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="View Graph" textFill="#0d4868" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="mapViewLink" layoutX="10.0" layoutY="383.0" mnemonicParsing="false" onAction="#showMapView" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Map View" textFill="#0d4868" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="targetLink" layoutX="10.0" layoutY="434.0" mnemonicParsing="false" onAction="#showTarget" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Target" textFill="#0d4868" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Button>
-      <Button fx:id="summaryLink" layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#showSummary" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: e6fff9;" text="Profile" textFill="#0d4868" underline="true">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Button>
+      <BorderPane prefHeight="650.0" prefWidth="200.0" styleClass="navbar">
+         <center>
+            <GridPane alignment="CENTER" prefHeight="650.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="68.0" minHeight="0.0" percentHeight="3.0" prefHeight="15.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="146.0" minHeight="10.0" percentHeight="7.0" prefHeight="63.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="398.0" minHeight="10.0" prefHeight="356.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="summaryButton" alignment="CENTER" mnemonicParsing="false" onAction="#showSummary" prefHeight="25.0" prefWidth="217.0" styleClass="navbutton" stylesheets="@style.css" text="Summary" textAlignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="activityButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddActivity" prefHeight="25.0" prefWidth="230.0" text="Activities" textAlignment="CENTER" GridPane.rowIndex="2" />
+                  <Button fx:id="addDataButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddData" prefHeight="25.0" prefWidth="215.0" text="Import Data" textAlignment="CENTER" GridPane.rowIndex="3" />
+                  <Button fx:id="graphViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showGraph" prefHeight="25.0" prefWidth="226.0" text="Graph View" textAlignment="CENTER" GridPane.rowIndex="4" />
+                  <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Logout" textAlignment="CENTER" GridPane.rowIndex="8" />
+                  <Button fx:id="mapViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showMap" prefHeight="25.0" prefWidth="226.0" text="Map View" textAlignment="CENTER" GridPane.rowIndex="5" />
+                  <Button fx:id="logoutButton1" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="7" />
+               </children>
+            </GridPane>
+         </center>
+      </BorderPane>
    </children>
 </AnchorPane>

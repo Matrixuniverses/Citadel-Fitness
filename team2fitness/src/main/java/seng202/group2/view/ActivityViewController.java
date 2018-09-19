@@ -8,21 +8,20 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group2.data_functions.DatabaseWriter;
 import seng202.group2.model.Activity;
-import seng202.group2.model.ActivityDBOperations;
+import seng202.group2.model.DataManager;
 import seng202.group2.model.User;
 
 import javax.swing.text.TableView;
+import javax.xml.crypto.Data;
 import java.net.URL;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ActivityViewController implements Initializable, UserData {
 
-    private User user;
+    private DataManager dataManager;
 
     @FXML
     javafx.scene.control.TableView<Activity> activityTable;
@@ -43,6 +42,11 @@ public class ActivityViewController implements Initializable, UserData {
     Button activityDeleteButton;
 
 
+    /**
+     * Initializes the activity table. Sets the Col's to display the right fields of activity
+     * @param location
+     * @param resources
+     */
     public void initialize(URL location, ResourceBundle resources) {
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Date>("date"));
@@ -59,9 +63,12 @@ public class ActivityViewController implements Initializable, UserData {
         return activityDeleteButton;
     }
 
-    public void updateUserData(User user) {
-        this.user = user;
-        activityTable.setItems(user.getActivityList());
+    public void setDataManager(DataManager newDataManager) {
+        this.dataManager = newDataManager;
+    }
+
+    public void updateUser() {
+        activityTable.setItems(dataManager.getActivityList());
     }
 }
 

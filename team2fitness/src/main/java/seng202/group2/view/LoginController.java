@@ -1,123 +1,96 @@
 package seng202.group2.view;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import seng202.group2.model.Activity;
+import seng202.group2.model.DataManager;
+import seng202.group2.model.User;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    int count = 1;
-
-    Controller masterController;
-
-    @FXML
-    Button newUserButton;
-
-    @FXML
-    Button user1Button;
-
-    @FXML
-
-    Button user2Button;
-
-    @FXML
-    Button user3Button;
-
-    @FXML
-    Button user4Button;
-
-    @FXML
-    Button user5Button;
-
-    @FXML
-    Button user6Button;
-
+    private DataManager dataManager;
+    private StringProperty status = new SimpleStringProperty("logged out");
     private ObservableList<Button> buttonList = FXCollections.observableArrayList();
 
+    @FXML
+    private Button loginButton;
 
-    public ObservableList<Button> getButtonList() {
-        return buttonList;
+    @FXML
+    private TableView<User> userTable;
+
+    @FXML
+    private TableColumn userTableCol;
+
+    @FXML
+    private Button createButton;
+
+    @FXML
+    private TextField nameField;
+
+    @FXML
+    private TextField ageField;
+
+    @FXML
+    private TextField weightField;
+
+    @FXML
+    private TextField heightField;
+
+    @FXML
+    private Label errorLabel;
+
+
+
+    public void login(){
+        dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
+        status.setValue("logged in");
+
     }
 
-    public Button getNewUserButton() {
-        return newUserButton;
+    public void create() {
+        String name = nameField.getText();
+        Integer age = Integer.valueOf(ageField.getText());
+        Double height = Double.valueOf(heightField.getText());
+        Float weight = Float.valueOf(weightField.getText());
+        dataManager.addUser(name, age, height, weight);
+
     }
 
 
-/*    public void showButton(String name){
-        int userID = getCount();
-        switch(userID) {
-            case(1):
-                user1Button.setVisible(true);
-                user1Button.setText(name);
-                break;
-            case(2):
-                user2Button.setVisible(true);
-                user2Button.setText(name);
-                break;
-            case(3):
-                user3Button.setVisible(true);
-                user3Button.setText(name);
-                break;
-            case(4):
-                user4Button.setVisible(true);
-                user4Button.setText(name);
-                break;
-            case(5):
-                user5Button.setVisible(true);
-                user5Button.setText(name);
-                break;
-            case(6):
-                user6Button.setVisible(true);
-                user6Button.setText(name);
-                break;
-        }
-        setCount(userID + 1);
-    }*/
-
-    public int getCount() {
-        return count;
+    /**
+     * Sets the DataManager to the instance passed from the main controller.
+     * Adds listeners to the login buttons and the new user buttons.
+     * Disables/Enables the buttons when users exist
+     * @param newDataManager
+     */
+    public void setDataManager(DataManager newDataManager) {
+        this.dataManager = newDataManager;
+        userTable.setItems(dataManager.getUserList());
+        userTable.getSelectionModel().selectFirst();
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
 
-    public Button getUser1Button() {
-        return user1Button;
-    }
-
-    public Button getUser2Button() {
-        return user2Button;
-    }
-
-    public Button getUser3Button() {
-        return user3Button;
-    }
-
-    public Button getUser4Button() {
-        return user4Button;
-    }
-
-    public Button getUser5Button() {
-        return user5Button;
-    }
-
-    public Button getUser6Button() {
-        return user6Button;
+    public StringProperty statusProperty() {
+        return status;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        buttonList.addAll(user1Button, user2Button, user3Button, user4Button, user5Button, user6Button);
-
+        userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
     }
 }

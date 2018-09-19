@@ -1,8 +1,12 @@
 package seng202.group2.model;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import javafx.collections.FXCollections;
@@ -12,59 +16,53 @@ import seng202.group2.data_functions.DatabaseWriter;
 public class ActivityDBOperations {
 
 
-    public static Activity getClashingActivity(int user_id, java.util.Date activityDate) throws SQLException {
-
+    public static boolean checkDuplicateActivity(Activity activityToCheck, int user_id) throws SQLException {
         DatabaseWriter.connectToDB();
-        String dateString = activityDate.toString();
-        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + user_id + " AND date_string = '" + dateString + "'";
+
+        String dateString = activityToCheck.getDate().toString();
+        String sqlQueryStatement = "SELECT date_string, name FROM Activities WHERE user_id = "
+                + user_id + " AND date_string = '" + dateString + "'";
         ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQueryStatement);
 
-        Activity clashingActivity = null;
-
         if (queryResult.next()) {
-            int activityID = queryResult.getInt("activity_id");
-            String activityName = queryResult.getString("name");
-            activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+            Date retrievedDate = null;
+
             try {
-                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+                retrievedDate = dateFormatter.parse(queryResult.getString("date_string"));
+                System.out.println(queryResult.getString("date_string"));
             } catch (ParseException e) {
-                System.out.println("Unable to parse date");
+                System.err.println("[ERROR] Unable to parse date");
                 e.printStackTrace();
             }
-            String activityType = queryResult.getString("type");
-            double totalDistance = queryResult.getDouble("total_distance");
-            double totalTime = queryResult.getDouble("total_time");
-            clashingActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
-            clashingActivity.setId(activityID);
+
+            if (retrievedDate != null && retrievedDate.equals(activityToCheck.getDate())) {
+                if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
+                    DatabaseWriter.disconnectFromDB();
+                    return true;
+                }
+            }
 
         }
+
         DatabaseWriter.disconnectFromDB();
-        return clashingActivity;
+        return false;
 
     }
 
 
-/*    public static boolean insertNewActivity(Activity activity, int user_id) throws SQLException {
-
-        //check that the user is actually in the database
-        if (UserDBOperations.getUserFromRS(user_id) == null) {
-            return false;
-        }*/
-
     public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
-
         //check that the user is actually in the database
         if (UserDBOperations.getUserFromRS(user_id) == null) {
             return -1;
 
         }
+
         DatabaseWriter.connectToDB();
 
 
         String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
                 "VALUES(?,?,?,?,?,?,?)";
-
 
         Connection dbConn = DatabaseWriter.getDbConnection();
 
@@ -77,8 +75,6 @@ public class ActivityDBOperations {
         pUpdateStatement.setDouble(6, activity.getTotalDistance());
         pUpdateStatement.setDouble(7, activity.getTotalTime());
         pUpdateStatement.executeUpdate();
-
-        DatabaseWriter.disconnectFromDB();
         //return true;
 
         ResultSet results = pUpdateStatement.getGeneratedKeys();

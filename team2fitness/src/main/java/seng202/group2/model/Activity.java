@@ -2,6 +2,8 @@ package seng202.group2.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.chart.XYChart;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,6 +34,20 @@ public class Activity {
         manualEntry = true;
     }
 
+
+    public XYChart.Series createTimeSeries() {
+        double time = 0;
+        double distance = 0;
+
+        XYChart.Series series = new XYChart.Series();
+        for (DataPoint dataPoint : activityData) {
+            time += dataPoint.getTimeDelta();
+            distance += dataPoint.getDistanceDelta();
+            series.getData().add(new XYChart.Data(time, distance));
+        }
+
+        return series;
+    }
 
     public void addDataPoint(DataPoint toAdd) {
         activityData.add(toAdd);

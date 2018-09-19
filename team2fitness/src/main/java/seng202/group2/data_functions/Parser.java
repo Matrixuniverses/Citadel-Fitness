@@ -3,6 +3,7 @@ package seng202.group2.data_functions;
 import com.opencsv.CSVReader;
 import seng202.group2.model.*;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -205,15 +206,16 @@ public class Parser {
                 throw new IllegalArgumentException("Cannot find user to parse activities to!");
             }
 
-            DatabaseWriter.connectToDB();
-            DatabaseWriter.createDatabase();
-
             for (Activity activity : activities) {
-                int activityId = ActivityDBOperations.insertNewActivity(activity, user_id);
-                for (DataPoint point : activity.getActivityData()) {
-                    DatapointDBOperations.insertNewDataPoint(point, activityId);
+                if (!ActivityDBOperations.checkDuplicateActivity(activity, user_id)) {
+                    int activityId = ActivityDBOperations.insertNewActivity(activity, user_id);
+                    activity.setId(activityId);
+                    for (DataPoint point : activity.getActivityData()) {
+                        DatapointDBOperations.insertNewDataPoint(point, activityId);
+                    }
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -265,14 +267,12 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/latLongBroken.csv"), 1);
+            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/all.csv"), 1);
 
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
             DatabaseWriter.createDatabase();
 
-            UserDBOperations.insertNewUser(new User(1, "test", 24, 180, 80));
-            ActivityDBOperations.insertNewActivity(test.get(0), 1);
             for (Activity activity : test) {
                 System.out.println(activity.getActivityName());
                 System.out.println(activity.getTotalDistance());
