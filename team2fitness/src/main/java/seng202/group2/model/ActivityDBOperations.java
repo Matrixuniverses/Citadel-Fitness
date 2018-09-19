@@ -77,8 +77,6 @@ public class ActivityDBOperations {
         pUpdateStatement.setDouble(6, activity.getTotalDistance());
         pUpdateStatement.setDouble(7, activity.getTotalTime());
         pUpdateStatement.executeUpdate();
-
-        DatabaseWriter.disconnectFromDB();
         //return true;
 
         ResultSet results = pUpdateStatement.getGeneratedKeys();

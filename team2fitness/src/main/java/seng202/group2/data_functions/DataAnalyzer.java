@@ -5,7 +5,9 @@ import java.awt.Desktop;
 import java.net.URI;
 import java.util.ArrayList;
 
-
+/**
+ * Collection of methods to calculate fitness metrics
+ */
 public class DataAnalyzer {
 
 
