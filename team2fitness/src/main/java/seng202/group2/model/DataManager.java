@@ -27,9 +27,19 @@ public class DataManager {
 
     public void setCurrentUser(User user) {
         this.currentUser = user;
-    }
+        try {
+            user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
+            System.out.println(user.getActivityList().size());
+            for (Activity activity : user.getActivityList()) {
+                activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
+                System.out.println(activity.getActivityData().size());
 
-    // User Data Functions
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void addUser(String name, int age, double height, double weight) {
         User newUser = new User(name, age, height, weight);

@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seng202.group2.data_functions.DatabaseWriter;
 
 public class ActivityDBOperations {
@@ -89,7 +91,7 @@ public class ActivityDBOperations {
     }
 
 
-/*    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
+    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
 
         DatabaseWriter.connectToDB();
         String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = "+ user_id + " ORDER BY date;";
@@ -98,7 +100,7 @@ public class ActivityDBOperations {
         ObservableList<Activity> userActivities = FXCollections.observableArrayList();
 
         while (queryResult.next()) {
-            int activityID = queryResult.getInt("user_id");
+            int activityID = queryResult.getInt("activity_id");
             String activityName = queryResult.getString("name");
             java.util.Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
@@ -112,6 +114,7 @@ public class ActivityDBOperations {
             double totalDistance = queryResult.getDouble("total_distance");
             double totalTime = queryResult.getDouble("total_time");
             Activity newActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
+            newActivity.setId(activityID);
             userActivities.add(newActivity);
 
 
@@ -120,7 +123,7 @@ public class ActivityDBOperations {
         return userActivities;
 
 
-    }*/
+    }
 
     public static Activity getActivityFromRS(int activity_id) throws SQLException {
         DatabaseWriter.connectToDB();
