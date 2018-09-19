@@ -1,8 +1,8 @@
 package seng202.group2.controllerTest;
 
 import org.junit.Test;
-import seng202.group2.data_functions.DataAnalyzer;
-import seng202.group2.data_functions.Parser;
+import seng202.group2.analysis.DataAnalyzer;
+import seng202.group2.data.DataParser;
 import seng202.group2.model.Activity;
 
 import java.io.File;
@@ -18,7 +18,7 @@ public class ParserTest {
     @Test
     public void activityTitleCorrect1() {
         try {
-            Parser testParser = new Parser(new File(testData + "/blockrun.csv"));
+            DataParser testParser = new DataParser(new File(testData + "/blockrun.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
             assertEquals("Run around the block", test.get(0).getActivityName());
 
@@ -32,7 +32,7 @@ public class ParserTest {
     @Test
     public void activityTitleCorrect2() {
         try {
-            Parser testParser = new Parser(new File(testData + "/woodswalk.csv"));
+            DataParser testParser = new DataParser(new File(testData + "/woodswalk.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
             assertEquals("Walk in the woods", test.get(0).getActivityName());
 
@@ -44,7 +44,7 @@ public class ParserTest {
     @Test
     public void activityTitleCorrect3() {
         try {
-            Parser testParser = new Parser(new File(testData + "/all.csv"));
+            DataParser testParser = new DataParser(new File(testData + "/all.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
             assertEquals("Walk with dog", test.get(4).getActivityName());
 
@@ -56,7 +56,7 @@ public class ParserTest {
     @Test
     public void activityTitleCorrect4() {
         try {
-            Parser testParser = new Parser(new File(testData + "/all.csv"));
+            DataParser testParser = new DataParser(new File(testData + "/all.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
             assertEquals("Hike in the mountains", test.get(5).getActivityName());
 
@@ -68,7 +68,7 @@ public class ParserTest {
     @Test
     public void activityTotalDistanceCorrect1() {
         try {
-            Parser testParser = new Parser(new File(testData + "/blockrun.csv"));
+            DataParser testParser = new DataParser(new File(testData + "/blockrun.csv"));
             double distance = 0.0;
 
             distance += DataAnalyzer.calcDistance(30.245576, -97.823843, 30.246356, -97.823326);
@@ -88,7 +88,7 @@ public class ParserTest {
     @Test
     public void activityTotalDistanceCorrect2() {
         try {
-            Parser testParser = new Parser(new File(testData + "/all.csv"));
+            DataParser testParser = new DataParser(new File(testData + "/all.csv"));
             double distance = 0.0;
 
             distance += DataAnalyzer.calcDistance(30.24913327, -97.82023906, 30.24912858, -97.82021148);
@@ -105,7 +105,7 @@ public class ParserTest {
     @Test
     public void activityCountCorrect1() {
         try {
-            Parser testParser = new Parser(new File(testData + "/all.csv"));
+            DataParser testParser = new DataParser(new File(testData + "/all.csv"));
             ArrayList<Activity> test = testParser.getActivitiesRead();
             assertEquals(12, size(test));
 

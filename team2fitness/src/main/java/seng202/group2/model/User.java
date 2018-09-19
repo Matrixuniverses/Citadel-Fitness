@@ -1,18 +1,16 @@
 package seng202.group2.model;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.FloatBinding;
-import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import seng202.group2.data_functions.DatabaseWriter;
+import seng202.group2.data.ActivityDBOperations;
+import seng202.group2.data.DatabaseOperations;
+import seng202.group2.data.UserDBOperations;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class User {
 
@@ -75,7 +73,7 @@ public class User {
 
 
     /*
-     * assigns listeners to all properties that are stored in the database. When changed it updates the database.
+     * assigns listeners to all properties that are stored in the data. When changed it updates the data.
      */
     private void setupDatabaseHandlers() {
         this.name.addListener(new ChangeListener<String>() {
@@ -113,8 +111,8 @@ public class User {
 
     public void loadDataFromDB() {
         try {
-            DatabaseWriter.createDatabase();
-            DatabaseWriter.connectToDB();
+            DatabaseOperations.createDatabase();
+            DatabaseOperations.connectToDB();
 
             activityList = ActivityDBOperations.getAllUsersActivities(id);
 

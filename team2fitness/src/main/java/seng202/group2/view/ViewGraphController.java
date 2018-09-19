@@ -7,10 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group2.data_functions.GraphGenerator;
+import seng202.group2.analysis.GraphGenerator;
 import seng202.group2.model.Activity;
-import seng202.group2.model.DataManager;
-import seng202.group2.model.User;
+import seng202.group2.data.DataManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;

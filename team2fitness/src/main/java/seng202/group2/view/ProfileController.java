@@ -8,10 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import seng202.group2.model.DataManager;
-import seng202.group2.model.User;
+import seng202.group2.data.DataManager;
 
-import javax.xml.soap.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 

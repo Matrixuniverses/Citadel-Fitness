@@ -1,14 +1,13 @@
-package seng202.group2.data_functions;
+package seng202.group2.data;
 
 import com.opencsv.CSVReader;
+import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.*;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,9 +18,9 @@ import java.util.concurrent.TimeUnit;
 // TODO - Need to get multithreading working
 
 /**
- * Parser designed to read a CSV file for activity data.
+ * DataParser designed to read a CSV file for activity data.
  */
-public class Parser {
+public class DataParser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
     private ArrayList<Activity> activitiesRead = new ArrayList<>();
 
@@ -32,7 +31,7 @@ public class Parser {
      * @param file Given file object to read data from
      * @throws FileFormatException If the passed file is not valid for reading
      */
-    public Parser(File file) throws FileFormatException {
+    public DataParser(File file) throws FileFormatException {
         try {
             if (file == null) {
                 throw new FileFormatException("File is null");
@@ -228,11 +227,11 @@ public class Parser {
 
     public static void main(String[] args) {
         try {
-            Parser testParser = new Parser(new File("team2fitness/src/test/java/seng202/group2/testData/all.csv"));
+            DataParser testParser = new DataParser(new File("team2fitness/src/test/java/seng202/group2/testData/all.csv"));
 
             ArrayList<Activity> test = testParser.getActivitiesRead();
 
-            DatabaseWriter.createDatabase();
+            DatabaseOperations.createDatabase();
 
             for (Activity activity : test) {
                 System.out.println(activity.getActivityName());

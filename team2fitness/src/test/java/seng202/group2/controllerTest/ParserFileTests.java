@@ -3,8 +3,8 @@ package seng202.group2.controllerTest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import seng202.group2.data_functions.FileFormatException;
-import seng202.group2.data_functions.Parser;
+import seng202.group2.data.FileFormatException;
+import seng202.group2.data.DataParser;
 
 import java.io.File;
 
@@ -22,14 +22,14 @@ public class ParserFileTests {
 
         thrown.expect(FileFormatException.class);
         thrown.expectMessage("File not found");
-        Parser parser = new Parser(new File("file/that/does/not/exist"));
+        DataParser parser = new DataParser(new File("file/that/does/not/exist"));
     }
 
     @Test
     public void TestNullFilePointer() throws Exception {
         thrown.expect(FileFormatException.class);
         thrown.expectMessage("File is null");
-        Parser parser = new Parser(null);
+        DataParser parser = new DataParser(null);
     }
 
 
@@ -37,13 +37,13 @@ public class ParserFileTests {
     public void TestIncorrectExtension() throws Exception {
         thrown.expect(FileFormatException.class);
         thrown.expectMessage("Incorrect file format");
-        Parser parser = new Parser(new File(testData + "/csv.txt"));
+        DataParser parser = new DataParser(new File(testData + "/csv.txt"));
     }
 
     @Test
     public void TestNormalCSVFile() {
         try {
-            Parser parser = new Parser(new File(testData + "/all.csv"));
+            DataParser parser = new DataParser(new File(testData + "/all.csv"));
         } catch (Exception e) {
             fail("Should not get exception");
         }

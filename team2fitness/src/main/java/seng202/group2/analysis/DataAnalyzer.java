@@ -1,4 +1,4 @@
-package seng202.group2.data_functions;
+package seng202.group2.analysis;
 
 import java.lang.Math;
 import java.awt.Desktop;

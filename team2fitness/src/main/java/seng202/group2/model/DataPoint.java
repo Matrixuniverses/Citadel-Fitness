@@ -10,7 +10,7 @@ public class DataPoint {
     private double longitude;
     private double altitude;
 
-    // TODO - Add code for finding actual length instead of ground distance (Parser needs modification)
+    // TODO - Add code for finding actual length instead of ground distance (DataParser needs modification)
 
     private double distanceDelta;   // Geodetic distance from last point
     private double lengthDelta;     // Cartesian product, takes altitude into account

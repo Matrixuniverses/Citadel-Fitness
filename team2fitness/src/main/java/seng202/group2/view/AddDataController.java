@@ -2,30 +2,20 @@ package seng202.group2.view;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import seng202.group2.data_functions.FileFormatException;
-import seng202.group2.data_functions.Parser;
+import seng202.group2.data.DataParser;
+import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
-import seng202.group2.model.DataManager;
+import seng202.group2.data.DataManager;
 
-import javax.xml.crypto.Data;
-import javax.xml.soap.Text;
-import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.InputMismatchException;
@@ -134,9 +124,9 @@ public class AddDataController implements UserData {
 
         selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
-            Parser parser = null;
+            DataParser parser = null;
             try {
-                parser = new Parser(selectedFile);
+                parser = new DataParser(selectedFile);
                 dataManager.addActivities(parser.getActivitiesRead());
             } catch (FileFormatException f) {
                 f.printStackTrace();

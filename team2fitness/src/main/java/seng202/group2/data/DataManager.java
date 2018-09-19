@@ -1,10 +1,15 @@
-package seng202.group2.model;
+package seng202.group2.data;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seng202.group2.data_functions.DatabaseWriter;
+import seng202.group2.data.ActivityDBOperations;
+import seng202.group2.data.DatabaseOperations;
+import seng202.group2.data.DatapointDBOperations;
+import seng202.group2.data.UserDBOperations;
+import seng202.group2.model.Activity;
+import seng202.group2.model.DataPoint;
+import seng202.group2.model.User;
 
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
 
 public class DataManager {
@@ -43,7 +48,7 @@ public class DataManager {
     public void addUser(String name, int age, double height, double weight) {
         User newUser = new User(name, age, height, weight);
         try {
-            DatabaseWriter.createDatabase();
+            DatabaseOperations.createDatabase();
             newUser.setId(UserDBOperations.insertNewUser(newUser));
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,7 +58,7 @@ public class DataManager {
 
     public void deleteUser(User user) {
         try {
-            DatabaseWriter.createDatabase();
+            DatabaseOperations.createDatabase();
             UserDBOperations.deleteExistingUser(user.getId());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,14 +91,14 @@ public class DataManager {
     }
 
     /**
-     * Adds an activity to the database, this is first done by checking if an activity of the same name and date/ time
-     * already exists for the user, if it does not then it is added to the database and to the users current
+     * Adds an activity to the data, this is first done by checking if an activity of the same name and date/ time
+     * already exists for the user, if it does not then it is added to the data and to the users current
      * activity list
-     * @param activity Activity to be added to database
+     * @param activity Activity to be added to data
      */
     public void addActivity(Activity activity){
         try {
-            DatabaseWriter.createDatabase();
+            DatabaseOperations.createDatabase();
             if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.getId())) {
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
                 for (DataPoint datapoint : activity.getActivityData()) {
@@ -114,7 +119,7 @@ public class DataManager {
     }
 
     /**
-     * deletes an activity from the current user and updates the database
+     * deletes an activity from the current user and updates the data
      * @param activity
      */
     public void deleteActivity(Activity activity) {

@@ -10,11 +10,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.model.Activity;
-import seng202.group2.model.DataManager;
+import seng202.group2.data.DataManager;
 import seng202.group2.model.Route;
-import seng202.group2.model.User;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 

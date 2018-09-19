@@ -3,21 +3,15 @@ package seng202.group2.view;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import seng202.group2.model.Activity;
-import seng202.group2.model.DataManager;
+import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 
-import javax.xml.crypto.Data;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {

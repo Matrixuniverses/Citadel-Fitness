@@ -1,4 +1,4 @@
-package seng202.group2.data_functions;
+package seng202.group2.analysis;
 
 import javafx.scene.chart.XYChart;
 import seng202.group2.model.Activity;

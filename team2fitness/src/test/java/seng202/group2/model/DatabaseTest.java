@@ -6,7 +6,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import seng202.group2.data_functions.DatabaseWriter;
+
+import seng202.group2.data.ActivityDBOperations;
+import seng202.group2.data.DatabaseOperations;
+import seng202.group2.data.DatapointDBOperations;
+import seng202.group2.data.UserDBOperations;
 
 import java.sql.Connection;
 import java.time.Duration;
@@ -23,7 +27,7 @@ public class DatabaseTest {
     @Before
     public void testDataBaseSetUp() {
 
-        DatabaseWriter.setDatabaseURL(testDBURL);
+        DatabaseOperations.setDatabaseURL(testDBURL);
 
         User user1 = new User("User1", 17, 160.0, 70);
         User user2 = new User("User2", 18, 175.0, 67);
@@ -47,7 +51,7 @@ public class DatabaseTest {
         DataPoint dp5 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(50))), 168, 9.72, 10.0, 99.0);
 
         try {
-            DatabaseWriter.createDatabase();
+            DatabaseOperations.createDatabase();
 
             //inserting test users
             UserDBOperations.insertNewUser(user1);
@@ -84,8 +88,8 @@ public class DatabaseTest {
     public void testConnectToDatabase() {
         Connection conn = null;
         try {
-            DatabaseWriter.connectToDB();
-            conn = DatabaseWriter.getDbConnection();
+            DatabaseOperations.connectToDB();
+            conn = DatabaseOperations.getDbConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -97,9 +101,9 @@ public class DatabaseTest {
     public void testDisconnectFromDatabase() {
 
         try {
-            DatabaseWriter.connectToDB();
-            DatabaseWriter.disconnectFromDB();
-            Connection conn = DatabaseWriter.getDbConnection();
+            DatabaseOperations.connectToDB();
+            DatabaseOperations.disconnectFromDB();
+            Connection conn = DatabaseOperations.getDbConnection();
             assertEquals(true, conn.isClosed());
 
         } catch (SQLException e) {
@@ -112,7 +116,7 @@ public class DatabaseTest {
     public void testInsertNewUser() {
         User user4 = new User("User5", 19, 190.0, 85);
         try {
-            DatabaseWriter.connectToDB();
+            DatabaseOperations.connectToDB();
             assertEquals(5, UserDBOperations.insertNewUser(user4));
 
         } catch (SQLException e) {
@@ -136,7 +140,7 @@ public class DatabaseTest {
     @Test
     public void testGetUserFromRS() {
         try {
-            //DatabaseWriter.connectToDB();
+            //DatabaseOperations.connectToDB();
             User matchingUser = new User(1, "User1", 17, 160.0, 70);
             User retrievedUser = UserDBOperations.getUserFromRS(1);
             assertEquals(true, matchingUser.getName().equals(retrievedUser.getName()));
@@ -150,7 +154,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateUserReturnValueSuccess() {
         try {
-            //DatabaseWriter.connectToDB();
+            //DatabaseOperations.connectToDB();
             User retrievedUser = UserDBOperations.getUserFromRS(3);
             retrievedUser.setWeight(90);
             assertEquals(true, UserDBOperations.updateExistingUser(retrievedUser));
@@ -163,7 +167,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateUserReturnValueFail() {
         try {
-            //DatabaseWriter.connectToDB();
+            //DatabaseOperations.connectToDB();
             User retrievedUser = UserDBOperations.getUserFromRS(3);
             retrievedUser.setWeight(90);
             retrievedUser.setId(1000000);
@@ -177,7 +181,7 @@ public class DatabaseTest {
     @Test
     public void testUserRecordStateAfterUpdate() {
         try {
-            DatabaseWriter.connectToDB();
+            DatabaseOperations.connectToDB();
             User retrievedUser = UserDBOperations.getUserFromRS(3);
             retrievedUser.setWeight(91.2);
             if (UserDBOperations.updateExistingUser(retrievedUser)) {
@@ -256,9 +260,9 @@ public class DatabaseTest {
     @After
     public void resetTestingDB() {
         try {
-            DatabaseWriter.connectToDB();
-            DatabaseWriter.resetDatabase(true);
-            DatabaseWriter.disconnectFromDB();
+            DatabaseOperations.connectToDB();
+            DatabaseOperations.resetDatabase(true);
+            DatabaseOperations.disconnectFromDB();
         } catch (SQLException e) {
             e.printStackTrace();
         }

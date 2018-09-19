@@ -1,4 +1,4 @@
-package seng202.group2.model;
+package seng202.group2.data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,18 +11,18 @@ import java.util.Locale;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seng202.group2.data_functions.DatabaseWriter;
+import seng202.group2.model.Activity;
 
 public class ActivityDBOperations {
 
 
     public static boolean checkDuplicateActivity(Activity activityToCheck, int user_id) throws SQLException {
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
 
         String dateString = activityToCheck.getDate().toString();
         String sqlQueryStatement = "SELECT date_string, name FROM Activities WHERE user_id = "
                 + user_id + " AND date_string = '" + dateString + "'";
-        ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQueryStatement);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
 
         if (queryResult.next()) {
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
@@ -38,33 +38,33 @@ public class ActivityDBOperations {
 
             if (retrievedDate != null && retrievedDate.equals(activityToCheck.getDate())) {
                 if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
-                    DatabaseWriter.disconnectFromDB();
+                    DatabaseOperations.disconnectFromDB();
                     return true;
                 }
             }
 
         }
 
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
         return false;
 
     }
 
 
     public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
-        //check that the user is actually in the database
+        //check that the user is actually in the data
         if (UserDBOperations.getUserFromRS(user_id) == null) {
             return -1;
 
         }
 
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
 
 
         String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
                 "VALUES(?,?,?,?,?,?,?)";
 
-        Connection dbConn = DatabaseWriter.getDbConnection();
+        Connection dbConn = DatabaseOperations.getDbConnection();
 
         PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlInsertStmt);
         pUpdateStatement.setInt(1, user_id);
@@ -81,7 +81,7 @@ public class ActivityDBOperations {
         results.next();
         int activity_id = results.getInt(1);
 
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
         return activity_id;
 
     }
@@ -89,9 +89,9 @@ public class ActivityDBOperations {
 
     public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
 
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
         String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = "+ user_id + " ORDER BY date;";
-        ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQueryStatement);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
 
         ObservableList<Activity> userActivities = FXCollections.observableArrayList();
 
@@ -116,16 +116,16 @@ public class ActivityDBOperations {
 
 
         }
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
         return userActivities;
 
 
     }
 
     public static Activity getActivityFromRS(int activity_id) throws SQLException {
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
         String sqlQuery = "SELECT * FROM Activities WHERE activity_id = " + activity_id + ";";
-        ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQuery);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
         Activity retrievedActivity = null;
 
         if (queryResult.next()) {
@@ -146,7 +146,7 @@ public class ActivityDBOperations {
             retrievedActivity.setId(activityID);
 
         }
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
         return retrievedActivity;
     }
 
@@ -155,8 +155,8 @@ public class ActivityDBOperations {
 
         String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ? WHERE activity_id = ?";
         if (getActivityFromRS(activity.getId()) != null) {
-            DatabaseWriter.connectToDB();
-            Connection dbConn = DatabaseWriter.getDbConnection();
+            DatabaseOperations.connectToDB();
+            Connection dbConn = DatabaseOperations.getDbConnection();
 
             PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStatement.setString(1, activity.getActivityName());
@@ -167,7 +167,7 @@ public class ActivityDBOperations {
             pUpdateStatement.setDouble(6, activity.getTotalTime());
             pUpdateStatement.setInt(7, activity.getId());
             pUpdateStatement.executeUpdate();
-            DatabaseWriter.disconnectFromDB();
+            DatabaseOperations.disconnectFromDB();
             return true;
         } else {
             return false;
@@ -175,13 +175,13 @@ public class ActivityDBOperations {
     }
 
     public static boolean deleteExistingActivity(int activityID) throws SQLException {
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
-        Connection dbConn = DatabaseWriter.getDbConnection();
+        Connection dbConn = DatabaseOperations.getDbConnection();
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, activityID);
         pDeleteStmt.executeUpdate();
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
         if (getActivityFromRS(activityID) == null) {
             return true;
         } else {

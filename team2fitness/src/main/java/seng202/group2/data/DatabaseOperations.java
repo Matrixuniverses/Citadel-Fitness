@@ -1,10 +1,10 @@
-package seng202.group2.data_functions;
+package seng202.group2.data;
 
 import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
 
-public class DatabaseWriter {
+public class DatabaseOperations {
     private static String dbURL = "jdbc:sqlite:" + System.getProperty("user.home") + "/CitadelFitnessLocalDatabase.db";
     private static final String driver = "org.sqlite.JDBC";
     private static Connection dbConn = null;
@@ -16,11 +16,11 @@ public class DatabaseWriter {
     }
 
     /**
-     * Establishes a connection to a sql database with the filename CitadelFitnessLocalDatabase.db which is assigned to
+     * Establishes a connection to a sql data with the filename CitadelFitnessLocalDatabase.db which is assigned to
      * the local java.sql.Connection object. The connection is set up with the configuration that Foreign Keys in the
-     * database are enforced. The database is located in the User's home directory and the database is created in this
+     * data are enforced. The data is located in the User's home directory and the data is created in this
      * directory if it does not already exist.
-     * @throws SQLException if an error occurs preforming sql operations on the database.
+     * @throws SQLException if an error occurs preforming sql operations on the data.
      */
     public static void connectToDB() throws SQLException {
         try {
@@ -35,8 +35,8 @@ public class DatabaseWriter {
     }
 
     /**
-     * Sets a new database URL.
-     * @param newDatabaseURL The new URL for the database
+     * Sets a new data URL.
+     * @param newDatabaseURL The new URL for the data
      */
     public static void setDatabaseURL(String newDatabaseURL) {
         dbURL = newDatabaseURL;
@@ -47,15 +47,15 @@ public class DatabaseWriter {
 
     /**
      *
-     * @return the Connection object that is linked to the database if not null.
+     * @return the Connection object that is linked to the data if not null.
      */
     public static Connection getDbConnection() {
         return dbConn;
     }
 
     /**
-     * Closes down the connection to the database by setting the database Connection object to null.
-     * @throws SQLException if an error occurs disconnecting from the database
+     * Closes down the connection to the data by setting the data Connection object to null.
+     * @throws SQLException if an error occurs disconnecting from the data
      */
     public static void disconnectFromDB() throws SQLException {
         if (dbConn != null) {
@@ -74,10 +74,10 @@ public class DatabaseWriter {
 
 
     /**
-     *  Creates a new database for the application if it does not already exist and creates the databases structure (tables
-     *  and attributes). The database is stored in the project's directory and consists of four tables:
+     *  Creates a new data for the application if it does not already exist and creates the databases structure (tables
+     *  and attributes). The data is stored in the project's directory and consists of four tables:
      *  users, activities, datapoints and targets.     *
-     * @throws SQLException if an sql related problem is encountered trying to set up the database.
+     * @throws SQLException if an sql related problem is encountered trying to set up the data.
      */
     public static void createDatabase() throws SQLException {
         connectToDB();
@@ -167,8 +167,8 @@ public class DatabaseWriter {
     /**
      * Executes a inputted sql query (as a string) and returns the result set from the query
      * @param queryStmt A string representation of a sql query statement
-     * @return The result set from querying the database.
-     * @throws SQLException if an error occurs querying the database.
+     * @return The result set from querying the data.
+     * @throws SQLException if an error occurs querying the data.
      */
     public static ResultSet executeDBQuery(String queryStmt) throws SQLException {
         Statement dbStmt = dbConn.createStatement();

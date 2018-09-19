@@ -1,8 +1,8 @@
-package seng202.group2.model;
+package seng202.group2.data;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seng202.group2.data_functions.DatabaseWriter;
+import seng202.group2.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,20 +12,20 @@ import java.sql.SQLException;
 public class UserDBOperations {
 
     /**
-     * Searches the database for a user in the table users using a given user_id and returns the User if the
-     * user has be found by the query in the database.
-     * This function automatically connects to and disconnects from the database.
+     * Searches the data for a user in the table users using a given user_id and returns the User if the
+     * user has be found by the query in the data.
+     * This function automatically connects to and disconnects from the data.
      * @param user_id the id of the user that will be searched for.
-     * @return the User associated with the user id from the database if the user_id exists in the database.
-     * @throws SQLException if any error occurs preforming the sql operations on the database.
+     * @return the User associated with the user id from the data if the user_id exists in the data.
+     * @throws SQLException if any error occurs preforming the sql operations on the data.
      */
     public static User getUserFromRS(int user_id) throws SQLException {
 
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
 
         String sqlQuery = "SELECT * FROM Users WHERE user_id = "+ user_id + ";";
 
-        ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQuery);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
 
         User retrievedUser = null;
 
@@ -42,7 +42,7 @@ public class UserDBOperations {
 
 
         }
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
 
 
         return retrievedUser;
@@ -52,18 +52,18 @@ public class UserDBOperations {
 
 
     /**
-     * Queries the database for all user records in the database and returns them as an observable list.
-     * This function automatically connects to and disconnects from the database.
-     * @return an Observable list of all the current users in the database.
-     * @throws SQLException if any error occurs preforming the sql operations on the database.
+     * Queries the data for all user records in the data and returns them as an observable list.
+     * This function automatically connects to and disconnects from the data.
+     * @return an Observable list of all the current users in the data.
+     * @throws SQLException if any error occurs preforming the sql operations on the data.
      */
     public static ObservableList<User> getAllUsers() throws SQLException {
-        DatabaseWriter.createDatabase();
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.createDatabase();
+        DatabaseOperations.connectToDB();
 
         String sqlQuery = "SELECT * from Users";
 
-        ResultSet queryResult = DatabaseWriter.executeDBQuery(sqlQuery);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
 
 
         ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
@@ -78,7 +78,7 @@ public class UserDBOperations {
 
             retrievedUsers.add(retrievedUser);
         }
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
 
         return retrievedUsers;
 
@@ -88,16 +88,16 @@ public class UserDBOperations {
 
 
     /**
-     * Inserts a new User into the database.
-     * This function automatically connects to and disconnects from the database.
-     * @param user The User object to be stored in the database.
-     * @throws SQLException If there is a sql related error when trying to preform the insert operation on the database.
+     * Inserts a new User into the data.
+     * This function automatically connects to and disconnects from the data.
+     * @param user The User object to be stored in the data.
+     * @throws SQLException If there is a sql related error when trying to preform the insert operation on the data.
      */
     public static int insertNewUser(User user) throws SQLException {
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
         String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight) VALUES(?,?,?,?)";
 
-        Connection dbConn = DatabaseWriter.getDbConnection();
+        Connection dbConn = DatabaseOperations.getDbConnection();
 
         PreparedStatement pInsertStmt = dbConn.prepareStatement(sqlInsertStmt);
         pInsertStmt.setString(1, user.getName());
@@ -110,25 +110,25 @@ public class UserDBOperations {
         results.next();
         int user_id = results.getInt(1);
 
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
         return user_id;
 
     }
 
 
     /**
-     * Updates a user that is already stored within the database
-     * This function automatically connects to and disconnects from the database.
-     * @param user The updated version of the a particular USer object that will have its database record updated
-     * @return true if the user does exist inside the database. false otherwise
-     * @throws SQLException If there was a sql related error when trying to update a user in the database.
+     * Updates a user that is already stored within the data
+     * This function automatically connects to and disconnects from the data.
+     * @param user The updated version of the a particular USer object that will have its data record updated
+     * @return true if the user does exist inside the data. false otherwise
+     * @throws SQLException If there was a sql related error when trying to update a user in the data.
      */
     public static boolean updateExistingUser(User user) throws SQLException{
 
         String sqlUpdateStmt = "UPDATE Users SET name = ?, age = ?, height = ?, weight = ? WHERE user_id = ?";
         if (getUserFromRS(user.getId()) != null) {
-            DatabaseWriter.connectToDB();
-            Connection dbConn = DatabaseWriter.getDbConnection();
+            DatabaseOperations.connectToDB();
+            Connection dbConn = DatabaseOperations.getDbConnection();
 
             PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStatement.setString(1, user.getName());
@@ -137,7 +137,7 @@ public class UserDBOperations {
             pUpdateStatement.setDouble(4, user.getWeight());
             pUpdateStatement.setInt(5, user.getId());
             pUpdateStatement.executeUpdate();
-            DatabaseWriter.disconnectFromDB();
+            DatabaseOperations.disconnectFromDB();
             return true;
         } else {
 
@@ -149,20 +149,20 @@ public class UserDBOperations {
 
 
     /**
-     * Deletes a user from the database using the user's ID.
-     * This function automatically connects to and disconnects from the database.
-     * @param userId The ID of the user to be removed from the database
-     * @return true if the user with the inputted id no longer exists within the database
-     * @throws SQLException if an sql related error occurs while attempting to delete a user from the database.
+     * Deletes a user from the data using the user's ID.
+     * This function automatically connects to and disconnects from the data.
+     * @param userId The ID of the user to be removed from the data
+     * @return true if the user with the inputted id no longer exists within the data
+     * @throws SQLException if an sql related error occurs while attempting to delete a user from the data.
      */
     public static boolean deleteExistingUser(int userId) throws SQLException {
-        DatabaseWriter.connectToDB();
+        DatabaseOperations.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Users WHERE user_id = ?";
-        Connection dbConn = DatabaseWriter.getDbConnection();
+        Connection dbConn = DatabaseOperations.getDbConnection();
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, userId);
         pDeleteStmt.executeUpdate();
-        DatabaseWriter.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
         if (getUserFromRS(userId) == null) {
             return true;
         } else {
@@ -188,7 +188,7 @@ public class UserDBOperations {
     /*public static void main(String[] args) {
         try {
 
-            DatabaseWriter.createDatabase();
+            DatabaseOperations.createDatabase();
             User testUser = new User(0,"Test0", 17, 1.8, 75);
             for (int i = 1; i < 6; i++) {
                 testUser.setName(testUser.getName().substring(0, testUser.getName().length() - 1) + Integer.toString(i));

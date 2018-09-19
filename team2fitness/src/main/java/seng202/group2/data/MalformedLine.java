@@ -1,6 +1,5 @@
-package seng202.group2.data_functions;
+package seng202.group2.data;
 
-import org.omg.CORBA.ACTIVITY_COMPLETED;
 import seng202.group2.model.Activity;
 
 public class MalformedLine {

@@ -1,21 +1,15 @@
 package seng202.group2.view;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.model.Activity;
-import seng202.group2.model.DataManager;
-import seng202.group2.model.User;
+import seng202.group2.data.DataManager;
 
-import javax.swing.text.TableView;
-import javax.xml.crypto.Data;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -68,6 +62,7 @@ public class ActivityViewController implements Initializable, UserData {
     }
 
     public void updateUser() {
+        activityTable.getItems().clear();
         activityTable.setItems(dataManager.getActivityList());
     }
 }

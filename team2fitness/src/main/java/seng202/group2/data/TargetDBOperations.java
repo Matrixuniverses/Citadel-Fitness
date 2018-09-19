@@ -1,4 +1,4 @@
-package seng202.group2.model;
+package seng202.group2.data;
 
 public class TargetDBOperations {
 
