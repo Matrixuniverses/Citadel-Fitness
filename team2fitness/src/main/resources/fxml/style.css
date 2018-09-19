@@ -14,6 +14,10 @@
    -fx-background-color: #2f3136;
 }
 
+.navbutton {
+
+}
+
 
 .chart-title {
     -fx-text-fill: orange;
@@ -40,5 +44,5 @@
     -fx-border-width: 3px;
     -fx-border-radius : 30;
     -fx-text-fill: white;
-    -fx-border-color: orange;
+    -fx-border-color: #4dd9da;
 }

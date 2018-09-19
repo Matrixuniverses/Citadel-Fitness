@@ -15,55 +15,41 @@ public class NavBarController implements Initializable {
     private StringProperty currentView = new SimpleStringProperty();
 
     @FXML
-    private Button targetLink;
-
-    @FXML
-    private Button AddDataLink;
-
-    @FXML
-    private Button viewDataLink;
-
-    @FXML
-    private Button viewGraphLink;
-
-    @FXML
-    private Button mapViewLink;
-
-    @FXML
-    private Button summaryLink;
-
-    @FXML
-    private Button exitLink;
+    private Button logoutButton;
 
     public StringProperty getCurrentView() {
         return currentView;
     }
 
+    public Button getLogoutButton() {
+        return logoutButton;
+    }
+
     public void showTarget(){
-        currentView.set("target");
+        currentView.set("Targets");
     }
 
-    public void showAddDate(){
-        currentView.set("addData");
+    public void showAddData(){
+        currentView.set("Import Data");
     }
 
-    public void viewData(){
-        currentView.set("data");
+    public void showAddActivity(){
+        currentView.set("Activities");
     }
 
-    public void showViewGraph(){
-        currentView.set("viewGraph");
+    public void showGraph(){
+        currentView.set("Graphs");
     }
 
     public void showMapView(){
-        currentView.set("mapView");
+        currentView.set("Maps");
     }
 
     public void showSummary(){
-        currentView.set("summaryView");
+        currentView.set("Profile");
     }
 
-    public void exit(){
+    public void logout(){
         currentView.set("exit");
     }
 

@@ -1,5 +1,7 @@
 package seng202.group2.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,13 +29,21 @@ public class MainController implements UserData, Initializable {
 
     // Controllers
     private ActivityViewController activityViewController;
+    private AddDataController addDataController;
+    private ViewGraphController viewGraphController;
+    private ProfileController profileViewController;
+
+
+    @FXML
+    private NavBarController navBarController;
 
 
     // Views
 
     private AnchorPane activityView;
-
-
+    private AnchorPane addDataView;
+    private AnchorPane viewGraphScene;
+    private AnchorPane profileView;
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
@@ -43,11 +53,13 @@ public class MainController implements UserData, Initializable {
     public void setDataManager(DataManager newDataManager) {
         this.dataManager = newDataManager;
         activityViewController.setDataManager(dataManager);
+        addDataController.setDataManager(dataManager);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
+        initializeNavBar();
     }
 
     private void initializeViews(){
@@ -56,12 +68,40 @@ public class MainController implements UserData, Initializable {
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityView.fxml"));
             activityView = loader.load();
             activityViewController = loader.getController();
-            paneMap.put("data", activityView);
-            mainStack.getChildren().addAll(activityView);
+            paneMap.put("Activities", activityView);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLAddData.fxml"));
+            addDataView = loader.load();
+            addDataController = loader.getController();
+            paneMap.put("Import Data", addDataView);
+
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLViewGraph.fxml"));
+            viewGraphScene = loader.load();
+            viewGraphController = loader.getController();
+            paneMap.put("Graphs", viewGraphScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLProfileView.fxml"));
+            addDataView = loader.load();
+            profileViewController = loader.getController();
+            paneMap.put("Profile", profileView);
+
+
+            mainStack.getChildren().addAll(addDataView, activityView, viewGraphScene);
+
 
         } catch (IOException ex_) {
             ex_.printStackTrace();
         }
+
+    }
+
+    public void initializeNavBar() {
+        navBarController.getCurrentView().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                paneMap.get(newValue).toFront();
+            }
+        });
 
     }
 
