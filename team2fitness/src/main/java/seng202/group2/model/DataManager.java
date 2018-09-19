@@ -14,17 +14,15 @@ public class DataManager {
 
 
     public DataManager() {
-//        try {
-//            for (User user : UserDBOperations.getAllUsers()) {
-//                userList.add(user);
-//            }
-//            System.out.println(userList.size());
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            userList.addAll(UserDBOperations.getAllUsers());
+            System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        userList.add(new User( "John Smith", 20, 170, 70));
-        userList.add(new User( "Bob Johnson", 15, 130, 50));
+//        userList.add(new User( "John Smith", 20, 170, 70));
+//        userList.add(new User( "Bob Johnson", 15, 130, 50));
     }
 
     public void setCurrentUser(User user) {

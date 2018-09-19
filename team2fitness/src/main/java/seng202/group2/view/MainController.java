@@ -42,6 +42,7 @@ public class MainController implements UserData, Initializable {
     @Override
     public void setDataManager(DataManager newDataManager) {
         this.dataManager = newDataManager;
+        activityViewController.setDataManager(dataManager);
     }
 
     @Override
@@ -55,9 +56,7 @@ public class MainController implements UserData, Initializable {
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityView.fxml"));
             activityView = loader.load();
             activityViewController = loader.getController();
-            activityViewController.setDataManager(dataManager);
             paneMap.put("data", activityView);
-
             mainStack.getChildren().addAll(activityView);
 
         } catch (IOException ex_) {

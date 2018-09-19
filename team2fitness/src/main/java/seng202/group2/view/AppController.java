@@ -39,10 +39,11 @@ public class AppController implements Initializable {
 
     //Setup Data Manager
 
-    private DataManager dataManager = new DataManager();
+    private DataManager dataManager;
 
     //Initialize all Panes and Listeners
     public void initialize(URL location, ResourceBundle resources) {
+        dataManager = new DataManager();
         initializeViews();
         setupViews();
     }
@@ -53,8 +54,6 @@ public class AppController implements Initializable {
      */
     private void initializeViews() {
         try {
-
-            System.out.println("App" + dataManager);
             appContainer.setCenter(appStack);
 
             FXMLLoader loader;

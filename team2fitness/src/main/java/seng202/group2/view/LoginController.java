@@ -56,9 +56,7 @@ public class LoginController implements Initializable, UserData {
 
 
     public void login(){
-        System.out.println(userTable.getSelectionModel().getSelectedItem().getName());
         dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
-        System.out.println(dataManager.getCurrentUser().getName());
         status.setValue("logged in");
 
     }
