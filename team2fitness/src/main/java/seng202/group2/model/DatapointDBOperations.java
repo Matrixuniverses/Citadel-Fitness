@@ -34,18 +34,22 @@ public class DatapointDBOperations {
             int datapointID = queryResult.getInt("dp_id");
             java.util.Date datapointDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
             try {
                 datapointDate = dateFormatter.parse(queryResult.getString("dp_date_string"));
             } catch (ParseException e) {
                 System.out.println("Unable to parse date");
                 e.printStackTrace();
             }
+
             int dpHeartRate = queryResult.getInt("heart_rate");
             double dpLatitude = queryResult.getDouble("latitude");
             double dpLongitude = queryResult.getDouble("longitude");
             double dpAltitude = queryResult.getDouble("altitude");
+
             DataPoint newDP = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
             newDP.setId(datapointID);
+
             activityDatapoints.add(newDP);
         }
         DatabaseWriter.disconnectFromDB();
@@ -73,20 +77,29 @@ public class DatapointDBOperations {
             int datapointID = queryResult.getInt("dp_id");
             java.util.Date datapointDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
             try {
                 datapointDate = dateFormatter.parse(queryResult.getString("dp_date_string"));
             } catch (ParseException e) {
                 System.out.println("Unable to parse date");
                 e.printStackTrace();
             }
+
             int dpHeartRate = queryResult.getInt("heart_rate");
             double dpLatitude = queryResult.getDouble("latitude");
             double dpLongitude = queryResult.getDouble("longitude");
             double dpAltitude = queryResult.getDouble("altitude");
+            double dpTimeDelta = queryResult.getDouble("time_delta");
+            double distDelta = queryResult.getDouble("dist_delta");
+
             retrievedDataPoint = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
+            retrievedDataPoint.setTimeDelta(dpTimeDelta);
+            retrievedDataPoint.setDistanceDelta(distDelta);
             retrievedDataPoint.setId(datapointID);
         }
+
         DatabaseWriter.disconnectFromDB();
+
         return retrievedDataPoint;
 
     }
@@ -114,8 +127,9 @@ public class DatapointDBOperations {
             return -1;
         }
         DatabaseWriter.connectToDB();
-        String sqlInsertStmt = "INSERT INTO Datapoints(activity_id, dp_date_string, dp_date, heart_rate, latitude, longitude, altitude) \n"
-                + "VALUES(?,?,?,?,?,?,?)";
+        String sqlInsertStmt = "INSERT INTO Datapoints(activity_id, dp_date_string, dp_date, heart_rate, latitude, "
+                + "longitude, altitude, time_delta, dist_delta) \n"
+                + "VALUES(?,?,?,?,?,?,?,?,?)";
 
         Connection dbConn = DatabaseWriter.getDbConnection();
 
@@ -127,6 +141,8 @@ public class DatapointDBOperations {
         pUpdateStatement.setDouble(5, datapoint.getLatitude());
         pUpdateStatement.setDouble(6, datapoint.getLongitude());
         pUpdateStatement.setDouble(7, datapoint.getAltitude());
+        pUpdateStatement.setDouble(8, datapoint.getTimeDelta());
+        pUpdateStatement.setDouble(9, datapoint.getDistanceDelta());
         pUpdateStatement.executeUpdate();
         DatabaseWriter.disconnectFromDB();
         return 1;

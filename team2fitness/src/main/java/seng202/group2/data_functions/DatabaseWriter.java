@@ -111,6 +111,8 @@ public class DatabaseWriter {
                     + "latitude real NOT NULL, \n"
                     + "longitude real NOT NULL, \n"
                     + "altitude real NOT NULL, \n"
+                    + "time_delta real NOT NULL, \n"
+                    + "dist_delta real NOT NULL, \n"
                     + "FOREIGN KEY(activity_id) REFERENCES activities(activity_id) ON DELETE CASCADE"
                     + ");";
 
