@@ -28,6 +28,7 @@ public class DatabaseTest {
         User user1 = new User("User1", 17, 160.0, 70);
         User user2 = new User("User2", 18, 175.0, 67);
         User user3 = new User("User3", 19, 180.0, 80);
+        User user4 = new User("User4", 21, 180.0, 80);
 
         Instant dateNow = Instant.now();
 
@@ -52,6 +53,7 @@ public class DatabaseTest {
             UserDBOperations.insertNewUser(user1);
             UserDBOperations.insertNewUser(user2);
             UserDBOperations.insertNewUser(user3);
+            UserDBOperations.insertNewUser(user4);
 
             //inserting test activities
             ActivityDBOperations.insertNewActivity(activity1, 1);
@@ -67,7 +69,7 @@ public class DatabaseTest {
             DatapointDBOperations.insertNewDataPoint(dp4, 1);
             DatapointDBOperations.insertNewDataPoint(dp5, 1);
 
-            DatabaseWriter.disconnectFromDB();
+
 
 
         } catch (SQLException e) {
@@ -79,7 +81,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void testConnecttoDatabase() {
+    public void testConnectToDatabase() {
         Connection conn = null;
         try {
             DatabaseWriter.connectToDB();
@@ -108,9 +110,10 @@ public class DatabaseTest {
 
     @Test
     public void testInsertNewUser() {
-        User user4 = new User("User4", 19, 190.0, 85);
+        User user4 = new User("User5", 19, 190.0, 85);
         try {
-            assertEquals(4, UserDBOperations.insertNewUser(user4));
+            DatabaseWriter.connectToDB();
+            assertEquals(5, UserDBOperations.insertNewUser(user4));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,6 +133,122 @@ public class DatabaseTest {
 
     }
 
+    @Test
+    public void testGetUserFromRS() {
+        try {
+            //DatabaseWriter.connectToDB();
+            User matchingUser = new User(1, "User1", 17, 160.0, 70);
+            User retrievedUser = UserDBOperations.getUserFromRS(1);
+            assertEquals(true, matchingUser.getName().equals(retrievedUser.getName()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Test
+    public void testUpdateUserReturnValueSuccess() {
+        try {
+            //DatabaseWriter.connectToDB();
+            User retrievedUser = UserDBOperations.getUserFromRS(3);
+            retrievedUser.setWeight(90);
+            assertEquals(true, UserDBOperations.updateExistingUser(retrievedUser));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testUpdateUserReturnValueFail() {
+        try {
+            //DatabaseWriter.connectToDB();
+            User retrievedUser = UserDBOperations.getUserFromRS(3);
+            retrievedUser.setWeight(90);
+            retrievedUser.setId(1000000);
+            assertEquals(false, UserDBOperations.updateExistingUser(retrievedUser));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testUserRecordStateAfterUpdate() {
+        try {
+            DatabaseWriter.connectToDB();
+            User retrievedUser = UserDBOperations.getUserFromRS(3);
+            retrievedUser.setWeight(91.2);
+            if (UserDBOperations.updateExistingUser(retrievedUser)) {
+                User updatedDatabaseUser = UserDBOperations.getUserFromRS(3);
+                assertEquals(91.2, updatedDatabaseUser.getWeight(), 0.01);
+            } else {
+                fail();
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDeleteExistingUser() {
+        try {
+            assertEquals(true, UserDBOperations.deleteExistingUser(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testDeleteExistingUserCascade() {
+        try {
+            if (UserDBOperations.deleteExistingUser(2)) {
+                assertEquals(null, ActivityDBOperations.getActivityFromRS(2));
+            } else {
+                fail();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testInsertNewActivity() {
+        try {
+            Instant dateNow = Instant.now();
+            Activity activity6 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(50))), "Rest", 10.0, 0.0);
+            assertEquals(6, ActivityDBOperations.insertNewActivity(activity6, 1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetClashingActivity() {
+        try {
+            Instant dateNow = Instant.now();
+            Activity activity7a = new Activity("Activity7a", Date.from(dateNow.minus(Duration.ofDays(70))), "Walk", 20.0, 2.0);
+            Activity activity7b = new Activity("Activity7b", Date.from(dateNow.minus(Duration.ofDays(70))), "Run", 20.0, 4.0);
+            ActivityDBOperations.insertNewActivity(activity7a, 1);
+            assertNotNull(ActivityDBOperations.getClashingActivity(1, activity7b.getDate()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //@Test
+    //p/ublic void testGetAllActivitiesForUser() {
+       // try {
+
+      //  }
+   // }
+
+
+
+
     @After
     public void resetTestingDB() {
         try {
@@ -141,6 +260,12 @@ public class DatabaseTest {
         }
 
     }
+
+
+
+
+
+
 
 
 
