@@ -109,6 +109,7 @@ public class ActivityDBOperations {
             String activityType = queryResult.getString("type");
             double totalDistance = queryResult.getDouble("total_distance");
             double totalTime = queryResult.getDouble("total_time");
+            System.out.println(totalDistance);
             Activity newActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
             newActivity.setId(activityID);
             userActivities.add(newActivity);
