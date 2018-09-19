@@ -17,6 +17,7 @@ public class GraphGenerator {
             System.out.println(dataPoint.getTimeDelta());
             System.out.println(dataPoint.getDistanceDelta());
             series.getData().add(new XYChart.Data(time, distance));
+            series.setName(activity.getActivityName());
         }
 
         return series;

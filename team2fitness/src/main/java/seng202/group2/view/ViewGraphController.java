@@ -1,12 +1,10 @@
 package seng202.group2.view;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.Chart;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.data_functions.GraphGenerator;
@@ -20,6 +18,7 @@ import java.util.ResourceBundle;
 public class ViewGraphController implements UserData, Initializable{
 
     private DataManager dataManager;
+    private ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
 
     @FXML
     private LineChart<?, ?> lineChart;
@@ -46,7 +45,7 @@ public class ViewGraphController implements UserData, Initializable{
         //creating the chart
         lineChart.setTitle("Distance over Time");
 
-        activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
 
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -61,8 +60,15 @@ public class ViewGraphController implements UserData, Initializable{
      * in a graphical form.
      */
     public void updateGraph() {
-        Activity selectedActivity = activityTable.getSelectionModel().getSelectedItem();
-        lineChart.getData().add(GraphGenerator.createTimeSeries(selectedActivity));
+        lineChart.getData().removeAll(lineChart.getData());
+        ObservableList<Activity> activityList = activityTable.getSelectionModel().getSelectedItems();
+        ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
+        for (Activity activity : activityList) {
+            XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+            seriesList.add(series);
+            lineChart.getData().add(series);
+        }
+
     }
 
 
