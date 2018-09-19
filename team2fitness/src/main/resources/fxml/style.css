@@ -6,6 +6,7 @@
     -fx-text-fill: White;
     -fx-background-color: transparent;
     -fx-font-size: 14px;
+    -fx-font-weight: bold;
     -fx-cursor: hand;
 }
 
