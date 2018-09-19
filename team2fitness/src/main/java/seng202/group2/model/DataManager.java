@@ -96,12 +96,12 @@ public class DataManager {
             DatabaseWriter.createDatabase();
             if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.getId())) {
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
+                currentUser.addActivity(activity);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        currentUser.addActivity(activity);
+
     }
 
     public void addActivity(Iterable<Activity> activityList) {
