@@ -25,8 +25,15 @@ public class User {
     private ObservableList<Activity> activityList = FXCollections.observableArrayList();
     private ObservableList<Target> targetList = FXCollections.observableArrayList();
 
-
-
+    /**
+     * Creates a new user and populates their data. Sets a listener to recalculate the total user distance when
+     * a new activity is added to the user's activity list.
+     * @param id Unique identification
+     * @param name User name
+     * @param age User's age(years)
+     * @param height User's height (cm)
+     * @param weight User's weight(kg)
+     */
     public User(int id, String name, int age, double height, double weight){
         this.id = id;
         this.name = new SimpleStringProperty(name);
