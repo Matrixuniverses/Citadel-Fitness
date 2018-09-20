@@ -226,11 +226,22 @@ public class DatabaseTest {
     }
 
     @Test
-    public void testInsertNewActivity() {
+    public void testInsertNewActivitySuccess() {
         try {
             Instant dateNow = Instant.now();
             Activity activity8 = new Activity("Activity8", Date.from(dateNow.minus(Duration.ofDays(50))), "Rest", 10.0, 0.0);
             assertEquals(8, ActivityDBOperations.insertNewActivity(activity8, 1));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testInsertNewActivityFail() {
+        try {
+            Instant dateNow = Instant.now();
+            Activity garbage = new Activity("Will not be inserted", Date.from(dateNow.minus(Duration.ofDays(50))), "Rest", 10.0, 0.0);
+            assertEquals(-1, ActivityDBOperations.insertNewActivity(garbage, 1000));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -253,7 +264,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void testGetAllActivitiesForUser() {
+    public void testGetAllActivitiesForUserSuccess() {
         try {
             ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1);
             assertNotNull(activities);
@@ -267,6 +278,16 @@ public class DatabaseTest {
         try {
             ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1);
             assertEquals(true, (activities.get(0).getDate().before(activities.get(1).getDate())));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetAllActivitiesForUserFail() {
+        try {
+            ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1000);
+            assertEquals(true, activities.isEmpty());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -340,6 +361,59 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void insertNewDataPointSuccess() {
+        try {
+            Instant dateNow = Instant.now();
+            DataPoint dp7 = new DataPoint(Date.from(dateNow), 164,100.0,100.0,99.0);
+            assertEquals(7, DatapointDBOperations.insertNewDataPoint(dp7, 7));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void insertNewDataPointFail() {
+        try {
+            Instant dateNow = Instant.now();
+            DataPoint rubbish = new DataPoint(Date.from(dateNow), 164,100.0,100.0,99.0);
+            assertEquals(-1, DatapointDBOperations.insertNewDataPoint(rubbish, 1000));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getAllDataPointsForActivitySuccess() {
+        try {
+            ObservableList<DataPoint> datapoints = DatapointDBOperations.getAllActivityDatapoints(1);
+            assertNotNull(datapoints);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getAllDataPointsForActivityOrdering() {
+        try {
+            ObservableList<DataPoint> datapoints = DatapointDBOperations.getAllActivityDatapoints(1);
+            assertEquals(true, (datapoints.get(0).getDate().before(datapoints.get(1).getDate())));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getAllDataPointsForActivityFail() {
+        try {
+            ObservableList<DataPoint> datapoints = DatapointDBOperations.getAllActivityDatapoints(1000);
+            assertEquals(true, datapoints.isEmpty());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

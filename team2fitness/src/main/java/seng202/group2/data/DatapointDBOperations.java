@@ -147,8 +147,13 @@ public class DatapointDBOperations {
         pUpdateStatement.setDouble(8, datapoint.getTimeDelta());
         pUpdateStatement.setDouble(9, datapoint.getDistanceDelta());
         pUpdateStatement.executeUpdate();
+
+        ResultSet result = pUpdateStatement.getGeneratedKeys();
+        result.next();
+        int datapointID = result.getInt(1);
+
         DatabaseOperations.disconnectFromDB();
-        return 1;
+        return datapointID;
 
 
     }
