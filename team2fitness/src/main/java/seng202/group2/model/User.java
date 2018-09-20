@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.data.DatabaseOperations;
 import seng202.group2.data.UserDBOperations;
@@ -130,6 +131,9 @@ public class User {
     }
 
     public void addActivity(Activity activity){
+        double avgHR = DataAnalyzer.calcAverageHR(activity);
+        int caloriesBurned = DataAnalyzer.calcCalories(this.getAge(), this.getWeight(), avgHR, activity.getTotalTime(), true);
+        activity.setCaloriesBurned(caloriesBurned);
         this.activityList.add(activity);
     }
 
