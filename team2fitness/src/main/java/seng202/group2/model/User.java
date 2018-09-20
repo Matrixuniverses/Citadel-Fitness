@@ -132,7 +132,7 @@ public class User {
 
     public void addActivity(Activity activity){
         double avgHR = DataAnalyzer.calcAverageHR(activity);
-        int caloriesBurned = DataAnalyzer.calcCalories(this.getAge(), this.getWeight(), avgHR, activity.getTotalTime(), true);
+        double caloriesBurned = DataAnalyzer.calcCalories(this.getAge(), this.getWeight(), avgHR, activity.getTotalTime(), true);
         activity.setCaloriesBurned(caloriesBurned);
         this.activityList.add(activity);
     }
