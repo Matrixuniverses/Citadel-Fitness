@@ -261,7 +261,7 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
-/*
+
     @Test
     public void testGetAllActivitiesForUserOrdering() {
         try {
@@ -317,7 +317,7 @@ public class DatabaseTest {
         }
 
     }
-*/
+
 
     @Test
     public void deleteExistingActivity() {
@@ -327,6 +327,18 @@ public class DatabaseTest {
             e.printStackTrace();
         }
 
+    }
+
+
+    @Test
+    public void deleteExistingActivityCascade() {
+        try {
+            ActivityDBOperations.deleteExistingActivity(7);
+            assertEquals(null, DatapointDBOperations.getDataPointFromRS(7));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
