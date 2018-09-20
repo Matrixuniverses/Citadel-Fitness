@@ -82,7 +82,6 @@ public class ActivityDBOperations {
 
         int activity_id = results.getInt(1);
 
-
         DatabaseOperations.disconnectFromDB();
         DatabaseOperations.disconnectFromDB();
         return activity_id;
