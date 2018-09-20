@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 // TODO - Need to get multithreading working
 
@@ -70,7 +69,7 @@ public class DataParser {
      * @param currentActivity Current activity that the line should belong to
      * @return Datapoint containing parsed line, null if no line could be parsed
      */
-    public DataPoint readLine(String line[], int fields, Activity currentActivity) {
+    private DataPoint readLine(String line[], int fields, Activity currentActivity) {
         int lineLength = line.length;
 
         if (lineLength != fields) {
@@ -170,7 +169,7 @@ public class DataParser {
      * Checks a passed line to see if it is valid or not
      *
      * @param line Line to be checked
-     * @return True if line is valid, false if not
+     * @return True if line is valid, False if not
      */
     public static boolean isValidLine(String[] line) {
         int lineLength = line.length;
@@ -188,6 +187,8 @@ public class DataParser {
 
         // Checks only the data type of the line fields
         try {
+            // The return values of these variables is not used, they are dummy calls designed to throw an
+            // exception upon an invalid value being passed
             Integer.parseInt(line[2]); // HeartRate check
             Double.parseDouble(line[3]); // Latitude check
             Double.parseDouble(line[4]); // Longitude check
