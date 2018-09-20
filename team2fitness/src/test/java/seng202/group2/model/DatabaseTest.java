@@ -261,7 +261,7 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
-
+/*
     @Test
     public void testGetAllActivitiesForUserOrdering() {
         try {
@@ -317,7 +317,7 @@ public class DatabaseTest {
         }
 
     }
-
+*/
 
     @Test
     public void deleteExistingActivity() {
