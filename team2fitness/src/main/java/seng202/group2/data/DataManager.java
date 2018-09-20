@@ -36,7 +36,7 @@ public class DataManager {
             user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
             for (Activity activity : user.getActivityList()) {
                 activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
-
+                System.out.println(activity.getTotalDistance());
             }
         } catch (SQLException e) {
             e.printStackTrace();
