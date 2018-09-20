@@ -271,7 +271,7 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
-
+/*
     @Test
     public void testGetActivityFromRSValid() {
         try {
@@ -317,7 +317,7 @@ public class DatabaseTest {
         }
 
     }
-
+*/
 
     @Test
     public void deleteExistingActivity() {
