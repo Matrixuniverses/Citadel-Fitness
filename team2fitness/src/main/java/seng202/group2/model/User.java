@@ -91,21 +91,33 @@ public class User {
         this.age.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
+                try {
+                    UserDBOperations.updateExistingUser(User.this);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         this.height.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
+                try {
+                    UserDBOperations.updateExistingUser(User.this);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         this.weight.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-
+                try {
+                    UserDBOperations.updateExistingUser(User.this);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

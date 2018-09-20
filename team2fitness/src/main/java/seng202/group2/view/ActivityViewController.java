@@ -2,10 +2,7 @@ package seng202.group2.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
@@ -19,7 +16,10 @@ public class ActivityViewController implements Initializable, UserData {
     private DataManager dataManager;
 
     @FXML
-    javafx.scene.control.TableView<Activity> activityTable;
+    private Button detailButton;
+
+    @FXML
+    TableView<Activity> activityTable;
 
     @FXML
     TableColumn activityDateCol;
@@ -43,7 +43,7 @@ public class ActivityViewController implements Initializable, UserData {
      * @param resources
      */
     public void initialize(URL location, ResourceBundle resources) {
-        activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
 
         activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Date>("date"));
@@ -68,6 +68,14 @@ public class ActivityViewController implements Initializable, UserData {
         activityTable.getItems().clear();
         //System.out.println(dataManager.getActivityList().get(0).getTotalDistance());
         activityTable.setItems(dataManager.getActivityList());
+    }
+
+    public TableView<Activity> getTable() {
+        return activityTable;
+    }
+
+    public Button getDetailButton() {
+        return detailButton;
     }
 }
 

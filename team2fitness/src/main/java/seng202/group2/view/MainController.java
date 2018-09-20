@@ -37,6 +37,7 @@ public class MainController implements UserData, Initializable {
     private ViewGraphController viewGraphController;
     private ProfileController profileViewController;
     private MapViewController mapViewController;
+    private ActivityInfoController activityInfoController;
 
     @FXML
     private HeaderController headerController;
@@ -52,6 +53,7 @@ public class MainController implements UserData, Initializable {
     private AnchorPane viewGraphScene;
     private AnchorPane profileView;
     private AnchorPane mapView;
+    private AnchorPane activityInfo;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -66,12 +68,14 @@ public class MainController implements UserData, Initializable {
         viewGraphController.setDataManager(dataManager);
         profileViewController.setDataManager(dataManager);
         mapViewController.setDataManager(dataManager);
+        activityInfoController.setDataManager(dataManager);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
         initializeNavBar();
+        initializeActivityInfo();
     }
 
     private void initializeViews(){
@@ -102,8 +106,14 @@ public class MainController implements UserData, Initializable {
             mapViewController = loader.getController();
             paneMap.put("Maps", mapView);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityInfo.fxml"));
+            activityInfo = loader.load();
+            activityInfoController = loader.getController();
 
-            mainStack.getChildren().addAll(profileView, addDataView, activityView, viewGraphScene, mapView);
+
+            activityInfo.toFront();
+
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView);
             profileView.toFront();
 
         } catch (IOException ex_) {
@@ -130,6 +140,26 @@ public class MainController implements UserData, Initializable {
             }
         });
 
+    }
+
+    public void initializeActivityInfo(){
+        activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("adsadsad");
+                if (activityViewController.getActivityTable().getSelectionModel().getSelectedItem() != null) {
+                    activityInfoController.updateActivity(activityViewController.getActivityTable().getSelectionModel().getSelectedItem());
+                    activityInfo.toFront();
+                }
+            }
+        });
+
+        activityInfoController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                activityInfo.toBack();
+            }
+        });
     }
 
     public void updateUser(){
