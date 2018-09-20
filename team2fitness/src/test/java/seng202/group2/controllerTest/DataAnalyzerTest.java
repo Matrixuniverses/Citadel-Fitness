@@ -10,6 +10,14 @@ import static junit.framework.TestCase.assertTrue;
 
 public class DataAnalyzerTest {
 
+    @Test
+    public void calcDistanceCrossesLongitudeLineCorrectly() {
+        double metres;
+        double quartEarthCircum = 10020000;
+
+        metres = DataAnalyzer.calcDistance(-17.7850915, 178.212, -13.647548, -172.741952);
+        assertTrue(metres < quartEarthCircum);
+    }
 
     @Test
     public void calcDistanceReturnsCorrectResult1() {
@@ -53,7 +61,19 @@ public class DataAnalyzerTest {
 
         averageSpeed = DataAnalyzer.calcAverageSpeed(100, 30, 40);
         assertEquals(10.0, averageSpeed);
+    }
 
+    @Test
+    public void calcAverageSpeedReturnsCorrectResult2() {
+        double averageSpeed;
+
+        averageSpeed = DataAnalyzer.calcAverageSpeed(139.567, 1045.64, 1101.09);
+        assertEquals(2.517, averageSpeed, 0.001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void calcAverageSpeedReturnsCorrectResult3() {
+        DataAnalyzer.calcAverageSpeed(139.567, 101.0, 101.0);
     }
 
     @Test
@@ -74,6 +94,11 @@ public class DataAnalyzerTest {
         assertEquals(30.00, BMI);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void calcBMIReturnsCorrectResult3() {
+        DataAnalyzer.calcBMI(0.0, 97.2);
+    }
+
     @Test
     public void calcVo2MaxReturnsCorrectResult1() {
         double vo2Max;
@@ -91,13 +116,9 @@ public class DataAnalyzerTest {
         assertEquals(49.133, vo2Max);
     }
 
-    @Test
-    public void calcVo2Max_PFWTReturnsCorrectResult1() {
-        double vo2Max;
-
-        vo2Max = DataAnalyzer.calcVo2Max_PFWT(80, 28, 19.31, 115, true);
-        vo2Max = (double)Math.round(vo2Max * 1000d) / 1000d;
-        assertEquals(33.707, vo2Max);
+    @Test(expected = IllegalArgumentException.class)
+    public void calcVo2MaxReturnsCorrectResult3() {
+        DataAnalyzer.calcVo2Max(45, 0);
     }
 
     @Test
@@ -116,6 +137,20 @@ public class DataAnalyzerTest {
         calories = DataAnalyzer.calcCalories(37, 65, 145, 45, true);
         calories = (double)Math.round(calories * 100d) / 100d;
         assertEquals(332.31, calories);
+    }
+
+    @Test
+    public void calcCaloriesReturnsCorrectResult3() {
+        double calories;
+
+        calories = DataAnalyzer.calcCalories(37, 65, 145, 45, false);
+        calories = (double)Math.round(calories * 100d) / 100d;
+        assertEquals(418.95, calories);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void calcCaloriesReturnsCorrectResult4() {
+        DataAnalyzer.calcCalories(37, 65, 132, -45, false);
     }
 
     @Test
@@ -245,9 +280,48 @@ public class DataAnalyzerTest {
         result = DataAnalyzer.hasBradycardia(18, 50);
         assertTrue(result);
     }
-/*
+
     @Test
-    public void webSearch_GoogleOpensCorrectSeachTerm1() {
-        DataAnalyzer.webSearch_Google("calculator");
-    }*/
+    public void isCardiovascularMortalityProne1() {
+        boolean result;
+
+        result = DataAnalyzer.cardiovascularMortalityProne(17, 85);
+        assertFalse(result);
+    }
+
+    @Test
+    public void isCardiovascularMortalityProne2() {
+        boolean result;
+
+        result = DataAnalyzer.cardiovascularMortalityProne(18, 83);
+        assertFalse(result);
+    }
+
+    @Test
+    public void isCardiovascularMortalityProne3() {
+        boolean result;
+
+        result = DataAnalyzer.cardiovascularMortalityProne(17, 84);
+        assertFalse(result);
+    }
+
+    @Test
+    public void convertsToValidSearchTerm1() {
+        DataAnalyzer.webSearch_Google("usingValidChars");
+    }
+
+    @Test
+    public void convertsToValidSearchTerm2() {
+        DataAnalyzer.webSearch_Google("using!nval!dCh&r5");
+    }
+
+    @Test
+    public void convertsToValidSearchTerm3() {
+        DataAnalyzer.webSearch_Google("noSpacesHere");
+    }
+
+    @Test
+    public void convertsToValidSearchTerm4() {
+        DataAnalyzer.webSearch_Google("multiple spaces here");
+    }
 }
