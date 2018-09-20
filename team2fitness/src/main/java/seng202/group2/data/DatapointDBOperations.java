@@ -23,7 +23,6 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the data.
      */
     public static ObservableList<DataPoint> getAllActivityDatapoints(int activity_id) throws SQLException {
-        System.out.println("reached readAll");
         DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Datapoints WHERE activity_id = " + activity_id + " ORDER BY dp_date";
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);

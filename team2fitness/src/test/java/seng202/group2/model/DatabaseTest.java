@@ -273,9 +273,9 @@ public class DatabaseTest {
     }
 
     @Test
-    public void testGetActivityFromRSValid() {
+    public void testgetActivityFromDBValid() {
         try {
-            Activity activity = ActivityDBOperations.getActivityFromRS(1);
+            Activity activity = ActivityDBOperations.getActivityFromDB(1);
             assertEquals(1, activity.getId());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -283,9 +283,9 @@ public class DatabaseTest {
     }
 
     @Test
-    public void testGetActivityFromRSInvalid() {
+    public void testgetActivityFromDBInvalid() {
         try {
-            Activity activity = ActivityDBOperations.getActivityFromRS(1000);
+            Activity activity = ActivityDBOperations.getActivityFromDB(1000);
             assertEquals(null, activity);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -296,7 +296,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateActivityReturnValueSuccess() {
         try {
-            Activity activity = ActivityDBOperations.getActivityFromRS(3);
+            Activity activity = ActivityDBOperations.getActivityFromDB(3);
             activity.setTotalDistance(9.8);
             assertEquals(true, ActivityDBOperations.updateExistingActivity(activity));
         } catch (SQLException e) {
@@ -309,7 +309,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateActivityReturnValueFail() {
         try {
-            Activity activity = ActivityDBOperations.getActivityFromRS(3);
+            Activity activity = ActivityDBOperations.getActivityFromDB(3);
             activity.setId(1000);
             assertEquals(false, ActivityDBOperations.updateExistingActivity(activity));
         } catch (SQLException e) {
