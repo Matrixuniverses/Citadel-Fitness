@@ -80,9 +80,13 @@ public class ActivityDBOperations {
         ResultSet results = pUpdateStatement.getGeneratedKeys();
         results.next();
 
-        DatabaseOperations.disconnectFromDB();
+        int activity_id = results.getInt(1);
 
-        return results.getInt(1);
+
+        DatabaseOperations.disconnectFromDB();
+        DatabaseOperations.disconnectFromDB();
+        return activity_id;
+
     }
 
     /**
