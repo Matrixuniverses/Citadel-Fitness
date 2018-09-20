@@ -210,7 +210,7 @@ public class DatabaseTest {
     public void testDeleteExistingUserCascade() {
         try {
             if (UserDBOperations.deleteExistingUser(2)) {
-                assertEquals(null, ActivityDBOperations.getActivityFromRS(2));
+                assertEquals(null, ActivityDBOperations.getActivityFromDB(2));
             } else {
                 fail();
             }

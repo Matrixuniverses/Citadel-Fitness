@@ -112,7 +112,7 @@ public class DatapointDBOperations {
 /*    public static boolean insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
 
         //If the activity doesn't exist. Return false.
-        if (ActivityDBOperations.getActivityFromRS(activityID) == null) {
+        if (ActivityDBOperations.getActivityFromDB(activityID) == null) {
             return false;*/
 
     /**
@@ -127,7 +127,7 @@ public class DatapointDBOperations {
     public static int insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
 
         //If the activity doesn't exist. Return false.
-        if (ActivityDBOperations.getActivityFromRS(activityID) == null) {
+        if (ActivityDBOperations.getActivityFromDB(activityID) == null) {
             return -1;
         }
         DatabaseOperations.connectToDB();
