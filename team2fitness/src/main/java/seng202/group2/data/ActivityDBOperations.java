@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import javafx.collections.FXCollections;
@@ -14,9 +15,19 @@ import seng202.group2.model.Activity;
 
 public class ActivityDBOperations {
 
-
+    /**
+     * Checks the database for any activity that may contain a duplicate of the passed activity, it is assumed
+     * that an activity of the same date, name and distances will be the same activity
+     *
+     * @param activityToCheck Activity object to compare to the database
+     * @param user_id         UserID of the user that the activity belongs to
+     * @return True if activity is a duplicate, false if not @future null if unable to determine
+     * @throws SQLException If unable to read from database
+     */
     public static boolean checkDuplicateActivity(Activity activityToCheck, int user_id) throws SQLException {
         DatabaseOperations.connectToDB();
+
+        // TODO - Check if the distances for the comparable activities are within a specific range
 
         String dateString = activityToCheck.getDate().toString();
         String sqlQueryStatement = "SELECT date_string, name FROM Activities WHERE user_id = "
@@ -31,16 +42,22 @@ public class ActivityDBOperations {
         }
 
         DatabaseOperations.disconnectFromDB();
-        return false;
 
+        return false;
     }
 
-
+    /**
+     * Inserts a new activity into the database, if the user exists in the database
+     *
+     * @param activity Activity to insert
+     * @param user_id  UserID of the user that the activity will be written to
+     * @return ActivityID of the inserted activity, -1 if the user is not in the database
+     * @throws SQLException If unable to read/ write from/ to database
+     */
     public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
-        //check that the user is actually in the database
+        // Check the user exists in the database
         if (UserDBOperations.getUserFromRS(user_id) == null) {
             return -1;
-
         }
 
         DatabaseOperations.connectToDB();
@@ -62,18 +79,24 @@ public class ActivityDBOperations {
 
         ResultSet results = pUpdateStatement.getGeneratedKeys();
         results.next();
-        int activity_id = results.getInt(1);
 
         DatabaseOperations.disconnectFromDB();
-        return activity_id;
 
+        return results.getInt(1);
     }
 
-
-    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException{
+    /**
+     * Creates a new JavaFX ObservableList containing all of the users activities in the database
+     *
+     * @param user_id UserID of the activities to read from database
+     * @return Observable List of the Users activities
+     * @throws SQLException If unable to read/ write from/ to database
+     */
+    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException {
+        //TODO - Change this to avoid duplicate code
 
         DatabaseOperations.connectToDB();
-        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = "+ user_id + " ORDER BY date;";
+        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + user_id + " ORDER BY date;";
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
 
         ObservableList<Activity> userActivities = FXCollections.observableArrayList();
@@ -81,30 +104,36 @@ public class ActivityDBOperations {
         while (queryResult.next()) {
             int activityID = queryResult.getInt("activity_id");
             String activityName = queryResult.getString("name");
-            java.util.Date activityDate = null;
+            Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
             try {
-                 activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
             } catch (ParseException e) {
-                System.out.println("Unable to parse date");
+                System.err.println("Unable to parse date");
                 e.printStackTrace();
             }
+
             String activityType = queryResult.getString("type");
             double totalDistance = queryResult.getDouble("total_distance");
             double totalTime = queryResult.getDouble("total_time");
             Activity newActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
             newActivity.setId(activityID);
             userActivities.add(newActivity);
-
-
         }
+
         DatabaseOperations.disconnectFromDB();
+
         return userActivities;
-
-
     }
 
-    public static Activity getActivityFromRS(int activity_id) throws SQLException {
+    /**
+     * Gets a specific activity from the database that matches the activityID
+     * @param activity_id ActivityID of the activity to get from the database
+     * @return Activity retrieved from database
+     * @throws SQLException If unable to read from database
+     */
+    public static Activity getActivityFromDB(int activity_id) throws SQLException {
         DatabaseOperations.connectToDB();
         String sqlQuery = "SELECT * FROM Activities WHERE activity_id = " + activity_id + ";";
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
@@ -115,12 +144,14 @@ public class ActivityDBOperations {
             String activityName = queryResult.getString("name");
             java.util.Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
             try {
                 activityDate = dateFormatter.parse(queryResult.getString("date_string"));
             } catch (ParseException e) {
                 System.out.println("Unable to parse date");
                 e.printStackTrace();
             }
+
             String activityType = queryResult.getString("type");
             double totalDistance = queryResult.getDouble("total_distance");
             double totalTime = queryResult.getDouble("total_time");
@@ -128,15 +159,22 @@ public class ActivityDBOperations {
             retrievedActivity.setId(activityID);
 
         }
+
         DatabaseOperations.disconnectFromDB();
+
         return retrievedActivity;
     }
 
-
+    /**
+     * Updates an existing activity in database to match passed activity
+     * @param activity Activity to update database with
+     * @return True if activity to update exists in the database and has been successfully updated, False otherwise
+     * @throws SQLException If unable to read/ write from/ to database
+     */
     public static boolean updateExistingActivity(Activity activity) throws SQLException {
-
         String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ? WHERE activity_id = ?";
-        if (getActivityFromRS(activity.getId()) != null) {
+
+        if (getActivityFromDB(activity.getId()) != null) {
             DatabaseOperations.connectToDB();
             Connection dbConn = DatabaseOperations.getDbConnection();
 
@@ -149,13 +187,23 @@ public class ActivityDBOperations {
             pUpdateStatement.setDouble(6, activity.getTotalTime());
             pUpdateStatement.setInt(7, activity.getId());
             pUpdateStatement.executeUpdate();
+
             DatabaseOperations.disconnectFromDB();
+
             return true;
+
         } else {
+
             return false;
         }
     }
 
+    /**
+     * Deletes activity in the database with the given activity ID
+     * @param activityID ActivityID of activity to delete
+     * @return True if activity to delete exists in database and has been deleted, False otherwise
+     * @throws SQLException If unable to read/ write from/ to database
+     */
     public static boolean deleteExistingActivity(int activityID) throws SQLException {
         DatabaseOperations.connectToDB();
 
@@ -167,32 +215,11 @@ public class ActivityDBOperations {
         pDeleteStmt.executeUpdate();
         DatabaseOperations.disconnectFromDB();
 
-        if (getActivityFromRS(activityID) == null) {
+        if (getActivityFromDB(activityID) == null) {
             return true;
         } else {
             return false;
         }
 
     }
-
-    /*public static void main(String[] args) {
-        try {
-            Activity test = getActivityFromRS(3);
-            test.setActivityName("An Activity");
-            System.out.println(updateExistingActivity(test));
-            ObservableList<Activity> retrievedUsers = ActivityDBOperations.getAllUsersActivities(1);
-            if (retrievedUsers != null) {
-                for (Activity activity : retrievedUsers) {
-                    System.out.println(activity.getId() + " " + activity.getActivityName() + " " + activity.getDate());
-
-                }
-            }
-            deleteExistingActivity(1);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-
 }
