@@ -100,6 +100,7 @@ public class DatabaseOperations {
                     + "type varchar(100) NOT NULL, \n"
                     + "total_distance real NOT NULL,"
                     + "total_time real NOT NULL,"
+                    + "calories_burnt real NOT NULL,"
                     + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE"
                     + ");";
 
