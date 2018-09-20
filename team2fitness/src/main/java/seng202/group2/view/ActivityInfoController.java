@@ -4,10 +4,12 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import seng202.group2.analysis.GraphGenerator;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
 import seng202.group2.model.Route;
@@ -59,6 +61,9 @@ public class ActivityInfoController implements Initializable, UserData {
     public void initialize(URL location, ResourceBundle resources) {
         webEngine = mapWebView.getEngine();
         webEngine.load(this.getClass().getClassLoader().getResource("fitnessMap.html").toExternalForm());
+        activityChart.setTitle("Distance over Time");
+        activityChart.getXAxis().setLabel("Time");
+        activityChart.getYAxis().setLabel("Distance");
     }
 
     @Override
@@ -75,16 +80,20 @@ public class ActivityInfoController implements Initializable, UserData {
         activityNameLabel.textProperty().bind(activity.activityNameProperty());
         distanceLabel.textProperty().bind(Bindings.format("%.0f", activity.totalDistanceProperty()));
         timeLabel.textProperty().bind(Bindings.format("%.0f", activity.totalTimeProperty()));
-        speedLabel.textProperty().bind(Bindings.format("%.0f", activity.totalDistanceProperty().divide(activity.totalTimeProperty())));
+        speedLabel.textProperty().bind(Bindings.format("%.2f", activity.totalDistanceProperty().divide(activity.totalTimeProperty())));
         caloriesLabel.textProperty().bind(Bindings.format("%.0f", activity.caloriesBurnedProperty()));
         bpmLabel.textProperty().bind(Bindings.format("%.0f", activity.averageHRProperty()));
 
 
-
+        System.out.println(activity.getCaloriesBurned());
 
         Route path = new Route(activity.getActivityData());
         String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
         webEngine.executeScript(scriptToExecute);
+
+        activityChart.getData().removeAll(activityChart.getData());
+        XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+        activityChart.getData().add(series);
     }
 
 

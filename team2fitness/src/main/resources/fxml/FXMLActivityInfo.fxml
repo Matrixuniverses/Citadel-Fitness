@@ -83,7 +83,7 @@
                                  <center>
                                     <LineChart fx:id="activityChart" prefHeight="279.0" prefWidth="469.0" BorderPane.alignment="CENTER">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" />
+                                        <NumberAxis side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
                                         <NumberAxis side="LEFT" />

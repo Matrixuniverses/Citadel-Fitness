@@ -66,7 +66,6 @@ public class ActivityViewController implements Initializable, UserData {
 
     public void updateUser() {
         activityTable.getItems().clear();
-        //System.out.println(dataManager.getActivityList().get(0).getTotalDistance());
         activityTable.setItems(dataManager.getActivityList());
     }
 
