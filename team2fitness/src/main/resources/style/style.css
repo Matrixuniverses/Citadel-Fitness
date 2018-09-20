@@ -33,7 +33,7 @@
 
 .main-panel .label {
     /*-fx-text-fill: #67B5E3;*/
-    -fx-text-fill: #7ec9f7;
+    -fx-text-fill: #ea9c3c;
     -fx-font-family: "Francois One";
     /*-fx-font-size: 20;*/
 }
@@ -68,7 +68,7 @@
 }
 
 .main-panel Button {
-    -fx-cursor: hand;
+    /*-fx-cursor: hand;*/
 }
 
 .main-popup {
@@ -92,6 +92,28 @@
     -fx-text-fill: blue;
 
 }
+
+.login Button {
+    -fx-background-color: linear-gradient(to right, #4b5360 ,#36393f);
+    -fx-background-size: 100% 100%;
+    -fx-border-width: 3px;
+    -fx-text-fill: white;
+    /*-fx-border-color: #36393f;*/
+    -fx-font-family: "Open Sans";
+}
+
+/*.login Button:hover {
+    -fx-background-color: #7ec9f7;
+    -fx-background-size: 100% 100%;
+    -fx-background-radius : 30;
+    -fx-border-width: 3px;
+    -fx-border-radius : 30;
+    -fx-text-fill: black;
+    -fx-border-color: #36393f;
+    -fx-font-family: "Open Sans";
+}*/
+
+
 
 /*.login .table-view {
     -fx-background-color: transparent;
@@ -138,3 +160,4 @@
     -fx-text-fill: white;
     -fx-border-color: #4dd9da;
 }
+

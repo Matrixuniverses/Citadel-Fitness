@@ -55,11 +55,20 @@ public class LoginController implements Initializable {
     }
 
     public void create() {
-        String name = nameField.getText();
-        Integer age = Integer.valueOf(ageField.getText());
-        Double height = Double.valueOf(heightField.getText());
-        Float weight = Float.valueOf(weightField.getText());
-        dataManager.addUser(name, age, height, weight);
+
+        try {
+            String name = nameField.getText();
+            Integer age = Integer.valueOf(ageField.getText());
+            Double height = Double.valueOf(heightField.getText());
+            Float weight = Float.valueOf(weightField.getText());
+            dataManager.addUser(name, age, height, weight);
+            errorLabel.setText("User '" + name + "' successfully created.");
+            errorLabel.setVisible(true);
+        }
+        catch (Exception e){
+            errorLabel.setText("Invalid profile data");
+            errorLabel.setVisible(true);
+        }
 
     }
 

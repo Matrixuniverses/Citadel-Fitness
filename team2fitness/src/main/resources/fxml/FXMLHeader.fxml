@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1200.0" styleClass="header" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.HeaderController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1200.0" styleClass="header" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.HeaderController">
    <children>
       <BorderPane prefHeight="50.0" prefWidth="1200.0">
          <center>
@@ -27,7 +27,7 @@
          <left>
             <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="navbar-header" BorderPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" layoutX="5.0" layoutY="4.0" prefHeight="43.0" prefWidth="192.0" text="Citadell Fitness" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="5.0" layoutY="4.0" prefHeight="43.0" prefWidth="192.0" text="Citadel" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
