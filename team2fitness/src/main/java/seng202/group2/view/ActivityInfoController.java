@@ -61,9 +61,9 @@ public class ActivityInfoController implements Initializable, UserData {
     public void initialize(URL location, ResourceBundle resources) {
         webEngine = mapWebView.getEngine();
         webEngine.load(this.getClass().getClassLoader().getResource("fitnessMap.html").toExternalForm());
-        activityChart.setTitle("Distance over Time");
-        activityChart.getXAxis().setLabel("Time");
-        activityChart.getYAxis().setLabel("Distance");
+        activityChart.setTitle("Distance/Time");
+        activityChart.getXAxis().setLabel("Time(s)");
+        activityChart.getYAxis().setLabel("Distance(m)");
     }
 
     @Override
