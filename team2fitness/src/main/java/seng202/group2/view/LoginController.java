@@ -52,7 +52,6 @@ public class LoginController implements Initializable {
     public void login(){
         dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
         status.setValue("logged in");
-
     }
 
     public void create() {
@@ -85,6 +84,10 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
+
     }
 }

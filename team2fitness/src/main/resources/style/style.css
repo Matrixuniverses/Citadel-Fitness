@@ -23,20 +23,48 @@
 }
 
 @font-face {
-    src: url("fxml/Fran.ttf");
+    src: url("fonts/Fran.ttf");
 }
 
 .main-panel {
     -fx-background-color: white;
     -fx-border-color: #d8d8d8;
-    -fx-text-fill: yellow;
 }
 
 .main-panel .label {
     /*-fx-text-fill: #67B5E3;*/
-    -fx-text-fill: red;
+    -fx-text-fill: #7ec9f7;
     -fx-font-family: "Francois One";
     /*-fx-font-size: 20;*/
+}
+
+.login .table-view {
+    -fx-font-family: "Francois One";
+    -fx-text-fill: black;
+    -fx-table-cell-border-color: transparent;
+}
+
+.login .table-view .column-header .label {
+    -fx-font-family: "Francois One";
+    -fx-text-fill: black;
+}
+
+/*Disables scroll bars for login table views.*/
+.login .table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.login .table-view *.scroll-bar:horizontal *.increment-arrow,
+.table-view *.scroll-bar:horizontal *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
 }
 
 .main-panel Button {
