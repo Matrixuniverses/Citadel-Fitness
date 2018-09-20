@@ -50,7 +50,7 @@ public class DataParser {
             readLines(readCSV);
 
             // Updating the activities read by calculating distances for each datapoint and activity
-            this.activitiesRead = DataAnalyzer.calculateDeltas(this.activitiesRead);
+            DataAnalyzer.calculateDeltas(this.activitiesRead);
 
 
         } catch (FileNotFoundException e) {
@@ -58,7 +58,6 @@ public class DataParser {
         } catch (IOException e) {
             throw new FileFormatException("Unreadable file");
         }
-
     }
 
     /**
@@ -116,8 +115,11 @@ public class DataParser {
         while ((line = readCSV.readNext()) != null) {
             if (line.length >= 2) {
                 if (line[0] != null && line[0].equals("#start")) {
+                    currentActivity.setAverageHR((double) totalHR / HRCounts);
                     currentActivity = new Activity("Unnamed");
                     activitiesRead.add(currentActivity);
+                    totalHR = 0;
+                    HRCounts = 0;
 
                     if (line[1] != null && !line[1].equals("")) {
                         currentActivity.setActivityName(line[1]);
@@ -132,9 +134,6 @@ public class DataParser {
                     }
                 }
             }
-        }
-        if (HRCounts > 0) {
-            currentActivity.setAverageHR((double)totalHR / HRCounts);
         }
     }
 
@@ -198,27 +197,5 @@ public class DataParser {
         } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-
-    public static void main(String[] args) {
-        try {
-            DataParser testParser = new DataParser(new File("team2fitness/src/test/java/seng202/group2/testData/all.csv"));
-
-            ArrayList<Activity> test = testParser.getActivitiesRead();
-
-            DatabaseOperations.createDatabase();
-
-            for (Activity activity : test) {
-                System.out.println(activity.getActivityName());
-                System.out.println(activity.getTotalDistance());
-            }
-        } catch (FileFormatException e) {
-            System.out.println(new File(".").getAbsolutePath());
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 }

@@ -10,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -55,7 +54,6 @@ public class LoginController implements Initializable {
     }
 
     public void create() {
-
         try {
             String name = nameField.getText();
             Integer age = Integer.valueOf(ageField.getText());
@@ -64,12 +62,10 @@ public class LoginController implements Initializable {
             dataManager.addUser(name, age, height, weight);
             errorLabel.setText("User '" + name + "' successfully created.");
             errorLabel.setVisible(true);
-        }
-        catch (Exception e){
+        } catch (Exception e){
             errorLabel.setText("Invalid profile data");
             errorLabel.setVisible(true);
         }
-
     }
 
 

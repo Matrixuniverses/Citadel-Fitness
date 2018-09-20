@@ -30,7 +30,7 @@ public class App extends Application
 
 
         mainStage.setTitle("Citadel Fitness");
-        mainStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));;
+        mainStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));
         mainStage.setResizable(false);
         mainStage.sizeToScene();
         mainStage.setScene(new Scene(root));

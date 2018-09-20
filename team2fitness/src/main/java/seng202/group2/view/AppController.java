@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,7 +50,6 @@ public class AppController implements Initializable {
      */
     private void initializeViews() {
         try {
-
             FXMLLoader loader;
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLLogin.fxml"));

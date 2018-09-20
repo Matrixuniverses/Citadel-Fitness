@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DataAnalyzer {
 
-    public static ArrayList<Activity> calculateDeltas(ArrayList<Activity> activitiesToUpdate) {
+    public static void calculateDeltas(ArrayList<Activity> activitiesToUpdate) {
         for (Activity activity : activitiesToUpdate) {
             ArrayList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
@@ -41,13 +41,12 @@ public class DataAnalyzer {
                     totalDistance += dist;
                     totalTime += time;
                 }
+
                 activity.setTotalDistance(totalDistance);
                 activity.setTotalTime(totalTime);
             }
 
         }
-
-        return activitiesToUpdate;
     }
 
     /**
