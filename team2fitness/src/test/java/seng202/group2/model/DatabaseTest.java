@@ -42,6 +42,8 @@ public class DatabaseTest {
         Activity activity3 = new Activity("Activity3", Date.from(dateNow), "Run", 90.0, 10.0);
         Activity activity4 = new Activity("Activity4", Date.from(dateNow.minus(Duration.ofDays(20))), "Walk", 70.0, 11.0);
         Activity activity5 = new Activity("Activity5", Date.from(dateNow.minus(Duration.ofDays(10))), "Walk", 80.0, 9.0);
+        Activity activity6 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(40))), "Walk", 90.0, 3.5);
+        Activity activity7 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(60))), "Walk", 89.0, 3.43);
 
 
         DataPoint dp1 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(10))), 170, 10.0, 10.0, 100.0);
@@ -49,6 +51,7 @@ public class DatabaseTest {
         DataPoint dp3 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(30))), 165, 9.8, 10.0, 99.0);
         DataPoint dp4 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(40))), 167, 9.76, 10.0, 98.0);
         DataPoint dp5 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(50))), 168, 9.72, 10.0, 99.0);
+        DataPoint dp6 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(10))), 168, 9.72, 10.0, 99.0);
 
         try {
             DatabaseOperations.createDatabase();
@@ -65,6 +68,8 @@ public class DatabaseTest {
             ActivityDBOperations.insertNewActivity(activity3, 3);
             ActivityDBOperations.insertNewActivity(activity4, 1);
             ActivityDBOperations.insertNewActivity(activity5, 2);
+            ActivityDBOperations.insertNewActivity(activity6, 3);
+            ActivityDBOperations.insertNewActivity(activity7, 3);
 
             //inserting test datapoints
             DatapointDBOperations.insertNewDataPoint(dp1, 1);
@@ -72,6 +77,7 @@ public class DatabaseTest {
             DatapointDBOperations.insertNewDataPoint(dp3, 1);
             DatapointDBOperations.insertNewDataPoint(dp4, 1);
             DatapointDBOperations.insertNewDataPoint(dp5, 1);
+            DatapointDBOperations.insertNewDataPoint(dp6, 7);
 
 
 
@@ -223,37 +229,105 @@ public class DatabaseTest {
     public void testInsertNewActivity() {
         try {
             Instant dateNow = Instant.now();
-            Activity activity6 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(50))), "Rest", 10.0, 0.0);
-            assertEquals(6, ActivityDBOperations.insertNewActivity(activity6, 1));
+            Activity activity8 = new Activity("Activity8", Date.from(dateNow.minus(Duration.ofDays(50))), "Rest", 10.0, 0.0);
+            assertEquals(8, ActivityDBOperations.insertNewActivity(activity8, 1));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
-    //TODO - Change this test as checking the clash only results in a boolean value
-    /*@Test
+    @Test
     public void testGetClashingActivity() {
         try {
             Instant dateNow = Instant.now();
-            Activity activity7a = new Activity("Activity7a", Date.from(dateNow.minus(Duration.ofDays(70))), "Walk", 20.0, 2.0);
-            Activity activity7b = new Activity("Activity7b", Date.from(dateNow.minus(Duration.ofDays(70))), "Run", 20.0, 4.0);
-            ActivityDBOperations.insertNewActivity(activity7a, 1);
-            assertNotNull(ActivityDBOperations.getClashingActivity(1, activity7b.getDate()));
+            Activity activity9a = new Activity("Activity9", Date.from(dateNow.minus(Duration.ofDays(70))), "Walk", 20.0, 2.0);
+            Activity activity9b = new Activity("Activity9", Date.from(dateNow.minus(Duration.ofDays(70))), "Run", 20.0, 4.0);
+            ActivityDBOperations.insertNewActivity(activity9a, 1);
+            boolean results[] = {ActivityDBOperations.checkDuplicateActivity(activity9b, 1), ActivityDBOperations.checkDuplicateActivity(activity9b, 2)};
+            boolean expectedResults[] = {true, false};
+            assertArrayEquals(expectedResults, results);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    */
+
+    @Test
+    public void testGetAllActivitiesForUser() {
+        try {
+            ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1);
+            assertNotNull(activities);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetAllActivitiesForUserOrdering() {
+        try {
+            ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1);
+            assertEquals(true, (activities.get(0).getDate().before(activities.get(1).getDate())));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetActivityFromRSValid() {
+        try {
+            Activity activity = ActivityDBOperations.getActivityFromRS(1);
+            assertEquals(1, activity.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetActivityFromRSInvalid() {
+        try {
+            Activity activity = ActivityDBOperations.getActivityFromRS(1000);
+            assertEquals(null, activity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-    //@Test
-    //p/ublic void testGetAllActivitiesForUser() {
-       // try {
+    @Test
+    public void testUpdateActivityReturnValueSuccess() {
+        try {
+            Activity activity = ActivityDBOperations.getActivityFromRS(3);
+            activity.setTotalDistance(9.8);
+            assertEquals(true, ActivityDBOperations.updateExistingActivity(activity));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-      //  }
-   // }
+    }
 
+
+    @Test
+    public void testUpdateActivityReturnValueFail() {
+        try {
+            Activity activity = ActivityDBOperations.getActivityFromRS(3);
+            activity.setId(1000);
+            assertEquals(false, ActivityDBOperations.updateExistingActivity(activity));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Test
+    public void deleteExistingActivity() {
+        try {
+            assertEquals(true,ActivityDBOperations.deleteExistingActivity(6));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 
