@@ -42,7 +42,9 @@ public class ViewGraphController implements UserData, Initializable{
                 new Separator(), "Calories Burned", "Stress / Time"));
 
         //creating the chart
-        lineChart.setTitle("Distance over Time");
+        lineChart.setTitle("Distance/Time");
+        lineChart.getXAxis().setLabel("Time(s)");
+        lineChart.getYAxis().setLabel("Distance(m)");
 
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
