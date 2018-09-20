@@ -21,7 +21,7 @@ public class DataManager {
     public DataManager() {
         try {
             userList.addAll(UserDBOperations.getAllUsers());
-            System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
+            // System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -34,7 +34,6 @@ public class DataManager {
         this.currentUser = user;
         try {
             user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
-            System.out.println(user.getActivityList().size());
             for (Activity activity : user.getActivityList()) {
                 activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
 

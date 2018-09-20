@@ -111,6 +111,8 @@ public class DataParser {
         Activity currentActivity = new Activity("Unnamed");
         String[] line;
         int fields = 6;
+        int totalHR = 0;
+        int HRCounts = 0;
 
         while ((line = readCSV.readNext()) != null) {
             if (line.length >= 2) {
@@ -126,9 +128,14 @@ public class DataParser {
                     DataPoint point = readLine(line, fields, currentActivity);
                     if (point != null) {
                         currentActivity.addDataPoint(point);
+                        totalHR += point.getHeartRate();
+                        HRCounts += 1;
                     }
                 }
             }
+        }
+        if (HRCounts > 0) {
+            currentActivity.setAverageHR((double)totalHR / HRCounts);
         }
     }
 
