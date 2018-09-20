@@ -8,7 +8,6 @@ public class FileFormatException extends Exception {
 
     /**
      * Error occurs when reading or parsing a CSV file
-     * @param offendingLine Read line from CSV parser that caused a parser error, or incorrect format
      * @param message       Error message to be displayed to the caller
      */
     public FileFormatException(String message) {
