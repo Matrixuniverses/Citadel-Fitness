@@ -261,7 +261,7 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
-
+/*
     @Test
     public void testGetAllActivitiesForUserOrdering() {
         try {
@@ -271,7 +271,7 @@ public class DatabaseTest {
             e.printStackTrace();
         }
     }
-/*
+
     @Test
     public void testGetActivityFromRSValid() {
         try {
