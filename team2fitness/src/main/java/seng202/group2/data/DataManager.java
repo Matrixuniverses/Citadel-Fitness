@@ -21,13 +21,10 @@ public class DataManager {
     public DataManager() {
         try {
             userList.addAll(UserDBOperations.getAllUsers());
-            // System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
+            System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        userList.add(new User( "John Smith", 20, 170, 70));
-//        userList.add(new User( "Bob Johnson", 15, 130, 50));
     }
 
     public void setCurrentUser(User user) {
@@ -36,7 +33,6 @@ public class DataManager {
             user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
             for (Activity activity : user.getActivityList()) {
                 activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
-
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -62,8 +62,8 @@ public class ActivityDBOperations {
 
         DatabaseOperations.connectToDB();
 
-        String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time) \n" +
-                "VALUES(?,?,?,?,?,?,?)";
+        String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time,calories_burnt) \n" +
+                "VALUES(?,?,?,?,?,?,?,?)";
 
         Connection dbConn = DatabaseOperations.getDbConnection();
 
@@ -75,13 +75,13 @@ public class ActivityDBOperations {
         pUpdateStatement.setString(5, activity.getActivityType());
         pUpdateStatement.setDouble(6, activity.getTotalDistance());
         pUpdateStatement.setDouble(7, activity.getTotalTime());
+        pUpdateStatement.setDouble(8, activity.getCaloriesBurned());
         pUpdateStatement.executeUpdate();
 
         ResultSet results = pUpdateStatement.getGeneratedKeys();
         results.next();
 
         int activity_id = results.getInt(1);
-
 
         DatabaseOperations.disconnectFromDB();
         DatabaseOperations.disconnectFromDB();
@@ -121,8 +121,10 @@ public class ActivityDBOperations {
             String activityType = queryResult.getString("type");
             double totalDistance = queryResult.getDouble("total_distance");
             double totalTime = queryResult.getDouble("total_time");
-            Activity newActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
+
+            Activity newActivity = new Activity(activityName, activityDate, activityType, totalTime, totalDistance);
             newActivity.setId(activityID);
+            newActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
             userActivities.add(newActivity);
         }
 
@@ -161,6 +163,7 @@ public class ActivityDBOperations {
             double totalTime = queryResult.getDouble("total_time");
             retrievedActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
             retrievedActivity.setId(activityID);
+            retrievedActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
 
         }
 
@@ -176,7 +179,7 @@ public class ActivityDBOperations {
      * @throws SQLException If unable to read/ write from/ to database
      */
     public static boolean updateExistingActivity(Activity activity) throws SQLException {
-        String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ? WHERE activity_id = ?";
+        String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ?, calories_burnt = ? WHERE activity_id = ?";
 
         if (getActivityFromDB(activity.getId()) != null) {
             DatabaseOperations.connectToDB();
@@ -189,7 +192,8 @@ public class ActivityDBOperations {
             pUpdateStatement.setString(4, activity.getActivityType());
             pUpdateStatement.setDouble(5, activity.getTotalDistance());
             pUpdateStatement.setDouble(6, activity.getTotalTime());
-            pUpdateStatement.setInt(7, activity.getId());
+            pUpdateStatement.setDouble(7, activity.getCaloriesBurned());
+            pUpdateStatement.setInt(8, activity.getId());
             pUpdateStatement.executeUpdate();
 
             DatabaseOperations.disconnectFromDB();

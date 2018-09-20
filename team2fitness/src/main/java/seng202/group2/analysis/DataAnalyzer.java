@@ -128,6 +128,18 @@ public class DataAnalyzer {
         return 15.3 * (maxHeartRate/restingHeartRate);
     }
 
+    public static double calcAverageHR(Activity activity) {
+        int totalHR = 0;
+        int count = 0;
+
+        for (DataPoint point : activity.getActivityData()) {
+            totalHR += point.getHeartRate();
+            count += 1;
+        }
+
+        return (double)totalHR / count;
+    }
+
     /**
      * Implements a function that calculates a general estimate of the amount of calories burned during physical exercise
      * based on a persons age, weight, average heard rate while exercising, time spent exercising and their gender. The
@@ -141,7 +153,7 @@ public class DataAnalyzer {
      * @return An estimate value of the amount of Calories burned by the person during the physical exercise
      * @throws IllegalArgumentException if the resulted calories burned is a negative value
      */
-    public static double calcCalories(int age, double weight, double heartRate_Avg, double time, boolean isMale) {
+    public static int calcCalories(int age, double weight, double heartRate_Avg, double time, boolean isMale) {
         double result;
 
         weight = weightKgToLbs(weight);
@@ -154,7 +166,7 @@ public class DataAnalyzer {
             throw new IllegalArgumentException("Calories burned cannot be negative");
         }
 
-        return result;
+        return (int)Math.round(result);
     }
 
     /**

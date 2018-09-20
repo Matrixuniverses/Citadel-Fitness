@@ -87,7 +87,8 @@ public class DatabaseOperations {
                     + "name varchar(100) NOT NULL, \n"
                     + "age integer NOT NULL, \n"
                     + "height real NOT NULL, \n"
-                    + "weight real NOT NULL \n"
+                    + "weight real NOT NULL, \n"
+                    + "gender varchar(2) \n"
                     + ");";
 
             String sqlCreateActivityTable = "CREATE TABLE IF NOT EXISTS Activities (\n"
@@ -99,6 +100,7 @@ public class DatabaseOperations {
                     + "type varchar(100) NOT NULL, \n"
                     + "total_distance real NOT NULL,"
                     + "total_time real NOT NULL,"
+                    + "calories_burnt real NOT NULL,"
                     + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE"
                     + ");";
 

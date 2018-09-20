@@ -13,6 +13,7 @@ public class Activity {
     private SimpleStringProperty activityType;
     private SimpleDoubleProperty totalTime;
     private SimpleDoubleProperty totalDistance;
+    private SimpleDoubleProperty caloriesBurned;
     private SimpleDoubleProperty averageHR;
     private Date activityDate;
     private ArrayList<DataPoint> activityData = new ArrayList<>();
@@ -24,6 +25,7 @@ public class Activity {
         this.activityType = new SimpleStringProperty("Exercise");
         this.totalTime = new SimpleDoubleProperty(10);
         this.totalDistance = new SimpleDoubleProperty(0);
+        this.caloriesBurned = new SimpleDoubleProperty(0);
         this.averageHR = new SimpleDoubleProperty(0);
     }
 
@@ -34,6 +36,8 @@ public class Activity {
         this.totalTime = new SimpleDoubleProperty(totalTime);
         this.totalDistance = new SimpleDoubleProperty(totalDistance);
         this.averageHR = new SimpleDoubleProperty(0);
+
+        this.caloriesBurned = new SimpleDoubleProperty(0);
         manualEntry = true;
     }
 
@@ -90,16 +94,16 @@ public class Activity {
         this.totalDistance.set(totalDistance);
     }
 
-    public double getAverageHR() {
-        return averageHR.get();
+    public double getCaloriesBurned() {
+        return caloriesBurned.get();
     }
 
-    public SimpleDoubleProperty averageHRProperty() {
-        return averageHR;
+    public SimpleDoubleProperty caloriesBurnedProperty() {
+        return caloriesBurned;
     }
 
-    public void setAverageHR(double averageHR) {
-        this.averageHR.set(averageHR);
+    public void setCaloriesBurned(double caloriesBurned) {
+        this.caloriesBurned.set(caloriesBurned);
     }
 
     public ArrayList<DataPoint> getActivityData() {
@@ -116,6 +120,18 @@ public class Activity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getAverageHR() {
+        return averageHR.get();
+    }
+
+    public SimpleDoubleProperty averageHRProperty() {
+        return averageHR;
+    }
+
+    public void setAverageHR(double averageHR) {
+        this.averageHR.set(averageHR);
     }
 
     public Date getDate() {
