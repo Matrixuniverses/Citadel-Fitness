@@ -294,7 +294,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void testgetActivityFromDBValid() {
+    public void testGetActivityFromDBValid() {
         try {
             Activity activity = ActivityDBOperations.getActivityFromDB(1);
             assertEquals(1, activity.getId());
@@ -341,7 +341,7 @@ public class DatabaseTest {
 
 
     @Test
-    public void deleteExistingActivity() {
+    public void testDeleteExistingActivity() {
         try {
             assertEquals(true,ActivityDBOperations.deleteExistingActivity(6));
         } catch (SQLException e) {
@@ -352,7 +352,7 @@ public class DatabaseTest {
 
 
     @Test
-    public void deleteExistingActivityCascade() {
+    public void testDeleteExistingActivityCascade() {
         try {
             ActivityDBOperations.deleteExistingActivity(7);
             assertEquals(null, DatapointDBOperations.getDataPointFromRS(7));
@@ -363,7 +363,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void insertNewDataPointSuccess() {
+    public void testInsertNewDataPointSuccess() {
         try {
             Instant dateNow = Instant.now();
             DataPoint dp7 = new DataPoint(Date.from(dateNow), 164,100.0,100.0,99.0);
@@ -374,7 +374,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void insertNewDataPointFail() {
+    public void testInsertNewDataPointFail() {
         try {
             Instant dateNow = Instant.now();
             DataPoint rubbish = new DataPoint(Date.from(dateNow), 164,100.0,100.0,99.0);
@@ -385,7 +385,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void getAllDataPointsForActivitySuccess() {
+    public void testGetAllDataPointsForActivitySuccess() {
         try {
             ObservableList<DataPoint> datapoints = DatapointDBOperations.getAllActivityDatapoints(1);
             assertNotNull(datapoints);
@@ -395,7 +395,7 @@ public class DatabaseTest {
     }
 
     @Test
-    public void getAllDataPointsForActivityOrdering() {
+    public void testGetAllDataPointsForActivityOrdering() {
         try {
             ObservableList<DataPoint> datapoints = DatapointDBOperations.getAllActivityDatapoints(1);
             assertEquals(true, (datapoints.get(0).getDate().before(datapoints.get(1).getDate())));
@@ -405,10 +405,62 @@ public class DatabaseTest {
     }
 
     @Test
-    public void getAllDataPointsForActivityFail() {
+    public void testGetAllDataPointsForActivityFail() {
         try {
             ObservableList<DataPoint> datapoints = DatapointDBOperations.getAllActivityDatapoints(1000);
             assertEquals(true, datapoints.isEmpty());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetDataPointFromDBValid() {
+        try {
+            DataPoint dp = DatapointDBOperations.getDataPointFromRS(1);
+            assertEquals(1, dp.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetDataPointFromDBInvalid() {
+        try {
+            DataPoint shouldntExist = DatapointDBOperations.getDataPointFromRS(1000);
+            assertEquals(null, shouldntExist);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testUpdateDataPointValid(){
+        try {
+            DataPoint retrievedDB  = DatapointDBOperations.getDataPointFromRS(5);
+            retrievedDB.setHeartRate(199);
+            assertEquals(true, DatapointDBOperations.updateExistingDataPoint(retrievedDB));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testUpdateDataPointInvalid() {
+        try {
+            DataPoint retrievedDB  = DatapointDBOperations.getDataPointFromRS(5);
+            retrievedDB.setId(1000);
+            assertEquals(false, DatapointDBOperations.updateExistingDataPoint(retrievedDB));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void testDeleteDatapoint() {
+        try {
+            assertEquals(true, DatapointDBOperations.deleteExistingDataPoint(5));
         } catch (SQLException e) {
             e.printStackTrace();
         }
