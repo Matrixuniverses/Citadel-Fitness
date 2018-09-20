@@ -51,6 +51,8 @@ public class User {
                 totalDistance.setValue(calculateTotalUserDistance()/1000);
             }
         });
+
+        setupDatabaseHandlers();
     }
 
     public User(String name, int age, double height, double weight){
@@ -82,6 +84,7 @@ public class User {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     UserDBOperations.updateExistingUser(User.this);
+                    System.out.println("name update");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

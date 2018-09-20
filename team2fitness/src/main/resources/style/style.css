@@ -43,10 +43,10 @@
     /*-fx-font-size: 20;*/
 /*}*/
 
-.customBig {
+.customHeading {
     -fx-text-fill: linear-gradient(to left, #4b5360 ,#36393f);
     -fx-font-family: "Francois One";
-    -fx-font-size: 20;
+    -fx-font-size: 26;
 }
 
 .customLabels {
@@ -61,11 +61,28 @@
     -fx-font-size: 50;
 }
 
-.login .table-view {
+.customButton {
+    -fx-background-color: linear-gradient(to right, #4b5360 ,#36393f);
+    -fx-background-size: 100% 100%;
+    -fx-border-width: 3px;
+    -fx-text-fill: white;
+    -fx-font-family: "Open Sans";
+}
+
+.customTable {
+    -fx-background-color: white;
     -fx-font-family: "Francois One";
-    -fx-text-fill: black;
+    -fx-text-fill: #4b5360;
     -fx-table-cell-border-color: transparent;
 }
+.noHeader {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+}
+
+
+
 
 .login .table-view .column-header .label {
     -fx-font-family: "Francois One";
@@ -117,14 +134,6 @@
 
 }
 
-.login Button {
-    -fx-background-color: linear-gradient(to right, #4b5360 ,#36393f);
-    -fx-background-size: 100% 100%;
-    -fx-border-width: 3px;
-    -fx-text-fill: white;
-    /*-fx-border-color: #36393f;*/
-    -fx-font-family: "Open Sans";
-}
 
 /*.login Button:hover {
     -fx-background-color: #7ec9f7;

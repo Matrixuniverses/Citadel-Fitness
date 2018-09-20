@@ -20,15 +20,14 @@
                <children>
                   <AnchorPane layoutX="736.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="main-panel" stylesheets="@../style/style.css">
                      <children>
-                        <Label layoutX="86.0" layoutY="14.0" prefHeight="63.0" prefWidth="129.0" styleClass="main-panel-header" text="Create User" textAlignment="CENTER">
+                        <Label layoutX="86.0" layoutY="14.0" prefHeight="63.0" prefWidth="129.0" styleClass="customHeading" text="Create User" textAlignment="CENTER">
                            <font>
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <GridPane alignment="CENTER" layoutX="23.0" layoutY="101.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="237.0" prefWidth="222.0" vgap="20.0">
+                        <GridPane alignment="CENTER" layoutX="15.0" layoutY="106.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="237.0" prefWidth="272.0" vgap="20.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="153.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="71.0" minWidth="10.0" prefWidth="53.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints percentHeight="25.0" valignment="CENTER" />
@@ -37,26 +36,26 @@
                             <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <TextField fx:id="nameField" prefHeight="30.0" prefWidth="130.0" promptText="Name" />
-                              <TextField fx:id="ageField" prefHeight="30.0" prefWidth="130.0" promptText="Age" GridPane.rowIndex="1" />
-                              <TextField fx:id="heightField" prefHeight="30.0" prefWidth="130.0" promptText="Height" GridPane.rowIndex="3" />
-                              <TextField fx:id="weightField" prefHeight="30.0" prefWidth="130.0" promptText="Weight" GridPane.rowIndex="2" />
+                              <TextField fx:id="nameField" alignment="CENTER" prefHeight="30.0" prefWidth="209.0" promptText="Name" />
+                              <TextField fx:id="ageField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Age" GridPane.rowIndex="1" />
+                              <TextField fx:id="heightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Height" GridPane.rowIndex="3" />
+                              <TextField fx:id="weightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Weight" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                         <Label fx:id="errorLabel" layoutX="20.0" layoutY="359.0" prefHeight="29.0" prefWidth="260.0" text="Error Message" textFill="RED" visible="false" />
                         <Button fx:id="createButton" layoutX="101.0" layoutY="427.0" mnemonicParsing="false" onAction="#create" prefHeight="45.0" prefWidth="100.0" text="Create" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="130.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="main-panel">
+                  <AnchorPane layoutX="189.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="main-panel">
                      <children>
-                        <Label layoutX="87.0" layoutY="14.0" prefHeight="63.0" prefWidth="127.0" text="Select User" textAlignment="CENTER">
+                        <Label layoutX="87.0" layoutY="14.0" prefHeight="63.0" prefWidth="127.0" styleClass="customHeading" text="Select User" textAlignment="CENTER">
                            <font>
                               <Font size="25.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="userTable" layoutX="14.0" layoutY="102.0" prefHeight="275.0" prefWidth="274.0">
+                        <TableView fx:id="userTable" layoutX="14.0" layoutY="102.0" prefHeight="275.0" prefWidth="274.0" styleClass="customTable">
                           <columns>
-                            <TableColumn fx:id="userTableCol" editable="false" prefWidth="273.0" text="Users" />
+                            <TableColumn fx:id="userTableCol" editable="false" prefWidth="273.0" styleClass="noHeader" text="Users" />
                           </columns>
                         </TableView>
                         <Button fx:id="loginButton" layoutX="101.0" layoutY="426.0" mnemonicParsing="false" onAction="#login" prefHeight="45.0" prefWidth="100.0" text="Login" />

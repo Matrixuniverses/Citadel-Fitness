@@ -18,6 +18,9 @@ public class NavBarController implements Initializable {
     @FXML
     private Button logoutButton;
 
+    @FXML
+    private Button editProfileButton;
+
 
     public StringProperty getCurrentView() {
         return currentView;
@@ -49,6 +52,10 @@ public class NavBarController implements Initializable {
 
     public void showSummary(){
         currentView.set("Summary");
+    }
+
+    public Button getEditProfileButton() {
+        return editProfileButton;
     }
 
     public void initialize(URL location, ResourceBundle resources) {

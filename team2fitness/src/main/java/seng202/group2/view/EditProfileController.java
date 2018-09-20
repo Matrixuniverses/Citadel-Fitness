@@ -1,108 +1,75 @@
 package seng202.group2.view;
 
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
+import javafx.util.converter.NumberStringConverter;
+import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 
-import java.io.File;
-import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class EditProfileController {
-
-
-    @FXML
-    private TextField fNameField;
+public class EditProfileController implements Initializable, UserData {
 
     @FXML
-    private TextField lNameField;
+    private Button updateButton;
 
     @FXML
-    private TextField heightField;
+    private TextField nameField;
 
     @FXML
-    private TextField dobField;
+    private TextField ageField;
 
     @FXML
     private TextField weightField;
 
     @FXML
-    private Button newPic;
+    private TextField heightField;
 
     @FXML
-    private Button cancel;
+    private Button closeButton;
 
-    @FXML
-    private Button saveChanges;
+    private DataManager dataManager;
 
-    public TextField getfNameField() {
-        return fNameField;
-    }
 
-    public void setfNameField(TextField fNameField) {
-        this.fNameField = fNameField;
-    }
+    User currentUser;
 
-    public TextField getlNameField() {
-        return lNameField;
-    }
-
-    public void setlNameField(TextField lNameField) {
-        this.lNameField = lNameField;
-    }
-
-    public TextField getHeightField() {
-        return heightField;
-    }
-
-    public void setHeightField(TextField heightField) {
-        this.heightField = heightField;
-    }
-
-    public TextField getDobField() {
-        return dobField;
-    }
-
-    public void setDobField(TextField dobField) {
-        this.dobField = dobField;
-    }
-
-    public TextField getWeightField() {
-        return weightField;
-    }
-
-    public void setWeightField(TextField weightField) {
-        this.weightField = weightField;
+    public void initialize(URL location, ResourceBundle resources) {
     }
 
 
-
-    public Button getSaveChangesButton() {
-        return saveChanges;
+    @Override
+    public void setDataManager(DataManager newDataManager) {
+        dataManager = newDataManager;
     }
 
-    public void createProfileAction(ActionEvent event){
-        //TODO: check if next userid is empty and selected
-        //TODO: Check all fields are populated
-        //TODO: save all fields to DB
-        //TODO: Launch main application with user data
-
-
-
+    /**
+     * Fills the provided fields with the user's current information.
+     */
+    @Override
+    public void updateUser() {
+        currentUser = dataManager.getCurrentUser();
+/*        nameField.textProperty().bind(currentUser.nameProperty());
+        ageField.textProperty().bind(Bindings.convert(currentUser.ageProperty()));
+        weightField.textProperty().bind(Bindings.convert(currentUser.ageProperty()));
+        heightField.textProperty().bind(Bindings.convert(currentUser.ageProperty()));*/
     }
 
-    public void saveProfileAction(ActionEvent event) {
-        //TODO: check if next userid is empty and selected
-        //TODO: Check all fields are populated
-        //TODO: save all fields to DB
-        //TODO: Launch main application with user data
+    /**
+     * Updates the user's data with the fields provided. User information is changed and written to database.
+     */
+    public void update() {
+        //System.out.println("test");
+        currentUser.setName(nameField.getText());
+        currentUser.setAge(Integer.valueOf(ageField.getText()));
+        currentUser.setHeight(Double.valueOf(heightField.getText()));
+        currentUser.setWeight(Double.valueOf(heightField.getText()));
     }
 
-    public void updateUserData(User user) {
-
+    public Button getCloseButton() {
+        return closeButton;
     }
-
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="navBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="200.0" styleClass="navbar" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.NavBarController">
+<AnchorPane fx:id="navBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="200.0" styleClass="navbar" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.NavBarController">
    <children>
       <BorderPane prefHeight="650.0" prefWidth="200.0" styleClass="navbar">
          <center>
@@ -34,7 +34,7 @@
                   <Button fx:id="graphViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showGraph" prefHeight="25.0" prefWidth="226.0" text="Graph View" textAlignment="CENTER" GridPane.rowIndex="4" />
                   <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Logout" textAlignment="CENTER" GridPane.rowIndex="8" />
                   <Button fx:id="mapViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showMap" prefHeight="25.0" prefWidth="226.0" text="Map View" textAlignment="CENTER" GridPane.rowIndex="5" />
-                  <Button fx:id="logoutButton1" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="7" />
+                  <Button fx:id="editProfileButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="7" />
                </children>
             </GridPane>
          </center>

@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,6 +39,7 @@ public class MainController implements UserData, Initializable {
     private ProfileController profileViewController;
     private MapViewController mapViewController;
     private ActivityInfoController activityInfoController;
+    private EditProfileController editProfileController;
 
     @FXML
     private HeaderController headerController;
@@ -54,6 +56,7 @@ public class MainController implements UserData, Initializable {
     private AnchorPane profileView;
     private AnchorPane mapView;
     private AnchorPane activityInfo;
+    private AnchorPane editProfile;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -69,6 +72,7 @@ public class MainController implements UserData, Initializable {
         profileViewController.setDataManager(dataManager);
         mapViewController.setDataManager(dataManager);
         activityInfoController.setDataManager(dataManager);
+        editProfileController.setDataManager(dataManager);
     }
 
     @Override
@@ -106,6 +110,10 @@ public class MainController implements UserData, Initializable {
             mapViewController = loader.getController();
             paneMap.put("Maps", mapView);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditProfile.fxml"));
+            editProfile = loader.load();
+            editProfileController = loader.getController();
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityInfo.fxml"));
             activityInfo = loader.load();
             activityInfoController = loader.getController();
@@ -113,7 +121,7 @@ public class MainController implements UserData, Initializable {
 
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile);
             profileView.toFront();
 
         } catch (IOException ex_) {
@@ -140,13 +148,26 @@ public class MainController implements UserData, Initializable {
             }
         });
 
+        navBarController.getEditProfileButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                editProfile.toFront();
+            }
+        });
+
+        editProfileController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                editProfile.toBack();
+            }
+        });
+
     }
 
     public void initializeActivityInfo(){
         activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("adsadsad");
                 if (activityViewController.getActivityTable().getSelectionModel().getSelectedItem() != null) {
                     activityInfoController.updateActivity(activityViewController.getActivityTable().getSelectionModel().getSelectedItem());
                     activityInfo.toFront();
@@ -164,12 +185,13 @@ public class MainController implements UserData, Initializable {
 
     public void updateUser(){
         profileView.toFront();
-        headerController.getNameLabel().setText(dataManager.getCurrentUser().getName());
+        headerController.getNameLabel().textProperty().bind(dataManager.getCurrentUser().nameProperty());
         activityViewController.updateUser();
         addDataController.updateUser();
         viewGraphController.updateUser();
         profileViewController.updateUser();
         mapViewController.updateUser();
+        editProfileController.updateUser();
 
     }
 

@@ -15,7 +15,7 @@
    <children>
       <AnchorPane layoutX="75.0" layoutY="313.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0" prefWidth="850.0" styleClass="main-panel" stylesheets="@../style/style.css">
          <children>
-            <BarChart fx:id="activityGraph" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="251.0" prefWidth="850.0" title="Recent Activity">
+            <BarChart fx:id="activityGraph" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="251.0" prefWidth="850.0" styleClass="customLabels" title="Recent Activity">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -43,7 +43,7 @@
                         <Font size="58.0" />
                      </font>
                   </Label>
-                  <Label layoutX="73.0" layoutY="14.0" prefHeight="20.0" prefWidth="61.0" styleClass="customLabels" text="Distance" />
+                  <Label layoutX="73.0" layoutY="14.0" prefHeight="24.0" prefWidth="63.0" styleClass="customLabels" text="Distance" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@../style/style.css" GridPane.columnIndex="2" GridPane.columnSpan="2">
@@ -69,7 +69,7 @@
                         </Label>
                      </center>
                      <top>
-                        <Label prefHeight="31.0" prefWidth="47.0" styleClass="customLabels" text="BMI" BorderPane.alignment="CENTER" />
+                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="64.0" styleClass="customLabels" text="BMI" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@../style/style.css" GridPane.rowIndex="1">
@@ -81,7 +81,7 @@
                         </Label>
                      </center>
                      <top>
-                        <Label prefHeight="37.0" prefWidth="73.0" styleClass="customLabels" text="Weight" BorderPane.alignment="CENTER" />
+                        <Label alignment="CENTER" prefHeight="37.0" prefWidth="110.0" styleClass="customLabels" text="Weight" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
                </children>

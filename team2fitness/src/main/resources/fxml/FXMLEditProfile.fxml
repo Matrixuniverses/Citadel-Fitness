@@ -1,62 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="editScene" prefHeight="639.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.EditProfileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="main-panel" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.EditProfileController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@../style/style.css">
+      <Label alignment="CENTER" layoutX="55.0" layoutY="14.0" prefHeight="63.0" prefWidth="192.0" styleClass="customHeading" text="Update Profile" textAlignment="CENTER">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <GridPane alignment="CENTER" layoutX="15.0" layoutY="106.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="237.0" prefWidth="272.0" vgap="20.0">
          <children>
-            <Label fx:id="pageTitle" layoutX="389.0" layoutY="36.0" prefHeight="37.0" prefWidth="222.0" text="My Profile" textFill="#0d4868" underline="true">
-               <font>
-                  <Font name="System Bold Italic" size="27.0" />
-               </font>
-            </Label>
-            <AnchorPane fx:id="mapBox" layoutX="58.0" layoutY="128.0" prefHeight="459.0" prefWidth="885.0">
-               <children>
-                  <Text fill="#0d4868" layoutX="71.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="fNameField" layoutX="221.0" layoutY="23.0" promptText="John" />
-                  <Text fill="#0d4868" layoutX="68.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="lNameField" layoutX="224.0" layoutY="91.0" promptText="Smith" />
-                  <TextField fx:id="heightField" layoutX="222.0" layoutY="157.0" promptText="185cm" />
-                  <TextField fx:id="dobField" layoutX="224.0" layoutY="224.0" promptText="25/10/1997" />
-                  <TextField fx:id="weightField" layoutX="221.0" layoutY="287.0" promptText="79kg" />
-                  <ImageView fitHeight="250.0" fitWidth="250.0" layoutX="600.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="newPic" layoutX="625.0" layoutY="287.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="curve" text="New Profile Picture" />
-                  <Button fx:id="saveChanges" layoutX="699.0" layoutY="389.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="140.0" styleClass="curve" text="Save Changes" />
-                  <Text fill="#0d4868" layoutX="68.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
-                  <Text fill="#0d4868" layoutX="65.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
-                  <Text fill="#0d4868" layoutX="68.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Text>
-                  <Button fx:id="cancel" layoutX="542.0" layoutY="389.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="140.0" styleClass="curve" text="Cancel" />
-               </children>
-            </AnchorPane>
+            <TextField fx:id="nameField" alignment="CENTER" prefHeight="30.0" prefWidth="209.0" promptText="Name" />
+            <TextField fx:id="ageField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Age" GridPane.rowIndex="1" />
+            <TextField fx:id="heightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Height" GridPane.rowIndex="3" />
+            <TextField fx:id="weightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Weight" GridPane.rowIndex="2" />
          </children>
-      </AnchorPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="153.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints percentHeight="25.0" valignment="CENTER" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <Label fx:id="errorLabel" layoutX="20.0" layoutY="359.0" prefHeight="29.0" prefWidth="260.0" text="Error Message" textFill="RED" visible="false" />
+      <Button fx:id="updateButton" layoutX="36.0" layoutY="438.0" mnemonicParsing="false" onAction="#update" prefHeight="45.0" prefWidth="100.0" text="Update" />
+      <Button fx:id="closeButton" layoutX="168.0" layoutY="438.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="Close" />
    </children>
 </AnchorPane>
