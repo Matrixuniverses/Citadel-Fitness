@@ -13,7 +13,7 @@ public class Activity {
     private SimpleStringProperty activityType;
     private SimpleDoubleProperty totalTime;
     private SimpleDoubleProperty totalDistance;
-    private SimpleDoubleProperty averageHR;
+    private SimpleDoubleProperty caloriesBurned;
     private Date activityDate;
     private ArrayList<DataPoint> activityData = new ArrayList<>();
     //Will add code functionality later
@@ -24,7 +24,7 @@ public class Activity {
         this.activityType = new SimpleStringProperty("Exercise");
         this.totalTime = new SimpleDoubleProperty(10);
         this.totalDistance = new SimpleDoubleProperty(0);
-        this.averageHR = new SimpleDoubleProperty(0);
+        this.caloriesBurned = new SimpleDoubleProperty(0);
     }
 
     public Activity(String activityName, Date activityDate, String activityType, Double totalTime, Double totalDistance) {
@@ -33,7 +33,7 @@ public class Activity {
         this.activityDate = activityDate;
         this.totalTime = new SimpleDoubleProperty(totalTime);
         this.totalDistance = new SimpleDoubleProperty(totalDistance);
-        this.averageHR = new SimpleDoubleProperty(0);
+        this.caloriesBurned = new SimpleDoubleProperty(0);
         manualEntry = true;
     }
 
@@ -90,16 +90,16 @@ public class Activity {
         this.totalDistance.set(totalDistance);
     }
 
-    public double getAverageHR() {
-        return averageHR.get();
+    public double getCaloriesBurned() {
+        return caloriesBurned.get();
     }
 
-    public SimpleDoubleProperty averageHRProperty() {
-        return averageHR;
+    public SimpleDoubleProperty caloriesBurnedProperty() {
+        return caloriesBurned;
     }
 
-    public void setAverageHR(double averageHR) {
-        this.averageHR.set(averageHR);
+    public void setCaloriesBurned(double caloriesBurned) {
+        this.caloriesBurned.set(caloriesBurned);
     }
 
     public ArrayList<DataPoint> getActivityData() {
