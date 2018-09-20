@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane fx:id="mapViewScene" prefHeight="623.0" prefWidth="1000.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MapViewController">
+<AnchorPane fx:id="mapViewScene" prefHeight="623.0" prefWidth="1000.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.MapViewController">
    <children>
       <AnchorPane fx:id="mapBox1" layoutX="22.0" layoutY="125.0" prefHeight="459.0" prefWidth="743.0">
          <children>
