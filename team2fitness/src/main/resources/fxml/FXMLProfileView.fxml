@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="summaryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="main" stylesheets="@style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.ProfileController">
+<AnchorPane fx:id="summaryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.ProfileController">
    <children>
-      <AnchorPane layoutX="75.0" layoutY="366.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="218.0" prefWidth="850.0" styleClass="main-panel" stylesheets="@style.css">
+      <AnchorPane layoutX="75.0" layoutY="366.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="218.0" prefWidth="850.0" styleClass="main-panel" stylesheets="@../style/style.css">
          <children>
             <BarChart fx:id="activityGraph" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="850.0" title="Recent Activity">
               <xAxis>
@@ -50,14 +50,14 @@
                         <Font size="28.0" />
                      </font>
                   </Text>
-                  <Label fx:id="totalDistanceLabel" alignment="CENTER" layoutX="11.0" layoutY="83.0" prefHeight="85.0" prefWidth="186.0" stylesheets="@style.css" text="0" textAlignment="CENTER" textOverrun="CLIP">
+                  <Label fx:id="totalDistanceLabel" alignment="CENTER" layoutX="11.0" layoutY="83.0" prefHeight="85.0" prefWidth="186.0" stylesheets="@../style/style.css" text="0" textAlignment="CENTER" textOverrun="CLIP">
                      <font>
                         <Font size="58.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@style.css" GridPane.columnIndex="2" GridPane.columnSpan="2">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@../style/style.css" GridPane.columnIndex="2" GridPane.columnSpan="2">
                <children>
                   <Text layoutX="8.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Targets" wrappingWidth="148.1640625">
                      <font>
@@ -76,7 +76,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@style.css">
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@../style/style.css">
                      <top>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="main-panel" text="Current BMI" textAlignment="CENTER" wrappingWidth="135.1640625" BorderPane.alignment="CENTER">
                            <font>
@@ -92,7 +92,7 @@
                         </Label>
                      </center>
                   </BorderPane>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@style.css" GridPane.rowIndex="1">
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@../style/style.css" GridPane.rowIndex="1">
                      <top>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Weight" textAlignment="CENTER" wrappingWidth="156.1640625" BorderPane.alignment="CENTER">
                            <font>

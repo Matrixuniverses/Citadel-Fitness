@@ -13,9 +13,9 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="bodybg" stylesheets="@../style.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="bodybg" stylesheets="@../../style/style.css" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="152.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../style.css">
+                  <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="152.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../../style/style.css">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" prefHeight="24.0" prefWidth="45.0" text="BMI" textFill="#4dd9da">
                            <font>
@@ -29,8 +29,8 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="501.0" layoutY="14.0" prefHeight="309.0" prefWidth="283.0" styleClass="panelbg" stylesheets="@../style.css" />
-                  <LineChart layoutX="12.0" layoutY="333.0" prefHeight="208.0" prefWidth="774.0" style="title: #393e44;" stylesheets="@../style.css" title="Recent Activity">
+                  <AnchorPane layoutX="501.0" layoutY="14.0" prefHeight="309.0" prefWidth="283.0" styleClass="panelbg" stylesheets="@../../style/style.css" />
+                  <LineChart layoutX="12.0" layoutY="333.0" prefHeight="208.0" prefWidth="774.0" style="title: #393e44;" stylesheets="@../../style/style.css" title="Recent Activity">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -38,7 +38,7 @@
                       <NumberAxis side="LEFT" tickLabelFill="WHITE" />
                     </yAxis>
                   </LineChart>
-                  <AnchorPane layoutX="14.0" layoutY="172.0" prefHeight="153.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../style.css">
+                  <AnchorPane layoutX="14.0" layoutY="172.0" prefHeight="153.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../../style/style.css">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" prefHeight="24.0" prefWidth="187.0" text="Current Weight" textFill="#4dd9da">
                            <font>
@@ -52,7 +52,7 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="258.0" layoutY="172.0" prefHeight="153.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../style.css">
+                  <AnchorPane layoutX="258.0" layoutY="172.0" prefHeight="153.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../../style/style.css">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" prefHeight="24.0" prefWidth="45.0" text="BMI" textFill="#4dd9da">
                            <font>
@@ -66,7 +66,7 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="258.0" layoutY="14.0" prefHeight="153.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../style.css">
+                  <AnchorPane layoutX="258.0" layoutY="14.0" prefHeight="153.0" prefWidth="236.0" styleClass="panelbg" stylesheets="@../../style/style.css">
                      <children>
                         <Label layoutX="14.0" layoutY="14.0" prefHeight="24.0" prefWidth="182.0" text="Total Distance" textFill="#4dd9da">
                            <font>
@@ -84,7 +84,7 @@
             </AnchorPane>
          </center>
          <top>
-            <AnchorPane prefHeight="50.0" prefWidth="820.0" styleClass="navbg" stylesheets="@../style.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="50.0" prefWidth="820.0" styleClass="navbg" stylesheets="@../../style/style.css" BorderPane.alignment="CENTER">
                <children>
                   <Circle fill="WHITE" layoutX="771.0" layoutY="25.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
                   <Label layoutX="649.0" layoutY="18.0" text="Adam Conway" textFill="WHITE" />
@@ -99,9 +99,9 @@
       </BorderPane>
    </center>
    <left>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../style.css" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../../style/style.css" BorderPane.alignment="CENTER">
          <top>
-            <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="panelbg" stylesheets="@../style.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="50.0" prefWidth="200.0" styleClass="panelbg" stylesheets="@../../style/style.css" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="64.0" layoutY="2.0" text="Citadel" textFill="WHITE">
                      <font>
@@ -114,9 +114,9 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button layoutX="2.0" layoutY="28.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../style.css" text="Profile" textFill="WHITE" />
-                  <Button layoutX="2.0" layoutY="64.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../style.css" text="Activity" textFill="WHITE" />
-                  <Button layoutX="2.0" layoutY="100.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../style.css" text="Add Data" textFill="WHITE" />
+                  <Button layoutX="2.0" layoutY="28.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../../style/style.css" text="Profile" textFill="WHITE" />
+                  <Button layoutX="2.0" layoutY="64.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../../style/style.css" text="Activity" textFill="WHITE" />
+                  <Button layoutX="2.0" layoutY="100.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="navbg" stylesheets="@../../style/style.css" text="Add Data" textFill="WHITE" />
                </children>
             </AnchorPane>
          </center>

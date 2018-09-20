@@ -5,8 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import seng202.group2.view.AppController;
 
 import static javafx.application.Application.launch;
@@ -26,6 +26,9 @@ public class App extends Application
         Parent root = fxml.load();
         AppController controller = fxml.getController();
 //        mainStage.initStyle(StageStyle.UTILITY);
+
+
+
         mainStage.setTitle("Citadel Fitness");
         mainStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/icon.png")));;
         mainStage.setResizable(false);
