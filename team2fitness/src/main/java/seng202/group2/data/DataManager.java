@@ -128,7 +128,6 @@ public class DataManager {
     }
 
     public ObservableList<Activity> getActivityList() {
-        System.out.println(currentUser.getActivityList());
         return currentUser.getActivityList();
     }
 
