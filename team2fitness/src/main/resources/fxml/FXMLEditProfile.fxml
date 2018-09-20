@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="editScene" prefHeight="639.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.EditProfileController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@style.css">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="bodybg" stylesheets="@../style/style.css">
          <children>
             <Label fx:id="pageTitle" layoutX="389.0" layoutY="36.0" prefHeight="37.0" prefWidth="222.0" text="My Profile" textFill="#0d4868" underline="true">
                <font>

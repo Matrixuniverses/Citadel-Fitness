@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="createProfileScene" prefHeight="623.0" prefWidth="1193.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.CreateProfileController">
     <children>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1193.0" styleClass="bodybg" stylesheets="@style.css">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1193.0" styleClass="bodybg" stylesheets="@../style/style.css">
             <children>
                 <Label fx:id="pageTitle" layoutX="486.0" layoutY="37.0" prefHeight="37.0" prefWidth="222.0" text="Create Profile" textFill="#0d4868" underline="true">
                     <font>

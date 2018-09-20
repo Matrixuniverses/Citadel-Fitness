@@ -22,9 +22,21 @@
     -fx-background-color: #eaeaea;
 }
 
+@font-face {
+    src: url("fxml/Fran.ttf");
+}
+
 .main-panel {
     -fx-background-color: white;
     -fx-border-color: #d8d8d8;
+    -fx-text-fill: yellow;
+}
+
+.main-panel .label {
+    /*-fx-text-fill: #67B5E3;*/
+    -fx-text-fill: red;
+    -fx-font-family: "Francois One";
+    /*-fx-font-size: 20;*/
 }
 
 .main-panel Button {
@@ -48,19 +60,21 @@
 }
 
 .login {
-    -fx-background-color: white;
+    -fx-background-color: #d8d8d8;
+    -fx-text-fill: blue;
+
 }
 
-.login .table-view {
+/*.login .table-view {
     -fx-background-color: transparent;
 
 }
-
+!*
 .login .table-row-cell {
     -fx-cell-size: 40;
     -fx-background-color: white;
 
-}
+}*!*/
 
 .app {
     -fx-border-style: solid;
