@@ -3,6 +3,7 @@ package seng202.group2.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,6 +44,8 @@ public class ActivityViewController implements Initializable, UserData {
      */
     public void initialize(URL location, ResourceBundle resources) {
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
+
         activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Date>("date"));
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));

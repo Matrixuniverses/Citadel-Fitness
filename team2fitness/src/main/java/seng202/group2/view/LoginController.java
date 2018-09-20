@@ -95,7 +95,7 @@ public class LoginController implements Initializable {
         userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-
+        userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
 
     }

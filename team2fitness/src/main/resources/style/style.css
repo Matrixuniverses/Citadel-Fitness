@@ -31,11 +31,34 @@
     -fx-border-color: #d8d8d8;
 }
 
-.main-panel .label {
-    /*-fx-text-fill: #67B5E3;*/
-    -fx-text-fill: #ea9c3c;
-    -fx-font-family: "Francois One";
+.panel-header Label {
+    -fx-text-fill: black;
+}
+
+/*.main-panel Label {*/
+    /*-fx-text-fill: #67B5E3*/
+    /*!*-fx-text-fill: #ea9c3c;*!*/
+    /*-fx-text-fill: linear-gradient(to left, #4b5360 ,#36393f);*/
+    /*-fx-font-family: "Francois One";*/
     /*-fx-font-size: 20;*/
+/*}*/
+
+.customBig {
+    -fx-text-fill: linear-gradient(to left, #4b5360 ,#36393f);
+    -fx-font-family: "Francois One";
+    -fx-font-size: 20;
+}
+
+.customLabels {
+    -fx-text-fill: linear-gradient(to left, #4b5360 ,#36393f);
+    -fx-font-family: "Francois One";
+    -fx-font-size: 16;
+}
+
+.customAccent {
+    -fx-text-fill: #6dd8db;
+    -fx-font-family: "Francois One";
+    -fx-font-size: 50;
 }
 
 .login .table-view {
@@ -48,6 +71,7 @@
     -fx-font-family: "Francois One";
     -fx-text-fill: black;
 }
+
 
 /*Disables scroll bars for login table views.*/
 .login .table-view *.scroll-bar:horizontal *.increment-button,
