@@ -20,6 +20,9 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.InputMismatchException;
 
+/**
+ *Controller for AddData Scene
+ */
 public class AddDataController implements UserData {
 
     private File selectedFile;

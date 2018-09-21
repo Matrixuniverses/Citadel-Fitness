@@ -16,6 +16,9 @@ import seng202.group2.model.Route;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This initialises the MapView Scene and handles events within MapView
+ */
 public class MapViewController implements Initializable, UserData  {
 
     private DataManager dataManager;

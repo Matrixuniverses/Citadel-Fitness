@@ -13,6 +13,9 @@ import seng202.group2.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This Initialises the login Sceneand handles events for the Login Scene
+ */
 public class LoginController implements Initializable {
 
     private DataManager dataManager;

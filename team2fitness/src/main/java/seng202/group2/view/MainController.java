@@ -21,6 +21,9 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the main container, responsible for initialising all Views
+ */
 public class MainController implements UserData, Initializable {
 
     private SimpleStringProperty status = new SimpleStringProperty("loggedout");
@@ -50,7 +53,6 @@ public class MainController implements UserData, Initializable {
 
 
     // Views
-
     private AnchorPane activityView;
     private AnchorPane addDataView;
     private AnchorPane viewGraphScene;
@@ -62,8 +64,10 @@ public class MainController implements UserData, Initializable {
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
-
-
+    /**
+     * Initializes the data manager
+     * @param newDataManager DataManager Object
+     */
     @Override
     public void setDataManager(DataManager newDataManager) {
         this.dataManager = newDataManager;
@@ -76,6 +80,11 @@ public class MainController implements UserData, Initializable {
         editProfileController.setDataManager(dataManager);
     }
 
+    /**
+     * Initalizes the navbar and startup scenes
+     * @param location URL
+     * @param resources ResourceBundle
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeViews();
@@ -83,6 +92,10 @@ public class MainController implements UserData, Initializable {
         initializeActivityInfo();
     }
 
+    /**
+     * This adds all scenes to the mainStack so they can be called to front when required
+     * @throws IOException ex_
+     */
     private void initializeViews(){
         try {
             FXMLLoader loader;
@@ -131,6 +144,9 @@ public class MainController implements UserData, Initializable {
 
     }
 
+    /**
+     * This initializes the nav bar and adds a listener for navigation to new scenes
+     */
     public void initializeNavBar() {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -165,6 +181,9 @@ public class MainController implements UserData, Initializable {
 
     }
 
+    /**
+     * Initializes Activity info as the home scene after login
+     */
     public void initializeActivityInfo(){
         activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -195,6 +214,9 @@ public class MainController implements UserData, Initializable {
         });
     }
 
+    /**
+     * This processes all user update information including changing between users
+     */
     public void updateUser(){
         profileView.toFront();
         headerController.getNameLabel().textProperty().bind(dataManager.getCurrentUser().nameProperty());

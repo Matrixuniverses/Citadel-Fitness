@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * This is the controller for the main app responsible for initalizing the login and main scenes and listeners
+ */
 public class AppController implements Initializable {
 
     //Inject FXML
@@ -35,7 +38,11 @@ public class AppController implements Initializable {
 
     private DataManager dataManager;
 
-    //Initialize all Panes and Listeners
+    /**
+     * Initalises all panes and Listeners
+     * @param location
+     * @param resources
+     */
     public void initialize(URL location, ResourceBundle resources) {
         dataManager = new DataManager();
         initializeViews();

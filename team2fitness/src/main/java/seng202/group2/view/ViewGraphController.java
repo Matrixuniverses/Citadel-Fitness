@@ -14,6 +14,9 @@ import seng202.group2.data.DataManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for the ViewGraph Scene and handles events within this scene
+ */
 public class ViewGraphController implements UserData, Initializable{
 
     private DataManager dataManager;

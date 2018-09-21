@@ -11,16 +11,19 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for Activity Scene
+ */
 public class ActivityViewController implements Initializable, UserData {
 
     private DataManager dataManager;
 
-    @FXML
-    private Button detailButton;
+
 
     @FXML
     TableView<Activity> activityTable;
 
+    //Table Columns
     @FXML
     TableColumn activityDateCol;
 
@@ -36,10 +39,18 @@ public class ActivityViewController implements Initializable, UserData {
     @FXML
     TableColumn activityTimeCol;
 
+    //Buttons
+    @FXML
+    private Button detailButton;
+
     @FXML
     Button activityDeleteButton;
 
-
+    /**
+     * This initalizes the ActivityView scene
+     * @param location location URL
+     * @param resources FXML and css resources for Activity View
+     */
     public void initialize(URL location, ResourceBundle resources) {
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));

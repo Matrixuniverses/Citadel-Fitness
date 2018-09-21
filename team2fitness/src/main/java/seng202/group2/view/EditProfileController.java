@@ -12,6 +12,9 @@ import seng202.group2.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for EditProfile Scene, initializes and handles Scene events
+ */
 public class EditProfileController implements Initializable, UserData {
 
     @FXML

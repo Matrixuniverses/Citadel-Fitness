@@ -10,6 +10,9 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This is the controller for the Scene navigation bar
+ */
 public class NavBarController implements Initializable {
 
 

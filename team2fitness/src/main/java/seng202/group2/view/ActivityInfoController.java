@@ -18,6 +18,9 @@ import seng202.group2.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for Activity Information Scene
+ */
 public class ActivityInfoController implements Initializable, UserData {
 
     private DataManager dataManager;
@@ -30,6 +33,7 @@ public class ActivityInfoController implements Initializable, UserData {
     @FXML
     private LineChart<?, ?> activityChart;
 
+    //Labels
     @FXML
     private Label distanceLabel;
 
@@ -38,12 +42,6 @@ public class ActivityInfoController implements Initializable, UserData {
 
     @FXML
     private Label activityNameLabel;
-
-    @FXML
-    private Button closeButton;
-
-    @FXML
-    private Button editButton;
 
     @FXML
     private Label bpmLabel;
@@ -57,6 +55,20 @@ public class ActivityInfoController implements Initializable, UserData {
     @FXML
     private Label vmaxLabel;
 
+    //Buttons
+    @FXML
+    private Button closeButton;
+
+    @FXML
+    private Button editButton;
+
+
+
+    /**
+     * This initialises the webEngine and activityChart for the ActivityInfo Scene
+     * @param location URL location
+     * @param resources FXML and css resources for Activity info scene
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         webEngine = mapWebView.getEngine();
@@ -76,6 +88,10 @@ public class ActivityInfoController implements Initializable, UserData {
 
     }
 
+    /**
+     * This binds the activity information to its corresponding label
+     * @param activity activity object
+     */
     public void updateActivity(Activity activity) {
         activityNameLabel.textProperty().bind(activity.activityNameProperty());
         distanceLabel.textProperty().bind(Bindings.format("%.0f", activity.totalDistanceProperty()));
@@ -96,7 +112,6 @@ public class ActivityInfoController implements Initializable, UserData {
         XYChart.Series series = GraphGenerator.createTimeSeries(activity);
         activityChart.getData().add(series);
     }
-
 
     public Button getCloseButton(){
         return closeButton;

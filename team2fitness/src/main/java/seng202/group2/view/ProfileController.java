@@ -13,6 +13,9 @@ import seng202.group2.data.DataManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This controls the buttons and events for the ProfileView Scene
+ */
 public class ProfileController implements Initializable, UserData {
 
     private StringProperty currentView = new SimpleStringProperty();
