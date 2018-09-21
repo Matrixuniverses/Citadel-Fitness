@@ -34,7 +34,7 @@ public class Activity {
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty(activityType);
         this.activityDate = activityDate;
-        this.totalTime = new SimpleDoubleProperty(totalTime);
+        this.totalTime = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.#")).format(totalTime)));
         this.totalDistance = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
         this.averageHR = new SimpleDoubleProperty(0);
 
@@ -42,6 +42,21 @@ public class Activity {
         manualEntry = true;
     }
 
+    /**
+     * Sets the total time in seconds as formatted to 1dp
+     * @param totalTime Time to be formatted and set
+     */
+    public void setTotalTime(int totalTime) {
+        this.totalTime.set(Double.valueOf((new DecimalFormat("#.#")).format(totalTime)));
+    }
+
+    /**
+     * Sets the total time in meters as formatted to 2dp
+     * @param totalDistance Distance to be formatted and set
+     */
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance.set(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
+    }
 
     public void addDataPoint(DataPoint toAdd) {
         activityData.add(toAdd);
@@ -79,20 +94,12 @@ public class Activity {
         return totalTime;
     }
 
-    public void setTotalTime(int totalTime) {
-        this.totalTime.set(totalTime);
-    }
-
     public double getTotalDistance() {
         return totalDistance.get();
     }
 
     public SimpleDoubleProperty totalDistanceProperty() {
         return totalDistance;
-    }
-
-    public void setTotalDistance(double totalDistance) {
-        this.totalDistance.set(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
     }
 
     public double getCaloriesBurned() {

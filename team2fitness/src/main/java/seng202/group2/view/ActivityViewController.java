@@ -34,14 +34,12 @@ public class ActivityViewController implements Initializable, UserData {
     TableColumn activityDistanceCol;
 
     @FXML
+    TableColumn activityTimeCol;
+
+    @FXML
     Button activityDeleteButton;
 
 
-    /**
-     * Initializes the activity table. Sets the Col's to display the right fields of activity
-     * @param location
-     * @param resources
-     */
     public void initialize(URL location, ResourceBundle resources) {
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
@@ -50,6 +48,7 @@ public class ActivityViewController implements Initializable, UserData {
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));
+        activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalTime"));
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
@@ -65,9 +64,6 @@ public class ActivityViewController implements Initializable, UserData {
     }
 
     public void updateUser() {
-
-//        activityTable.getItems().clear();
-
         activityTable.setItems(dataManager.getActivityList());
     }
 
