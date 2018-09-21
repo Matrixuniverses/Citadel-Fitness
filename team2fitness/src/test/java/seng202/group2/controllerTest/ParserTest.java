@@ -79,7 +79,7 @@ public class ParserTest {
             distance += DataAnalyzer.calcDistance(30.248482, -97.820708, 30.24915, -97.820722);
 
             ArrayList<Activity> test = testParser.getActivitiesRead();
-            assertEquals(distance, test.get(0).getTotalDistance());
+            assertEquals(distance, test.get(0).getTotalDistance(), 0.01);
         } catch (Exception e) {
             fail("Should not throw exception.");
         }
@@ -96,7 +96,7 @@ public class ParserTest {
             distance += DataAnalyzer.calcDistance(30.24918893, -97.82028189, 30.24925263, -97.82029614);
             distance += DataAnalyzer.calcDistance(30.24925263, -97.82029614, 30.24929379, -97.82031097);
             ArrayList<Activity> test = testParser.getActivitiesRead();
-            assertEquals(distance, test.get(6).getTotalDistance());
+            assertEquals(distance, test.get(6).getTotalDistance(), 0.01);
         } catch (Exception e) {
             fail("Should not throw exception.");
         }
