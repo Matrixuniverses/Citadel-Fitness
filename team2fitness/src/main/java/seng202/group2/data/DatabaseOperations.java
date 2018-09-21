@@ -27,6 +27,7 @@ public class DatabaseOperations {
             Class.forName(driver);
             SQLiteConfig sqlConfig = configureSQl();
             dbConn = DriverManager.getConnection(dbURL, sqlConfig.toProperties());
+            sqlConfig.apply(dbConn);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -82,6 +83,8 @@ public class DatabaseOperations {
     public static void createDatabase() throws SQLException {
         connectToDB();
         if (dbConn != null) {
+            String sqlEnableForeignKeyDelete = "PRAGMA foreign_keys = ON;";
+
             String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS Users (\n"
                     + "user_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "name varchar(100) NOT NULL, \n"
@@ -130,7 +133,7 @@ public class DatabaseOperations {
                     + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE\n"
                     + ");";
 
-
+            executeSQLStatement(sqlEnableForeignKeyDelete, dbConn);
             executeSQLStatement(sqlCreateUserTable, dbConn);
             executeSQLStatement(sqlCreateActivityTable, dbConn);
             executeSQLStatement(sqlCreateDatapointTable, dbConn);
