@@ -55,6 +55,13 @@ public class User {
         setupDatabaseHandlers();
     }
 
+    /**
+     * Constructor for a new user. Name, age, height and weight are required
+     * @param name the users name
+     * @param age the users age
+     * @param height the users height
+     * @param weight the users weight
+     */
     public User(String name, int age, double height, double weight){
         this.name = new SimpleStringProperty(name);
         this.age = new SimpleIntegerProperty(age);
@@ -74,8 +81,7 @@ public class User {
         setupDatabaseHandlers();
     }
 
-
-    /*
+    /**
      * assigns listeners to all properties that are stored in the data. When changed it updates the data.
      */
     private void setupDatabaseHandlers() {
@@ -137,6 +143,10 @@ public class User {
         }
     }
 
+    /**
+     * This returns the total distance the user has traveled
+     * @return double totalDistance
+     */
     private double calculateTotalUserDistance(){
         double totalDistance = 0;
         for (Activity activity : activityList){
@@ -145,6 +155,10 @@ public class User {
         return totalDistance;
     }
 
+    /**
+     * This calculated the average heart rate and calories for the activity and then adds the activity to the activityList
+     * @param activity activity object
+     */
     public void addActivity(Activity activity){
         double avgHR = DataAnalyzer.calcAverageHR(activity);
         double caloriesBurned = DataAnalyzer.calcCalories(this.getAge(), this.getWeight(), avgHR, activity.getTotalTime(), true);
@@ -152,78 +166,146 @@ public class User {
         this.activityList.add(activity);
     }
 
+    /**
+     * This removes an activity from the activity list
+     * @param activity activity Object
+     */
     public void deleteActivity(Activity activity) {
         this.activityList.remove(activity);
     }
 
+    /**
+     * This returns the id of the user
+     * @return returns int id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * This sets the id for the user
+     * @param id id of the user
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * This returns the name of the user with type String
+     * @return returns String name
+     */
     public String getName() {
         return name.get();
     }
 
+    /**
+     * This returns the name of the user with type StringProperty
+     * @return returns StringProperty name
+     */
     public StringProperty nameProperty() {
         return name;
     }
 
+    /**
+     * This sets the name of the user -Type String
+     * @param name name of the user
+     */
     public void setName(String name) {
         this.name.set(name);
     }
 
+    /**
+     * This returns the age of the user with type Integer
+     * @return returns int age
+     */
     public int getAge() {
         return age.get();
     }
 
+    /**
+     * This returns the age of the user with type IntegerProperty
+     * @return returns IntegerProperty age
+     */
     public IntegerProperty ageProperty() {
         return age;
     }
 
+    /**
+     * This sets the age of the user -type int
+     * @param age age of the user
+     */
     public void setAge(int age) {
         this.age.set(age);
     }
 
+    /**
+     * This returns the height of the user -type Double
+     * @return returns double height
+     */
     public double getHeight() {
         return height.get();
     }
 
+    /**
+     * This returns the height of the user -type DoubleProperty
+     * @return returns DoubleProperty height
+     */
     public DoubleProperty heightProperty() {
         return height;
     }
 
+    /**
+     * This sets the height of the user -type double
+     * @param height height of the user
+     */
     public void setHeight(double height) {
         this.height.set(height);
     }
 
+    /**
+     * This returns the weight of the user -type Double
+     * @return returns double weight
+     */
     public double getWeight() {
         return weight.get();
     }
 
+    /**
+     * This returns the weight of the user -type DoubleProperty
+     * @return returns DoubleProperty weight
+     */
     public DoubleProperty weightProperty() {
         return weight;
     }
 
+    /**
+     * This sets the weight of the user -type Double
+     * @param weight weight of the user
+     */
     public void setWeight(double weight) {
         this.weight.set(weight);
     }
 
+    /**
+     * This returns the current BMI of the user -type Double
+     * @return returns double bmi
+     */
     public double getBmi() {
         return bmi.get();
     }
 
+    /**
+     * This returns current BMI of the user -type DoubleProperty
+     * @return returns DoubleProperty bmi
+     */
     public DoubleProperty bmiProperty() {
         return bmi;
     }
 
-    public void setBmi(double bmi) {
-        this.bmi.set(bmi);
-    }
-
+    /**
+     * This returns a list of the current users activities
+     * @return returns Activity activityList
+     */
     public ObservableList<Activity> getActivityList() {
         return activityList;
     }
@@ -232,23 +314,27 @@ public class User {
         this.activityList = activityList;
     }
 
+    /**
+     * This returns the current users list of targets
+     * @return returns Target targetList
+     */
     public ObservableList<Target> getTargetList() {
         return targetList;
     }
 
-    public void setTargetList(ObservableList<Target> targetList) {
-        this.targetList = targetList;
-    }
-
+    /**
+     * This returns the users total distance -type Double
+     * @return returns double totalDistance
+     */
     public double getTotalDistance() {
         return totalDistance.get();
     }
 
+    /**
+     * This returns the users total distance -type DoubleProperty
+     * @return returns DoubleProperty totalDistance
+     */
     public DoubleProperty totalDistanceProperty() {
         return totalDistance;
-    }
-
-    public void setTotalDistance(double totalDistance) {
-        this.totalDistance.set(totalDistance);
     }
 }
