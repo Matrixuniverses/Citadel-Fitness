@@ -49,8 +49,13 @@ public class LoginController implements Initializable {
 
 
     public void login(){
-        dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
-        status.setValue("logged in");
+        if (userTable.getSelectionModel().getSelectedItem() != null) {
+            dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
+            status.setValue("logged in");
+        } else {
+            userTable.setPlaceholder(new Label("Please create a user before logging in"));
+        }
+
     }
 
     public void create() {

@@ -45,19 +45,19 @@
 
 .customHeading {
     -fx-text-fill: linear-gradient(to left, #4b5360 ,#36393f);
-    -fx-font-family: "Francois One Regular";
+    -fx-font-family: "Francois One";
     -fx-font-size: 26;
 }
 
 .customLabels {
     -fx-text-fill: linear-gradient(to left, #4b5360 ,#36393f);
-    -fx-font-family: "Francois One Regular";
+    -fx-font-family: "Francois One";
     -fx-font-size: 16;
 }
 
 .customAccent {
     -fx-text-fill: #6dd8db;
-    -fx-font-family: "Francois One Regular";
+    -fx-font-family: "Francois One";
     -fx-font-size: 50;
 }
 
@@ -71,7 +71,7 @@
 
 .customTable {
     -fx-background-color: white;
-    -fx-font-family: "Francois One Regular";
+    -fx-font-family: "Francois One";
     -fx-text-fill: #4b5360;
     -fx-table-cell-border-color: transparent;
 }
