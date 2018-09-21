@@ -27,7 +27,6 @@ public class DatabaseOperations {
             Class.forName(driver);
             SQLiteConfig sqlConfig = configureSQl();
             dbConn = DriverManager.getConnection(dbURL, sqlConfig.toProperties());
-            sqlConfig.apply(dbConn);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

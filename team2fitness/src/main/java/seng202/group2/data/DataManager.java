@@ -118,8 +118,12 @@ public class DataManager {
      * @param activity
      */
     public void deleteActivity(Activity activity) {
-        // TODO Add Database Connection!
-        currentUser.deleteActivity(activity);
+        try {
+            ActivityDBOperations.deleteExistingActivity(activity.getId());
+            currentUser.deleteActivity(activity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateActivity(Activity activity) {

@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.Activity;
 
 import java.io.IOException;
 import java.net.URL;
@@ -168,9 +169,20 @@ public class MainController implements UserData, Initializable {
         activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (activityViewController.getActivityTable().getSelectionModel().getSelectedItem() != null) {
-                    activityInfoController.updateActivity(activityViewController.getActivityTable().getSelectionModel().getSelectedItem());
+                Activity selected = activityViewController.getActivityTable().getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    activityInfoController.updateActivity(selected);
                     activityInfo.toFront();
+                }
+            }
+        });
+
+        activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Activity selected = activityViewController.getActivityTable().getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    dataManager.deleteActivity(selected);
                 }
             }
         });
