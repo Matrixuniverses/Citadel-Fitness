@@ -16,6 +16,7 @@
 
 .navbar Button:hover {
     -fx-text-fill: orange;
+    -fx-font-size: 15px;
 }
 
 .navbar-header {
@@ -56,7 +57,8 @@
 }
 
 .customAccent {
-    -fx-text-fill: #6dd8db;
+    /*-fx-text-fill: #6dd8db;*/
+    -fx-text-fill: #2d3035;
     -fx-font-family: "Francois One";
     -fx-font-size: 50;
 }
