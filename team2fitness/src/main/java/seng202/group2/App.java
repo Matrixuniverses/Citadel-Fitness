@@ -5,11 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import seng202.group2.view.AppController;
-
-import static javafx.application.Application.launch;
 
 /**
  * Hello world!
@@ -19,14 +16,16 @@ public class App extends Application
 {
     public static Stage mainStage;
 
+    @Override
     public void start(Stage mainStage) throws Exception{
         this.mainStage = mainStage;
+
         FXMLLoader fxml = new FXMLLoader();
         fxml.setLocation(getClass().getResource("/fxml/FXMLApp.fxml"));
         Parent root = fxml.load();
+        root.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
         AppController controller = fxml.getController();
 //        mainStage.initStyle(StageStyle.UTILITY);
-
 
 
         mainStage.setTitle("Citadel Fitness");
