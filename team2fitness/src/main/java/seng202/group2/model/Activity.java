@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.chart.XYChart;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -34,7 +35,7 @@ public class Activity {
         this.activityType = new SimpleStringProperty(activityType);
         this.activityDate = activityDate;
         this.totalTime = new SimpleDoubleProperty(totalTime);
-        this.totalDistance = new SimpleDoubleProperty(totalDistance);
+        this.totalDistance = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
         this.averageHR = new SimpleDoubleProperty(0);
 
         this.caloriesBurned = new SimpleDoubleProperty(0);
@@ -91,7 +92,7 @@ public class Activity {
     }
 
     public void setTotalDistance(double totalDistance) {
-        this.totalDistance.set(totalDistance);
+        this.totalDistance.set(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
     }
 
     public double getCaloriesBurned() {
