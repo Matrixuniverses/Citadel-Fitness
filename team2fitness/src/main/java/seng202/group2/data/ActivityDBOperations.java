@@ -84,6 +84,7 @@ public class ActivityDBOperations {
         int activity_id = results.getInt(1);
 
 
+        pUpdateStatement.close();
         DatabaseOperations.disconnectFromDB();
         return activity_id;
 
@@ -196,6 +197,7 @@ public class ActivityDBOperations {
             pUpdateStatement.setInt(8, activity.getId());
             pUpdateStatement.executeUpdate();
 
+            pUpdateStatement.close();
             DatabaseOperations.disconnectFromDB();
 
             return true;
@@ -220,6 +222,8 @@ public class ActivityDBOperations {
         Connection dbConn = DatabaseOperations.getDbConnection();
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, activityID);
+        pDeleteStmt.executeUpdate();
+
         pDeleteStmt.executeUpdate();
         DatabaseOperations.disconnectFromDB();
 

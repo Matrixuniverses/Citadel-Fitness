@@ -152,6 +152,7 @@ public class DatapointDBOperations {
         result.next();
         int datapointID = result.getInt(1);
 
+        pUpdateStatement.close();
         DatabaseOperations.disconnectFromDB();
         return datapointID;
 
@@ -201,6 +202,7 @@ public class DatapointDBOperations {
             pUpdateStatement.setInt(7, updatedDP.getId());
             pUpdateStatement.executeUpdate();
 
+            pUpdateStatement.close();
             DatabaseOperations.disconnectFromDB();
             return true;
 
@@ -226,6 +228,8 @@ public class DatapointDBOperations {
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, datapointID);
         pDeleteStmt.executeUpdate();
+
+        pDeleteStmt.close();
         DatabaseOperations.disconnectFromDB();
         if (getDataPointFromRS(datapointID) == null) {
             return true;

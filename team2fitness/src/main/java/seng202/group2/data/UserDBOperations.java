@@ -110,6 +110,7 @@ public class UserDBOperations {
         results.next();
         int user_id = results.getInt(1);
 
+        pInsertStmt.close();
         DatabaseOperations.disconnectFromDB();
         return user_id;
 
@@ -137,6 +138,8 @@ public class UserDBOperations {
             pUpdateStatement.setDouble(4, user.getWeight());
             pUpdateStatement.setInt(5, user.getId());
             pUpdateStatement.executeUpdate();
+
+            pUpdateStatement.close();
             DatabaseOperations.disconnectFromDB();
             return true;
         } else {
@@ -162,6 +165,8 @@ public class UserDBOperations {
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, userId);
         pDeleteStmt.executeUpdate();
+
+        pDeleteStmt.close();
         DatabaseOperations.disconnectFromDB();
         if (getUserFromRS(userId) == null) {
             return true;
