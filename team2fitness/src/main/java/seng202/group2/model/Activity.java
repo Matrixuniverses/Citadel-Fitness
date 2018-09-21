@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.chart.XYChart;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -50,12 +51,28 @@ public class Activity {
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty(activityType);
         this.activityDate = activityDate;
-        this.totalTime = new SimpleDoubleProperty(totalTime);
-        this.totalDistance = new SimpleDoubleProperty(totalDistance);
+        this.totalTime = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.#")).format(totalTime)));
+        this.totalDistance = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
         this.averageHR = new SimpleDoubleProperty(0);
 
         this.caloriesBurned = new SimpleDoubleProperty(0);
         manualEntry = true;
+    }
+
+    /**
+     * Sets the total time in seconds as formatted to 1dp
+     * @param totalTime Time to be formatted and set
+     */
+    public void setTotalTime(int totalTime) {
+        this.totalTime.set(Double.valueOf((new DecimalFormat("#.#")).format(totalTime)));
+    }
+
+    /**
+     * Sets the total time in meters as formatted to 2dp
+     * @param totalDistance Distance to be formatted and set
+     */
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance.set(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
     }
 
     /**
@@ -130,18 +147,6 @@ public class Activity {
         return totalTime;
     }
 
-    /**
-     * This sets the totalTime of the activity
-     * @param totalTime total time of the activity
-     */
-    public void setTotalTime(int totalTime) {
-        this.totalTime.set(totalTime);
-    }
-
-    /**
-     * This returns the total distance of the activity as a double
-     * @return returns double totalDistance
-     */
     public double getTotalDistance() {
         return totalDistance.get();
     }
@@ -154,18 +159,6 @@ public class Activity {
         return totalDistance;
     }
 
-    /**
-     * This sets the totalDistance of the activity
-     * @param totalDistance total distance of the activity
-     */
-    public void setTotalDistance(double totalDistance) {
-        this.totalDistance.set(totalDistance);
-    }
-
-    /**
-     * This returns the calories burned during the activity as a double
-     * @return returns double caloriesBurned
-     */
     public double getCaloriesBurned() {
         return caloriesBurned.get();
     }

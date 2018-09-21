@@ -19,6 +19,7 @@
             <TableColumn fx:id="activityNameCol" editable="false" prefWidth="164.0" text="Name" />
             <TableColumn fx:id="activityTypeCol" editable="false" prefWidth="163.0" text="Type" />
             <TableColumn fx:id="activityDistanceCol" editable="false" maxWidth="204.0" prefWidth="162.0" text="Total Distance" />
+            <TableColumn fx:id="activityTimeCol" editable="false" maxWidth="204.0" prefWidth="162.0" text="Total Time" />
          </columns>
       </TableView>
       <Button fx:id="activityDeleteButton" layoutX="784.0" layoutY="611.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="207.0" text="Delete Activity(s)" />
