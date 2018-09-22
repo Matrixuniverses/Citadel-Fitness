@@ -1,5 +1,6 @@
 package seng202.group2.view;
 
+import javafx.animation.AnimationTimer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -58,9 +59,16 @@ public class LoginController implements Initializable {
     @FXML
     private ChoiceBox<String> genderChoiceBox;
 
+    private int rotate;
+
+    private double size;
+
+    boolean moveBack = false;
 
 
-    public void login(){
+    public void login() {
+
+
         if (userTable.getSelectionModel().getSelectedItem() != null) {
             dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
             status.setValue("logged in");
@@ -121,6 +129,17 @@ public class LoginController implements Initializable {
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         Image logo = new Image("/images/citadelLogo.png");
         imageViewLogo.setImage(logo);
+
+        rotate = 0;
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                rotate++;
+                imageViewLogo.setRotate(rotate);
+            }
+        };
+        timer.start();
 
     }
 }
