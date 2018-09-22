@@ -66,6 +66,12 @@ public class ViewGraphController implements UserData, Initializable{
     public void updateGraph() {
         lineChart.getData().removeAll(lineChart.getData());
         ObservableList<Activity> activityList = activityTable.getSelectionModel().getSelectedItems();
+
+        if (activityList.size() > 1) {
+            lineChart.setCreateSymbols(false);
+        } else {
+            lineChart.setCreateSymbols(true);
+        }
         ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
         for (Activity activity : activityList) {
             XYChart.Series series = GraphGenerator.createTimeSeries(activity);
