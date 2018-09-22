@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -54,6 +55,9 @@ public class LoginController implements Initializable {
     @FXML
     private ImageView imageViewLogo;
 
+    @FXML
+    private ChoiceBox<String> genderChoiceBox;
+
 
 
     public void login(){
@@ -72,7 +76,9 @@ public class LoginController implements Initializable {
             Integer age = Integer.valueOf(ageField.getText());
             Double height = Double.valueOf(heightField.getText());
             Float weight = Float.valueOf(weightField.getText());
-            dataManager.addUser(name, age, height, weight);
+            String gender = genderChoiceBox.getValue();
+
+            dataManager.addUser(name, age, height, weight, gender);
             errorLabel.setText("User '" + name + "' successfully created.");
             errorLabel.setVisible(true);
         } catch (Exception e){
@@ -103,6 +109,13 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
+        ArrayList<String> genders = new ArrayList<String>();
+        genders.add("Male");
+        genders.add("Female");
+        ObservableList<String> gendersList = FXCollections.observableArrayList(genders);
+        genderChoiceBox.setItems(gendersList);
 
         userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
