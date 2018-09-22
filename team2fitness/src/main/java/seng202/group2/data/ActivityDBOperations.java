@@ -34,9 +34,9 @@ public class ActivityDBOperations {
         // TODO - Check if the distances for the comparable activities are within a specific range
 
         String dateString = activityToCheck.getDate().toString();
-        String sqlQueryStatement = "SELECT date_string, name FROM Activities WHERE user_id = "
+        String sqlQueryStmt = "SELECT date_string, name FROM Activities WHERE user_id = "
                 + user_id + " AND date_string = '" + dateString + "'";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
 
         if (queryResult.next()) {
             if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
@@ -54,13 +54,13 @@ public class ActivityDBOperations {
      * Inserts a new activity into the database, if the user exists in the database
      *
      * @param activity Activity to insert
-     * @param user_id  UserID of the user that the activity will be written to
+     * @param userID UserID of the user that the activity will be written to
      * @return ActivityID of the inserted activity, -1 if the user is not in the database
      * @throws SQLException If unable to read/ write from/ to database
      */
-    public static int insertNewActivity(Activity activity, int user_id) throws SQLException {
+    public static int insertNewActivity(Activity activity, int userID) throws SQLException {
         // Check the user exists in the database
-        if (UserDBOperations.getUserFromRS(user_id) == null) {
+        if (UserDBOperations.getUserFromRS(userID) == null) {
             return -1;
         }
 
@@ -71,24 +71,24 @@ public class ActivityDBOperations {
 
         Connection dbConn = DatabaseOperations.getDbConnection();
 
-        PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlInsertStmt);
-        pUpdateStatement.setInt(1, user_id);
-        pUpdateStatement.setString(2, activity.getActivityName());
-        pUpdateStatement.setString(3, activity.getDate().toString());
-        pUpdateStatement.setDate(4, new java.sql.Date(activity.getDate().getTime()));
-        pUpdateStatement.setString(5, activity.getActivityType());
-        pUpdateStatement.setDouble(6, activity.getTotalDistance());
-        pUpdateStatement.setDouble(7, activity.getTotalTime());
-        pUpdateStatement.setDouble(8, activity.getCaloriesBurned());
-        pUpdateStatement.executeUpdate();
+        PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
+        pUpdateStmt.setInt(1, userID);
+        pUpdateStmt.setString(2, activity.getActivityName());
+        pUpdateStmt.setString(3, activity.getDate().toString());
+        pUpdateStmt.setDate(4, new java.sql.Date(activity.getDate().getTime()));
+        pUpdateStmt.setString(5, activity.getActivityType());
+        pUpdateStmt.setDouble(6, activity.getTotalDistance());
+        pUpdateStmt.setDouble(7, activity.getTotalTime());
+        pUpdateStmt.setDouble(8, activity.getCaloriesBurned());
+        pUpdateStmt.executeUpdate();
 
-        ResultSet results = pUpdateStatement.getGeneratedKeys();
+        ResultSet results = pUpdateStmt.getGeneratedKeys();
         results.next();
 
         int activity_id = results.getInt(1);
 
 
-        pUpdateStatement.close();
+        pUpdateStmt.close();
         DatabaseOperations.disconnectFromDB();
         return activity_id;
 
@@ -97,15 +97,15 @@ public class ActivityDBOperations {
     /**
      * Creates a new JavaFX ObservableList containing all of the users activities in the database
      *
-     * @param user_id UserID of the activities to read from database
+     * @param userID UserID of the activities to read from database
      * @return Observable List of the Users activities
      * @throws SQLException If unable to read/ write from/ to database
      */
-    public static ObservableList<Activity> getAllUsersActivities(int user_id) throws SQLException {
+    public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
         //TODO - Change this to avoid duplicate code
 
         DatabaseOperations.connectToDB();
-        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + user_id + " ORDER BY date;";
+        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + userID + " ORDER BY date;";
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
 
         ObservableList<Activity> userActivities = FXCollections.observableArrayList();
@@ -140,18 +140,18 @@ public class ActivityDBOperations {
 
     /**
      * Gets a specific activity from the database that matches the activityID
-     * @param activity_id ActivityID of the activity to get from the database
+     * @param activityID ActivityID of the activity to get from the database
      * @return Activity retrieved from database
      * @throws SQLException If unable to read from database
      */
-    public static Activity getActivityFromDB(int activity_id) throws SQLException {
+    public static Activity getActivityFromDB(int activityID) throws SQLException {
         DatabaseOperations.connectToDB();
-        String sqlQuery = "SELECT * FROM Activities WHERE activity_id = " + activity_id + ";";
+        String sqlQuery = "SELECT * FROM Activities WHERE activity_id = " + activityID + ";";
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
         Activity retrievedActivity = null;
 
         if (queryResult.next()) {
-            int activityID = queryResult.getInt("activity_id");
+            //int activityID = queryResult.getInt("activity_id");
             String activityName = queryResult.getString("name");
             java.util.Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
@@ -190,18 +190,18 @@ public class ActivityDBOperations {
             DatabaseOperations.connectToDB();
             Connection dbConn = DatabaseOperations.getDbConnection();
 
-            PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlUpdateStmt);
-            pUpdateStatement.setString(1, activity.getActivityName());
-            pUpdateStatement.setString(2, activity.getDate().toString());
-            pUpdateStatement.setDate(3, new java.sql.Date(activity.getDate().getTime()));
-            pUpdateStatement.setString(4, activity.getActivityType());
-            pUpdateStatement.setDouble(5, activity.getTotalDistance());
-            pUpdateStatement.setDouble(6, activity.getTotalTime());
-            pUpdateStatement.setDouble(7, activity.getCaloriesBurned());
-            pUpdateStatement.setInt(8, activity.getId());
-            pUpdateStatement.executeUpdate();
+            PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
+            pUpdateStmt.setString(1, activity.getActivityName());
+            pUpdateStmt.setString(2, activity.getDate().toString());
+            pUpdateStmt.setDate(3, new java.sql.Date(activity.getDate().getTime()));
+            pUpdateStmt.setString(4, activity.getActivityType());
+            pUpdateStmt.setDouble(5, activity.getTotalDistance());
+            pUpdateStmt.setDouble(6, activity.getTotalTime());
+            pUpdateStmt.setDouble(7, activity.getCaloriesBurned());
+            pUpdateStmt.setInt(8, activity.getId());
+            pUpdateStmt.executeUpdate();
 
-            pUpdateStatement.close();
+            pUpdateStmt.close();
             DatabaseOperations.disconnectFromDB();
 
             return true;

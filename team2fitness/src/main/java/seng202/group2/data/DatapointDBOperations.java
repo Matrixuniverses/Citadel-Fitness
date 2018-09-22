@@ -23,13 +23,13 @@ public class DatapointDBOperations {
      * or the activity has no datapoints in the data an empty ObservableList is returned. The Datapoints in the
      * ObservableList are sorted in order by their date from oldest to most recent.
      * This function automatically connects to and disconnects from the data.
-     * @param activity_id The id of the activity that's datapoints are being queried for as an integer.
+     * @param activityID The id of the activity that's datapoints are being queried for as an integer.
      * @return an ObservableList of the Datapoints that are returned by the query.
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
-    public static ObservableList<DataPoint> getAllActivityDatapoints(int activity_id) throws SQLException {
+    public static ObservableList<DataPoint> getAllActivityDatapoints(int activityID) throws SQLException {
         DatabaseOperations.connectToDB();
-        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE activity_id = " + activity_id + " ORDER BY dp_date";
+        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE activity_id = " + activityID + " ORDER BY dp_date";
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
 
         ObservableList<DataPoint> activityDatapoints = FXCollections.observableArrayList();
@@ -71,18 +71,18 @@ public class DatapointDBOperations {
      * data with a matching ID it is returned by the function. If the Query fails to find a Datapoint with the
      * specified ID or the ID is invalid a null value is returned by the function.
      * This function automatically connects to and disconnects from the data.
-     * @param datapoint_id The ID of the data point being queried for as an integer
+     * @param datapointID The ID of the data point being queried for as an integer
      * @return The Datapoint that has been quered for from the data if the datapoint_id exists, null otherwise.
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
-    public static DataPoint getDataPointFromRS(int datapoint_id) throws SQLException {
+    public static DataPoint getDataPointFromRS(int datapointID) throws SQLException {
         DatabaseOperations.connectToDB();
-        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = " + datapoint_id;
+        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = " + datapointID;
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
 
         DataPoint retrievedDataPoint = null;
         if (queryResult.next()) {
-            int datapointID = queryResult.getInt("dp_id");
+            //int datapointID = queryResult.getInt("dp_id");
             java.util.Date datapointDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
 
@@ -141,23 +141,23 @@ public class DatapointDBOperations {
 
         Connection dbConn = DatabaseOperations.getDbConnection();
 
-        PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlInsertStmt);
-        pUpdateStatement.setInt(1, activityID);
-        pUpdateStatement.setString(2, datapoint.getDate().toString());
-        pUpdateStatement.setDate(3, new java.sql.Date(datapoint.getDate().getTime()));
-        pUpdateStatement.setInt(4, datapoint.getHeartRate());
-        pUpdateStatement.setDouble(5, datapoint.getLatitude());
-        pUpdateStatement.setDouble(6, datapoint.getLongitude());
-        pUpdateStatement.setDouble(7, datapoint.getAltitude());
-        pUpdateStatement.setDouble(8, datapoint.getTimeDelta());
-        pUpdateStatement.setDouble(9, datapoint.getDistanceDelta());
-        pUpdateStatement.executeUpdate();
+        PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
+        pUpdateStmt.setInt(1, activityID);
+        pUpdateStmt.setString(2, datapoint.getDate().toString());
+        pUpdateStmt.setDate(3, new java.sql.Date(datapoint.getDate().getTime()));
+        pUpdateStmt.setInt(4, datapoint.getHeartRate());
+        pUpdateStmt.setDouble(5, datapoint.getLatitude());
+        pUpdateStmt.setDouble(6, datapoint.getLongitude());
+        pUpdateStmt.setDouble(7, datapoint.getAltitude());
+        pUpdateStmt.setDouble(8, datapoint.getTimeDelta());
+        pUpdateStmt.setDouble(9, datapoint.getDistanceDelta());
+        pUpdateStmt.executeUpdate();
 
-        ResultSet result = pUpdateStatement.getGeneratedKeys();
+        ResultSet result = pUpdateStmt.getGeneratedKeys();
         result.next();
         int datapointID = result.getInt(1);
 
-        pUpdateStatement.close();
+        pUpdateStmt.close();
         DatabaseOperations.disconnectFromDB();
         return datapointID;
 
@@ -168,7 +168,7 @@ public class DatapointDBOperations {
     public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException{
 
 
-        ResultSet results = pUpdateStatement.getGeneratedKeys();
+        ResultSet results = pUpdateStmt.getGeneratedKeys();
         results.next();
         int datapoint_id = results.getInt(1);
 
@@ -197,17 +197,17 @@ public class DatapointDBOperations {
             DatabaseOperations.connectToDB();
             Connection dbConn = DatabaseOperations.getDbConnection();
 
-            PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlUpdateStmt);
-            pUpdateStatement.setString(1, updatedDP.getDate().toString());
-            pUpdateStatement.setDate(2, new java.sql.Date(updatedDP.getDate().getTime()));
-            pUpdateStatement.setInt(3, updatedDP.getHeartRate());
-            pUpdateStatement.setDouble(4, updatedDP.getLatitude());
-            pUpdateStatement.setDouble(5, updatedDP.getLongitude());
-            pUpdateStatement.setDouble(6, updatedDP.getAltitude());
-            pUpdateStatement.setInt(7, updatedDP.getId());
-            pUpdateStatement.executeUpdate();
+            PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
+            pUpdateStmt.setString(1, updatedDP.getDate().toString());
+            pUpdateStmt.setDate(2, new java.sql.Date(updatedDP.getDate().getTime()));
+            pUpdateStmt.setInt(3, updatedDP.getHeartRate());
+            pUpdateStmt.setDouble(4, updatedDP.getLatitude());
+            pUpdateStmt.setDouble(5, updatedDP.getLongitude());
+            pUpdateStmt.setDouble(6, updatedDP.getAltitude());
+            pUpdateStmt.setInt(7, updatedDP.getId());
+            pUpdateStmt.executeUpdate();
 
-            pUpdateStatement.close();
+            pUpdateStmt.close();
             DatabaseOperations.disconnectFromDB();
             return true;
 

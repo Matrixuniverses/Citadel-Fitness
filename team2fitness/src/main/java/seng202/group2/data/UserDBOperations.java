@@ -28,20 +28,20 @@ public class UserDBOperations {
 
         DatabaseOperations.connectToDB();
 
-        String sqlQuery = "SELECT * FROM Users WHERE user_id = "+ user_id + ";";
+        String sqlQueryStmt = "SELECT * FROM Users WHERE user_id = "+ user_id + ";";
 
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
 
         User retrievedUser = null;
 
-        // TODO - Replace this with an index structure @Chris
+
         if (queryResult.next()) {
 
-            int id = queryResult.getInt("user_id");
-            String name = queryResult.getString("name");
-            int age = queryResult.getInt("age");
-            double height = queryResult.getDouble("height");
-            double weight = queryResult.getDouble("weight");
+            int id = queryResult.getInt(1);
+            String name = queryResult.getString(2);
+            int age = queryResult.getInt(3);
+            double height = queryResult.getDouble(4);
+            double weight = queryResult.getDouble(5);
             retrievedUser = new User(id,name, age, height, weight);
 
 
@@ -66,19 +66,19 @@ public class UserDBOperations {
         DatabaseOperations.createDatabase();
         DatabaseOperations.connectToDB();
 
-        String sqlQuery = "SELECT * from Users";
+        String sqlQueryStmt = "SELECT * from Users";
 
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
+        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
 
 
         ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
 
         while (queryResult.next()) {
-            int id = queryResult.getInt("user_id");
-            String name = queryResult.getString("name");
-            int age = queryResult.getInt("age");
-            double height = queryResult.getDouble("height");
-            double weight = queryResult.getDouble("weight");
+            int id = queryResult.getInt(1);
+            String name = queryResult.getString(2);
+            int age = queryResult.getInt(3);
+            double height = queryResult.getDouble(4);
+            double weight = queryResult.getDouble(5);
             User retrievedUser = new User(id,name, age, height, weight);
 
             retrievedUsers.add(retrievedUser);
@@ -104,20 +104,21 @@ public class UserDBOperations {
 
         Connection dbConn = DatabaseOperations.getDbConnection();
 
-        PreparedStatement pInsertStmt = dbConn.prepareStatement(sqlInsertStmt);
-        pInsertStmt.setString(1, user.getName());
-        pInsertStmt.setInt(2, user.getAge());
-        pInsertStmt.setDouble(3,  user.getHeight());
-        pInsertStmt.setDouble(4, user.getWeight());
-        pInsertStmt.executeUpdate();
+        PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
+        pUpdateStmt.setString(1, user.getName());
+        pUpdateStmt.setInt(2, user.getAge());
+        pUpdateStmt.setDouble(3,  user.getHeight());
+        pUpdateStmt.setDouble(4, user.getWeight());
+        pUpdateStmt.executeUpdate();
 
-        ResultSet results = pInsertStmt.getGeneratedKeys();
+        ResultSet results = pUpdateStmt.getGeneratedKeys();
         results.next();
-        int user_id = results.getInt(1);
+        int userID = results.getInt(1);
 
-        pInsertStmt.close();
+        pUpdateStmt.close();
         DatabaseOperations.disconnectFromDB();
-        return user_id;
+
+        return userID;
 
     }
 
@@ -136,15 +137,15 @@ public class UserDBOperations {
             DatabaseOperations.connectToDB();
             Connection dbConn = DatabaseOperations.getDbConnection();
 
-            PreparedStatement pUpdateStatement = dbConn.prepareStatement(sqlUpdateStmt);
-            pUpdateStatement.setString(1, user.getName());
-            pUpdateStatement.setInt(2, user.getAge());
-            pUpdateStatement.setDouble(3, user.getHeight());
-            pUpdateStatement.setDouble(4, user.getWeight());
-            pUpdateStatement.setInt(5, user.getId());
-            pUpdateStatement.executeUpdate();
+            PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
+            pUpdateStmt.setString(1, user.getName());
+            pUpdateStmt.setInt(2, user.getAge());
+            pUpdateStmt.setDouble(3, user.getHeight());
+            pUpdateStmt.setDouble(4, user.getWeight());
+            pUpdateStmt.setInt(5, user.getId());
+            pUpdateStmt.executeUpdate();
 
-            pUpdateStatement.close();
+            pUpdateStmt.close();
             DatabaseOperations.disconnectFromDB();
             return true;
         } else {
@@ -159,21 +160,21 @@ public class UserDBOperations {
     /**
      * Deletes a user from the data using the user's ID.
      * This function automatically connects to and disconnects from the data.
-     * @param userId The ID of the user to be removed from the data
+     * @param userID The ID of the user to be removed from the data
      * @return true if the user with the inputted id no longer exists within the data
      * @throws SQLException if an sql related error occurs while attempting to delete a user from the database.
      */
-    public static boolean deleteExistingUser(int userId) throws SQLException {
+    public static boolean deleteExistingUser(int userID) throws SQLException {
         DatabaseOperations.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Users WHERE user_id = ?";
         Connection dbConn = DatabaseOperations.getDbConnection();
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
-        pDeleteStmt.setInt(1, userId);
+        pDeleteStmt.setInt(1, userID);
         pDeleteStmt.executeUpdate();
 
         pDeleteStmt.close();
         DatabaseOperations.disconnectFromDB();
-        if (getUserFromRS(userId) == null) {
+        if (getUserFromRS(userID) == null) {
             return true;
         } else {
             return false;
