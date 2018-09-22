@@ -206,9 +206,8 @@ public class DatabaseOperations {
     public static void createDatabase() throws SQLException {
         connectToDB();
         if (dbConn != null) {
-            String sqlEnableForeignKeyDelete = "PRAGMA foreign_keys = ON;";
 
-            String sqlCreateUserTable = "CREATE TABLE IF NOT EXISTS Users (\n"
+            String sqlCreateUserTableStmt = "CREATE TABLE IF NOT EXISTS Users (\n"
                     + "user_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "name varchar(100) NOT NULL, \n"
                     + "age integer NOT NULL, \n"
@@ -217,7 +216,7 @@ public class DatabaseOperations {
                     + "gender varchar(2) \n"
                     + ");";
 
-            String sqlCreateActivityTable = "CREATE TABLE IF NOT EXISTS Activities (\n"
+            String sqlCreateActivityTableStmt = "CREATE TABLE IF NOT EXISTS Activities (\n"
                     + "activity_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "user_id integer NOT NULL, \n"
                     + "name varchar(100) NOT NULL, \n"
@@ -230,7 +229,7 @@ public class DatabaseOperations {
                     + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE"
                     + ");";
 
-            String sqlCreateDatapointTable = "CREATE TABLE IF NOT EXISTS Datapoints (\n"
+            String sqlCreateDatapointTableStmt = "CREATE TABLE IF NOT EXISTS Datapoints (\n"
                     + "dp_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "activity_id integer NOT NULL, \n"
                     + "dp_date_string varchar(100) NOT NULL, \n"
@@ -244,7 +243,7 @@ public class DatabaseOperations {
                     + "FOREIGN KEY(activity_id) REFERENCES activities(activity_id) ON DELETE CASCADE"
                     + ");";
 
-            String sqlCreateTargetTable = "CREATE TABLE IF NOT EXISTS Targets (\n"
+            String sqlCreateTargetTableStmt = "CREATE TABLE IF NOT EXISTS Targets (\n"
                     + "target_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "user_id integer NOT NULL, \n"
                     + "name varchar(100) NOT NULL, \n"
@@ -256,11 +255,11 @@ public class DatabaseOperations {
                     + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE\n"
                     + ");";
 
-            executeSQLStatement(sqlEnableForeignKeyDelete, dbConn);
-            executeSQLStatement(sqlCreateUserTable, dbConn);
-            executeSQLStatement(sqlCreateActivityTable, dbConn);
-            executeSQLStatement(sqlCreateDatapointTable, dbConn);
-            executeSQLStatement(sqlCreateTargetTable, dbConn);
+
+            executeSQLStatement(sqlCreateUserTableStmt, dbConn);
+            executeSQLStatement(sqlCreateActivityTableStmt, dbConn);
+            executeSQLStatement(sqlCreateDatapointTableStmt, dbConn);
+            executeSQLStatement(sqlCreateTargetTableStmt, dbConn);
 
         }
         disconnectFromDB();
@@ -310,17 +309,6 @@ public class DatabaseOperations {
 
         return dbStmt.executeQuery(queryStmt);
     }
-
-    //Unused - may delete
-    /*
-    public static void executeDBUpdate(String updateStmt) throws SQLException {
-
-        executeSQLStatement(updateStmt, dbConn);
-
-    }*/
-
-
-
 
 
 }
