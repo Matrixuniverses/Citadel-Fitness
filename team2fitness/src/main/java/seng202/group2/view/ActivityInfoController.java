@@ -7,6 +7,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.analysis.GraphGenerator;
@@ -76,6 +77,9 @@ public class ActivityInfoController implements Initializable, UserData {
         activityChart.setTitle("Distance/Time");
         activityChart.getXAxis().setLabel("Time(s)");
         activityChart.getYAxis().setLabel("Distance(m)");
+
+        activityChart.setCreateSymbols(false);
+
     }
 
     @Override

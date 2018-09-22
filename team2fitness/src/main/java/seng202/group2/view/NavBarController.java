@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,6 +25,9 @@ public class NavBarController implements Initializable {
 
     @FXML
     private Button editProfileButton;
+
+    @FXML
+    private ImageView navLogo;
 
 
     public StringProperty getCurrentView() {
@@ -62,6 +67,8 @@ public class NavBarController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+        Image logo = new Image("/images/citadelLogoB.png");
+        navLogo.setImage(logo);
 
     }
 }

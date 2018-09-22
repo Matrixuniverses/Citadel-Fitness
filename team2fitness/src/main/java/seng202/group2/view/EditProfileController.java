@@ -84,7 +84,7 @@ public class EditProfileController implements Initializable, UserData {
 
         } catch (NumberFormatException e) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Ages/height/weight must be numbers.");
+            errorLabel.setText("Age/height/weight must be numbers.");
         } catch (InputMismatchException e) {
             errorLabel.setVisible(true);
             errorLabel.setText("Name field must be non-empty.");

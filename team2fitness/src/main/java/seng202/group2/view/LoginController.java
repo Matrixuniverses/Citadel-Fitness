@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 import java.net.URL;
@@ -48,6 +50,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private ImageView imageViewLogo;
 
 
 
@@ -101,6 +106,8 @@ public class LoginController implements Initializable {
 
         userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
+        Image logo = new Image("/images/citadelLogo.png");
+        imageViewLogo.setImage(logo);
 
     }
 }
