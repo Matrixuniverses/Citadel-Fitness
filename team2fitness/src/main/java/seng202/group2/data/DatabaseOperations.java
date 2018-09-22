@@ -1,14 +1,24 @@
+
+
 package seng202.group2.data;
 
 import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
 
+/**
+ * The DatabaseOperations class handles all general functionality regarding to establishing a connection to and
+ * maintaining the sqlite database. The database is stored in the home directory of the operating system that the
+ * application has been launched on as a .db file called CitadelFitnessLocalDatabase.db and uses a JDBC driver in order
+ * to be able to establish a connection with the database.
+ */
 public class DatabaseOperations {
     private static String dbURL = "jdbc:sqlite:" + System.getProperty("user.home") + "/CitadelFitnessLocalDatabase.db";
     private static final String driver = "org.sqlite.JDBC";
     private static Connection dbConn = null;
 
+    //Helper function which returns the appropriate configuration as a SQLiteConfig Object.
+    //In this case foregin keys are set to true
     private static SQLiteConfig configureSQl() {
         SQLiteConfig sqlConfig = new SQLiteConfig();
         sqlConfig.enforceForeignKeys(true);
@@ -20,7 +30,7 @@ public class DatabaseOperations {
      * the local java.sql.Connection object. The connection is set up with the configuration that Foreign Keys in the
      * data are enforced. The data is located in the User's home directory and the data is created in this
      * directory if it does not already exist.
-     * @throws SQLException if an error occurs preforming sql operations on the data.
+     * @throws SQLException if an error occurs preforming sql operations on the database.
      */
     public static void connectToDB() throws SQLException {
         try {
@@ -47,15 +57,15 @@ public class DatabaseOperations {
 
     /**
      *
-     * @return the Connection object that is linked to the data if not null.
+     * @return the Connection object that is linked to the database is not null.
      */
     public static Connection getDbConnection() {
         return dbConn;
     }
 
     /**
-     * Closes down the connection to the data by setting the data Connection object to null.
-     * @throws SQLException if an error occurs disconnecting from the data
+     * Closes down the connection to the data by calling the close method on the Connection object.
+     * @throws SQLException if an error occurs disconnecting from the database.
      */
     public static void disconnectFromDB() throws SQLException {
         if (dbConn != null) {
@@ -66,6 +76,8 @@ public class DatabaseOperations {
 
     }
 
+
+    //Hepler function to execute sqlStmts that are represented as strings
     private static void executeSQLStatement(String sqlStmt, Connection dbConn) throws SQLException {
 
         Statement newStmt = dbConn.createStatement();
@@ -76,8 +88,120 @@ public class DatabaseOperations {
     /**
      *  Creates a new data for the application if it does not already exist and creates the databases structure (tables
      *  and attributes). The data is stored in the project's directory and consists of four tables:
-     *  users, activities, datapoints and targets.     *
-     * @throws SQLException if an sql related problem is encountered trying to set up the data.
+     *  users, activities, datapoints and targets.
+     *  The Relations and attributes in the database are as follows
+     *  Users
+     *  <ul>
+     *      <li>
+     *          user_id - The unique id of a user that is stored in the database. Primary key and has the property Autoincrement.
+     *      </li>
+     *      <li>
+     *          name - The name of the user. Varchar of max length 100 with the property not null.
+     *      </li>
+     *      <li>
+     *          age - The age of the user. Integer with the property not null.
+     *      </li>
+     *      <li>
+     *          height - The height of the user in cm. Real number with the property not null.
+     *      </li>
+     *      <li>
+     *          weight - The weight of the user in kg. Real number with the property not null.
+     *      </li>
+     *      <li>
+     *          gender - The gender of the user. Varchar with a max length of 2. Either set as 'M','F' or left as a null value
+     *      </li>
+     *  </ul>
+     *  Activities
+     *  <ul>
+     *      <li>
+     *          activity_id - The unique id of an activity that is stored in the database. Primary key with the property Autoincrement.
+     *      </li>
+     *      <li>
+     *          user_id - foreign key which references a user_id from a tuple in Users. Has the properties not null and on delete cascade.
+     *      </li>
+     *      <li>
+     *          name - the name of the activity. Varchar with max length of 100 with the property not null.
+     *      </li>
+     *      <li>
+     *          date_string - a textual representation of the date that the activity was started on. Varchar with maxc length of 100 with the property not null.
+     *      </li>
+     *      <li>
+     *          date - the date that the activity was completed on represented by a long integer used to order activities by their date. Date type with property not null.
+     *      </li>
+     *      <li>
+     *          type - the activity's type. Varchar with a max length of 100 with the property not null
+     *      </li>
+     *      <li>
+     *          total_distance - the total distance traversed during the activity in metres. Real number with property not null
+     *      </li>
+     *      <li>
+     *          total_time - the total time taken to complete the activity in minutes. Real number with property not null.
+     *      </li>
+     *      <li>
+     *          calories_burnt - an approximation of the the total calories burnt during the exercise. Real number with property not null.
+     *      </li>
+     *  </ul>
+     *  Datapoints
+     *  <ul>
+     *      <li>
+     *          dp_id - The unique id of a datapoint that is stored in the database. Primary key with the property Autoincrement.
+     *      </li>
+     *      <li>
+     *          activity_id - foreign key which references an activity_id from a tuple in Activities. Has the properties not null and on delete cascade.
+     *      </li>
+     *      <li>
+     *          dp_date_string - a textual representation of the date/time that the data from the datapoint was recorded at. Varchar with maxc length of 100 with the property not null.
+     *      </li>
+     *      <li>
+     *           date - the date/time that the activity was completed on represented by a long integer used to order activities by their date. Date type with property not null.
+     *      </li>
+     *      <li>
+     *          heart_rate - the recorded heart rate. Integer with property not null.
+     *      </li>
+     *      <li>
+     *          latitude - the recorded latitude. Real number with property not null.
+     *      </li>
+     *      <li>
+     *          longitude - the recorded longitude. Real number with property not null.
+     *      </li>
+     *      <li>
+     *          altitude - the recorded altitude. Real number with property not null.
+     *      </li>
+     *      <li>
+     *          time_delta - the change in time compared to the datapoint and the previous data point if applicable. Real number with property not null.
+     *      </li>
+     *      <li>
+     *          dist_delta - the change in distance compared to the datapoint and the previous data point if applicable. Real number with property not null.
+     *      </li>
+     *  </ul>
+     *  Targets
+     *  <ul>
+     *      <li>
+     *          target_id - The unique id of the target that is stored in the database. Primary key with the property Autoincrement.
+     *      </li>
+     *      <li>
+     *          user_id - foreign key which references a user_id from a tuple in Users. Has the properties not null and on delete cascade.
+     *      </li>
+     *      <li>
+     *          name - the name of the target. Varchar of max length 100 with the property not null.
+     *      </li>
+     *      <li>
+     *          date_achieved - the date the target was achieved on represented as a string. Varchar with max length of 100.
+     *      </li>
+     *      <li>
+     *          type - the type of the target. Varchar with a max length of 100 with the property not null
+     *      </li>
+     *      <li>
+     *          initial_value - The initial value of the set target. Real number with property not null.
+     *      </li>
+     *      <li>
+     *          current_value - The current value of the set target. Real number with property not null.
+     *      </li>
+     *      <li>
+     *          final_value - The value needed to be reached to meet the target. Real number with property not null.
+     *      </li>
+     *  </ul>
+     * @throws SQLException if an sql related problem is encountered trying to set up and create tables in the database.
      */
     public static void createDatabase() throws SQLException {
         connectToDB();
@@ -142,6 +266,13 @@ public class DatabaseOperations {
         disconnectFromDB();
     }
 
+
+    /**
+     * Resets the database by deleting all the tuples from the database. If total reset is enabled then the tables
+     * are also deleted from the database.
+     * @param totalReset enables total reset option
+     * @throws SQLException if an sql related error occurs deleting tables or tuples from the database.
+     */
     public static void resetDatabase(boolean totalReset) throws SQLException {
         connectToDB();
         if (totalReset) {
@@ -172,7 +303,7 @@ public class DatabaseOperations {
      * Executes a inputted sql query (as a string) and returns the result set from the query
      * @param queryStmt A string representation of a sql query statement
      * @return The result set from querying the data.
-     * @throws SQLException if an error occurs querying the data.
+     * @throws SQLException if an error occurs querying the database.
      */
     public static ResultSet executeDBQuery(String queryStmt) throws SQLException {
         Statement dbStmt = dbConn.createStatement();
@@ -180,11 +311,13 @@ public class DatabaseOperations {
         return dbStmt.executeQuery(queryStmt);
     }
 
+    //Unused - may delete
+    /*
     public static void executeDBUpdate(String updateStmt) throws SQLException {
 
         executeSQLStatement(updateStmt, dbConn);
 
-    }
+    }*/
 
 
 
