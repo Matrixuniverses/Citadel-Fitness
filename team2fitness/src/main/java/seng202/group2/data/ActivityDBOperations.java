@@ -13,6 +13,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.model.Activity;
 
+/**
+ * The ActivityDBOperations is a static class handles all sql queries and methods relating specifically to the Activities relation
+ * in the database.
+ */
 public class ActivityDBOperations {
 
     /**

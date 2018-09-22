@@ -9,6 +9,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+
+/**
+ * The DatapointDBOperations is a static class handles all sql queries and methods relating specifically to the Datapoints relation
+ * in the database.
+ */
 public class DatapointDBOperations {
 
 
@@ -20,7 +25,7 @@ public class DatapointDBOperations {
      * This function automatically connects to and disconnects from the data.
      * @param activity_id The id of the activity that's datapoints are being queried for as an integer.
      * @return an ObservableList of the Datapoints that are returned by the query.
-     * @throws SQLException If an error occurs when handling the sql operations on the data.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static ObservableList<DataPoint> getAllActivityDatapoints(int activity_id) throws SQLException {
         DatabaseOperations.connectToDB();
@@ -68,7 +73,7 @@ public class DatapointDBOperations {
      * This function automatically connects to and disconnects from the data.
      * @param datapoint_id The ID of the data point being queried for as an integer
      * @return The Datapoint that has been quered for from the data if the datapoint_id exists, null otherwise.
-     * @throws SQLException If an error occurs when handling the sql operations on the data.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static DataPoint getDataPointFromRS(int datapoint_id) throws SQLException {
         DatabaseOperations.connectToDB();
@@ -121,7 +126,7 @@ public class DatapointDBOperations {
      * @param datapoint The Datapoint which will to inserted into the data.
      * @param activityID The id of the activity that the Datapoint belongs to as an Integer.
      * @return An int value based on the result of the insertion: 1 for success, -1 for error
-     * @throws SQLException If an error occurs when handling the sql operations on the data.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static int insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
 
@@ -183,7 +188,7 @@ public class DatapointDBOperations {
      * @param updatedDP The Datapoint which will have its recorded updated in the data providing that the Datapoint
      *                  already exists in the Database.
      * @return true if the datapoint is updated successfully, false if the Datapoint was not found in the data.
-     * @throws SQLException If an error occurs when handling the sql operations on the data.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException {
 
@@ -219,7 +224,7 @@ public class DatapointDBOperations {
      * This function automatically connects to and disconnects from the data.
      * @param datapointID The ID of the datapoint to be removed from the data.
      * @return true if a datapoint with the inputted id no longer exists in the data, false otherwise.
-     * @throws SQLException If an error occurs when handling the sql operations on the data.
+     * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static boolean deleteExistingDataPoint(int datapointID) throws SQLException {
         DatabaseOperations.connectToDB();
