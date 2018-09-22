@@ -12,6 +12,7 @@ import seng202.group2.model.User;
 
 import java.net.URL;
 import java.util.IllegalFormatException;
+import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 
 /**
@@ -66,17 +67,28 @@ public class EditProfileController implements Initializable, UserData {
      * Updates the user's data with the fields provided. User information is changed and written to database.
      */
     public void update() {
+
+
+
         try {
-            currentUser.setName(nameField.getText());
             currentUser.setAge(Integer.valueOf(ageField.getText()));
             currentUser.setHeight(Double.valueOf(heightField.getText()));
             currentUser.setWeight(Double.valueOf(weightField.getText()));
-            errorLabel.setVisible(false);
-        } catch (Exception e) {
-            errorLabel.setVisible(true);
-            errorLabel.setText("Invalid entry. Try again.");
-        }
 
+            if (nameField.getText().length() == 0) {
+                throw new InputMismatchException();
+            } else {
+                errorLabel.setVisible(false);
+                currentUser.setName(nameField.getText());
+            }
+
+        } catch (NumberFormatException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Ages/height/weight must be numbers.");
+        } catch (InputMismatchException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Name field must be non-empty.");
+        }
     }
 
     public Button getCloseButton() {
