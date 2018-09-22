@@ -1,8 +1,18 @@
 package seng202.group2.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import seng202.group2.data.ActivityDBOperations;
+import seng202.group2.data.DatabaseOperations;
+import seng202.group2.data.UserDBOperations;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 
@@ -11,8 +21,44 @@ import static org.junit.Assert.*;
 public class UserTest {
 
     User user;
-    @Before public void setup(){
+    User userClone;
+    User userClone2;
+    User userClone3;
+    private static final String testDBURL = "jdbc:sqlite:" + System.getProperty("user.home") + "/CitadelFitnessTestingDatabase.db";
+
+    @Before public void setup() throws Exception{
+
+
+
         user = new User(1, "Adam", 20, 180, 80);
+        userClone = new User(2, "AdamClone", 20, 180, 80);
+        userClone2 = new User(3, "AdamClone2", 20, 180, 80);
+        userClone3 = new User(4, "AdamClone3", 20, 180, 80);
+
+
+        Instant dateNow = Instant.now();
+        Activity activity1 = new Activity("Activity1", Date.from(dateNow), "Run", 100.0, 15.0);
+        Activity activity2 = new Activity("Activity2", Date.from(dateNow.minus(Duration.ofDays(20))), "Walk", 70.0, 11.0);
+        Activity activity3 = new Activity("Activity3", Date.from(dateNow.minus(Duration.ofDays(5))), "Cycle", 70.0, 9.0);
+
+
+        DatabaseOperations.setDatabaseURL(testDBURL);
+        DatabaseOperations.createDatabase();
+
+        UserDBOperations.insertNewUser(user);
+        UserDBOperations.insertNewUser(userClone);
+        UserDBOperations.insertNewUser(userClone2);
+        user.addActivity(activity1);
+        user.addActivity(activity2);
+        user.addActivity(activity3);
+
+        userClone.addActivity(activity1);
+        userClone.addActivity(activity2);
+        userClone.addActivity(activity3);
+
+        userClone2.addActivity(activity1);
+        userClone2.addActivity(activity2);
+        userClone2.addActivity(activity3);
     }
 
     @Test
@@ -31,5 +77,46 @@ public class UserTest {
         user.setHeight(190);
         assertEquals(22.16, user.getBmi(), 1e-2);
     }
+
+    @Test
+    public void testInitialTotalDistance() {
+        assertEquals(35.0, user.getTotalDistance(), 1e-2);
+    }
+
+    @Test
+    public void testRecalcTotalDistanceInsertActivity() {
+        Instant dateNow = Instant.now();
+        Activity activity4 = new Activity("Activity4", Date.from(dateNow.minus(Duration.ofDays(2))), "Run", 100.0, 15.0);
+        userClone.addActivity(activity4);
+        assertEquals(50.0, userClone.getTotalDistance(), 1e-2);
+
+    }
+
+    @Test
+    public void testRecalcTotalDistanceDeleteActivity() {
+        userClone2.deleteActivity(userClone2.getActivityList().get(2));
+        assertEquals(26.0, userClone2.getTotalDistance(), 1e-2);
+    }
+
+
+
+
+
+
+
+
+
+
+    @After
+    public void resetTestingDatabase() throws Exception {
+        DatabaseOperations.connectToDB();
+        DatabaseOperations.resetDatabase(true);
+        DatabaseOperations.disconnectFromDB();
+    }
+
+
+
+
+
 
 }

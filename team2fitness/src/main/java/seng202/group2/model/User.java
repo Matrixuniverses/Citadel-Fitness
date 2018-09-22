@@ -48,7 +48,7 @@ public class User {
         activityList.addListener(new ListChangeListener<Activity>() {
             @Override
             public void onChanged(Change<? extends Activity> c) {
-                totalDistance.setValue(calculateTotalUserDistance()/1000);
+                totalDistance.setValue(calculateTotalUserDistance());
             }
         });
 
@@ -74,7 +74,7 @@ public class User {
         activityList.addListener(new ListChangeListener<Activity>() {
             @Override
             public void onChanged(Change<? extends Activity> c) {
-                totalDistance.setValue(calculateTotalUserDistance()/1000);
+                totalDistance.setValue(calculateTotalUserDistance());
             }
         });
 
