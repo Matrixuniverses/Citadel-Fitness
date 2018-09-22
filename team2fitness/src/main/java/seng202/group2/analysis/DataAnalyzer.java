@@ -6,6 +6,7 @@ import seng202.group2.model.DataPoint;
 import java.lang.Math;
 import java.awt.Desktop;
 import java.net.URI;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

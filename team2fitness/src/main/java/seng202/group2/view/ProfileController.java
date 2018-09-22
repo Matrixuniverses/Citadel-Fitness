@@ -69,9 +69,6 @@ public class ProfileController implements Initializable, UserData {
 
     @Override
     public void updateUser() {
-
-
-
         bmiLabel.textProperty().bind(Bindings.format("%.0f", dataManager.getCurrentUser().bmiProperty()));
         weightLabel.textProperty().bind(Bindings.format("%.0f",dataManager.getCurrentUser().weightProperty()));
         totalDistanceLabel.textProperty().bind(Bindings.format("%.1f",dataManager.getCurrentUser().totalDistanceProperty()));

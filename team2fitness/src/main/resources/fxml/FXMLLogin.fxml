@@ -43,7 +43,7 @@
                            </children>
                         </GridPane>
                         <Label fx:id="errorLabel" layoutX="20.0" layoutY="359.0" prefHeight="29.0" prefWidth="260.0" text="Error Message" textFill="RED" visible="false" />
-                        <Button fx:id="createButton" layoutX="101.0" layoutY="427.0" mnemonicParsing="false" onAction="#create" prefHeight="45.0" prefWidth="100.0" text="Create" />
+                        <Button fx:id="createButton" layoutX="101.0" layoutY="427.0" mnemonicParsing="false" onAction="#create" prefHeight="45.0" prefWidth="100.0" styleClass="customButton" text="Create" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="189.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="main-panel">
@@ -58,7 +58,7 @@
                             <TableColumn fx:id="userTableCol" editable="false" prefWidth="273.0" styleClass="noHeader" text="Users" />
                           </columns>
                         </TableView>
-                        <Button fx:id="loginButton" layoutX="101.0" layoutY="426.0" mnemonicParsing="false" onAction="#login" prefHeight="45.0" prefWidth="100.0" text="Login" />
+                        <Button fx:id="loginButton" layoutX="101.0" layoutY="426.0" mnemonicParsing="false" onAction="#login" prefHeight="45.0" prefWidth="100.0" styleClass="customButton" text="Login" />
                      </children>
                   </AnchorPane>
                </children>

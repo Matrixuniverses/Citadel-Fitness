@@ -4,12 +4,14 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.converter.NumberStringConverter;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 
 import java.net.URL;
+import java.util.IllegalFormatException;
 import java.util.ResourceBundle;
 
 /**
@@ -35,6 +37,9 @@ public class EditProfileController implements Initializable, UserData {
     @FXML
     private Button closeButton;
 
+    @FXML
+    private Label errorLabel;
+
     private DataManager dataManager;
 
 
@@ -55,21 +60,23 @@ public class EditProfileController implements Initializable, UserData {
     @Override
     public void updateUser() {
         currentUser = dataManager.getCurrentUser();
-/*        nameField.textProperty().bind(currentUser.nameProperty());
-        ageField.textProperty().bind(Bindings.convert(currentUser.ageProperty()));
-        weightField.textProperty().bind(Bindings.convert(currentUser.ageProperty()));
-        heightField.textProperty().bind(Bindings.convert(currentUser.ageProperty()));*/
     }
 
     /**
      * Updates the user's data with the fields provided. User information is changed and written to database.
      */
     public void update() {
-        //System.out.println("test");
-        currentUser.setName(nameField.getText());
-        currentUser.setAge(Integer.valueOf(ageField.getText()));
-        currentUser.setHeight(Double.valueOf(heightField.getText()));
-        currentUser.setWeight(Double.valueOf(heightField.getText()));
+        try {
+            currentUser.setName(nameField.getText());
+            currentUser.setAge(Integer.valueOf(ageField.getText()));
+            currentUser.setHeight(Double.valueOf(heightField.getText()));
+            currentUser.setWeight(Double.valueOf(weightField.getText()));
+            errorLabel.setVisible(false);
+        } catch (Exception e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Invalid entry. Try again.");
+        }
+
     }
 
     public Button getCloseButton() {

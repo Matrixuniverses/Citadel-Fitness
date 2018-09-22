@@ -77,6 +77,7 @@
     -fx-text-fill: #4b5360;
     -fx-table-cell-border-color: transparent;
 }
+
 .noHeader {
     -fx-max-height: 0;
     -fx-pref-height: 0;

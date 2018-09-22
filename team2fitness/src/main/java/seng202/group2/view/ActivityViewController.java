@@ -60,6 +60,7 @@ public class ActivityViewController implements Initializable, UserData {
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));
         activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalTime"));
+
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
