@@ -86,9 +86,14 @@ public class LoginController implements Initializable {
             Float weight = Float.valueOf(weightField.getText());
             String gender = genderChoiceBox.getValue();
 
-            dataManager.addUser(name, age, height, weight, gender);
-            errorLabel.setText("User '" + name + "' successfully created.");
-            errorLabel.setVisible(true);
+            if (age >= 0 && height >= 0 && weight >= 0) {
+                dataManager.addUser(name, age, height, weight, gender);
+                errorLabel.setText("User '" + name + "' successfully created.");
+                errorLabel.setVisible(true);
+            } else {
+                errorLabel.setText("Age/height/weight must be positive numbers");
+                errorLabel.setVisible(true);
+            }
         } catch (Exception e){
             errorLabel.setText("Invalid profile data");
             errorLabel.setVisible(true);

@@ -71,9 +71,18 @@ public class EditProfileController implements Initializable, UserData {
 
 
         try {
-            currentUser.setAge(Integer.valueOf(ageField.getText()));
-            currentUser.setHeight(Double.valueOf(heightField.getText()));
-            currentUser.setWeight(Double.valueOf(weightField.getText()));
+
+            int age = Integer.valueOf(ageField.getText());
+            double height = Double.valueOf(heightField.getText());
+            double weight = Double.valueOf(weightField.getText());
+
+            if (age >= 0 && height >= 0 && weight >= 0) {
+                currentUser.setAge(age);
+                currentUser.setHeight(height);
+                currentUser.setWeight(weight);
+            } else {
+                throw new NumberFormatException();
+            }
 
             if (nameField.getText().length() == 0) {
                 throw new InputMismatchException();
@@ -84,10 +93,10 @@ public class EditProfileController implements Initializable, UserData {
 
         } catch (NumberFormatException e) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Age/height/weight must be numbers.");
+            errorLabel.setText("Age/height/weight must be positive numbers");
         } catch (InputMismatchException e) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Name field must be non-empty.");
+            errorLabel.setText("Name field must be non-empty");
         }
     }
 
