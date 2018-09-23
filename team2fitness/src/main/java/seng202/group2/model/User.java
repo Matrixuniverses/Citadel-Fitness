@@ -25,7 +25,7 @@ public class User {
     private DoubleProperty totalDistance;
 
     private ObservableList<Activity> activityList = FXCollections.observableArrayList();
-    private ObservableList<Target> targetList = FXCollections.observableArrayList();
+    //private ObservableList<Target> targetList = FXCollections.observableArrayList();
 
     /**
      * Creates a new user and populates their data. Sets a listener to recalculate the total user distance when
@@ -347,9 +347,9 @@ public class User {
      * This returns the current users list of targets
      * @return returns Target targetList
      */
-    public ObservableList<Target> getTargetList() {
-        return targetList;
-    }
+//    public ObservableList<Target> getTargetList() {
+//        return targetList;
+//    }
 
     /**
      * This returns the users total distance -type Double
