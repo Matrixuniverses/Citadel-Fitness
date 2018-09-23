@@ -3,12 +3,15 @@ package seng202.group2.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
-import seng202.group2.model.Route;
+import seng202.group2.data.Route;
 
 import java.net.URL;
 import java.util.ResourceBundle;

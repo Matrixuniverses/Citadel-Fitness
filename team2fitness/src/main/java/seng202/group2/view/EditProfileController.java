@@ -209,9 +209,6 @@ public class EditProfileController implements Initializable, UserData {
         } else {
             confirmLabel.setText("User data invalid. Profile update failed.");
         }
-
-
-
     }
 
     public Button getCloseButton() {

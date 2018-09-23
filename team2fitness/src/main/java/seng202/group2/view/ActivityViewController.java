@@ -55,7 +55,7 @@ public class ActivityViewController implements Initializable, UserData {
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
 
-        activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Date>("date"));
+        activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, DateFormatter>("date"));
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));

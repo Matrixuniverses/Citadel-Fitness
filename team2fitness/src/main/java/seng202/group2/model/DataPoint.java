@@ -29,17 +29,6 @@ public class DataPoint {
         this.altitude = altitude;
     }
 
-    public DataPoint(Date date, int heartRate, double latitude, double longitude, double altitude, double distanceDelta, double timeDelta) {
-        this.date = date;
-        this.heartRate = heartRate;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.altitude = altitude;
-        this.distanceDelta = distanceDelta;
-        this.timeDelta = timeDelta;
-        this.speedDelta = this.distanceDelta / this.timeDelta;
-    }
-
     /**
      * This returns the Geodetic distance from last data point
      * @return returns double distanceDelta

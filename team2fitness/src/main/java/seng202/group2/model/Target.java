@@ -20,8 +20,8 @@ public class Target {
     public Target(String tName, String tType, Double tValue) {
         name = new SimpleStringProperty(tName);
         type = new SimpleStringProperty(tType);
-        initialValue =  new SimpleDoubleProperty(tValue);
-        currentValue =  new SimpleDoubleProperty(tValue);
+        initialValue = new SimpleDoubleProperty(tValue);
+        currentValue = new SimpleDoubleProperty(tValue);
     }
 
     public void updateProgress(SimpleDoubleProperty progress) {

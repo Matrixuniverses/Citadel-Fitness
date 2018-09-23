@@ -1,4 +1,6 @@
-package seng202.group2.model;
+package seng202.group2.data;
+
+import seng202.group2.model.DataPoint;
 
 import java.util.ArrayList;
 
