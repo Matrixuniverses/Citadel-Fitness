@@ -2,6 +2,7 @@ package seng202.group2.analysis;
 
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
+import seng202.group2.model.User;
 
 import java.lang.Math;
 import java.awt.Desktop;
@@ -137,7 +138,7 @@ public class DataAnalyzer {
             count += 1;
         }
 
-        return (double)totalHR / count;
+        return (double) totalHR / count;
     }
 
     /**
@@ -145,37 +146,31 @@ public class DataAnalyzer {
      * based on a persons age, weight, average heard rate while exercising, time spent exercising and their gender. The
      * function is based of the equation supplied from The Journal of Sports Sciences.
      * @see <a href="http://fitnowtraining.com/2012/01/formula-for-calories-burned/">http://fitnowtraining.com/2012/01/formula-for-calories-burned/</a>
-     * @param age The age of the person in years
-     * @param weight The weight of the person in Kg
-     * @param heartRate_Avg The average heart rate of the person during the physical exercise
-     * @param time The time the person spent exercising
-     * @param isMale Set to true if the person is male
+     * @param user
+     * @param activity
      * @return An estimate value of the amount of Calories burned by the person during the physical exercise
      * @throws IllegalArgumentException if the resulted calories burned is a negative value
      */
-    public static double calcCalories(int age, double weight, double heartRate_Avg, double time, boolean isMale, double height) {
+    public static double calcCalories(User user, Activity activity) {
         double result;
         int mets = 590;
 
-        weight = weightKgToLbs(weight);
-        if (isMale) {
-            result = 66.5 + (13.75 * weight) + (5.003 * height)-(6.775 * age);
+        double weight = weightKgToLbs(user.getWeight());
+        // if (user.getGender().equals("M")) {
+        if (true) {
+            result = 66.5 + (13.75 * weight) + (5.003 * user.getHeight())-(6.775 * user.getAge());
             result = (result * mets)/24;
-            result = (result * time)/60;
-            result = result / 10000;
-            //result = (((age * 0.2017) - (weight * 0.09036) + (heartRate_Avg * 0.6309) - 55.0969) * time / 4.184);
+            result = (result * activity.getTotalTime())/60;
         } else {
-            result = 655.1 + (9.563 * weight) + (1.85 * height)-(4.676 * age);
+            result = 655.1 + (9.563 * weight) + (1.85 * user.getHeight())-(4.676 * user.getAge());
             result = (result * mets)/24;
-            result = (result * time)/60;
-            result = result / 10000;
-            //result = (((age * 0.074) - (weight * 0.05741) + (heartRate_Avg * 0.4472) - 20.4022) * time / 4.184);
+            result = (result * activity.getTotalTime())/60;
         }
         if (result < 0) {
             throw new IllegalArgumentException("Calories burned cannot be negative");
         }
 
-        return result;
+        return result / 10000;
     }
 
     /**

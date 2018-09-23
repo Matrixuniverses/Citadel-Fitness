@@ -35,7 +35,8 @@
                     </rowConstraints>
                      <children>
                         <Button fx:id="closeButton" mnemonicParsing="false" text="Close" GridPane.columnIndex="3" />
-                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit Data" GridPane.columnIndex="2" />
+                         <!-- TODO - Implement this button -->
+                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit Data" GridPane.columnIndex="2" visible="false"/>
                      </children>
                   </GridPane>
                </children>

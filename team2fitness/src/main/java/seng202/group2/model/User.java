@@ -160,18 +160,6 @@ public class User {
         });
     }
 
-    public void loadDataFromDB() {
-        try {
-            DatabaseOperations.createDatabase();
-            DatabaseOperations.connectToDB();
-
-            activityList = ActivityDBOperations.getAllUsersActivities(id);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * This returns the total distance the user has traveled
      * @return double totalDistance
@@ -190,7 +178,7 @@ public class User {
      */
     public void addActivity(Activity activity){
         double avgHR = DataAnalyzer.calcAverageHR(activity);
-        double caloriesBurned = DataAnalyzer.calcCalories(this.getAge(), this.getWeight(), avgHR, activity.getTotalTime(), true, this.getHeight());
+        double caloriesBurned = DataAnalyzer.calcCalories(this, activity);
         activity.setCaloriesBurned(caloriesBurned);
         System.out.println(caloriesBurned);
         this.activityList.add(activity);
@@ -316,6 +304,14 @@ public class User {
         this.weight.set(weight);
     }
 
+    public void setGender(String gender) {
+        this.gender.set(gender);
+    }
+
+    public String getGender() {
+        return this.gender.get();
+    }
+
     /**
      * This returns the current BMI of the user -type Double
      * @return returns double bmi
@@ -338,10 +334,6 @@ public class User {
      */
     public ObservableList<Activity> getActivityList() {
         return activityList;
-    }
-
-    public void setActivityList(ObservableList<Activity> activityList) {
-        this.activityList = activityList;
     }
 
     /**
