@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="340.0" styleClass="main-panel" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.EditProfileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="340.0" styleClass="main-panel" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.EditProfileController">
    <children>
       <Label alignment="CENTER" layoutX="74.0" layoutY="14.0" prefHeight="63.0" prefWidth="192.0" styleClass="customHeading" text="Update Profile" textAlignment="CENTER">
          <font>
@@ -20,9 +25,9 @@
       <GridPane alignment="CENTER" layoutX="15.0" layoutY="106.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="237.0" prefWidth="306.0" vgap="20.0">
          <children>
             <TextField fx:id="nameField" alignment="CENTER" prefHeight="30.0" prefWidth="209.0" promptText="Name" GridPane.columnIndex="1" />
-            <TextField fx:id="ageField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Age" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="heightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Height (cm)" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="weightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Weight (kg)" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="ageField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Age" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="heightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Height (cm)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="weightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Weight (kg)" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label text="Name" GridPane.halignment="LEFT">
                <font>
                   <Font size="14.0" />
@@ -31,7 +36,7 @@
                   <Insets left="26.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Age" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+            <Label text="Age" GridPane.halignment="LEFT" GridPane.rowIndex="2">
                <font>
                   <Font size="14.0" />
                </font>
@@ -39,7 +44,7 @@
                   <Insets left="32.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Height (cm)" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+            <Label text="Height (cm)" GridPane.halignment="LEFT" GridPane.rowIndex="4">
                <font>
                   <Font size="14.0" />
                </font>
@@ -47,7 +52,7 @@
                   <Insets left="8.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Weight (kg)" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <Label text="Weight (kg)" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                <font>
                   <Font size="14.0" />
                </font>
@@ -55,6 +60,11 @@
                   <Insets left="8.0" />
                </GridPane.margin>
             </Label>
+            <Label fx:id="nameErrorLabel" prefHeight="18.0" prefWidth="310.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <Label fx:id="ageErrorLabel" prefHeight="15.0" prefWidth="312.0" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+            <Label fx:id="heightErrorLabel" prefHeight="15.0" prefWidth="347.0" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+            <Label fx:id="weightErrorLabel" prefHeight="15.0" prefWidth="318.0" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+            <Label fx:id="confirmLabel" prefHeight="15.0" prefWidth="307.0" GridPane.columnSpan="2" GridPane.rowIndex="8" />
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="103.0" />
@@ -62,13 +72,20 @@
          </columnConstraints>
          <rowConstraints>
             <RowConstraints percentHeight="25.0" valignment="CENTER" />
+            <RowConstraints percentHeight="25.0" valignment="CENTER" />
             <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints percentHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
       <Label fx:id="errorLabel" layoutX="35.0" layoutY="359.0" prefHeight="29.0" prefWidth="270.0" text="Error Message" textAlignment="CENTER" textFill="RED" visible="false" />
-      <Button fx:id="updateButton" layoutX="54.0" layoutY="438.0" mnemonicParsing="false" onAction="#update" prefHeight="45.0" prefWidth="100.0" text="Update" />
-      <Button fx:id="closeButton" layoutX="186.0" layoutY="438.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="Close" />
+      <Button fx:id="updateButton" layoutX="54.0" layoutY="456.0" mnemonicParsing="false" onAction="#update" prefHeight="45.0" prefWidth="100.0" text="Update" />
+      <Button fx:id="closeButton" layoutX="186.0" layoutY="457.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="Close" />
+      <Label fx:id="confirmLabel1" layoutX="10.0" layoutY="10.0" prefHeight="12.0" prefWidth="204.0" />
    </children>
 </AnchorPane>

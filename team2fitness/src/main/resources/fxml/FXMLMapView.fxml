@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane fx:id="mapViewScene" prefHeight="623.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.MapViewController">
+<AnchorPane fx:id="mapViewScene" prefHeight="623.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.MapViewController">
    <children>
       <AnchorPane fx:id="mapBox1" layoutX="22.0" layoutY="125.0" prefHeight="459.0" prefWidth="743.0">
          <children>
             <WebView fx:id="mapWebView" layoutY="-109.0" prefHeight="592.0" prefWidth="746.0" visible="true" />
+            <Label fx:id="errorLabel" layoutX="204.0" layoutY="187.0" prefHeight="31.0" prefWidth="339.0" />
          </children></AnchorPane>
       <TableView fx:id="mapActivityTable" layoutX="783.0" layoutY="15.0" prefHeight="592.0" prefWidth="200.0">
           <columns>

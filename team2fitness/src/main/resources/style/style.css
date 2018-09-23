@@ -85,7 +85,10 @@
 }
 
 
-
+.text-field.error {
+    -fx-text-box-border: red ;
+    -fx-focus-color: red ;
+}
 
 .login .table-view .column-header .label {
     -fx-font-family: 'Francois One';

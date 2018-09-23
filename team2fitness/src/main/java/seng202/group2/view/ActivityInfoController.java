@@ -7,14 +7,12 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.analysis.GraphGenerator;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
-import seng202.group2.model.Route;
-import seng202.group2.model.User;
+import seng202.group2.data.Route;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,6 +61,9 @@ public class ActivityInfoController implements Initializable, UserData {
     @FXML
     private Button editButton;
 
+    @FXML
+    private Label errorLabel;
+
 
 
     /**
@@ -74,6 +75,7 @@ public class ActivityInfoController implements Initializable, UserData {
     public void initialize(URL location, ResourceBundle resources) {
         webEngine = mapWebView.getEngine();
         webEngine.load(this.getClass().getClassLoader().getResource("fitnessMap.html").toExternalForm());
+
         activityChart.setTitle("Distance/Time");
         activityChart.getXAxis().setLabel("Time(s)");
         activityChart.getYAxis().setLabel("Distance(m)");
@@ -106,11 +108,18 @@ public class ActivityInfoController implements Initializable, UserData {
         bpmLabel.textProperty().bind(Bindings.format("%.0f", activity.averageHRProperty()));
 
 
-        System.out.println(activity.getCaloriesBurned());
+        //System.out.println(activity.getCaloriesBurned());
 
-        Route path = new Route(activity.getActivityData());
-        String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
-        webEngine.executeScript(scriptToExecute);
+        try {
+            Route path = new Route(activity.getActivityData());
+            String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
+            webEngine.executeScript(scriptToExecute);
+            errorLabel.setVisible(false);
+        }
+        catch (netscape.javascript.JSException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Internet must be connected for map view.");
+        }
 
         activityChart.getData().removeAll(activityChart.getData());
         XYChart.Series series = GraphGenerator.createTimeSeries(activity);
