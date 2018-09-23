@@ -105,6 +105,17 @@
     -fx-padding: 0;
 }
 
+.login {
+    -fx-background-image: url("../images/runningTrack21.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1200, 720;
+    -fx-background-position: center center;
+}
+
+.loginImage {
+    -fx-background-color: transparent;
+}
+
 .login .table-view *.scroll-bar:horizontal *.increment-arrow,
 .table-view *.scroll-bar:horizontal *.decrement-arrow {
     -fx-background-color: null;
