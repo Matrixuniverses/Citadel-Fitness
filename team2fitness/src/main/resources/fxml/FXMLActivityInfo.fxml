@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -13,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivityInfoController"><children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivityInfoController"><children>
       <BorderPane prefHeight="650.0" prefWidth="1000.0">
          <top>
             <AnchorPane prefHeight="54.0" prefWidth="969.0" styleClass="main-panel" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
@@ -36,7 +43,7 @@
                      <children>
                         <Button fx:id="closeButton" mnemonicParsing="false" text="Close" GridPane.columnIndex="3" />
                          <!-- TODO - Implement this button -->
-                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit Data" GridPane.columnIndex="2" visible="false"/>
+                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit Data" visible="false" GridPane.columnIndex="2" />
                      </children>
                   </GridPane>
                </children>
@@ -124,7 +131,7 @@
                                     <Label fx:id="timeLabel" styleClass="customAccent" text="0" BorderPane.alignment="CENTER" />
                                  </center>
                                  <top>
-                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Time (s)" BorderPane.alignment="CENTER" />
+                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Time" BorderPane.alignment="CENTER" />
                                  </top>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" GridPane.columnIndex="1" GridPane.rowIndex="1">
