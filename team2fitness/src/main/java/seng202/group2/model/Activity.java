@@ -230,17 +230,30 @@ public class Activity {
     }
 
     /**
+     * This returns a formatted date in a more practical GUI form.
+     * Example: September 9, 2011
+     * @return returns Date activityDate
+     */
+    public DateFormatter getFormattedDate() {
+        if (!manualEntry) {
+            return new DateFormatter(activityData.get(0).getDate());
+        } else {
+            return new DateFormatter(activityDate);
+        }
+    }
+
+    /**
      * This returns the date of the first element of activityData with the
      * data type Date if the activity was entered manually
      *
      * If the activity was imported then Date activityDate is returned
      * @return returns Date activityDate
      */
-    public DateFormatter getDate() {
+    public Date getDate() {
         if (!manualEntry) {
-            return new DateFormatter(activityData.get(0).getDate());
+            return activityData.get(0).getDate();
         } else {
-            return new DateFormatter(activityDate);
+            return activityDate;
         }
     }
 }
