@@ -76,16 +76,23 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Empties the text fields when a valid user is created.
+     */
     private void clearFields() {
         nameField.setText("");
         ageField.setText("");
         heightField.setText("");
         weightField.setText("");
-        genderChoiceBox.setValue("");
     }
 
+    /**
+     * Attempts to create a new user. If all text fields contain valid entry data, the user will be added.
+     * Otherwise an appropriate error message will be displayed telling the user what to modify.
+     */
     public void create() {
         try {
+            errorLabel.setVisible(true);
             errorLabel.setTextFill(Color.RED);
 
             String name = nameField.getText();
@@ -95,29 +102,22 @@ public class LoginController implements Initializable {
             String gender = genderChoiceBox.getValue();
 
             if (name.length() == 0) {
-                errorLabel.setVisible(true);
                 errorLabel.setText("Please enter a Name.");
             } else if (name.length() > 25) {
-                errorLabel.setVisible(true);
                 errorLabel.setText("Name cannot exceed 25 characters.");
             } else if (gender != "Male" && gender != "Female") {
-                errorLabel.setVisible(true);
                 errorLabel.setText("Please select a Gender.");
             } else if (age < 0) {
-                errorLabel.setVisible(true);
                 errorLabel.setText("Age value cannot be negative.");
             } else if (height <= 0 || weight <= 0) {
-                errorLabel.setVisible(true);
                 errorLabel.setText("Height/Weight values must be positive numbers.");
             } else {
                 dataManager.addUser(name, age, height, weight, gender);
-                errorLabel.setVisible(true);
                 errorLabel.setTextFill(Color.BLACK);
                 errorLabel.setText("User '" + name + "' successfully created.");
                 clearFields();
             }
         } catch (Exception e){
-            errorLabel.setVisible(true);
             errorLabel.setText("Age/Height/Weight values must be numbers.");
         }
     }
