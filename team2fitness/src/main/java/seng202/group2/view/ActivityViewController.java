@@ -1,5 +1,7 @@
 package seng202.group2.view;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -8,6 +10,7 @@ import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -60,6 +63,21 @@ public class ActivityViewController implements Initializable, UserData {
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));
         activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, Formatter>("formattedTotalTime"));
 
+    }
+
+    public void delete(){
+        Activity activity = activityTable.getSelectionModel().getSelectedItem();
+        if (activity != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Com");
+            alert.setContentText("Do you want to delete the selected ");
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                dataManager.deleteActivity(activity);
+            }
+        }
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {

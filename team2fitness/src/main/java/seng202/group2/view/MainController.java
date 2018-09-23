@@ -196,16 +196,6 @@ public class MainController implements UserData, Initializable {
             }
         });
 
-        activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Activity selected = activityViewController.getActivityTable().getSelectionModel().getSelectedItem();
-                if (selected != null) {
-                    dataManager.deleteActivity(selected);
-                }
-            }
-        });
-
         activityInfoController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
