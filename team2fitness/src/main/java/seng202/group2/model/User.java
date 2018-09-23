@@ -17,6 +17,7 @@ public class User {
 
     private int id;
     private StringProperty name;
+    private StringProperty gender;
     private IntegerProperty age;
     private DoubleProperty height;
     private DoubleProperty weight;
@@ -35,7 +36,7 @@ public class User {
      * @param height User's height (cm)
      * @param weight User's weight(kg)
      */
-    public User(int id, String name, int age, double height, double weight){
+    public User(int id, String name, int age, double height, double weight) {
         this.id = id;
         this.name = new SimpleStringProperty(name);
         this.age = new SimpleIntegerProperty(age);
@@ -62,8 +63,36 @@ public class User {
      * @param height the users height
      * @param weight the users weight
      */
-    public User(String name, int age, double height, double weight){
+    public User(String name, int age, double height, double weight) {
         this.name = new SimpleStringProperty(name);
+        this.age = new SimpleIntegerProperty(age);
+        this.height = new SimpleDoubleProperty(height);
+        this.weight = new SimpleDoubleProperty(weight);
+        this.bmi = new SimpleDoubleProperty();
+        this.bmi.bind(this.weight.divide(this.height.divide(100).multiply(this.height.divide(100))));
+
+        totalDistance = new SimpleDoubleProperty(0);
+        activityList.addListener(new ListChangeListener<Activity>() {
+            @Override
+            public void onChanged(Change<? extends Activity> c) {
+                totalDistance.setValue(calculateTotalUserDistance());
+            }
+        });
+
+        setupDatabaseHandlers();
+    }
+
+    // OVERLOADING FOR NOW TO PASS TESTS
+    /**
+     * Constructor for a new user. Name, age, height and weight are required
+     * @param name the users name
+     * @param age the users age
+     * @param height the users height
+     * @param weight the users weight
+     */
+    public User(String name, int age, double height, double weight, String gender){
+        this.name = new SimpleStringProperty(name);
+        this.gender = new SimpleStringProperty(gender);
         this.age = new SimpleIntegerProperty(age);
         this.height = new SimpleDoubleProperty(height);
         this.weight = new SimpleDoubleProperty(weight);

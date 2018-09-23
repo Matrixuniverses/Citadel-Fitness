@@ -40,8 +40,8 @@ public class DataManager {
         this.currentUser = user;
     }
 
-    public void addUser(String name, int age, double height, double weight) {
-        User newUser = new User(name, age, height, weight);
+    public void addUser(String name, int age, double height, double weight, String gender) {
+        User newUser = new User(name, age, height, weight, gender);
         try {
             DatabaseOperations.createDatabase();
             newUser.setId(UserDBOperations.insertNewUser(newUser));

@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.util.converter.NumberStringConverter;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
@@ -61,6 +62,14 @@ public class EditProfileController implements Initializable, UserData {
     @Override
     public void updateUser() {
         currentUser = dataManager.getCurrentUser();
+        setFields();
+    }
+
+    private void setFields() {
+        nameField.setText(currentUser.getName());
+        ageField.setText(Integer.toString(currentUser.getAge()));
+        heightField.setText(Double.toString(currentUser.getHeight()));
+        weightField.setText(Double.toString(currentUser.getWeight()));
     }
 
     /**
@@ -68,26 +77,41 @@ public class EditProfileController implements Initializable, UserData {
      */
     public void update() {
 
-
-
         try {
-            currentUser.setAge(Integer.valueOf(ageField.getText()));
-            currentUser.setHeight(Double.valueOf(heightField.getText()));
-            currentUser.setWeight(Double.valueOf(weightField.getText()));
+            errorLabel.setTextFill(Color.RED);
 
-            if (nameField.getText().length() == 0) {
-                throw new InputMismatchException();
+            String name = nameField.getText();
+            int age = Integer.valueOf(ageField.getText());
+            double height = Double.valueOf(heightField.getText());
+            double weight = Double.valueOf(weightField.getText());
+
+            if (name.length() > 25) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Name cannot exceed 25 characters.");
+            } else if (age < 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Age value cannot be negative.");
+            } else if (height <= 0 || weight <= 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Height/Weight values must be positive numbers.");
             } else {
-                errorLabel.setVisible(false);
-                currentUser.setName(nameField.getText());
-            }
+                currentUser.setAge(age);
+                currentUser.setHeight(height);
+                currentUser.setWeight(weight);
 
+                errorLabel.setTextFill(Color.BLACK);
+                if (nameField.getText().length() == 0) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText("Age/Height/Weight values updated.");
+                } else {
+                    currentUser.setName(nameField.getText());
+                    errorLabel.setVisible(true);
+                    errorLabel.setText("All values updated.");
+                }
+            }
         } catch (NumberFormatException e) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Age/height/weight must be numbers.");
-        } catch (InputMismatchException e) {
-            errorLabel.setVisible(true);
-            errorLabel.setText("Name field must be non-empty.");
+            errorLabel.setText("Age/Height/Weight values must contain numbers.");
         }
     }
 
