@@ -1,4 +1,4 @@
-package seng202.group2.model;
+package seng202.group2.data;
 
 
 import javafx.collections.ObservableList;
@@ -11,6 +11,9 @@ import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.data.DatabaseOperations;
 import seng202.group2.data.DatapointDBOperations;
 import seng202.group2.data.UserDBOperations;
+import seng202.group2.model.Activity;
+import seng202.group2.model.DataPoint;
+import seng202.group2.model.User;
 
 import java.sql.Connection;
 import java.time.Duration;

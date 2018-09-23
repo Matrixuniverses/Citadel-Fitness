@@ -69,7 +69,7 @@
                         </Label>
                      </center>
                      <top>
-                        <Label alignment="CENTER" prefHeight="24.0" prefWidth="64.0" styleClass="customLabels" text="BMI" BorderPane.alignment="CENTER" />
+                        <Label alignment="CENTER" prefHeight="37.0" prefWidth="64.0" styleClass="customLabels" text="BMI" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@../style/style.css" GridPane.rowIndex="1">

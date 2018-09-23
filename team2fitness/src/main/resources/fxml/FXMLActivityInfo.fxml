@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -13,12 +20,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivityInfoController"><children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivityInfoController"><children>
       <BorderPane prefHeight="650.0" prefWidth="1000.0">
          <top>
-            <AnchorPane prefHeight="54.0" prefWidth="969.0" styleClass="main-panel" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="54.0" prefWidth="973.0" styleClass="main-panel" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="activityNameLabel" layoutX="14.0" layoutY="9.0" prefHeight="27.0" prefWidth="249.0" text="Activity Name">
+                  <Label fx:id="activityNameLabel" layoutX="14.0" layoutY="9.0" prefHeight="28.0" prefWidth="743.0" text="Activity Name">
                      <font>
                         <Font size="23.0" />
                      </font>
@@ -34,8 +41,9 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="closeButton" mnemonicParsing="false" text="Close" GridPane.columnIndex="3" />
-                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit Data" GridPane.columnIndex="2" />
+                        <Button fx:id="closeButton" mnemonicParsing="false" styleClass="customButton" text="Close" GridPane.columnIndex="3" />
+                         <!-- TODO - Implement this button -->
+                        <Button fx:id="editButton" mnemonicParsing="false" text="Edit Data" visible="false" GridPane.columnIndex="2" />
                      </children>
                   </GridPane>
                </children>
@@ -93,6 +101,9 @@
                                  <center>
                                     <WebView fx:id="mapWebView" prefHeight="253.0" prefWidth="483.0" BorderPane.alignment="CENTER" />
                                  </center>
+                                 <top>
+                                    <Label fx:id="errorLabel" alignment="CENTER" prefHeight="16.0" prefWidth="366.0" BorderPane.alignment="CENTER" />
+                                 </top>
                               </BorderPane>
                            </children>
                         </GridPane>
@@ -120,7 +131,7 @@
                                     <Label fx:id="timeLabel" styleClass="customAccent" text="0" BorderPane.alignment="CENTER" />
                                  </center>
                                  <top>
-                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Time (s)" BorderPane.alignment="CENTER" />
+                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Time" BorderPane.alignment="CENTER" />
                                  </top>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" GridPane.columnIndex="1" GridPane.rowIndex="1">

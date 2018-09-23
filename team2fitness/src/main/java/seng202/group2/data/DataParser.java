@@ -63,8 +63,8 @@ public class DataParser {
     /**
      * Creates a new Datapoint for each line, whilst checking the values are as expected
      *
-     * @param line            Containing the CSV line to read data from
-     * @param fields          Number of fields per line
+     * @param line Containing the CSV line to read data from
+     * @param fields Number of fields per line
      * @param currentActivity Current activity that the line should belong to
      * @return Datapoint containing parsed line, null if no line could be parsed
      */
