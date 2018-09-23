@@ -101,5 +101,6 @@ public class MapViewController implements Initializable, UserData  {
      */
     public void updateUser() {
         mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
+        webEngine.executeScript("clearRoute()");
     }
 }

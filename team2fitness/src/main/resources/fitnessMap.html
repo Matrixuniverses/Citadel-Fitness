@@ -161,6 +161,15 @@
 
         map.fitBounds(bounds);
     }
+
+    function clearRoute() {
+        // Clears any existing markers
+        if (marker1 !== undefined && marker2 !== undefined && path !== undefined) {
+            marker1.setMap(null);
+            marker2.setMap(null);
+            path.setMap(null);
+        }
+    }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3bfC_qUCluh16vnRtDhw3j5UJnM5XeTY&callback=initMap"
         async defer></script>
