@@ -2,10 +2,7 @@ package seng202.group2.view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -32,6 +29,9 @@ public class MapViewController implements Initializable, UserData  {
     @FXML
     private WebView mapWebView;
 
+    @FXML
+    private Label errorLabel;
+
     private WebEngine webEngine;
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,10 +41,16 @@ public class MapViewController implements Initializable, UserData  {
 
         mapActivityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                Activity selectedActivity = mapActivityTable.getSelectionModel().getSelectedItem();
-                Route path = new Route(selectedActivity.getActivityData());
-                String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
-                webEngine.executeScript(scriptToExecute);
+                try {
+                    Activity selectedActivity = mapActivityTable.getSelectionModel().getSelectedItem();
+                    Route path = new Route(selectedActivity.getActivityData());
+                    String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
+                    webEngine.executeScript(scriptToExecute);
+                    errorLabel.setVisible(false);
+                } catch (netscape.javascript.JSException e) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText("Internet connection required for map view.");
+                }
             }
         });
     }
@@ -56,6 +62,7 @@ public class MapViewController implements Initializable, UserData  {
     private void initMap() {
         webEngine = mapWebView.getEngine();
         webEngine.load(this.getClass().getClassLoader().getResource("fitnessMap.html").toExternalForm());
+        errorLabel.setVisible(false);
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
