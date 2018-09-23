@@ -165,10 +165,16 @@ public class AddDataController implements UserData {
             String name = textFieldName.getText();
             String type = choiceBoxType.getValue().toString();
             if (name.length() == 0) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Activity must be named");
             }
             Double distance = Double.parseDouble(textFieldDistance.getText());
+            if (distance < 0) {
+                throw new IllegalArgumentException("The distance value cannot be negative");
+            }
             Double time = Double.parseDouble(textFieldTime.getText());
+            if (time < 0) {
+                throw new IllegalArgumentException("the time value cannot be negative");
+            }
 
             if (dateInput.getValue() == null) {
                 throw new InputMismatchException();
@@ -184,11 +190,11 @@ public class AddDataController implements UserData {
                 dateInput.setValue(null);
             }
         } catch (NumberFormatException e) {
-            raiseError("Error dialog", "Time and distance must be numbers");
+            raiseError("Error dialog", "Time and distance must be valid numbers");
         } catch (InputMismatchException e) {
             raiseError("Error dialog", "Must select a date");
         } catch (IllegalArgumentException e) {
-            raiseError("Error dialog", "Activity must be named");
+            raiseError("Error dialog", e.getMessage());
         }
     }
 
