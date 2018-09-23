@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.util.converter.NumberStringConverter;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
@@ -68,35 +69,41 @@ public class EditProfileController implements Initializable, UserData {
      */
     public void update() {
 
-
-
         try {
+            errorLabel.setTextFill(Color.RED);
 
+            String name = nameField.getText();
             int age = Integer.valueOf(ageField.getText());
             double height = Double.valueOf(heightField.getText());
             double weight = Double.valueOf(weightField.getText());
 
-            if (age >= 0 && height >= 0 && weight >= 0) {
+            if (name.length() > 25) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Name cannot exceed 25 characters.");
+            } else if (age < 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Age value cannot be negative.");
+            } else if (height <= 0 || weight <= 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Height/Weight values must be positive numbers.");
+            } else {
                 currentUser.setAge(age);
                 currentUser.setHeight(height);
                 currentUser.setWeight(weight);
-            } else {
-                throw new NumberFormatException();
-            }
 
-            if (nameField.getText().length() == 0) {
-                throw new InputMismatchException();
-            } else {
-                errorLabel.setVisible(false);
-                currentUser.setName(nameField.getText());
+                errorLabel.setTextFill(Color.BLACK);
+                if (nameField.getText().length() == 0) {
+                    errorLabel.setVisible(true);
+                    errorLabel.setText("Age/Height/Weight values updated.");
+                } else {
+                    currentUser.setName(nameField.getText());
+                    errorLabel.setVisible(true);
+                    errorLabel.setText("All values updated.");
+                }
             }
-
         } catch (NumberFormatException e) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Age/height/weight must be positive numbers");
-        } catch (InputMismatchException e) {
-            errorLabel.setVisible(true);
-            errorLabel.setText("Name field must be non-empty");
+            errorLabel.setText("Age/Height/Weight values must contain numbers.");
         }
     }
 

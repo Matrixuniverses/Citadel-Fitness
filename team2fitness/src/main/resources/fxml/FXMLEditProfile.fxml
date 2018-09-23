@@ -18,7 +18,7 @@
       </Label>
       <GridPane alignment="CENTER" layoutX="15.0" layoutY="106.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="237.0" prefWidth="272.0" vgap="20.0">
          <children>
-            <TextField fx:id="nameField" alignment="CENTER" prefHeight="30.0" prefWidth="209.0" promptText="Name" />
+            <TextField fx:id="nameField" alignment="CENTER" prefHeight="30.0" prefWidth="209.0" promptText="Name (Optional)" />
             <TextField fx:id="ageField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Age" GridPane.rowIndex="1" />
             <TextField fx:id="heightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Height (cm)" GridPane.rowIndex="2" />
             <TextField fx:id="weightField" alignment="CENTER" prefHeight="30.0" prefWidth="130.0" promptText="Weight (kg)" GridPane.rowIndex="3" />
@@ -36,6 +36,5 @@
       <Label fx:id="errorLabel" layoutX="20.0" layoutY="359.0" prefHeight="29.0" prefWidth="260.0" text="Error Message" textFill="RED" visible="false" />
       <Button fx:id="updateButton" layoutX="36.0" layoutY="438.0" mnemonicParsing="false" onAction="#update" prefHeight="45.0" prefWidth="100.0" text="Update" />
       <Button fx:id="closeButton" layoutX="168.0" layoutY="438.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="Close" />
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="1.0" layoutY="366.0" prefHeight="29.0" prefWidth="300.0" />
    </children>
 </AnchorPane>
