@@ -103,8 +103,8 @@ public class ActivityInfoController implements Initializable, UserData {
         distanceLabel.textProperty().bind(Bindings.format("%.0f", activity.totalDistanceProperty()));
         timeLabel.textProperty().bind(Bindings.format("%.0f", activity.totalTimeProperty()));
         speedLabel.textProperty().bind(Bindings.format("%.2f", activity.totalDistanceProperty().divide(activity.totalTimeProperty())));
-        //caloriesLabel.textProperty().bind(Bindings.format("%.0f", activity.caloriesBurnedProperty()));
-        caloriesLabel.textProperty().setValue("0.0");
+        caloriesLabel.textProperty().bind(Bindings.format("%.0f", activity.caloriesBurnedProperty()));
+        //caloriesLabel.textProperty().setValue("0.0");
         bpmLabel.textProperty().bind(Bindings.format("%.0f", activity.averageHRProperty()));
 
 

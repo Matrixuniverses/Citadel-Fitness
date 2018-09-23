@@ -153,14 +153,23 @@ public class DataAnalyzer {
      * @return An estimate value of the amount of Calories burned by the person during the physical exercise
      * @throws IllegalArgumentException if the resulted calories burned is a negative value
      */
-    public static double calcCalories(int age, double weight, double heartRate_Avg, double time, boolean isMale) {
+    public static double calcCalories(int age, double weight, double heartRate_Avg, double time, boolean isMale, double height) {
         double result;
+        int mets = 590;
 
         weight = weightKgToLbs(weight);
         if (isMale) {
-            result = (((age * 0.2017) - (weight * 0.09036) + (heartRate_Avg * 0.6309) - 55.0969) * time / 4.184);
+            result = 66.5 + (13.75 * weight) + (5.003 * height)-(6.775 * age);
+            result = (result * mets)/24;
+            result = (result * time)/60;
+            result = result / 100;
+            //result = (((age * 0.2017) - (weight * 0.09036) + (heartRate_Avg * 0.6309) - 55.0969) * time / 4.184);
         } else {
-            result = (((age * 0.074) - (weight * 0.05741) + (heartRate_Avg * 0.4472) - 20.4022) * time / 4.184);
+            result = 655.1 + (9.563 * weight) + (1.85 * height)-(4.676 * age);
+            result = (result * mets)/24;
+            result = (result * time)/60;
+            result = result / 100;
+            //result = (((age * 0.074) - (weight * 0.05741) + (heartRate_Avg * 0.4472) - 20.4022) * time / 4.184);
         }
         if (result < 0) {
             throw new IllegalArgumentException("Calories burned cannot be negative");
