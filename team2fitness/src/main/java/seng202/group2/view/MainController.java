@@ -151,6 +151,9 @@ public class MainController implements UserData, Initializable {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
+                    if (newValue == "Import Data"){
+                        addDataController.clearData();
+                    }
                     paneMap.get(newValue).toFront();
                     headerController.getViewLabel().setText(newValue);
                     navBarController.getCurrentView().setValue("");

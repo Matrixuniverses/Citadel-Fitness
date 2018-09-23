@@ -30,6 +30,7 @@ public class AddDataController implements UserData {
     private IntegerProperty newFile = new SimpleIntegerProperty(0);
     private DataManager dataManager;
 
+
     @FXML
     private Button selectFileButton;
 
@@ -131,7 +132,6 @@ public class AddDataController implements UserData {
 
     public void selectFileAction(ActionEvent event){
         FileChooser fc = new FileChooser();
-        importInfoLabel.setVisible(false);
         selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
             DataParser parser;
@@ -146,6 +146,10 @@ public class AddDataController implements UserData {
                 importInfoLabel.setText("Error reading data from file.");
             }
         }
+    }
+
+    public void clearData(){
+        importInfoLabel.setVisible(false);
     }
     @Override
     public void setDataManager(DataManager newDataManager) {
@@ -172,6 +176,7 @@ public class AddDataController implements UserData {
      */
     public void addManualData(){
         try {
+            importInfoLabel.setVisible(false);
             errorLabel.setTextFill(Color.RED);
             errorLabel.setVisible(true);
             String name = textFieldName.getText();
