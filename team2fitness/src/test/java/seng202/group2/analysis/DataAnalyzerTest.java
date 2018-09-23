@@ -1,4 +1,4 @@
-package seng202.group2.controllerTest;
+package seng202.group2.analysis;
 
 import org.junit.Test;
 import seng202.group2.analysis.DataAnalyzer;
