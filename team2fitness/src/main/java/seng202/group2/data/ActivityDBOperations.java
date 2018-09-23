@@ -128,6 +128,7 @@ public class ActivityDBOperations {
             double totalTime = queryResult.getDouble("total_time");
 
             Activity newActivity = new Activity(activityName, activityDate, activityType, totalTime, totalDistance);
+            newActivity.setAverageHR(DatapointDBOperations.getAverageHR(activityID));
             newActivity.setId(activityID);
             newActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
             userActivities.add(newActivity);
