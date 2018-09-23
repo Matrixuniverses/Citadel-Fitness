@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seng202.group2.data.DataParser;
 import seng202.group2.data.FileFormatException;
@@ -43,6 +44,9 @@ public class AddDataController implements UserData {
 
     @FXML
     private TextField textFieldTime;
+
+    @FXML
+    private Label errorLabel;
 
     @FXML
     private Button buttonSubmitData;
@@ -127,13 +131,13 @@ public class AddDataController implements UserData {
 
         selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
-            DataParser parser = null;
+            DataParser parser;
             try {
                 parser = new DataParser(selectedFile);
                 dataManager.addActivities(parser.getActivitiesRead());
+                raiseSuccess("Activities added.");
             } catch (FileFormatException f) {
-
-                f.printStackTrace();
+                raiseError("Data Parsing Error", "File could not be uploaded.");
             }
         }
     }
@@ -162,18 +166,20 @@ public class AddDataController implements UserData {
      */
     public void addManualData(){
         try {
+            errorLabel.setTextFill(Color.RED);
+            errorLabel.setVisible(true);
             String name = textFieldName.getText();
             String type = choiceBoxType.getValue().toString();
             if (name.length() == 0) {
-                throw new IllegalArgumentException("Activity must be named");
+                throw new IllegalArgumentException("Activity must be named.");
             }
             Double distance = Double.parseDouble(textFieldDistance.getText());
             if (distance < 0) {
-                throw new IllegalArgumentException("The distance value cannot be negative");
+                throw new IllegalArgumentException("The distance value cannot be negative.");
             }
             Double time = Double.parseDouble(textFieldTime.getText());
             if (time < 0) {
-                throw new IllegalArgumentException("the time value cannot be negative");
+                throw new IllegalArgumentException("The time value cannot be negative.");
             }
 
             if (dateInput.getValue() == null) {
@@ -182,6 +188,8 @@ public class AddDataController implements UserData {
                 Date date = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Activity userActivity = new Activity(name, date, type, time, distance);
                 dataManager.addActivity(userActivity);
+                errorLabel.setTextFill(Color.GREEN);
+                errorLabel.setText("Activity added successfully.");
 
                 //Clear fields
                 textFieldName.setText(null);
@@ -190,21 +198,27 @@ public class AddDataController implements UserData {
                 dateInput.setValue(null);
             }
         } catch (NumberFormatException e) {
-            raiseError("Error dialog", "Time and distance must be valid numbers");
+            errorLabel.setText("Time and Distance must be numbers.");
         } catch (InputMismatchException e) {
-            raiseError("Error dialog", "Must select a date");
+            errorLabel.setText("Must select a date.");
         } catch (IllegalArgumentException e) {
-            raiseError("Error dialog", e.getMessage());
+            errorLabel.setText(e.getMessage());
         }
     }
 
 
     private void raiseError(String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Dialog");
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Error");
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }
 
+    private void raiseSuccess(String header) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(header);
+        alert.showAndWait();
+    }
 }
