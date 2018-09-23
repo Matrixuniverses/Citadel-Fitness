@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="summaryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ProfileController">
+<AnchorPane fx:id="summaryView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ProfileController">
    <children>
       <AnchorPane layoutX="75.0" layoutY="313.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0" prefWidth="850.0" styleClass="main-panel" stylesheets="@../style/style.css">
          <children>
