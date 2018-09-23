@@ -105,7 +105,12 @@ public class ActivityInfoController implements Initializable, UserData {
         speedLabel.textProperty().bind(Bindings.format("%.2f", activity.totalDistanceProperty().divide(activity.totalTimeProperty())));
         //caloriesLabel.textProperty().bind(Bindings.format("%.0f", activity.caloriesBurnedProperty()));
         caloriesLabel.textProperty().setValue("0.0");
-        bpmLabel.textProperty().bind(Bindings.format("%.0f", activity.averageHRProperty()));
+        if (activity.averageHRProperty().get() != -1) {
+            bpmLabel.textProperty().bind(Bindings.format("%.0f", activity.averageHRProperty()));
+        } else {
+            bpmLabel.textProperty().set("Error");
+        }
+
 
 
         //System.out.println(activity.getCaloriesBurned());
