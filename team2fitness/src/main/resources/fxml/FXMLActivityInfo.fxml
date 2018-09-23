@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -13,12 +20,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivityInfoController"><children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivityInfoController"><children>
       <BorderPane prefHeight="650.0" prefWidth="1000.0">
          <top>
             <AnchorPane prefHeight="54.0" prefWidth="969.0" styleClass="main-panel" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="activityNameLabel" layoutX="14.0" layoutY="9.0" prefHeight="27.0" prefWidth="249.0" text="Activity Name">
+                  <Label fx:id="activityNameLabel" layoutX="14.0" layoutY="9.0" prefHeight="28.0" prefWidth="743.0" text="Activity Name">
                      <font>
                         <Font size="23.0" />
                      </font>
