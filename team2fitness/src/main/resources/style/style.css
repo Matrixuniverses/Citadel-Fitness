@@ -89,7 +89,7 @@
 
 .login .table-view .column-header .label {
     -fx-font-family: 'Francois One';
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
 
@@ -113,6 +113,17 @@
 
 .main-panel Button {
     /*-fx-cursor: hand;*/
+}
+
+.main .table-view .column-header .label,
+.table-view .column-header,
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #4b5360 ,#36393f);
+    -fx-font-family: "Open Sans";
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-style: normal;
+
 }
 
 .main-popup {
