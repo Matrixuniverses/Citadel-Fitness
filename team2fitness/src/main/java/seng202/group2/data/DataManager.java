@@ -76,10 +76,6 @@ public class DataManager {
         currentUser.setHeight(newWeight);
     }
 
-    public void changeUserName(int newWeight) {
-        // TODO Add Database Connection!
-        currentUser.setWeight(newWeight);
-    }
 
     public User getCurrentUser() {
         return currentUser;
