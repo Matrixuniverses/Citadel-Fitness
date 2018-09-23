@@ -2,11 +2,9 @@ package seng202.group2.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.chart.XYChart;
-import seng202.group2.view.DateFormatter;
+import seng202.group2.view.Formatter;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -134,7 +132,7 @@ public class Activity {
     }
 
     /**
-     * This returns the total time of an activity as a double
+     * This returns the total time of aDouble.valueOf((new DecimalFormat("#.##")).format(totalDistance))n activity as a double
      * @return returns double totalTime
      */
     public double getTotalTime() {
@@ -230,16 +228,21 @@ public class Activity {
     }
 
     /**
-     * This returns a formatted date in a more practical GUI form.
-     * Example: September 9, 2011
-     * @return returns Date activityDate
+     * This returns a Formatter to give a nicely formatted GUI date in the form of:
+     * September 9, 2011
+     *
+     * @return Formatter to override toString of date
      */
-    public DateFormatter getFormattedDate() {
+    public Formatter getFormattedDate() {
         if (!manualEntry) {
-            return new DateFormatter(activityData.get(0).getDate());
+            return new Formatter(activityData.get(0).getDate());
         } else {
-            return new DateFormatter(activityDate);
+            return new Formatter(activityDate);
         }
+    }
+
+    public Formatter getFormattedTotalTime() {
+        return new Formatter(totalTime.get());
     }
 
     /**
