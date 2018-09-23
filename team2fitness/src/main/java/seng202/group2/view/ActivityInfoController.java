@@ -7,14 +7,12 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.analysis.GraphGenerator;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
-import seng202.group2.model.Route;
-import seng202.group2.model.User;
+import seng202.group2.data.Route;
 
 import java.net.URL;
 import java.util.ResourceBundle;
