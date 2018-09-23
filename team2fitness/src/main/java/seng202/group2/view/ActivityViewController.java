@@ -8,7 +8,6 @@ import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -55,11 +54,11 @@ public class ActivityViewController implements Initializable, UserData {
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
 
-        activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, DateFormatter>("date"));
+        activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Formatter>("formattedDate"));
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));
-        activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalTime"));
+        activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, Formatter>("formattedTotalTime"));
 
     }
 

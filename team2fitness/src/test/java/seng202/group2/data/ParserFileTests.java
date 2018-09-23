@@ -1,4 +1,4 @@
-package seng202.group2.controllerTest;
+package seng202.group2.data;
 
 import org.junit.Rule;
 import org.junit.Test;
