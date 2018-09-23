@@ -69,8 +69,8 @@ public class ActivityViewController implements Initializable, UserData {
         Activity activity = activityTable.getSelectionModel().getSelectedItem();
         if (activity != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Com");
-            alert.setContentText("Do you want to delete the selected ");
+            alert.setTitle("Confirm delete");
+            alert.setContentText("Do you want to delete the selected activity?");
 
             Optional<ButtonType> result = alert.showAndWait();
 

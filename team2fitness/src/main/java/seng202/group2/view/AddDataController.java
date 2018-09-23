@@ -52,6 +52,9 @@ public class AddDataController implements UserData {
     private Button buttonSubmitData;
 
     @FXML
+    private Label importInfoLabel;
+
+    @FXML
     private ChoiceBox choiceBoxType;
 
     public DatePicker getDateInput() {
@@ -128,16 +131,19 @@ public class AddDataController implements UserData {
 
     public void selectFileAction(ActionEvent event){
         FileChooser fc = new FileChooser();
-
+        importInfoLabel.setVisible(false);
         selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
             DataParser parser;
             try {
+                importInfoLabel.setVisible(true);
                 parser = new DataParser(selectedFile);
                 dataManager.addActivities(parser.getActivitiesRead());
-                raiseSuccess("Activities added.");
+                importInfoLabel.setTextFill(Color.GREEN);
+                importInfoLabel.setText("Activities added successfully.");
             } catch (FileFormatException f) {
-                raiseError("Data Parsing Error", "File could not be uploaded.");
+                importInfoLabel.setTextFill(Color.RED);
+                importInfoLabel.setText("Error reading data from file.");
             }
         }
     }
@@ -204,21 +210,5 @@ public class AddDataController implements UserData {
         } catch (IllegalArgumentException e) {
             errorLabel.setText(e.getMessage());
         }
-    }
-
-
-    private void raiseError(String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    private void raiseSuccess(String header) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setHeaderText(header);
-        alert.showAndWait();
     }
 }

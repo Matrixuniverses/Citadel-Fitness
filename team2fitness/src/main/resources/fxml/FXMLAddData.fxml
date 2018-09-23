@@ -19,7 +19,7 @@
          <left>
             <BorderPane prefHeight="650.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                <center>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="389.0" prefWidth="301.0" styleClass="main-panel" BorderPane.alignment="CENTER">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="389.0" prefWidth="301.0" styleClass="main-panel" BorderPane.alignment="TOP_CENTER">
                      <children>
                         <GridPane layoutX="22.0" layoutY="2.0" prefHeight="391.0" prefWidth="260.0">
                           <columnConstraints>
@@ -65,6 +65,9 @@
                            </children>
                         </GridPane>
                      </children>
+                     <BorderPane.margin>
+                        <Insets top="122.0" />
+                     </BorderPane.margin>
                   </AnchorPane>
                </center>
             </BorderPane>
@@ -72,12 +75,25 @@
          <right>
             <BorderPane prefHeight="200.0" prefWidth="500.0" BorderPane.alignment="CENTER">
                <center>
-                  <Button fx:id="selectFileButton" contentDisplay="BOTTOM" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#selectFileAction" prefHeight="390.0" prefWidth="300.0" style="-fx-cursor: hand;" styleClass="main-panel" text="Select File" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true" BorderPane.alignment="CENTER">
+                  <Button fx:id="selectFileButton" contentDisplay="BOTTOM" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#selectFileAction" prefHeight="395.0" prefWidth="301.0" style="-fx-cursor: hand;" styleClass="main-panel" text="Select File" textAlignment="CENTER" textFill="#0d4868" textOverrun="WORD_ELLIPSIS" wrapText="true" BorderPane.alignment="TOP_CENTER">
                      <font>
                         <Font name="System Bold Italic" size="46.0" />
                      </font>
+                     <BorderPane.margin>
+                        <Insets top="122.0" />
+                     </BorderPane.margin>
                   </Button>
                </center>
+               <bottom>
+                  <Label fx:id="importInfoLabel" text="Import Data Information Label" textFill="RED" visible="false" BorderPane.alignment="CENTER_LEFT">
+                     <BorderPane.margin>
+                        <Insets bottom="90.0" left="120.0" />
+                     </BorderPane.margin>
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+               </bottom>
             </BorderPane>
          </right>
       </BorderPane>
