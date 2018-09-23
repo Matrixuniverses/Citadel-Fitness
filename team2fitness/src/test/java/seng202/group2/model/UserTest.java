@@ -24,6 +24,8 @@ public class UserTest {
     User userClone;
     User userClone2;
     User userClone3;
+    User userClone4;
+
     private static final String testDBURL = "jdbc:sqlite:" + System.getProperty("user.home") + "/CitadelFitnessTestingDatabase.db";
 
     @Before public void setup() throws Exception{
@@ -34,6 +36,7 @@ public class UserTest {
         userClone = new User(2, "AdamClone", 20, 180, 80);
         userClone2 = new User(3, "AdamClone2", 20, 180, 80);
         userClone3 = new User(4, "AdamClone3", 20, 180, 80);
+        userClone4 = new User("AdamClone4", 20, 180, 80, "Male");
 
 
         Instant dateNow = Instant.now();
@@ -59,6 +62,14 @@ public class UserTest {
         userClone2.addActivity(activity1);
         userClone2.addActivity(activity2);
         userClone2.addActivity(activity3);
+
+        userClone3.addActivity(activity1);
+        userClone3.addActivity(activity2);
+        userClone3.addActivity(activity3);
+
+        userClone4.addActivity(activity1);
+        userClone4.addActivity(activity2);
+        userClone4.addActivity(activity3);
     }
 
     @Test
@@ -96,6 +107,15 @@ public class UserTest {
     public void testRecalcTotalDistanceDeleteActivity() {
         userClone2.deleteActivity(userClone2.getActivityList().get(2));
         assertEquals(26.0, userClone2.getTotalDistance(), 1e-2);
+    }
+
+    @Test
+    public void testRecalcTotalDistanceModifyActivity() {
+        Activity holder = userClone3.getActivityList().get(1);
+        userClone3.deleteActivity(userClone3.getActivityList().get(1));
+        holder.setTotalDistance(12.0);
+        userClone3.addActivity(holder);
+        assertEquals(36.0, userClone3.getTotalDistance(), 1e-2);
     }
 
 

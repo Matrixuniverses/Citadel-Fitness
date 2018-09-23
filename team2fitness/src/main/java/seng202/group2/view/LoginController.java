@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 import java.net.URL;
@@ -67,31 +68,57 @@ public class LoginController implements Initializable {
 
 
     public void login() {
-
-
         if (userTable.getSelectionModel().getSelectedItem() != null) {
             dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
             status.setValue("logged in");
         } else {
             userTable.setPlaceholder(new Label("Please create a user before logging in"));
         }
+    }
 
+    private void clearFields() {
+        nameField.setText("");
+        ageField.setText("");
+        heightField.setText("");
+        weightField.setText("");
+        genderChoiceBox.setValue("");
     }
 
     public void create() {
         try {
+            errorLabel.setTextFill(Color.RED);
+
             String name = nameField.getText();
             Integer age = Integer.valueOf(ageField.getText());
             Double height = Double.valueOf(heightField.getText());
             Float weight = Float.valueOf(weightField.getText());
             String gender = genderChoiceBox.getValue();
 
-            dataManager.addUser(name, age, height, weight, gender);
-            errorLabel.setText("User '" + name + "' successfully created.");
-            errorLabel.setVisible(true);
+            if (name.length() == 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Please enter a Name.");
+            } else if (name.length() > 25) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Name cannot exceed 25 characters.");
+            } else if (gender != "Male" && gender != "Female") {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Please select a Gender.");
+            } else if (age < 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Age value cannot be negative.");
+            } else if (height <= 0 || weight <= 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Height/Weight values must be positive numbers.");
+            } else {
+                dataManager.addUser(name, age, height, weight, gender);
+                errorLabel.setVisible(true);
+                errorLabel.setTextFill(Color.BLACK);
+                errorLabel.setText("User '" + name + "' successfully created.");
+                clearFields();
+            }
         } catch (Exception e){
-            errorLabel.setText("Invalid profile data");
             errorLabel.setVisible(true);
+            errorLabel.setText("Age/Height/Weight values must be numbers.");
         }
     }
 

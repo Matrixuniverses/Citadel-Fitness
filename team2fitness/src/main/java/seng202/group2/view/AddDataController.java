@@ -132,6 +132,7 @@ public class AddDataController implements UserData {
                 parser = new DataParser(selectedFile);
                 dataManager.addActivities(parser.getActivitiesRead());
             } catch (FileFormatException f) {
+
                 f.printStackTrace();
             }
         }
@@ -163,13 +164,14 @@ public class AddDataController implements UserData {
         try {
             String name = textFieldName.getText();
             String type = choiceBoxType.getValue().toString();
+            if (name.length() == 0) {
+                throw new IllegalArgumentException();
+            }
             Double distance = Double.parseDouble(textFieldDistance.getText());
             Double time = Double.parseDouble(textFieldTime.getText());
 
             if (dateInput.getValue() == null) {
                 throw new InputMismatchException();
-            } else if (name.length() == 0) {
-                throw new IllegalArgumentException();
             } else {
                 Date date = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Activity userActivity = new Activity(name, date, type, time, distance);
