@@ -62,6 +62,14 @@ public class EditProfileController implements Initializable, UserData {
     @Override
     public void updateUser() {
         currentUser = dataManager.getCurrentUser();
+        setFields();
+    }
+
+    private void setFields() {
+        nameField.setText(currentUser.getName());
+        ageField.setText(Integer.toString(currentUser.getAge()));
+        heightField.setText(Double.toString(currentUser.getHeight()));
+        weightField.setText(Double.toString(currentUser.getWeight()));
     }
 
     /**

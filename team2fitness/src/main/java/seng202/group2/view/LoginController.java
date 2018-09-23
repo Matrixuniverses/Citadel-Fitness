@@ -68,15 +68,20 @@ public class LoginController implements Initializable {
 
 
     public void login() {
-
-
         if (userTable.getSelectionModel().getSelectedItem() != null) {
             dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
             status.setValue("logged in");
         } else {
             userTable.setPlaceholder(new Label("Please create a user before logging in"));
         }
+    }
 
+    private void clearFields() {
+        nameField.setText("");
+        ageField.setText("");
+        heightField.setText("");
+        weightField.setText("");
+        genderChoiceBox.setValue("");
     }
 
     public void create() {
@@ -109,6 +114,7 @@ public class LoginController implements Initializable {
                 errorLabel.setVisible(true);
                 errorLabel.setTextFill(Color.BLACK);
                 errorLabel.setText("User '" + name + "' successfully created.");
+                clearFields();
             }
         } catch (Exception e){
             errorLabel.setVisible(true);
