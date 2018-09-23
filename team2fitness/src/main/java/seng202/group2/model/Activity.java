@@ -3,8 +3,10 @@ package seng202.group2.model;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.chart.XYChart;
+import seng202.group2.view.DateFormatter;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -234,12 +236,11 @@ public class Activity {
      * If the activity was imported then Date activityDate is returned
      * @return returns Date activityDate
      */
-    public Date getDate() {
+    public DateFormatter getDate() {
         if (!manualEntry) {
-            Date date = activityData.get(0).getDate();
-            return date;
+            return new DateFormatter(activityData.get(0).getDate());
         } else {
-            return activityDate;
+            return new DateFormatter(activityDate);
         }
     }
 }
