@@ -23,8 +23,10 @@
          </columns>
       </TableView>
       <Button fx:id="activityDeleteButton" layoutX="784.0" layoutY="600.0" mnemonicParsing="false" onAction="#delete" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Delete Activity(s)" />
-      <Button fx:id="activityDeleteButton1" layoutX="783.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Edit Activity(s)" />
+      <!-- TODO - Implement edit activity button-->
+      <Button fx:id="activityDeleteButton1" layoutX="783.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Edit Activity(s)" visible="false" />
       <Button fx:id="detailButton" layoutX="784.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Details" />
-      <Button fx:id="viewDataPoints" layoutX="784.0" layoutY="65.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Data Points" />
+      <!-- TODO - Implement view datapoints -->
+      <Button fx:id="viewDataPoints" layoutX="784.0" layoutY="65.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Data Points" visible="false" />
    </children>
 </AnchorPane>

@@ -23,7 +23,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivityInfoController"><children>
       <BorderPane prefHeight="650.0" prefWidth="1000.0">
          <top>
-            <AnchorPane prefHeight="54.0" prefWidth="969.0" styleClass="main-panel" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="54.0" prefWidth="973.0" styleClass="main-panel" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
                <children>
                   <Label fx:id="activityNameLabel" layoutX="14.0" layoutY="9.0" prefHeight="28.0" prefWidth="743.0" text="Activity Name">
                      <font>
@@ -41,7 +41,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="closeButton" mnemonicParsing="false" text="Close" GridPane.columnIndex="3" />
+                        <Button fx:id="closeButton" mnemonicParsing="false" styleClass="customButton" text="Close" GridPane.columnIndex="3" />
                          <!-- TODO - Implement this button -->
                         <Button fx:id="editButton" mnemonicParsing="false" text="Edit Data" visible="false" GridPane.columnIndex="2" />
                      </children>
