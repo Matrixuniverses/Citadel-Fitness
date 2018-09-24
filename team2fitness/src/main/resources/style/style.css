@@ -60,7 +60,7 @@
     /*-fx-text-fill: #6dd8db;*/
     -fx-text-fill: #2d3035;
     -fx-font-family: "Francois One";
-    -fx-font-size: 50;
+    -fx-font-size: 30;
 }
 
 .customButton {
@@ -105,6 +105,13 @@
     -fx-padding: 0;
 }
 
+.login {
+    -fx-background-image: url("../images/runningTrack.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1200, 720;
+    -fx-background-position: center center;
+}
+
 .login .table-view *.scroll-bar:horizontal *.increment-arrow,
 .table-view *.scroll-bar:horizontal *.decrement-arrow {
     -fx-background-color: null;
@@ -126,7 +133,6 @@
     -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-font-style: normal;
-
 }
 
 .main-popup {

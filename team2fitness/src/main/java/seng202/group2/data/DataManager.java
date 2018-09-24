@@ -2,14 +2,10 @@ package seng202.group2.data;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seng202.group2.data.ActivityDBOperations;
-import seng202.group2.data.DatabaseOperations;
-import seng202.group2.data.DatapointDBOperations;
-import seng202.group2.data.UserDBOperations;
+import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
 import seng202.group2.model.User;
-
 import java.sql.SQLException;
 
 public class DataManager {
@@ -25,6 +21,7 @@ public class DataManager {
                     user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
                     for (Activity activity : user.getActivityList()) {
                         activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
+                        activity.setCaloriesBurned(DataAnalyzer.calcCalories(user, activity));
                     }
                 }
             } catch (SQLException e) {

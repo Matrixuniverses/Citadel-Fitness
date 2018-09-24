@@ -54,8 +54,8 @@ public class Activity {
         this.totalTime = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.#")).format(totalTime)));
         this.totalDistance = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
         this.averageHR = new SimpleDoubleProperty(0);
-
         this.caloriesBurned = new SimpleDoubleProperty(0);
+
         manualEntry = true;
     }
 

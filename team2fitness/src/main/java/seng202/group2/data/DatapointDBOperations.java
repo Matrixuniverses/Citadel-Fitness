@@ -112,6 +112,21 @@ public class DatapointDBOperations {
 
     }
 
+    public static int getAverageHR(int activity_id) throws SQLException {
+        DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT avg(heart_rate) FROM Datapoints WHERE activity_id = " + activity_id;
+        ResultSet queryResult =  DatabaseOperations.executeDBQuery(sqlQueryStmt);
+
+        int averageHR = -1;
+        if (queryResult.next()) {
+            averageHR = queryResult.getInt(1);
+        }
+
+        DatabaseOperations.disconnectFromDB();
+
+        return averageHR;
+    }
+
 
 /*    public static boolean insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
 

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seng202.group2.data.DataParser;
 import seng202.group2.data.FileFormatException;
@@ -29,6 +30,7 @@ public class AddDataController implements UserData {
     private IntegerProperty newFile = new SimpleIntegerProperty(0);
     private DataManager dataManager;
 
+
     @FXML
     private Button selectFileButton;
 
@@ -45,7 +47,13 @@ public class AddDataController implements UserData {
     private TextField textFieldTime;
 
     @FXML
+    private Label errorLabel;
+
+    @FXML
     private Button buttonSubmitData;
+
+    @FXML
+    private Label importInfoLabel;
 
     @FXML
     private ChoiceBox choiceBoxType;
@@ -124,18 +132,24 @@ public class AddDataController implements UserData {
 
     public void selectFileAction(ActionEvent event){
         FileChooser fc = new FileChooser();
-
         selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
-            DataParser parser = null;
+            DataParser parser;
             try {
+                importInfoLabel.setVisible(true);
                 parser = new DataParser(selectedFile);
                 dataManager.addActivities(parser.getActivitiesRead());
+                importInfoLabel.setTextFill(Color.GREEN);
+                importInfoLabel.setText("Activities added successfully.");
             } catch (FileFormatException f) {
-
-                f.printStackTrace();
+                importInfoLabel.setTextFill(Color.RED);
+                importInfoLabel.setText("Error reading data from file.");
             }
         }
+    }
+
+    public void clearData(){
+        importInfoLabel.setVisible(false);
     }
     @Override
     public void setDataManager(DataManager newDataManager) {
@@ -162,13 +176,22 @@ public class AddDataController implements UserData {
      */
     public void addManualData(){
         try {
+            importInfoLabel.setVisible(false);
+            errorLabel.setTextFill(Color.RED);
+            errorLabel.setVisible(true);
             String name = textFieldName.getText();
             String type = choiceBoxType.getValue().toString();
             if (name.length() == 0) {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Activity must be named.");
             }
             Double distance = Double.parseDouble(textFieldDistance.getText());
+            if (distance < 0) {
+                throw new IllegalArgumentException("The distance value cannot be negative.");
+            }
             Double time = Double.parseDouble(textFieldTime.getText());
+            if (time < 0) {
+                throw new IllegalArgumentException("The time value cannot be negative.");
+            }
 
             if (dateInput.getValue() == null) {
                 throw new InputMismatchException();
@@ -176,6 +199,8 @@ public class AddDataController implements UserData {
                 Date date = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Activity userActivity = new Activity(name, date, type, time, distance);
                 dataManager.addActivity(userActivity);
+                errorLabel.setTextFill(Color.GREEN);
+                errorLabel.setText("Activity added successfully.");
 
                 //Clear fields
                 textFieldName.setText(null);
@@ -184,11 +209,11 @@ public class AddDataController implements UserData {
                 dateInput.setValue(null);
             }
         } catch (NumberFormatException e) {
-            raiseError("Error dialog", "Time and distance must be numbers");
+            errorLabel.setText("Time and Distance must be numbers.");
         } catch (InputMismatchException e) {
-            raiseError("Error dialog", "Must select a date");
+            errorLabel.setText("Must select a date.");
         } catch (IllegalArgumentException e) {
-            raiseError("Error dialog", "Activity must be named");
+            errorLabel.setText(e.getMessage());
         }
     }
 
@@ -205,5 +230,6 @@ public class AddDataController implements UserData {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
 
 }

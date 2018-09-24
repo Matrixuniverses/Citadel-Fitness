@@ -41,9 +41,8 @@ public class ViewGraphController implements UserData, Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time", "Heart Rate / Time",
-                new Separator(), "Calories Burned", "Stress / Time"));
-
+        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time"));
+        graphTypeChoice.getSelectionModel().select(0);
         //creating the chart
         lineChart.setTitle("Distance/Time");
         lineChart.getXAxis().setLabel("Time(s)");

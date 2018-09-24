@@ -151,6 +151,9 @@ public class MainController implements UserData, Initializable {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
+                    if (newValue == "Import Data"){
+                        addDataController.clearData();
+                    }
                     paneMap.get(newValue).toFront();
                     headerController.getViewLabel().setText(newValue);
                     navBarController.getCurrentView().setValue("");
@@ -192,16 +195,6 @@ public class MainController implements UserData, Initializable {
                 if (selected != null) {
                     activityInfoController.updateActivity(selected);
                     activityInfo.toFront();
-                }
-            }
-        });
-
-        activityViewController.getActivityDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Activity selected = activityViewController.getActivityTable().getSelectionModel().getSelectedItem();
-                if (selected != null) {
-                    dataManager.deleteActivity(selected);
                 }
             }
         });

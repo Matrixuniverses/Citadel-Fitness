@@ -122,11 +122,6 @@ public class UserTest {
 
 
 
-
-
-
-
-
     @After
     public void resetTestingDatabase() throws Exception {
         DatabaseOperations.connectToDB();

@@ -164,7 +164,6 @@ public class EditProfileController implements Initializable, UserData {
         String name = nameField.getText();
         if (name.length() > 25) {
             nameErrorLabel.setText("Name cannot exceed 25 characters");
-
             update = false;
         } else if (name.length() == 0) {
             nameErrorLabel.setText("Name can't be empty.");
@@ -184,7 +183,7 @@ public class EditProfileController implements Initializable, UserData {
 
         try {
             height = Double.valueOf(heightField.getText());
-            if (height > 270 || height < 0) {
+            if (height > 270 || height <= 0) {
                 heightErrorLabel.setText("Height must be between 0 and 270");
                 update = false;
             }
@@ -214,6 +213,7 @@ public class EditProfileController implements Initializable, UserData {
             confirmLabel.setTextFill(Color.GREEN);
             confirmLabel.setText("User data updated.");
         } else {
+            confirmLabel.setTextFill(Color.RED);
             confirmLabel.setText("User data invalid. Profile update failed.");
         }
     }

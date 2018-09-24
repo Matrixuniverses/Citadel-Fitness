@@ -63,8 +63,8 @@ public class DataParser {
     /**
      * Creates a new Datapoint for each line, whilst checking the values are as expected
      *
-     * @param line            Containing the CSV line to read data from
-     * @param fields          Number of fields per line
+     * @param line Containing the CSV line to read data from
+     * @param fields Number of fields per line
      * @param currentActivity Current activity that the line should belong to
      * @return Datapoint containing parsed line, null if no line could be parsed
      */
@@ -88,7 +88,11 @@ public class DataParser {
             double lon = Double.parseDouble(line[4]);
             double alt = Double.parseDouble(line[5]);
 
-            return new DataPoint(date, heart, lat, lon, alt);
+            if (lat >= -90 && lat <= 90 && lon >= -180 && lat <= 180) {
+                return new DataPoint(date, heart, lat, lon, alt);
+            } else {
+                throw new NumberFormatException();
+            }
 
         } catch (NumberFormatException e) {
             malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect numerical format"));
