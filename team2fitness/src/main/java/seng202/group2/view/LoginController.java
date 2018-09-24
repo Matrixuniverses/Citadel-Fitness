@@ -154,8 +154,7 @@ public class LoginController implements Initializable {
 
         userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
-        Image logo = new Image("/images/citadelLogo.png");
-        imageViewLogo.setImage(logo);
+        imageViewLogo.setImage(new Image("/images/citadelLogo.png"));
 
         rotate = 0;
 

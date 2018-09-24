@@ -56,7 +56,7 @@
                         <Button fx:id="createButton" layoutX="101.0" layoutY="427.0" mnemonicParsing="false" onAction="#create" prefHeight="45.0" prefWidth="100.0" styleClass="customButton" text="Create" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="119.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0">
+                  <AnchorPane layoutX="119.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="300.0" styleClass="main-panel" stylesheets="@../style/style.css">
                      <children>
                         <Label layoutX="87.0" layoutY="14.0" prefHeight="63.0" prefWidth="127.0" styleClass="customHeading" text="Select User" textAlignment="CENTER">
                            <font>
@@ -71,7 +71,7 @@
                         <Button fx:id="loginButton" layoutX="101.0" layoutY="426.0" mnemonicParsing="false" onAction="#login" prefHeight="45.0" prefWidth="100.0" styleClass="customButton" text="Login" />
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="imageViewLogo" fitHeight="204.0" fitWidth="241.0" layoutX="480.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true" styleClass="loginImage" />
+                  <ImageView fx:id="imageViewLogo" fitHeight="204.0" fitWidth="241.0" layoutX="480.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
          </center>
