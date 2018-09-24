@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
- * This Initialises the login Sceneand handles events for the Login Scene
+ * This Initialises the login Scene and handles events for the Login Scene
  */
 public class LoginController implements Initializable {
 
@@ -67,6 +67,9 @@ public class LoginController implements Initializable {
     boolean moveBack = false;
 
 
+    /**
+     * Sets the current user in the data manager, and logs the user in to the main application.
+     */
     public void login() {
         if (userTable.getSelectionModel().getSelectedItem() != null) {
             dataManager.setCurrentUser(userTable.getSelectionModel().getSelectedItem());
@@ -76,6 +79,9 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Clears the fields to empty.
+     */
     private void clearFields() {
         nameField.setText("");
         ageField.setText("");
@@ -84,6 +90,9 @@ public class LoginController implements Initializable {
         genderChoiceBox.setValue("");
     }
 
+    /**
+     * Creates a user with the data in the fields. Checks fields and throws error messages if incorrect type or range.
+     */
     public void create() {
         try {
             errorLabel.setTextFill(Color.RED);
@@ -144,7 +153,6 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
 
         ArrayList<String> genders = new ArrayList<String>();
         genders.add("Male");

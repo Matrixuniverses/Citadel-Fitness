@@ -193,6 +193,11 @@ public class AddDataController implements UserData {
     }
 
 
+    /**
+     * 
+     * @param header
+     * @param content
+     */
     private void raiseError(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error Dialog");

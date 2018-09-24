@@ -65,6 +65,7 @@ public class EditProfileController implements Initializable, UserData {
         weightErrorLabel.setTextFill(Color.RED);
         ageErrorLabel.setTextFill(Color.RED);
         confirmLabel.setTextFill(Color.RED);
+
     }
 
 
@@ -80,6 +81,12 @@ public class EditProfileController implements Initializable, UserData {
     public void updateUser() {
         currentUser = dataManager.getCurrentUser();
         setFields();
+
+        nameErrorLabel.setText("");
+        ageErrorLabel.setText("");
+        heightErrorLabel.setText("");
+        weightErrorLabel.setText("");
+        confirmLabel.setText("");
     }
 
     private void setFields() {
