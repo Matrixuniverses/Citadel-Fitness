@@ -1,4 +1,4 @@
-package seng202.group2.data;
+package seng202.group2.model;
 
 import seng202.group2.model.DataPoint;
 

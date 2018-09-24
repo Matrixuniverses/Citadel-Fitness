@@ -11,7 +11,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
-import seng202.group2.data.Route;
+import seng202.group2.model.Route;
 
 import java.net.URL;
 import java.util.ResourceBundle;

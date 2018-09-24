@@ -60,12 +60,6 @@ public class LoginController implements Initializable {
     @FXML
     private ChoiceBox<String> genderChoiceBox;
 
-    private int rotate;
-
-    private double size;
-
-    boolean moveBack = false;
-
 
     /**
      * Sets the current user in the data manager, and logs the user in to the main application.
@@ -159,17 +153,5 @@ public class LoginController implements Initializable {
         userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         imageViewLogo.setImage(new Image("/images/citadelLogo.png"));
-
-        rotate = 0;
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                rotate++;
-                imageViewLogo.setRotate(rotate);
-            }
-        };
-        timer.start();
-
     }
 }
