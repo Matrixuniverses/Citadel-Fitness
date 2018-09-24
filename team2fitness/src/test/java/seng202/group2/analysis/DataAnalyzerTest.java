@@ -304,7 +304,7 @@ public class DataAnalyzerTest {
         result = DataAnalyzer.cardiovascularMortalityProne(17, 84);
         assertFalse(result);
     }
-
+    /*
     @Test
     public void convertsToValidSearchTerm1() {
         DataAnalyzer.webSearch_Google("usingValidChars");
@@ -324,4 +324,5 @@ public class DataAnalyzerTest {
     public void convertsToValidSearchTerm4() {
         DataAnalyzer.webSearch_Google("multiple spaces here");
     }
+    */
 }
