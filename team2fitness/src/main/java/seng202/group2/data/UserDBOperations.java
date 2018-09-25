@@ -27,33 +27,22 @@ public class UserDBOperations {
     public static User getUserFromRS(int user_id) throws SQLException {
 
         DatabaseOperations.connectToDB();
-
         String sqlQueryStmt = "SELECT * FROM Users WHERE user_id = "+ user_id + ";";
-
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
-
         User retrievedUser = null;
 
-
         if (queryResult.next()) {
-
             int id = queryResult.getInt(1);
             String name = queryResult.getString(2);
             int age = queryResult.getInt(3);
             double height = queryResult.getDouble(4);
             double weight = queryResult.getDouble(5);
             String gender = queryResult.getString(6);
-            retrievedUser = new User(id,name, age, height, weight);
-
-
-
+            retrievedUser = new User(id,name, age, height, weight, gender);
         }
         DatabaseOperations.disconnectFromDB();
 
-
         return retrievedUser;
-
-
     }
 
 
@@ -80,7 +69,8 @@ public class UserDBOperations {
             int age = queryResult.getInt(3);
             double height = queryResult.getDouble(4);
             double weight = queryResult.getDouble(5);
-            User retrievedUser = new User(id,name, age, height, weight);
+            String gender = queryResult.getString(6);
+            User retrievedUser = new User(id,name, age, height, weight, gender);
 
             retrievedUsers.add(retrievedUser);
         }

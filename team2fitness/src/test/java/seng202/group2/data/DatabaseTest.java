@@ -32,10 +32,10 @@ public class DatabaseTest {
 
         DatabaseOperations.setDatabaseURL(testDBURL);
 
-        User user1 = new User("User1", 17, 160.0, 70);
-        User user2 = new User("User2", 18, 175.0, 67);
-        User user3 = new User("User3", 19, 180.0, 80);
-        User user4 = new User("User4", 21, 180.0, 80);
+        User user1 = new User("User1", 17, 160.0, 70, "Male");
+        User user2 = new User("User2", 18, 175.0, 67, "Male");
+        User user3 = new User("User3", 19, 180.0, 80, "Male");
+        User user4 = new User("User4", 21, 180.0, 80, "Male");
 
         Instant dateNow = Instant.now();
 
@@ -123,7 +123,7 @@ public class DatabaseTest {
 
     @Test
     public void testInsertNewUser() {
-        User user4 = new User("User5", 19, 190.0, 85);
+        User user4 = new User("User5", 19, 190.0, 85, "Male");
         try {
             DatabaseOperations.connectToDB();
             assertEquals(5, UserDBOperations.insertNewUser(user4));
@@ -150,7 +150,7 @@ public class DatabaseTest {
     public void testGetUserFromRS() {
         try {
             //DatabaseOperations.connectToDB();
-            User matchingUser = new User(1, "User1", 17, 160.0, 70);
+            User matchingUser = new User(1, "User1", 17, 160.0, 70, "Male");
             User retrievedUser = UserDBOperations.getUserFromRS(1);
             assertEquals(true, matchingUser.getName().equals(retrievedUser.getName()));
         } catch (SQLException e) {

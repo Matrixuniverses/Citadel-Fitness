@@ -32,10 +32,10 @@ public class UserTest {
 
 
 
-        user = new User(1, "Adam", 20, 180, 80);
-        userClone = new User(2, "AdamClone", 20, 180, 80);
-        userClone2 = new User(3, "AdamClone2", 20, 180, 80);
-        userClone3 = new User(4, "AdamClone3", 20, 180, 80);
+        user = new User(1, "Adam", 20, 180, 80, "Male");
+        userClone = new User(2, "AdamClone", 20, 180, 80, "Male");
+        userClone2 = new User(3, "AdamClone2", 20, 180, 80, "Male");
+        userClone3 = new User(4, "AdamClone3", 20, 180, 80, "Male");
         userClone4 = new User("AdamClone4", 20, 180, 80, "Male");
 
 

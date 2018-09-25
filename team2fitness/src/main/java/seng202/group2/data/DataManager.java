@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class DataManager {
     private ObservableList<User> userList = FXCollections.observableArrayList();
-    private User currentUser = new User("", 0, 0,0);
+    private User currentUser = new User("", 0, 0,0, "");
 
 
     public DataManager() {

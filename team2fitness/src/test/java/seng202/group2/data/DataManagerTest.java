@@ -42,10 +42,10 @@ public class DataManagerTest {
 
         DatabaseOperations.setDatabaseURL(testDBURL);
 
-        user1 = new User("User1", 17, 160.0, 70);
-        user2 = new User("User2", 18, 175.0, 67);
-        User user3 = new User("User3", 19, 180.0, 80);
-        User user4 = new User("User4", 21, 180.0, 80);
+        user1 = new User("User1", 17, 160.0, 70, "Male");
+        user2 = new User("User2", 18, 175.0, 67, "Male");
+        User user3 = new User("User3", 19, 180.0, 80, "Female");
+        User user4 = new User("User4", 21, 180.0, 80, "Female");
 
         Instant dateNow = Instant.now();
 

@@ -99,7 +99,6 @@ public class LoginController implements Initializable {
             Double height = Double.valueOf(heightField.getText());
             Float weight = Float.valueOf(weightField.getText());
             String gender = genderComboBox.getSelectionModel().getSelectedItem();
-            System.out.println(gender);
 
             if (name.length() == 0) {
                 errorLabel.setText("Please enter a Name.");
@@ -143,7 +142,6 @@ public class LoginController implements Initializable {
         userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         ObservableList<String> gendersList = FXCollections.observableArrayList("Male", "Female");
-        genderComboBox.setPromptText("Gender");
         genderComboBox.setItems(gendersList);
 
         userTable.setPlaceholder(new Label("No users created yet."));
