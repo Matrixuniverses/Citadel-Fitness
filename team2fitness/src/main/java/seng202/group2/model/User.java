@@ -30,7 +30,10 @@ public class User {
 
 
     /**
-     * Constructor for a new user. Name, age, height and weight are required
+     * Creates a new user and populates their data. Sets a listener to recalculate the total user distance when
+     * a new activity is added to the user's activity list. This will be used when no unique ID is known (e.g. after
+     * user creation)
+     *
      * @param name the users name
      * @param age the users age
      * @param height the users height
@@ -56,8 +59,9 @@ public class User {
     }
 
     /**
-     * Creates a new user and populates their data. Sets a listener to recalculate the total user distance when
-     * a new activity is added to the user's activity list.
+     * Creates a new user with with a given ID, this will be used a unique ID for the user is known (e.g. when
+     * loaded from database)
+     *
      * @param id Unique identification
      * @param name User name
      * @param age User's age(years)
