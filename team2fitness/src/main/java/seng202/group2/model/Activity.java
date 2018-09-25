@@ -2,10 +2,9 @@ package seng202.group2.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import seng202.group2.view.Formatter;
 
 import java.text.DecimalFormat;
-import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -234,27 +233,17 @@ public class Activity {
      *
      * @return Formatter to override toString of date
      */
-    public Formatter getFormattedDate() {
-        Formatter fmt = new Formatter();
-        if (!manualEntry) {
-            fmt.formatDate(this.activityData.get(0).getDate());
-            return fmt;
-        } else {
-            fmt.formatDate(this.activityData.get(0).getDate());
-            return fmt;
-        }
+    public String getFormattedDate() {
+        return new SimpleDateFormat("MMMM d, YYYY").format(this.activityDate);
     }
 
-    public Formatter getFormattedTotalTime() {
-        Formatter fmt = new Formatter();
-        fmt.formatTime(this.getTotalTime());
-        return fmt;
+    public String getFormattedTotalTime() {
+        double sec = this.totalTime.get();
+        return String.format("%.0fh %.0fm %.0fs", sec / 3600, (sec % 3600) / 60, (sec % 60));
     }
 
-    public Formatter getFormattedTotalDistance() {
-        Formatter fmt = new Formatter();
-        fmt.formatDistance(this.getTotalDistance());
-        return fmt;
+    public String getFormattedTotalDistance() {
+        return String.format("%.0fm", this.totalDistance.get());
     }
 
     /**
