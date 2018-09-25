@@ -42,6 +42,7 @@ public class UserDBOperations {
             int age = queryResult.getInt(3);
             double height = queryResult.getDouble(4);
             double weight = queryResult.getDouble(5);
+            String gender = queryResult.getString(6);
             retrievedUser = new User(id,name, age, height, weight);
 
 
@@ -100,7 +101,7 @@ public class UserDBOperations {
      */
     public static int insertNewUser(User user) throws SQLException {
         DatabaseOperations.connectToDB();
-        String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight) VALUES(?,?,?,?)";
+        String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight, gender) VALUES(?,?,?,?,?)";
 
         Connection dbConn = DatabaseOperations.getDbConnection();
 
@@ -109,6 +110,7 @@ public class UserDBOperations {
         pUpdateStmt.setInt(2, user.getAge());
         pUpdateStmt.setDouble(3,  user.getHeight());
         pUpdateStmt.setDouble(4, user.getWeight());
+        pUpdateStmt.setString(5, user.getGender());
         pUpdateStmt.executeUpdate();
 
         ResultSet results = pUpdateStmt.getGeneratedKeys();

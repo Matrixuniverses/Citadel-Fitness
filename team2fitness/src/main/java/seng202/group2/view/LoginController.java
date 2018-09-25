@@ -58,7 +58,7 @@ public class LoginController implements Initializable {
     private ImageView imageViewLogo;
 
     @FXML
-    private ChoiceBox<String> genderChoiceBox;
+    private ComboBox<String> genderComboBox;
 
 
     /**
@@ -98,14 +98,13 @@ public class LoginController implements Initializable {
             Integer age = Integer.valueOf(ageField.getText());
             Double height = Double.valueOf(heightField.getText());
             Float weight = Float.valueOf(weightField.getText());
-            String gender = genderChoiceBox.getValue();
+            String gender = genderComboBox.getSelectionModel().getSelectedItem();
+            System.out.println(gender);
 
             if (name.length() == 0) {
                 errorLabel.setText("Please enter a Name.");
             } else if (name.length() > 25) {
                 errorLabel.setText("Name cannot exceed 25 characters.");
-            } else if (gender != "Male" && gender != "Female") {
-                errorLabel.setText("Please select a Gender.");
             } else if (age < 0) {
                 errorLabel.setText("Age value cannot be negative.");
             } else if (height <= 0 || weight <= 0) {
@@ -143,12 +142,9 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        ArrayList<String> genders = new ArrayList<String>();
-        genders.add("Male");
-        genders.add("Female");
-        ObservableList<String> gendersList = FXCollections.observableArrayList(genders);
-        genderChoiceBox.setItems(gendersList);
+        ObservableList<String> gendersList = FXCollections.observableArrayList("Male", "Female");
+        genderComboBox.setPromptText("Gender");
+        genderComboBox.setItems(gendersList);
 
         userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
