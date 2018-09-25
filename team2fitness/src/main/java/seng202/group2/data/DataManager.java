@@ -89,9 +89,7 @@ public class DataManager {
             DatabaseOperations.createDatabase();
             if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.getId())) {
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
-                for (DataPoint datapoint : activity.getActivityData()) {
-                    datapoint.setId(DatapointDBOperations.insertNewDataPoint(datapoint, activity.getId()));
-                }
+                DatapointDBOperations.insertDataPointList(activity.getActivityData(), activity.getId());
                 currentUser.addActivity(activity);
             }
         } catch (SQLException e) {

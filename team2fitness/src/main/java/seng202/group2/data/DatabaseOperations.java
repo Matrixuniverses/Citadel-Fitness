@@ -3,7 +3,6 @@
 package seng202.group2.data;
 
 import org.sqlite.SQLiteConfig;
-
 import java.sql.*;
 
 /**
@@ -18,10 +17,11 @@ public class DatabaseOperations {
     private static Connection dbConn = null;
 
     //Helper function which returns the appropriate configuration as a SQLiteConfig Object.
-    //In this case foregin keys are set to true
+    //In this case foreign keys are set to true
     private static SQLiteConfig configureSQl() {
         SQLiteConfig sqlConfig = new SQLiteConfig();
         sqlConfig.enforceForeignKeys(true);
+        sqlConfig.setCacheSize(10000);
         return sqlConfig;
     }
 
@@ -213,7 +213,7 @@ public class DatabaseOperations {
                     + "age integer NOT NULL, \n"
                     + "height real NOT NULL, \n"
                     + "weight real NOT NULL, \n"
-                    + "gender varchar(100) NOT NULL \n"
+                    + "gender varchar(10) NOT NULL \n"
                     + ");";
 
             String sqlCreateActivityTableStmt = "CREATE TABLE IF NOT EXISTS Activities (\n"
@@ -309,6 +309,4 @@ public class DatabaseOperations {
 
         return dbStmt.executeQuery(queryStmt);
     }
-
-
 }
