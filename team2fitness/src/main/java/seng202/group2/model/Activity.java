@@ -228,22 +228,32 @@ public class Activity {
     }
 
     /**
-     * This returns a Formatter to give a nicely formatted GUI date in the form of:
-     * September 9, 2011
-     *
-     * @return Formatter to override toString of date
+     * Returns nicely formatted date
+     * @return Date in the format of: 'January 1, 1970'
      */
     public String getFormattedDate() {
         return new SimpleDateFormat("MMMM d, YYYY").format(this.activityDate);
     }
 
+    /**
+     * Returns nicely formatted time separated into time quantities
+     * @return Time in the format of: '1h 20m 30s'
+     */
     public String getFormattedTotalTime() {
         double sec = this.totalTime.get();
         return String.format("%.0fh %.0fm %.0fs", sec / 3600, (sec % 3600) / 60, (sec % 60));
     }
 
+    /**
+     * Returns nicely formatted distance, (m) for distances less than 1.5km (km) else
+     * @return Distance in the format of: '400m' or '1.6km'
+     */
     public String getFormattedTotalDistance() {
-        return String.format("%.0fm", this.totalDistance.get());
+        if (this.totalDistance.get() >= 1500) {
+            return String.format("%.2fkm", this.totalDistance.get() / 1e3);
+        } else {
+            return String.format("%.0fm", this.totalDistance.get());
+        }
     }
 
     /**

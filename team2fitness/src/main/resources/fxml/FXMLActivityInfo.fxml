@@ -147,7 +147,7 @@
                                     <Label fx:id="distanceLabel" styleClass="customAccent" text="0" BorderPane.alignment="CENTER" />
                                  </center>
                                  <top>
-                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Distance (m)" BorderPane.alignment="CENTER" />
+                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Distance" BorderPane.alignment="CENTER" />
                                  </top>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" GridPane.rowIndex="2">
