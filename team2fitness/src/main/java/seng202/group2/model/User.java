@@ -27,35 +27,7 @@ public class User {
     private ObservableList<Activity> activityList = FXCollections.observableArrayList();
     private ObservableList<Target> targetList = FXCollections.observableArrayList();
 
-    /**
-     * Creates a new user and populates their data. Sets a listener to recalculate the total user distance when
-     * a new activity is added to the user's activity list.
-     * @param id Unique identification
-     * @param name User name
-     * @param age User's age(years)
-     * @param height User's height (cm)
-     * @param weight User's weight(kg)
-     */
-    public User(int id, String name, int age, double height, double weight, String gender) {
-        this.id = id;
-        this.name = new SimpleStringProperty(name);
-        this.gender = new SimpleStringProperty(gender);
-        this.age = new SimpleIntegerProperty(age);
-        this.height = new SimpleDoubleProperty(height);
-        this.weight = new SimpleDoubleProperty(weight);
-        this.bmi = new SimpleDoubleProperty();
-        this.bmi.bind(this.weight.divide(this.height.divide(100).multiply(this.height.divide(100))));
 
-        totalDistance = new SimpleDoubleProperty(0);
-        activityList.addListener(new ListChangeListener<Activity>() {
-            @Override
-            public void onChanged(Change<? extends Activity> c) {
-                totalDistance.setValue(calculateTotalUserDistance());
-            }
-        });
-
-        setupDatabaseHandlers();
-    }
 
     /**
      * Constructor for a new user. Name, age, height and weight are required
@@ -80,8 +52,21 @@ public class User {
                 totalDistance.setValue(calculateTotalUserDistance());
             }
         });
-
         setupDatabaseHandlers();
+    }
+
+    /**
+     * Creates a new user and populates their data. Sets a listener to recalculate the total user distance when
+     * a new activity is added to the user's activity list.
+     * @param id Unique identification
+     * @param name User name
+     * @param age User's age(years)
+     * @param height User's height (cm)
+     * @param weight User's weight(kg)
+     */
+    public User(int id, String name, int age, double height, double weight, String gender) {
+        this(name, age, height, weight, gender);
+        this.id = id;
     }
 
     /**
