@@ -213,7 +213,7 @@ public class DatabaseOperations {
                     + "age integer NOT NULL, \n"
                     + "height real NOT NULL, \n"
                     + "weight real NOT NULL, \n"
-                    + "gender varchar(2) \n"
+                    + "gender varchar(100) NOT NULL \n"
                     + ");";
 
             String sqlCreateActivityTableStmt = "CREATE TABLE IF NOT EXISTS Activities (\n"
