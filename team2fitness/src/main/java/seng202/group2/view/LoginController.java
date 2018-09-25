@@ -137,6 +137,9 @@ public class LoginController implements Initializable {
         userTable.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Function used to make the logo spin
+     */
     public void spin() {
         if (shouldSpin) {
             timer.start();

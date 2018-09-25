@@ -145,6 +145,11 @@
 }
 
 .login {
+    /* Uncomment for a good meme
+    -fx-background-image: url("../images/meme.jpg");
+    -fx-background-size: 1200 720;
+    -fx-background-repeat: stretch;
+    */
     -fx-background-color: #d8d8d8;
     -fx-text-fill: blue;
 
