@@ -60,7 +60,7 @@ public class ActivityViewController implements Initializable, UserData {
         activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, Formatter>("formattedDate"));
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
-        activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));
+        activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Formatter>("formattedTotalDistance"));
         activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, Formatter>("formattedTotalTime"));
 
     }

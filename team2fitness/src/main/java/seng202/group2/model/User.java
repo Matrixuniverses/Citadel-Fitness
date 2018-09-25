@@ -7,8 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
-import seng202.group2.data.ActivityDBOperations;
-import seng202.group2.data.DatabaseOperations;
 import seng202.group2.data.UserDBOperations;
 
 import java.sql.SQLException;

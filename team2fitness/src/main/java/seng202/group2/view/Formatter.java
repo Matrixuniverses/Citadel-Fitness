@@ -6,21 +6,24 @@ import java.util.Date;
 public class Formatter {
 
     private Object val;
+    private String type;
 
-    /**
-     * Called when formatting of a date is required
-     * @param date Date to format
-     */
-    public Formatter (Date date) {
-        this.val = date;
+    public Formatter() {
     }
 
-    /**
-     * Called when formatting a given number of seconds into time is needed
-     * @param time Number of seconds to format into HH:MM:SS
-     */
-    public Formatter (double time) {
-        this.val = time;
+    public void formatDate(Date date) {
+        val = date;
+        type = "date";
+    }
+
+    public void formatTime(double time) {
+        val = time;
+        type = "time";
+    }
+
+    public void formatDistance(double dist) {
+        val = dist;
+        type = "dist";
     }
 
     /**
@@ -29,15 +32,19 @@ public class Formatter {
      */
     @Override
     public String toString() {
-        if (this.val instanceof Date) {
+        if (this.type.equals("date")) {
             return new SimpleDateFormat("MMMM d, YYYY").format(this.val);
         }
 
-        if (this.val instanceof Double) {
+        if (this.type.equals("time")) {
             double sec = ((Double) this.val).intValue();
-
             return String.format("%.0fh %.0fm %.0fs", sec / 3600, (sec % 3600) / 60, (sec % 60));
         }
+
+        if (this.type.equals("dist")) {
+            return String.format("%.0fm", (Double) this.val);
+        }
+
         return null;
     }
 }

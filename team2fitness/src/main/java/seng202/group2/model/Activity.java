@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import seng202.group2.view.Formatter;
 
 import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -234,15 +235,26 @@ public class Activity {
      * @return Formatter to override toString of date
      */
     public Formatter getFormattedDate() {
+        Formatter fmt = new Formatter();
         if (!manualEntry) {
-            return new Formatter(activityData.get(0).getDate());
+            fmt.formatDate(this.activityData.get(0).getDate());
+            return fmt;
         } else {
-            return new Formatter(activityDate);
+            fmt.formatDate(this.activityData.get(0).getDate());
+            return fmt;
         }
     }
 
     public Formatter getFormattedTotalTime() {
-        return new Formatter(totalTime.get());
+        Formatter fmt = new Formatter();
+        fmt.formatTime(this.getTotalTime());
+        return fmt;
+    }
+
+    public Formatter getFormattedTotalDistance() {
+        Formatter fmt = new Formatter();
+        fmt.formatDistance(this.getTotalDistance());
+        return fmt;
     }
 
     /**
