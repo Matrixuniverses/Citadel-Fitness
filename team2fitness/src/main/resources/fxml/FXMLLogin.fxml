@@ -65,7 +65,7 @@
                         <Button fx:id="loginButton" layoutX="101.0" layoutY="426.0" mnemonicParsing="false" onAction="#login" prefHeight="45.0" prefWidth="100.0" styleClass="customButton" text="Login" />
                      </children>
                   </AnchorPane>
-                  <ImageView fx:id="imageViewLogo" fitHeight="204.0" fitWidth="241.0" layoutX="480.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="imageViewLogo" fitHeight="204.0" onMouseClicked="#spin" fitWidth="241.0" layoutX="480.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
          </center>

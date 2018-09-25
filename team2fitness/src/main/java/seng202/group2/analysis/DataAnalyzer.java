@@ -156,8 +156,7 @@ public class DataAnalyzer {
         int mets = 590;
 
         double weight = weightKgToLbs(user.getWeight());
-        // if (user.getGender().equals("M")) {
-        if (true) {
+        if (user.getGender().equals("Male")) {
             result = 66.5 + (13.75 * weight) + (5.003 * user.getHeight())-(6.775 * user.getAge());
             result = (result * mets)/24;
             result = (result * activity.getTotalTime())/60;

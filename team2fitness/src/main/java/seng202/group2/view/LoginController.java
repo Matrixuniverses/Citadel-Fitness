@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -59,6 +60,10 @@ public class LoginController implements Initializable {
 
     @FXML
     private ComboBox<String> genderComboBox;
+
+    private boolean shouldSpin = true;
+    private int rotation = 0;
+    private AnimationTimer timer;
 
 
     /**
@@ -132,6 +137,16 @@ public class LoginController implements Initializable {
         userTable.getSelectionModel().selectFirst();
     }
 
+    public void spin() {
+        if (shouldSpin) {
+            timer.start();
+            shouldSpin = false;
+        } else {
+            timer.stop();
+            shouldSpin = true;
+        }
+    }
+
 
     public StringProperty statusProperty() {
         return status;
@@ -147,5 +162,15 @@ public class LoginController implements Initializable {
         userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         imageViewLogo.setImage(new Image("/images/citadelLogo.png"));
+
+
+        // Spinny boi
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                rotation += 2;
+                imageViewLogo.setRotate(rotation);
+            }
+        };
     }
 }
