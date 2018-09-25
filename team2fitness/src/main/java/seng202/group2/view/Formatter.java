@@ -34,9 +34,9 @@ public class Formatter {
         }
 
         if (this.val instanceof Double) {
-            int sec = ((Double) this.val).intValue();
+            double sec = ((Double) this.val).intValue();
 
-            return String.format("%d:%02d:%02d", sec / 3600, (sec % 3600) / 60, (sec % 60));
+            return String.format("%.0fh %.0fm %.0fs", sec / 3600, (sec % 3600) / 60, (sec % 60));
         }
         return null;
     }
