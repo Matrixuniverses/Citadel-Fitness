@@ -141,7 +141,6 @@ public class User {
         double avgHR = DataAnalyzer.calcAverageHR(activity);
         double caloriesBurned = DataAnalyzer.calcCalories(this, activity);
         activity.setCaloriesBurned(caloriesBurned);
-        System.out.println(caloriesBurned);
         this.activityList.add(activity);
     }
 

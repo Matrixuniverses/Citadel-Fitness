@@ -90,6 +90,11 @@
     -fx-focus-color: red ;
 }
 
+.error-msg {
+    -fx-font-family: "Francois One";
+    -fx-text-fill: #f00;
+}
+
 .login .table-view .column-header .label {
     -fx-font-family: 'Francois One';
     -fx-text-fill: white;
@@ -152,9 +157,7 @@
     */
     -fx-background-color: #d8d8d8;
     -fx-text-fill: blue;
-
 }
-
 
 /*.login Button:hover {
     -fx-background-color: #7ec9f7;

@@ -272,8 +272,8 @@ public class DataAnalyzer {
             googleURL = "https://www.google.com/search?q=" + genValidURLSearchTerm(searchTerm);
         } catch (IllegalArgumentException e) {
             //print error message and open up google search
-            System.out.println("Found invalid character in searchTerm: " + searchTerm);
-            System.out.println("Cannot create Google Search URL correctly");
+            System.err.println("Found invalid character in searchTerm: " + searchTerm);
+            System.err.println("Cannot create Google Search URL correctly");
             googleURL = "https://www.google.com/search?q=";
         }
 
@@ -281,7 +281,7 @@ public class DataAnalyzer {
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(googleURL));
             } else {
-                System.out.println("Java desktop integration is not supported on the current operating system.");
+                System.err.println("Java desktop integration is not supported on the current operating system.");
             }
         } catch (Exception e) {
             e.printStackTrace();
