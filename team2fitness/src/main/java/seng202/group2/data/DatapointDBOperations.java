@@ -30,9 +30,14 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static ObservableList<DataPoint> getAllActivityDatapoints(int activityID) throws SQLException {
-        DatabaseOperations.connectToDB();
-        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE activity_id = " + activityID + " ORDER BY dp_date";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE activity_id = ? ORDER BY dp_date";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, activityID);
+
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
 
         ObservableList<DataPoint> activityDatapoints = FXCollections.observableArrayList();
 
@@ -62,6 +67,7 @@ public class DatapointDBOperations {
 
             activityDatapoints.add(newDP);
         }
+        pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
         return activityDatapoints;
 
@@ -78,13 +84,18 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static DataPoint getDataPointFromDB(int datapointID) throws SQLException {
-        DatabaseOperations.connectToDB();
-        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = " + datapointID;
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = ?";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, datapointID);
+
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
 
         DataPoint retrievedDataPoint = null;
         if (queryResult.next()) {
-            //int datapointID = queryResult.getInt("dp_id");
+
             java.util.Date datapointDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
 
@@ -108,33 +119,44 @@ public class DatapointDBOperations {
             retrievedDataPoint.setId(datapointID);
         }
 
+
+        pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
         return retrievedDataPoint;
 
     }
 
-    public static int getAverageHR(int activity_id) throws SQLException {
-        DatabaseOperations.connectToDB();
-        String sqlQueryStmt = "SELECT avg(heart_rate) FROM Datapoints WHERE activity_id = " + activity_id;
-        ResultSet queryResult =  DatabaseOperations.executeDBQuery(sqlQueryStmt);
+    /**
+     * Queries the database and returns the average heart rate for all datapoints that are linked to a particular activity
+     * identified by an inputted activity. If the activity has no datapoints in the database a value of -1 is returned.
+     * @param activityID The id of the activity that the average heart rate will be calculated for.
+     * @return the average heart rate of the activity as an n Interger. -1 if the activity has no datapoints in the database.
+     * @throws SQLException If an sql related error occurs while connecting to or querying the database.
+     */
+    public static int getAverageHR(int activityID) throws SQLException {
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT avg(heart_rate) FROM Datapoints WHERE activity_id = ?";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, activityID);
+
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
+
 
         int averageHR = -1;
         if (queryResult.next()) {
             averageHR = queryResult.getInt(1);
         }
 
+        pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
         return averageHR;
     }
 
 
-/*    public static boolean insertNewDataPoint(DataPoint datapoint, int activityID) throws SQLException {
 
-        //If the activity doesn't exist. Return false.
-        if (ActivityDBOperations.getActivityFromDB(activityID) == null) {
-            return false;*/
 
     /**
      *Inserts a new Datapoint into the data for a given Activity denoted by the activityID parameter. The Datapoint
@@ -151,12 +173,12 @@ public class DatapointDBOperations {
         if (ActivityDBOperations.getActivityFromDB(activityID) == null) {
             return -1;
         }
-        DatabaseOperations.connectToDB();
+        Connection dbConn = DatabaseOperations.connectToDB();
         String sqlInsertStmt = "INSERT INTO Datapoints(activity_id, dp_date_string, dp_date, heart_rate, latitude, "
                 + "longitude, altitude, time_delta, dist_delta) \n"
                 + "VALUES(?,?,?,?,?,?,?,?,?)";
 
-        Connection dbConn = DatabaseOperations.getDbConnection();
+
 
         PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
         pUpdateStmt.setInt(1, activityID);
@@ -197,8 +219,8 @@ public class DatapointDBOperations {
 
         String sqlUpdateStmt = "UPDATE Datapoints SET dp_date_string = ?, dp_date = ?, heart_rate = ?, latitude = ?, longitude = ?, altitude = ? WHERE dp_id = ?";
         if (getDataPointFromDB(updatedDP.getId()) != null) {
-            DatabaseOperations.connectToDB();
-            Connection dbConn = DatabaseOperations.getDbConnection();
+
+            Connection dbConn = DatabaseOperations.connectToDB();
 
             PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStmt.setString(1, updatedDP.getDate().toString());
@@ -226,13 +248,14 @@ public class DatapointDBOperations {
      * @param activityID ActivityID to attach the datapoints to
      * @throws SQLException If unable to write to database
      */
-    public static void insertDataPointList(ArrayList<DataPoint> points, int activityID) throws SQLException{
-        DatabaseOperations.connectToDB();
-        Connection dbConn = DatabaseOperations.getDbConnection();
-        Statement stmnt = dbConn.createStatement();
-        stmnt.execute("BEGIN TRANSACTION;");
+    public static ArrayList<Integer> insertDataPointList(ArrayList<DataPoint> points, int activityID) throws SQLException{
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        Statement stmt = dbConn.createStatement();
+        stmt.execute("BEGIN TRANSACTION;");
         PreparedStatement prep = dbConn.prepareStatement("INSERT INTO Datapoints(activity_id, dp_date_string, dp_date, heart_rate, latitude, "
                 + "longitude, altitude, time_delta, dist_delta) VALUES(?,?,?,?,?,?,?,?,?)");
+        ArrayList<Integer>  primaryKeys = new ArrayList<Integer>();
 
         for (DataPoint datapoint : points) {
             prep.setInt(1, activityID);
@@ -245,11 +268,20 @@ public class DatapointDBOperations {
             prep.setDouble(8, datapoint.getTimeDelta());
             prep.setDouble(9, datapoint.getDistanceDelta());
             prep.executeUpdate();
+
+            ResultSet rs = prep.getGeneratedKeys();
+            primaryKeys.add(rs.getInt(1));
         }
+
+
+
+
+
         prep.close();
-        stmnt.execute("END TRANSACTION;");
-        stmnt.close();
+        stmt.execute("END TRANSACTION;");
+        stmt.close();
         DatabaseOperations.disconnectFromDB();
+        return primaryKeys;
     }
 
 
@@ -262,9 +294,9 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static boolean deleteExistingDataPoint(int datapointID) throws SQLException {
-        DatabaseOperations.connectToDB();
+        Connection dbConn = DatabaseOperations.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Datapoints WHERE dp_id = ?";
-        Connection dbConn = DatabaseOperations.getDbConnection();
+
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, datapointID);
         pDeleteStmt.executeUpdate();

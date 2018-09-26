@@ -17,6 +17,7 @@ import java.time.Instant;
 
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DatabaseTest {
@@ -93,8 +94,8 @@ public class DatabaseTest {
     public void testConnectToDatabase() {
         Connection conn = null;
         try {
-            DatabaseOperations.connectToDB();
-            conn = DatabaseOperations.getDbConnection();
+
+            conn = DatabaseOperations.connectToDB();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -106,9 +107,9 @@ public class DatabaseTest {
     public void testDisconnectFromDatabase() {
 
         try {
-            DatabaseOperations.connectToDB();
+            Connection conn = DatabaseOperations.connectToDB();
             DatabaseOperations.disconnectFromDB();
-            Connection conn = DatabaseOperations.getDbConnection();
+
             assertEquals(true, conn.isClosed());
 
         } catch (SQLException e) {
@@ -121,7 +122,6 @@ public class DatabaseTest {
     public void testInsertNewUser() {
         User user4 = new User("User5", 19, 190.0, 85, "Male");
         try {
-            DatabaseOperations.connectToDB();
             assertEquals(5, UserDBOperations.insertNewUser(user4));
 
         } catch (SQLException e) {
@@ -145,7 +145,7 @@ public class DatabaseTest {
     @Test
     public void testGetUserFromRS() {
         try {
-            //DatabaseOperations.connectToDB();
+
             User matchingUser = new User(1, "User1", 17, 160.0, 70, "Male");
             User retrievedUser = UserDBOperations.getUserFromRS(1);
             assertEquals(true, matchingUser.getName().equals(retrievedUser.getName()));
@@ -460,6 +460,24 @@ public class DatabaseTest {
     public void testDeleteDatapoint() {
         try {
             assertEquals(true, DatapointDBOperations.deleteExistingDataPoint(5));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDataPointTransaction() {
+        try {
+            Instant dateNow = Instant.now();
+            DataPoint dp7 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(100))), 168, 9.72, 10.0, 99.0);
+            DataPoint dp8 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(90))), 168, 9.72, 10.0, 99.0);
+            ArrayList<DataPoint> testPoints = new ArrayList<DataPoint>();
+            testPoints.add(dp7);
+            testPoints.add(dp8);
+            ArrayList<Integer> pkeys = DatapointDBOperations.insertDataPointList(testPoints, 1);
+            int[] expectedKeys = {7,8};
+            int[] actualKeys = {pkeys.get(0),pkeys.get(1)};
+            assertArrayEquals(expectedKeys, actualKeys);
         } catch (SQLException e) {
             e.printStackTrace();
         }
