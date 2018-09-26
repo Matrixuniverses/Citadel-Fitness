@@ -246,6 +246,7 @@ public class DatapointDBOperations {
             prep.setDouble(9, datapoint.getDistanceDelta());
             prep.executeUpdate();
         }
+
         prep.close();
         stmnt.execute("END TRANSACTION;");
         stmnt.close();
