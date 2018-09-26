@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,21 +17,24 @@ import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 
+import javax.xml.crypto.Data;
 import java.io.File;
+import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.ResourceBundle;
 
 /**
  *Controller for AddData Scene
  */
-public class AddDataController implements UserData {
+public class AddDataController implements Initializable, UserData {
 
     private File selectedFile;
     private IntegerProperty newFile = new SimpleIntegerProperty(0);
-    private DataManager dataManager;
 
 
+    private DataManager dataManager = DataManager.getDataManager();
     @FXML
     private Button selectFileButton;
 
@@ -148,22 +152,6 @@ public class AddDataController implements UserData {
         }
     }
 
-    public void clearData(){
-        importInfoLabel.setVisible(false);
-    }
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-
-        ObservableList<String> typeOptions = FXCollections.observableArrayList();
-        typeOptions.add("Run");
-        typeOptions.add("Walk");
-        typeOptions.add("Cycle");
-        typeOptions.add("Swim");
-        choiceBoxType.setItems(typeOptions);
-        choiceBoxType.setValue("Run");
-    }
-
     @Override
     public void updateUser() {
 
@@ -198,6 +186,7 @@ public class AddDataController implements UserData {
             } else {
                 Date date = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Activity userActivity = new Activity(name, date, type, time, distance);
+                DataManager.getDataManager().addActivity(userActivity);
                 dataManager.addActivity(userActivity);
                 errorLabel.setTextFill(Color.GREEN);
                 errorLabel.setText("Activity added successfully.");
@@ -218,4 +207,14 @@ public class AddDataController implements UserData {
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.add("Run");
+        typeOptions.add("Walk");
+        typeOptions.add("Cycle");
+        typeOptions.add("Swim");
+        choiceBoxType.setItems(typeOptions);
+        choiceBoxType.setValue("Run");
+    }
 }

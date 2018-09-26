@@ -21,6 +21,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
+import seng202.group2.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,10 +31,10 @@ import java.util.ResourceBundle;
 /**
  * Controller for the main container, responsible for initialising all Views
  */
-public class MainController implements UserData, Initializable {
+public class MainController implements Initializable {
 
     private SimpleStringProperty status = new SimpleStringProperty("loggedout");
-    private DataManager dataManager;
+    private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
     AnchorPane navBar;
@@ -163,7 +164,7 @@ public class MainController implements UserData, Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
                     if (newValue == "Import Data"){
-                        addDataController.clearData();
+//                        addDataController.clearData();
                     }
                     paneMap.get(newValue).toFront();
                     headerController.getViewLabel().setText(newValue);
@@ -236,21 +237,6 @@ public class MainController implements UserData, Initializable {
                 activityInfo.toBack();
             }
         });
-    }
-
-    /**
-     * This processes all user update information including changing between users
-     */
-    public void updateUser(){
-        profileView.toFront();
-        headerController.getNameLabel().textProperty().bind(dataManager.getCurrentUser().nameProperty());
-        activityViewController.updateUser();
-        addDataController.updateUser();
-        viewGraphController.updateUser();
-        profileViewController.updateUser();
-        mapViewController.updateUser();
-        editProfileController.updateUser();
-
     }
 
     public Button getLogoutButton() {

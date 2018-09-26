@@ -3,12 +3,15 @@ package seng202.group2.view;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +31,7 @@ public class ProfileController implements Initializable, UserData {
         return currentView;
     }
 
-    private DataManager dataManager;
+    private DataManager dataManager =  DataManager.getDataManager();
 
     public void setCurrentView(String currentView) {
         this.currentView.set(currentView);
@@ -59,18 +62,19 @@ public class ProfileController implements Initializable, UserData {
 
 
     public void initialize(URL location, ResourceBundle resources) {
+        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                bmiLabel.textProperty().bind(Bindings.format("%.0f", dataManager.getCurrentUser().bmiProperty()));
+                weightLabel.textProperty().bind(Bindings.format("%.0f",dataManager.getCurrentUser().weightProperty()));
+                totalDistanceLabel.textProperty().bind(Bindings.format("%.1f",dataManager.getCurrentUser().totalDistanceProperty().divide(1000)));
+            }
+        });
 
     }
 
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-    }
-
-    @Override
+        @Override
     public void updateUser() {
-        bmiLabel.textProperty().bind(Bindings.format("%.0f", dataManager.getCurrentUser().bmiProperty()));
-        weightLabel.textProperty().bind(Bindings.format("%.0f",dataManager.getCurrentUser().weightProperty()));
-        totalDistanceLabel.textProperty().bind(Bindings.format("%.1f",dataManager.getCurrentUser().totalDistanceProperty().divide(1000)));
+
     }
 }
