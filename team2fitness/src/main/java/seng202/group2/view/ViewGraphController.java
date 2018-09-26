@@ -74,19 +74,33 @@ public class ViewGraphController implements UserData, Initializable{
         ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
         for (Activity activity : activityList) {
             if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 0){
+                lineChart.setTitle("Distance/Time");
+                lineChart.getXAxis().setLabel("Time(s)");
+                lineChart.getYAxis().setLabel("Distance(m)");
+
                 XYChart.Series series = GraphGenerator.createTimeSeries(activity);
                 seriesList.add(series);
                 lineChart.getData().add(series);
             } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 1) {
+                lineChart.setTitle("Heart Rate/Time");
+                lineChart.getXAxis().setLabel("Time(s)");
+                lineChart.getYAxis().setLabel("Hart Rate");
+
                 XYChart.Series series = GraphGenerator.createHeartRateTimeSeries(activity);
                 seriesList.add(series);
                 lineChart.getData().add(series);
             } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 2) {
-                XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+                lineChart.setTitle("Speed/Time");
+                lineChart.getXAxis().setLabel("Time(s)");
+                lineChart.getYAxis().setLabel("Speed(m/s)");
+                XYChart.Series series = GraphGenerator.createSpeedTimeSeries(activity);
                 seriesList.add(series);
                 lineChart.getData().add(series);
             }else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 3) {
-                XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+                lineChart.setTitle("Calories Burnt");
+                lineChart.getXAxis().setLabel("Time(s)");
+                lineChart.getYAxis().setLabel("Calories");
+                XYChart.Series series = GraphGenerator.createCaloriesTimeSeries(activity);
                 seriesList.add(series);
                 lineChart.getData().add(series);
             }

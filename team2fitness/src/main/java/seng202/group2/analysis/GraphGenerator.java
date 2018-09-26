@@ -23,15 +23,46 @@ public class GraphGenerator {
 
     public static XYChart.Series createHeartRateTimeSeries(Activity activity){
         double time = 0;
-        double heartRate = 0;
+        double heartRate;
 
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
             time += dataPoint.getTimeDelta();
-            heartRate += dataPoint.getHeartRate();
+            heartRate = dataPoint.getHeartRate();
+            series.getData().add(new XYChart.Data(time, heartRate));
             series.setName(activity.getActivityName());
         }
 
+        return series;
+    }
+
+
+    public static XYChart.Series createSpeedTimeSeries(Activity activity){
+        double time = 0;
+        double speed = 0;
+
+        XYChart.Series series = new XYChart.Series();
+        for (DataPoint dataPoint : activity.getActivityData()) {
+            time += dataPoint.getTimeDelta();
+            speed += dataPoint.getDistanceDelta();
+            series.getData().add(new XYChart.Data(time, speed));
+            series.setName(activity.getActivityName());
+        }
+
+        return series;
+    }
+
+    public static XYChart.Series createCaloriesTimeSeries(Activity activity){
+        double time = 0;
+        double calories = 0;
+
+        XYChart.Series series = new XYChart.Series();
+        for (DataPoint dataPoint : activity.getActivityData()){
+            time += dataPoint.getTimeDelta();
+            calories += 10;
+            series.getData().add(new XYChart.Data(time, calories));
+            series.setName(activity.getActivityName());
+        }
         return series;
     }
 
