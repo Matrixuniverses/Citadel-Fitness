@@ -39,12 +39,17 @@ public class GraphGenerator {
 
     public static XYChart.Series createSpeedTimeSeries(Activity activity){
         double time = 0;
-        double speed = 0;
+        double speed;
 
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
             time += dataPoint.getTimeDelta();
-            speed += dataPoint.getDistanceDelta();
+            if (dataPoint.getTimeDelta() != 0) {
+                speed = dataPoint.getDistanceDelta() / dataPoint.getTimeDelta();
+            } else {
+                speed = 0;
+            }
+            System.out.println(speed);
             series.getData().add(new XYChart.Data(time, speed));
             series.setName(activity.getActivityName());
         }
