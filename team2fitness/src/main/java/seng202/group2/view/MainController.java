@@ -138,7 +138,7 @@ public class MainController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
                     if (newValue == "Import Data"){
-                        addDataController.clearData();
+//                        addDataController.clearData();
                     }
                     paneMap.get(newValue).toFront();
                     headerController.getViewLabel().setText(newValue);

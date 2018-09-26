@@ -10,7 +10,9 @@ import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -18,6 +20,8 @@ import java.util.ResourceBundle;
  */
 public class ActivityViewController implements Initializable, UserData {
 
+
+    private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
     TableView<Activity> activityTable;
@@ -60,17 +64,15 @@ public class ActivityViewController implements Initializable, UserData {
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("formattedTotalDistance"));
         activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("formattedTotalTime"));
 
-    }
 
-
-        DataManager.getDataManager().currentUserProperty().addListener(new ChangeListener<User>() {
+        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
                 activityTable.setItems(DataManager.getDataManager().getActivityList());
             }
         });
-
     }
+
 
 
     public void delete(){

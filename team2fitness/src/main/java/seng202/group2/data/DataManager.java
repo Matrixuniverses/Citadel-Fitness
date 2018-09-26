@@ -86,10 +86,11 @@ public class DataManager {
         currentUser.get().setHeight(newWeight);
     }
 
-
     public User getCurrentUser() {
         return currentUser.get();
     }
+
+
 
     /**
      * Adds an activity to the data, this is first done by checking if an activity of the same name and date/ time
@@ -100,8 +101,8 @@ public class DataManager {
     public void addActivity(Activity activity){
         try {
             DatabaseOperations.createDatabase();
-            if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.getId())) {
-                activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
+            if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.get().getId())) {
+                activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.get().getId()));
                 DatapointDBOperations.insertDataPointList(activity.getActivityData(), activity.getId());
                 currentUser.get().addActivity(activity);
             }

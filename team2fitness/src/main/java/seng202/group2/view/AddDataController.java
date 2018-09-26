@@ -17,6 +17,7 @@ import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.net.URL;
 import java.time.ZoneId;
@@ -33,7 +34,7 @@ public class AddDataController implements Initializable, UserData {
     private IntegerProperty newFile = new SimpleIntegerProperty(0);
 
 
-
+    private DataManager dataManager = DataManager.getDataManager();
     @FXML
     private Button selectFileButton;
 
