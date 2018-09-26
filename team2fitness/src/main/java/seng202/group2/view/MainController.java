@@ -1,5 +1,6 @@
 package seng202.group2.view;
 
+import javafx.animation.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,11 +11,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
+import seng202.group2.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,10 +31,10 @@ import java.util.ResourceBundle;
 /**
  * Controller for the main container, responsible for initialising all Views
  */
-public class MainController implements UserData, Initializable {
+public class MainController implements Initializable {
 
     private SimpleStringProperty status = new SimpleStringProperty("loggedout");
-    private DataManager dataManager;
+    private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
     AnchorPane navBar;
@@ -64,21 +71,11 @@ public class MainController implements UserData, Initializable {
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
-    /**
-     * Initializes the data manager
-     * @param newDataManager DataManager Object
-     */
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-        activityViewController.setDataManager(dataManager);
-        addDataController.setDataManager(dataManager);
-        viewGraphController.setDataManager(dataManager);
-        profileViewController.setDataManager(dataManager);
-        mapViewController.setDataManager(dataManager);
-        activityInfoController.setDataManager(dataManager);
-        editProfileController.setDataManager(dataManager);
-    }
+    // Pulsy boi
+    private AnimationTimer timer;
+    private double pulseRate;
+    private ImageView navBarLogo;
+
 
     /**
      * Initalizes the navbar and startup scenes
@@ -152,12 +149,32 @@ public class MainController implements UserData, Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
                     if (newValue == "Import Data"){
-                        addDataController.clearData();
+//                        addDataController.clearData();
                     }
                     paneMap.get(newValue).toFront();
                     headerController.getViewLabel().setText(newValue);
                     navBarController.getCurrentView().setValue("");
                 }
+            }
+        });
+
+        activityViewController.getPulser().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                navBarLogo = navBarController.getNavLogo();
+                pulseRate = Double.parseDouble(newValue);
+
+                ScaleTransition scaleTransition = new ScaleTransition();
+                scaleTransition.setNode(navBarLogo);
+                scaleTransition.setFromX(1);
+                scaleTransition.setFromY(1);
+                scaleTransition.setByX(0.2);
+                scaleTransition.setByY(0.2);
+                scaleTransition.setCycleCount(10);
+                scaleTransition.setDuration(Duration.seconds(60/pulseRate));
+                scaleTransition.setAutoReverse(true);
+                scaleTransition.play();
+
             }
         });
 
@@ -205,21 +222,6 @@ public class MainController implements UserData, Initializable {
                 activityInfo.toBack();
             }
         });
-    }
-
-    /**
-     * This processes all user update information including changing between users
-     */
-    public void updateUser(){
-        profileView.toFront();
-        headerController.getNameLabel().textProperty().bind(dataManager.getCurrentUser().nameProperty());
-        activityViewController.updateUser();
-        addDataController.updateUser();
-        viewGraphController.updateUser();
-        profileViewController.updateUser();
-        mapViewController.updateUser();
-        editProfileController.updateUser();
-
     }
 
     public Button getLogoutButton() {

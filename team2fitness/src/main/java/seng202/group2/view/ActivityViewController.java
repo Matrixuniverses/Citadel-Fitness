@@ -1,14 +1,21 @@
 package seng202.group2.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -18,9 +25,8 @@ import java.util.ResourceBundle;
  */
 public class ActivityViewController implements Initializable, UserData {
 
-    private DataManager dataManager;
 
-
+    private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
     TableView<Activity> activityTable;
@@ -48,6 +54,12 @@ public class ActivityViewController implements Initializable, UserData {
     @FXML
     Button activityDeleteButton;
 
+    @FXML
+    private ImageView navLogo;
+
+    StringProperty pulser = new SimpleStringProperty("0");
+
+
     /**
      * This initalizes the ActivityView scene
      * @param location location URL
@@ -63,7 +75,29 @@ public class ActivityViewController implements Initializable, UserData {
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("formattedTotalDistance"));
         activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("formattedTotalTime"));
 
+
+        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                activityTable.setItems(DataManager.getDataManager().getActivityList());
+            }
+        });
+
+
+        activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                Double heartRate = newSelection.getAverageHR();
+                pulser.setValue(Double.toString(heartRate));
+            }
+        });
+
     }
+
+    public StringProperty getPulser() {
+        return pulser;
+    }
+
+
 
     public void delete(){
         Activity activity = activityTable.getSelectionModel().getSelectedItem();
@@ -88,12 +122,9 @@ public class ActivityViewController implements Initializable, UserData {
         return activityDeleteButton;
     }
 
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-    }
-
     public void updateUser() {
-        activityTable.setItems(dataManager.getActivityList());
+
+
     }
 
     public TableView<Activity> getTable() {
