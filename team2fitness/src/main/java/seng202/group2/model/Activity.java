@@ -37,6 +37,7 @@ public class Activity {
         this.totalDistance = new SimpleDoubleProperty(0);
         this.caloriesBurned = new SimpleDoubleProperty(0);
         this.averageHR = new SimpleDoubleProperty(0);
+        this.activityDate = new Date(0);
     }
 
     /**

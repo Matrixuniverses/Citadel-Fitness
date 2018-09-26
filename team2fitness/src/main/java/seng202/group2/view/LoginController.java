@@ -27,8 +27,10 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
     private DataManager dataManager = DataManager.getDataManager();
+
     private StringProperty status = new SimpleStringProperty("logged out");
-    private ObservableList<Button> buttonList = FXCollections.observableArrayList();
+
+
 
     @FXML
     private Button loginButton;
@@ -127,18 +129,6 @@ public class LoginController implements Initializable {
 
 
     /**
-     * Sets the DataManager to the instance passed from the main controller.
-     * Adds listeners to the login buttons and the new user buttons.
-     * Disables/Enables the buttons when users exist
-     * @param newDataManager
-     */
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-        userTable.setItems(dataManager.getUserList());
-        userTable.getSelectionModel().selectFirst();
-    }
-
-    /**
      * Function used to make the logo spin
      */
     public void spin() {
@@ -176,5 +166,8 @@ public class LoginController implements Initializable {
                 imageViewLogo.setRotate(rotation);
             }
         };
+
+        userTable.setItems(dataManager.getUserList());
+        userTable.getSelectionModel().selectFirst();
     }
 }

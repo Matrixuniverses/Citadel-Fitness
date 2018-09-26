@@ -76,21 +76,6 @@ public class MainController implements Initializable {
     private double pulseRate;
     private ImageView navBarLogo;
 
-    /**
-     * Initializes the data manager
-     * @param newDataManager DataManager Object
-     */
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-        activityViewController.setDataManager(dataManager);
-        addDataController.setDataManager(dataManager);
-        viewGraphController.setDataManager(dataManager);
-        profileViewController.setDataManager(dataManager);
-        mapViewController.setDataManager(dataManager);
-        activityInfoController.setDataManager(dataManager);
-        editProfileController.setDataManager(dataManager);
-    }
 
     /**
      * Initalizes the navbar and startup scenes
