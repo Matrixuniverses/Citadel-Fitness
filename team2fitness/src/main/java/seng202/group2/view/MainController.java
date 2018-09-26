@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
+import seng202.group2.model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,10 +25,10 @@ import java.util.ResourceBundle;
 /**
  * Controller for the main container, responsible for initialising all Views
  */
-public class MainController implements UserData, Initializable {
+public class MainController implements Initializable {
 
     private SimpleStringProperty status = new SimpleStringProperty("loggedout");
-    private DataManager dataManager;
+    private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
     AnchorPane navBar;
@@ -64,21 +65,6 @@ public class MainController implements UserData, Initializable {
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
 
-    /**
-     * Initializes the data manager
-     * @param newDataManager DataManager Object
-     */
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-        activityViewController.setDataManager(dataManager);
-        addDataController.setDataManager(dataManager);
-        viewGraphController.setDataManager(dataManager);
-        profileViewController.setDataManager(dataManager);
-        mapViewController.setDataManager(dataManager);
-        activityInfoController.setDataManager(dataManager);
-        editProfileController.setDataManager(dataManager);
-    }
 
     /**
      * Initalizes the navbar and startup scenes
@@ -205,21 +191,6 @@ public class MainController implements UserData, Initializable {
                 activityInfo.toBack();
             }
         });
-    }
-
-    /**
-     * This processes all user update information including changing between users
-     */
-    public void updateUser(){
-        profileView.toFront();
-        headerController.getNameLabel().textProperty().bind(dataManager.getCurrentUser().nameProperty());
-        activityViewController.updateUser();
-        addDataController.updateUser();
-        viewGraphController.updateUser();
-        profileViewController.updateUser();
-        mapViewController.updateUser();
-        editProfileController.updateUser();
-
     }
 
     public Button getLogoutButton() {

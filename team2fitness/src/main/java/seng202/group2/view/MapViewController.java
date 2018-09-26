@@ -1,5 +1,7 @@
 package seng202.group2.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -11,6 +13,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
+import seng202.group2.data.Route;
+import seng202.group2.model.User;
 import seng202.group2.model.Route;
 
 import java.net.URL;
@@ -21,7 +25,7 @@ import java.util.ResourceBundle;
  */
 public class MapViewController implements Initializable, UserData  {
 
-    private DataManager dataManager;
+    private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
     private javafx.scene.control.TableView<Activity> mapActivityTable;
@@ -56,6 +60,17 @@ public class MapViewController implements Initializable, UserData  {
                 }
             }
         });
+
+
+        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
+                mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
+                webEngine.executeScript("clearRoute()");
+            }
+        });
+
     }
 
     /**
@@ -89,18 +104,12 @@ public class MapViewController implements Initializable, UserData  {
     }
 
     @Override
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-    }
-
-    @Override
     /**
      * Populates the map table with the user's activities. Done so that the user can select one to view on the map as
      * a route.
      * @param user The user who's activity data is to be added to the table.
      */
     public void updateUser() {
-        mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
-        webEngine.executeScript("clearRoute()");
+
     }
 }

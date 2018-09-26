@@ -15,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
+
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -24,7 +26,7 @@ import java.util.ResourceBundle;
  */
 public class LoginController implements Initializable {
 
-    private DataManager dataManager;
+    private DataManager dataManager = DataManager.getDataManager();
     private StringProperty status = new SimpleStringProperty("logged out");
     private ObservableList<Button> buttonList = FXCollections.observableArrayList();
 

@@ -1,5 +1,7 @@
 package seng202.group2.data;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
@@ -9,9 +11,15 @@ import seng202.group2.model.User;
 import java.sql.SQLException;
 
 public class DataManager {
-    private ObservableList<User> userList = FXCollections.observableArrayList();
-    private User currentUser = new User("", 0, 0,0, "");
 
+    private ObservableList<User> userList = FXCollections.observableArrayList();
+    private ObjectProperty<User> currentUser = new SimpleObjectProperty<User>(new User("", 0, 0,0,"Male"));
+
+    private static DataManager dataManager = new DataManager();
+
+    public static DataManager getDataManager() {
+        return dataManager;
+    }
 
     public DataManager() {
         try {
@@ -33,9 +41,14 @@ public class DataManager {
         }
     }
 
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
+    public ObjectProperty<User> currentUserProperty() {
+        return currentUser;
     }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser.set(currentUser);
+    }
+
 
     public void addUser(String name, int age, double height, double weight, String gender) {
         User newUser = new User(name, age, height, weight, gender);
@@ -60,22 +73,22 @@ public class DataManager {
 
     public void changeUserWeight(int newWeight) {
         // TODO Add Database Connection!
-        currentUser.setWeight(newWeight);
+        currentUser.get().setWeight(newWeight);
     }
 
     public void changeUserName(String newName) {
         // TODO Add Database Connection!
-        currentUser.setName(newName);
+        currentUser.get().setName(newName);
     }
 
     public void changeUserHeight(int newWeight) {
         // TODO Add Database Connection!
-        currentUser.setHeight(newWeight);
+        currentUser.get().setHeight(newWeight);
     }
 
 
     public User getCurrentUser() {
-        return currentUser;
+        return currentUser.get();
     }
 
     /**
@@ -90,7 +103,7 @@ public class DataManager {
             if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.getId())) {
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.getId()));
                 DatapointDBOperations.insertDataPointList(activity.getActivityData(), activity.getId());
-                currentUser.addActivity(activity);
+                currentUser.get().addActivity(activity);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,7 +124,7 @@ public class DataManager {
     public void deleteActivity(Activity activity) {
         try {
             ActivityDBOperations.deleteExistingActivity(activity.getId());
-            currentUser.deleteActivity(activity);
+            currentUser.get().deleteActivity(activity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -122,7 +135,7 @@ public class DataManager {
     }
 
     public ObservableList<Activity> getActivityList() {
-        return currentUser.getActivityList();
+        return currentUser.get().getActivityList();
     }
 
 

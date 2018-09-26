@@ -34,17 +34,12 @@ public class AppController implements Initializable {
     private LoginController loginSceneController;
     private MainController mainSceneController;
 
-    //Setup Data Manager
-
-    private DataManager dataManager;
-
     /**
      * Initalises all panes and Listeners
      * @param location
      * @param resources
      */
     public void initialize(URL location, ResourceBundle resources) {
-        dataManager = new DataManager();
         initializeViews();
         setupViews();
     }
@@ -62,14 +57,12 @@ public class AppController implements Initializable {
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLLogin.fxml"));
             loginScene = loader.load();
             loginSceneController = loader.getController();
-            loginSceneController.setDataManager(dataManager);
             appStack.getChildren().add(loginScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLMain.fxml"));
             mainScene = loader.load();
             mainSceneController = loader.getController();
             appStack.getChildren().add(mainScene);
-            mainSceneController.setDataManager(dataManager);
 
 
 
@@ -116,7 +109,6 @@ public class AppController implements Initializable {
      * in the login view.
      */
     private void login(){
-        mainSceneController.updateUser();
         mainScene.toFront();
     }
 
