@@ -1,5 +1,7 @@
 package seng202.group2.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.analysis.GraphGenerator;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +22,7 @@ import java.util.ResourceBundle;
  */
 public class ViewGraphController implements UserData, Initializable{
 
-    private DataManager dataManager;
+    private DataManager dataManager = DataManager.getDataManager();
     private ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
 
     @FXML
@@ -57,6 +60,13 @@ public class ViewGraphController implements UserData, Initializable{
                 updateGraph();
             }
         });
+
+        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                activityTable.setItems(dataManager.getCurrentUser().getActivityList());
+            }
+        });
     }
 
     /**
@@ -81,14 +91,8 @@ public class ViewGraphController implements UserData, Initializable{
 
     }
 
-
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        dataManager = newDataManager;
-    }
-
     @Override
     public void updateUser() {
-        activityTable.setItems(dataManager.getCurrentUser().getActivityList());
+
     }
 }

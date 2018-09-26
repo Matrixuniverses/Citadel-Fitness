@@ -1,11 +1,14 @@
 package seng202.group2.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,9 +17,6 @@ import java.util.ResourceBundle;
  * Controller for Activity Scene
  */
 public class ActivityViewController implements Initializable, UserData {
-
-    private DataManager dataManager;
-
 
 
     @FXML
@@ -60,6 +60,13 @@ public class ActivityViewController implements Initializable, UserData {
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, Double>("totalDistance"));
         activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, Formatter>("formattedTotalTime"));
 
+
+        DataManager.getDataManager().currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                activityTable.setItems(DataManager.getDataManager().getActivityList());
+            }
+        });
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
@@ -70,12 +77,9 @@ public class ActivityViewController implements Initializable, UserData {
         return activityDeleteButton;
     }
 
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-    }
-
     public void updateUser() {
-        activityTable.setItems(dataManager.getActivityList());
+
+
     }
 
     public TableView<Activity> getTable() {

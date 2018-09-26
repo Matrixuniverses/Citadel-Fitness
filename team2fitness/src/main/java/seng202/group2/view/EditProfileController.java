@@ -1,6 +1,8 @@
 package seng202.group2.view;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -54,7 +56,6 @@ public class EditProfileController implements Initializable, UserData {
     @FXML
     private Label confirmLabel;
 
-    private DataManager dataManager;
 
 
     User currentUser;
@@ -65,21 +66,23 @@ public class EditProfileController implements Initializable, UserData {
         weightErrorLabel.setTextFill(Color.RED);
         ageErrorLabel.setTextFill(Color.RED);
         confirmLabel.setTextFill(Color.RED);
+
+        DataManager.getDataManager().currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                currentUser = DataManager.getDataManager().getCurrentUser();
+                setFields();
+            }
+        });
     }
 
-
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        dataManager = newDataManager;
-    }
 
     /**
      * Fills the provided fields with the user's current information.
      */
     @Override
     public void updateUser() {
-        currentUser = dataManager.getCurrentUser();
-        setFields();
+
     }
 
     private void setFields() {
@@ -88,55 +91,6 @@ public class EditProfileController implements Initializable, UserData {
         heightField.setText(Double.toString(currentUser.getHeight()));
         weightField.setText(Double.toString(currentUser.getWeight()));
     }
-
-
-
-    /**
-     * Updates the user's data with the fields provided. User information is changed and written to database.
-     */
-/*    public void update() {
-        nameErrorLabel.setVisible(false);
-        ageErrorLabel.setVisible(false);
-        heightErrorLabel.setVisible(false);
-        weightErrorLabel.setVisible(false);
-        confirmLabel.setVisible(false);
-
-        try {
-            String name = nameField.getText();
-            int age = Integer.valueOf(ageField.getText());
-            double height = Double.valueOf(heightField.getText());
-            double weight = Double.valueOf(weightField.getText());
-
-            if (name.length() > 25) {
-                nameErrorLabel.setVisible(true);
-                nameErrorLabel.setText("Name cannot exceed 25 characters.");
-            } else if (age < 0) {
-                ageErrorLabel.setVisible(true);
-                ageErrorLabel.setText("Age value cannot be negative.");
-            } else if (height <= 0 || weight <= 0) {
-                heightErrorLabel.setVisible(true);
-                heightErrorLabel.setText("Height/Weight values must be positive numbers.");
-            } else {
-                currentUser.setAge(age);
-                currentUser.setHeight(height);
-                currentUser.setWeight(weight);
-                confirmLabel.setVisible(true);
-                if (nameField.getText().length() == 0) {
-                    confirmLabel.setText("Age/Height/Weight values updated.");
-                } else {
-                    currentUser.setName(nameField.getText());
-                    confirmLabel.setText("All values updated.");
-                }
-            }
-        } catch (NumberFormatException e) {
-            ageErrorLabel.setVisible(true);
-            ageErrorLabel.setText("Age must be a number.");
-            weightErrorLabel.setVisible(true);
-            weightErrorLabel.setText("Weight must be a number.");
-            heightErrorLabel.setVisible(true);
-            heightErrorLabel.setText("Height must be a number.");
-        }
-    }*/
 
     /**
      * Updates the user's data with the fields provided. User information is changed and written to database.

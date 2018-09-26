@@ -20,9 +20,7 @@ import java.util.ResourceBundle;
 /**
  * Controller for Activity Information Scene
  */
-public class ActivityInfoController implements Initializable, UserData {
-
-    private DataManager dataManager;
+public class ActivityInfoController implements Initializable {
 
     @FXML
     private WebView mapWebView;
@@ -81,16 +79,6 @@ public class ActivityInfoController implements Initializable, UserData {
         activityChart.getYAxis().setLabel("Distance(m)");
 
         activityChart.setCreateSymbols(false);
-
-    }
-
-    @Override
-    public void setDataManager(DataManager newDataManager) {
-        this.dataManager = newDataManager;
-    }
-
-    @Override
-    public void updateUser() {
 
     }
 
