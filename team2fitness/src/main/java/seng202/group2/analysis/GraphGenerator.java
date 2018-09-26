@@ -20,4 +20,21 @@ public class GraphGenerator {
 
         return series;
     }
+
+    public static XYChart.Series createHeartRateTimeSeries(Activity activity){
+        double time = 0;
+        double heartRate = 0;
+
+        XYChart.Series series = new XYChart.Series();
+        for (DataPoint dataPoint : activity.getActivityData()) {
+            time += dataPoint.getTimeDelta();
+            heartRate += dataPoint.getHeartRate();
+            series.setName(activity.getActivityName());
+        }
+
+        return series;
+    }
+
+
+
 }

@@ -41,7 +41,7 @@ public class ViewGraphController implements UserData, Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time"));
+        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time", "Heart Rate / Time", "Speed Graph",  "Calories Burnt"));
         graphTypeChoice.getSelectionModel().select(0);
         //creating the chart
         lineChart.setTitle("Distance/Time");
@@ -73,12 +73,29 @@ public class ViewGraphController implements UserData, Initializable{
         }
         ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
         for (Activity activity : activityList) {
-            XYChart.Series series = GraphGenerator.createTimeSeries(activity);
-            seriesList.add(series);
-            lineChart.getData().add(series);
+            if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 0){
+                XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+                seriesList.add(series);
+                lineChart.getData().add(series);
+            } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 1) {
+                XYChart.Series series = GraphGenerator.createHeartRateTimeSeries(activity);
+                seriesList.add(series);
+                lineChart.getData().add(series);
+            } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 2) {
+                XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+                seriesList.add(series);
+                lineChart.getData().add(series);
+            }else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 3) {
+                XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+                seriesList.add(series);
+                lineChart.getData().add(series);
+            }
+
+
         }
 
     }
+
 
 
     @Override
