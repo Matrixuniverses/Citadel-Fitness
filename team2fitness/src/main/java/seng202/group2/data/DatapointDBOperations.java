@@ -4,9 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.model.DataPoint;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -75,7 +77,7 @@ public class DatapointDBOperations {
      * @return The Datapoint that has been quered for from the data if the datapoint_id exists, null otherwise.
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
-    public static DataPoint getDataPointFromRS(int datapointID) throws SQLException {
+    public static DataPoint getDataPointFromDB(int datapointID) throws SQLException {
         DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = " + datapointID;
         ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
@@ -179,20 +181,6 @@ public class DatapointDBOperations {
 
     }
 
-/*
-    public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException{
-
-
-        ResultSet results = pUpdateStmt.getGeneratedKeys();
-        results.next();
-        int datapoint_id = results.getInt(1);
-
-        DatabaseOperations.disconnectFromDB();
-        return datapoint_id;
-
-    }
-*/
-
 
     /**
      * Updates a datapoint that is already in the data. Returns a boolean value based on whether the update operation
@@ -208,7 +196,7 @@ public class DatapointDBOperations {
     public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException {
 
         String sqlUpdateStmt = "UPDATE Datapoints SET dp_date_string = ?, dp_date = ?, heart_rate = ?, latitude = ?, longitude = ?, altitude = ? WHERE dp_id = ?";
-        if (getDataPointFromRS(updatedDP.getId()) != null) {
+        if (getDataPointFromDB(updatedDP.getId()) != null) {
             DatabaseOperations.connectToDB();
             Connection dbConn = DatabaseOperations.getDbConnection();
 
@@ -232,6 +220,39 @@ public class DatapointDBOperations {
         }
     }
 
+    /**
+     * Inserts all passed datapoints into database using a SQL manual transaction.
+     * @param points Datapoints to write to database
+     * @param activityID ActivityID to attach the datapoints to
+     * @throws SQLException If unable to write to database
+     */
+    public static void insertDataPointList(ArrayList<DataPoint> points, int activityID) throws SQLException{
+        DatabaseOperations.connectToDB();
+        Connection dbConn = DatabaseOperations.getDbConnection();
+        Statement stmnt = dbConn.createStatement();
+        stmnt.execute("BEGIN TRANSACTION;");
+        PreparedStatement prep = dbConn.prepareStatement("INSERT INTO Datapoints(activity_id, dp_date_string, dp_date, heart_rate, latitude, "
+                + "longitude, altitude, time_delta, dist_delta) VALUES(?,?,?,?,?,?,?,?,?)");
+
+        for (DataPoint datapoint : points) {
+            prep.setInt(1, activityID);
+            prep.setString(2, datapoint.getDate().toString());
+            prep.setDate(3, new java.sql.Date(datapoint.getDate().getTime()));
+            prep.setInt(4, datapoint.getHeartRate());
+            prep.setDouble(5, datapoint.getLatitude());
+            prep.setDouble(6, datapoint.getLongitude());
+            prep.setDouble(7, datapoint.getAltitude());
+            prep.setDouble(8, datapoint.getTimeDelta());
+            prep.setDouble(9, datapoint.getDistanceDelta());
+            prep.executeUpdate();
+        }
+
+        prep.close();
+        stmnt.execute("END TRANSACTION;");
+        stmnt.close();
+        DatabaseOperations.disconnectFromDB();
+    }
+
 
     /**
      * Removes an existing datapoint from the data. Returns true if the datapoint with the inputted id no longer exists
@@ -251,7 +272,7 @@ public class DatapointDBOperations {
 
         pDeleteStmt.close();
         DatabaseOperations.disconnectFromDB();
-        if (getDataPointFromRS(datapointID) == null) {
+        if (getDataPointFromDB(datapointID) == null) {
             return true;
         } else {
             return false;

@@ -7,10 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import seng202.group2.data.ActivityDBOperations;
-import seng202.group2.data.DatabaseOperations;
-import seng202.group2.data.DatapointDBOperations;
-import seng202.group2.data.UserDBOperations;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
 import seng202.group2.model.User;
@@ -358,7 +354,7 @@ public class DatabaseTest {
     public void testDeleteExistingActivityCascade() {
         try {
             ActivityDBOperations.deleteExistingActivity(7);
-            assertEquals(null, DatapointDBOperations.getDataPointFromRS(7));
+            assertEquals(null, DatapointDBOperations.getDataPointFromDB(7));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -420,7 +416,7 @@ public class DatabaseTest {
     @Test
     public void testGetDataPointFromDBValid() {
         try {
-            DataPoint dp = DatapointDBOperations.getDataPointFromRS(1);
+            DataPoint dp = DatapointDBOperations.getDataPointFromDB(1);
             assertEquals(1, dp.getId());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -430,7 +426,7 @@ public class DatabaseTest {
     @Test
     public void testGetDataPointFromDBInvalid() {
         try {
-            DataPoint shouldntExist = DatapointDBOperations.getDataPointFromRS(1000);
+            DataPoint shouldntExist = DatapointDBOperations.getDataPointFromDB(1000);
             assertEquals(null, shouldntExist);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -440,7 +436,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateDataPointValid(){
         try {
-            DataPoint retrievedDB  = DatapointDBOperations.getDataPointFromRS(5);
+            DataPoint retrievedDB  = DatapointDBOperations.getDataPointFromDB(5);
             retrievedDB.setHeartRate(199);
             assertEquals(true, DatapointDBOperations.updateExistingDataPoint(retrievedDB));
         } catch (SQLException e) {
@@ -451,7 +447,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateDataPointInvalid() {
         try {
-            DataPoint retrievedDB  = DatapointDBOperations.getDataPointFromRS(5);
+            DataPoint retrievedDB  = DatapointDBOperations.getDataPointFromDB(5);
             retrievedDB.setId(1000);
             assertEquals(false, DatapointDBOperations.updateExistingDataPoint(retrievedDB));
         } catch (SQLException e) {

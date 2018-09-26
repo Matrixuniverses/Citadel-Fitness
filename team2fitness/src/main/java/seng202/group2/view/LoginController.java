@@ -97,7 +97,6 @@ public class LoginController implements Initializable {
     public void create() {
         try {
             errorLabel.setVisible(true);
-            errorLabel.setTextFill(Color.RED);
 
             String name = nameField.getText();
             Integer age = Integer.valueOf(ageField.getText());
@@ -120,7 +119,7 @@ public class LoginController implements Initializable {
                 clearFields();
             }
         } catch (Exception e){
-            errorLabel.setText("Age/Height/Weight values must be numbers.");
+            errorLabel.setText("Unable to create user!");
         }
     }
 
@@ -137,6 +136,9 @@ public class LoginController implements Initializable {
         userTable.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Function used to make the logo spin
+     */
     public void spin() {
         if (shouldSpin) {
             timer.start();
