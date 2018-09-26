@@ -1,11 +1,14 @@
 package seng202.group2.view;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 
@@ -19,8 +22,6 @@ import java.util.ResourceBundle;
 public class ActivityViewController implements Initializable, UserData {
 
     private DataManager dataManager;
-
-
 
     @FXML
     TableView<Activity> activityTable;
@@ -48,6 +49,12 @@ public class ActivityViewController implements Initializable, UserData {
     @FXML
     Button activityDeleteButton;
 
+    @FXML
+    private ImageView navLogo;
+
+    StringProperty pulser = new SimpleStringProperty("0");
+
+
     /**
      * This initalizes the ActivityView scene
      * @param location location URL
@@ -63,6 +70,19 @@ public class ActivityViewController implements Initializable, UserData {
         activityDistanceCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("formattedTotalDistance"));
         activityTimeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("formattedTotalTime"));
 
+
+
+        activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                Double heartRate = newSelection.getAverageHR();
+                pulser.setValue(Double.toString(heartRate));
+            }
+        });
+
+    }
+
+    public StringProperty getPulser() {
+        return pulser;
     }
 
     public void delete(){

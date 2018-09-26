@@ -1,5 +1,6 @@
 package seng202.group2.view;
 
+import javafx.animation.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,9 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
 
@@ -63,6 +69,11 @@ public class MainController implements UserData, Initializable {
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
+
+    // Pulsy boi
+    private AnimationTimer timer;
+    private double pulseRate;
+    private ImageView navBarLogo;
 
     /**
      * Initializes the data manager
@@ -158,6 +169,26 @@ public class MainController implements UserData, Initializable {
                     headerController.getViewLabel().setText(newValue);
                     navBarController.getCurrentView().setValue("");
                 }
+            }
+        });
+
+        activityViewController.getPulser().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                navBarLogo = navBarController.getNavLogo();
+                pulseRate = Double.parseDouble(newValue);
+
+                ScaleTransition scaleTransition = new ScaleTransition();
+                scaleTransition.setNode(navBarLogo);
+                scaleTransition.setFromX(1);
+                scaleTransition.setFromY(1);
+                scaleTransition.setByX(0.2);
+                scaleTransition.setByY(0.2);
+                scaleTransition.setCycleCount(10);
+                scaleTransition.setDuration(Duration.seconds(60/pulseRate));
+                scaleTransition.setAutoReverse(true);
+                scaleTransition.play();
+
             }
         });
 

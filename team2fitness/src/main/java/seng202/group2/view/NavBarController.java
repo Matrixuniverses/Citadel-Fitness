@@ -66,6 +66,9 @@ public class NavBarController implements Initializable {
         return editProfileButton;
     }
 
+    public ImageView getNavLogo() {return navLogo;
+    }
+
     public void initialize(URL location, ResourceBundle resources) {
         Image logo = new Image("/images/citadelLogoB.png");
         navLogo.setImage(logo);
