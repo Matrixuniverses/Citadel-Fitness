@@ -31,8 +31,6 @@ public class ActivityDBOperations {
     public static boolean checkDuplicateActivity(Activity activityToCheck, int user_id) throws SQLException {
         DatabaseOperations.connectToDB();
 
-        // TODO - Check if the distances for the comparable activities are within a specific range
-
         String dateString = activityToCheck.getDate().toString();
         String sqlQueryStmt = "SELECT date_string, name FROM Activities WHERE user_id = "
                 + user_id + " AND date_string = '" + dateString + "'";

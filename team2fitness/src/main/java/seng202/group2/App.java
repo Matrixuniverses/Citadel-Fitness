@@ -10,7 +10,7 @@ import seng202.group2.view.AppController;
 
 /**
  * This class is the main class for Citadel Fitness and launches the application
- *@author Adam Conway, Christopher Worrall, Luke Walsh, Ollie Sharplin, Sam Shankland, Vikas Shenoy
+ * @author Adam Conway, Christopher Worrall, Luke Walsh, Ollie Sharplin, Sam Shankland, Vikas Shenoy
  */
 public class App extends Application
 {

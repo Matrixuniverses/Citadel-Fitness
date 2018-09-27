@@ -49,7 +49,6 @@ public class GraphGenerator {
             } else {
                 speed = 0;
             }
-            System.out.println(speed);
             series.getData().add(new XYChart.Data(time, speed));
             series.setName(activity.getActivityName());
         }
