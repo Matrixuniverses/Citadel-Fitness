@@ -121,12 +121,12 @@ public class DataAnalyzer {
      * @return An estimate value of the VO2 max based off the inputted values
      * @throws IllegalArgumentException if the restingHeartRate value is not greater than zero
      */
-    public static double calcVo2Max(int age, int restingHeartRate) {
-        if (restingHeartRate <= 0) {
+    public static double calcVo2Max(double max, double min) {
+        if (min <= 0) {
             throw new IllegalArgumentException("restingHeartRate must be greater than zero");
         }
-        double maxHeartRate = 208 - (0.7 * age);
-        return 15.3 * (maxHeartRate/restingHeartRate);
+        double maxHeartRate = 15 * (max/min);
+        return maxHeartRate;
     }
 
     public static double calcAverageHR(Activity activity) {

@@ -2,6 +2,10 @@ package seng202.group2.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import seng202.group2.data.ActivityDBOperations;
+import seng202.group2.data.DataManager;
+import seng202.group2.view.ActivityInfoController;
+import seng202.group2.view.ActivityViewController;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -21,6 +25,9 @@ public class Activity {
     private SimpleDoubleProperty totalDistance;
     private SimpleDoubleProperty caloriesBurned;
     private SimpleDoubleProperty averageHR;
+    private SimpleDoubleProperty minHR;
+    private SimpleDoubleProperty maxHR;
+    private SimpleDoubleProperty vo2MAX;
     private Date activityDate;
     private ArrayList<DataPoint> activityData = new ArrayList<>();
     //Will add code functionality later
@@ -38,6 +45,9 @@ public class Activity {
         this.caloriesBurned = new SimpleDoubleProperty(0);
         this.averageHR = new SimpleDoubleProperty(0);
         this.activityDate = new Date(0);
+        this.minHR = new SimpleDoubleProperty(0);
+        this.maxHR = new SimpleDoubleProperty(0);
+
     }
 
     /**
@@ -56,6 +66,9 @@ public class Activity {
         this.totalDistance = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
         this.averageHR = new SimpleDoubleProperty(0);
         this.caloriesBurned = new SimpleDoubleProperty(0);
+        this.minHR = new SimpleDoubleProperty(Double.valueOf(getMinHR()));
+        this.maxHR = new SimpleDoubleProperty(Double.valueOf(getMaxHR()));
+        this.vo2MAX = new SimpleDoubleProperty(Double.valueOf(calcVo2Max()));
 
         manualEntry = true;
     }
@@ -270,5 +283,47 @@ public class Activity {
         } else {
             return activityDate;
         }
+    }
+
+    public double getMinHR(){
+        double min = 1000;
+        for (int i = 0; i< activityData.size(); i++){
+            if (activityData.get(i).getHeartRate() <= min){
+                min = activityData.get(i).getHeartRate();
+            }
+        }
+        return min;
+
+    }
+    public double getMaxHR(){
+        double max = 0;
+        for (int i = 0; i < activityData.size(); i++){
+            if (activityData.get(i).getHeartRate() >= max){
+                max = activityData.get(i).getHeartRate();
+            }
+        }
+        return max;
+    }
+
+    public SimpleDoubleProperty vo2MaxProperty(){
+        return vo2MAX;
+    }
+
+    /**
+     * Inputs a age value and a resting heart rate (beats per minute) and calculates an estimate of
+     * the VO2 max based of these values.
+     * @param age The age of the person in years
+     * @param restingHeartRate The resting heart rate of the person in beats per minute
+     * @return An estimate value of the VO2 max based off the inputted values
+     * @throws IllegalArgumentException if the restingHeartRate value is not greater than zero
+     */
+    public double calcVo2Max() {
+        double max = getMaxHR();
+        double min = getMinHR();
+        if (min <= 0) {
+            throw new IllegalArgumentException("restingHeartRate must be greater than zero");
+        }
+        double maxHeartRate = 15 * (max/min);
+        return maxHeartRate;
     }
 }

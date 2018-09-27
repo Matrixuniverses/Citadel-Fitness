@@ -96,6 +96,8 @@ public class ActivityInfoController implements Initializable {
         speedLabel.textProperty().bind(Bindings.format("%.2f", activity.totalDistanceProperty().divide(activity.totalTimeProperty())));
         caloriesLabel.textProperty().bind(Bindings.format("%.0f", activity.caloriesBurnedProperty()));
         bpmLabel.textProperty().bind(Bindings.format("%.0f", activity.averageHRProperty()));
+        vmaxLabel.textProperty().bind(Bindings.format("%.0f", activity.vo2MaxProperty()));
+        System.out.println(activity.vo2MaxProperty());
 
         try {
             Route path = new Route(activity.getActivityData());
@@ -116,5 +118,6 @@ public class ActivityInfoController implements Initializable {
     public Button getCloseButton(){
         return closeButton;
     }
+
 
 }
