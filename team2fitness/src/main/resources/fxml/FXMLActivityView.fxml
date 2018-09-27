@@ -24,9 +24,14 @@
       </TableView>
       <Button fx:id="activityDeleteButton" layoutX="784.0" layoutY="600.0" mnemonicParsing="false" onAction="#delete" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Delete Activity" />
       <!-- TODO - Implement edit activity button-->
-      <Button fx:id="activityDeleteButton1" layoutX="783.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Edit Activity(s)" visible="false" />
-      <Button fx:id="detailButton" layoutX="784.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Details" />
+      <Button fx:id="editActivityButton" layoutX="783.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Edit Activity(s)" />
+      <Button fx:id="detailButton" layoutX="784.0" layoutY="450.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Details" />
       <!-- TODO - Implement view datapoints -->
-      <Button fx:id="viewDataPoints" layoutX="784.0" layoutY="65.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Data Points" visible="false" />
+      <Button fx:id="viewDataPoints" layoutX="784.0" layoutY="500.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Data Points" />
+      <Button fx:id="searchButton" layoutX="928.0" layoutY="113.0" mnemonicParsing="false" prefHeight="36.0" styleClass="customButton" text="Search" />
+      <Button fx:id="clearButton" layoutX="868.0" layoutY="113.0" mnemonicParsing="false" prefHeight="36.0" styleClass="customButton" text="Clear" />
+      <DatePicker fx:id="dateFromPicker" layoutX="784.0" layoutY="14.0" prefHeight="36.0" prefWidth="207.0" promptText="Date From" styleClass="customLabels" />
+      <DatePicker fx:id="dateToPicker" layoutX="784.0" layoutY="64.0" prefHeight="36.0" prefWidth="207.0" promptText="Date To" styleClass="customLabels" />
+      <Label fx:id="errorLabel" layoutX="784.0" layoutY="77.0" prefHeight="15.0" prefWidth="198.0" styleClass="error" text="Label" visible="false" />
    </children>
 </AnchorPane>

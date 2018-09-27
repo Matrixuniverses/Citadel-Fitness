@@ -31,9 +31,10 @@
                   <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="398.0" minHeight="10.0" prefHeight="356.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="54.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
+
+
+                  <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Button fx:id="summaryButton" alignment="CENTER" mnemonicParsing="false" onAction="#showSummary" prefHeight="28.0" prefWidth="186.0" styleClass="navbutton" stylesheets="@../style/style.css" text="Summary" textAlignment="CENTER" GridPane.rowIndex="1" />
