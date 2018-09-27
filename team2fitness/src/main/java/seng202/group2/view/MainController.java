@@ -10,7 +10,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -26,6 +28,7 @@ import seng202.group2.model.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -210,6 +213,33 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 editProfile.toBack();
+            }
+        });
+
+        editProfileController.getDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Delete User");
+                alert.setHeaderText("Delete User");
+                alert.setContentText("Are you sure? Deleting will remove all user data. This can't be undone!");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    User currentUser =  DataManager.getDataManager().getCurrentUser();
+                    DataManager.getDataManager().deleteUser(currentUser);
+                    paneMap.get("Summary").toFront();
+                    navBarController.getLogoutButton().fire();
+
+
+
+                    System.out.println("Im done )))))))))))))))))))");
+
+
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                }
+
             }
         });
 

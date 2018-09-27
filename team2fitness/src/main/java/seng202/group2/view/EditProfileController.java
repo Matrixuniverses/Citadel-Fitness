@@ -43,6 +43,9 @@ public class EditProfileController implements Initializable, UserData {
     private Button closeButton;
 
     @FXML
+    private Button deleteButton;
+
+    @FXML
     private Label nameErrorLabel;
 
     @FXML
@@ -170,6 +173,10 @@ public class EditProfileController implements Initializable, UserData {
             confirmLabel.setTextFill(Color.RED);
             confirmLabel.setText("User data invalid. Profile update failed.");
         }
+    }
+
+    public Button getDeleteButton() {
+        return deleteButton;
     }
 
     public Button getCloseButton() {
