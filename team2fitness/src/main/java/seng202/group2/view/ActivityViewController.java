@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
@@ -18,6 +19,7 @@ import seng202.group2.model.User;
 import javax.xml.crypto.Data;
 import java.net.URL;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -106,35 +108,19 @@ public class ActivityViewController implements Initializable, UserData {
             }
         });
 
-       // searchButton.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                try{
-//                    String dateToString = null;
-//                    String dateFromString = null;
-//                    if (dateToPicker.getValue() != null){
-//                        dateToString = dateToPicker.getValue().toString();
-//                    } else {
-//                        throw new IllegalArgumentException("Must pick a 'To' date to perform a search.");
-//                    }
-//                    if (dateFromPicker.getValue() != null){
-//                        dateFromString = dateFromPicker.getValue().toString();
-//                    } else {
-//                        throw new IllegalArgumentException("Must pick a 'From' date to perform a search.");
-//                    }
-//                    Date start = Date.valueOf(dateFromString);
-//                    Date end = Date.valueOf(dateToString);
-//                    int id = currentUser.getId();
-//                    activityTable.setItems(ActivityDBOperations.getActivitiesBetweenDates(start, end, id));
-//
-//                } catch (IllegalArgumentException e){
-//                    errorLabel.setText(e.getMessage());
-//                } catch (SQLException e){
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        });
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                searchPushed();
+            }
+        });
+
+        clearButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clearPushed();
+            }
+        });
 
 
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -148,6 +134,42 @@ public class ActivityViewController implements Initializable, UserData {
 
     public StringProperty getPulser() {
         return pulser;
+    }
+
+    public void clearPushed(){
+        activityTable.setItems(DataManager.getDataManager().getActivityList());
+    }
+
+    public void searchPushed(){
+        try{
+            String dateFromString;
+            String dateToString;
+            currentUser = DataManager.getDataManager().getCurrentUser();
+
+            if (dateToPicker.getValue() != null){
+                dateToString = dateToPicker.getValue().toString();
+            } else {
+                throw new IllegalArgumentException("Must pick a 'To' date to perform a search.");
+            }
+            if (dateFromPicker.getValue() != null){
+                dateFromString = dateFromPicker.getValue().toString();
+            } else {
+                throw new IllegalArgumentException("Must pick a 'From' date to perform a search.");
+            }
+            Date start = Date.valueOf(dateFromString);
+            Date end = Date.valueOf(dateToString);
+            if (start.toString() == end.toString()){
+                System.out.println(end); //TODO: sort out what happens when the dates are the same.
+            }
+            int id = currentUser.getId();
+            System.out.println(currentUser.getId());
+            activityTable.setItems(ActivityDBOperations.getActivitiesBetweenDates(start, end, id));
+
+        } catch (IllegalArgumentException e){
+            errorLabel.setText(e.getMessage());
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 
