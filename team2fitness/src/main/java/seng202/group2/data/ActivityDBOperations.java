@@ -24,19 +24,21 @@ public class ActivityDBOperations {
      * that an activity of the same date, name and distances will be the same activity
      *
      * @param activityToCheck Activity object to compare to the database
-     * @param user_id         UserID of the user that the activity belongs to
+     * @param userID         UserID of the user that the activity belongs to
      * @return True if activity is a duplicate, false if not @future null if unable to determine
      * @throws SQLException If unable to read from database
      */
-    public static boolean checkDuplicateActivity(Activity activityToCheck, int user_id) throws SQLException {
-        DatabaseOperations.connectToDB();
+    public static boolean checkDuplicateActivity(Activity activityToCheck, int userID) throws SQLException {
 
-        // TODO - Check if the distances for the comparable activities are within a specific range
+        Connection dbConn = DatabaseOperations.connectToDB();
 
         String dateString = activityToCheck.getDate().toString();
-        String sqlQueryStmt = "SELECT date_string, name FROM Activities WHERE user_id = "
-                + user_id + " AND date_string = '" + dateString + "'";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
+        String sqlQueryStmt = "SELECT date_string, name FROM Activities WHERE user_id = ? AND date_string =  ? ";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, userID);
+        pQueryStmt.setString(2, dateString);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
 
         if (queryResult.next()) {
             if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
@@ -44,10 +46,131 @@ public class ActivityDBOperations {
                 return true;
             }
         }
-
+        pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
         return false;
+    }
+
+    private static ObservableList<Activity> getResultSetActivities(ResultSet queryResult) throws SQLException{
+
+        ObservableList<Activity> collectedActivities = FXCollections.observableArrayList();
+
+        while(queryResult.next()) {
+            int activityID = queryResult.getInt("activity_id");
+            String activityName = queryResult.getString("name");
+            Date activityDate = null;
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
+            try {
+                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+            } catch (ParseException e) {
+                System.err.println("Unable to parse date");
+                e.printStackTrace();
+            }
+
+            String activityType = queryResult.getString("type");
+            double totalDistance = queryResult.getDouble("total_distance");
+            double totalTime = queryResult.getDouble("total_time");
+
+            Activity newActivity = new Activity(activityName, activityDate, activityType, totalTime, totalDistance);
+            newActivity.setAverageHR(DatapointDBOperations.getAverageHR(activityID));
+            newActivity.setId(activityID);
+            newActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
+            collectedActivities.add(newActivity);
+        }
+
+        return collectedActivities;
+    }
+
+    public static ObservableList<Activity> getActivitiesBetweenDates(java.sql.Date minDate, java.sql.Date maxDate, int UserID) throws SQLException {
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date";
+
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, UserID);
+        pQueryStmt.setDate(2, minDate);
+        pQueryStmt.setDate(3, maxDate);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
+        ObservableList<Activity> collectedActivities = getResultSetActivities(queryResult);
+
+        pQueryStmt.close();
+        DatabaseOperations.disconnectFromDB();
+        return collectedActivities;
+
+
+    }
+
+    /**
+     * Creates a new JavaFX ObservableList containing all of the users activities in the database
+     *
+     * @param userID UserID of the activities to read from database
+     * @return Observable List of the Users activities
+     * @throws SQLException If unable to read/ write from/ to database
+     */
+    public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
+        //TODO - Change this to avoid duplicate code
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? ORDER BY date;";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, userID);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
+
+        ObservableList<Activity> userActivities = getResultSetActivities(queryResult);
+
+
+        pQueryStmt.close();
+        DatabaseOperations.disconnectFromDB();
+
+        return userActivities;
+    }
+
+    /**
+     * Gets a specific activity from the database that matches the activityID
+     * @param activityID ActivityID of the activity to get from the database
+     * @return Activity retrieved from database
+     * @throws SQLException If unable to read from database
+     */
+    public static Activity getActivityFromDB(int activityID) throws SQLException {
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Activities WHERE activity_id = ?;";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, activityID);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
+
+        Activity retrievedActivity = null;
+
+        if (queryResult.next()) {
+
+            String activityName = queryResult.getString("name");
+            java.util.Date activityDate = null;
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
+            try {
+                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+            } catch (ParseException e) {
+                System.out.println("Unable to parse date");
+                e.printStackTrace();
+            }
+
+            String activityType = queryResult.getString("type");
+            double totalDistance = queryResult.getDouble("total_distance");
+            double totalTime = queryResult.getDouble("total_time");
+            retrievedActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
+            retrievedActivity.setId(activityID);
+            retrievedActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
+
+        }
+        pQueryStmt.close();
+        DatabaseOperations.disconnectFromDB();
+
+        return retrievedActivity;
     }
 
     /**
@@ -64,12 +187,12 @@ public class ActivityDBOperations {
             return -1;
         }
 
-        DatabaseOperations.connectToDB();
+        Connection dbConn = DatabaseOperations.connectToDB();
 
         String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time,calories_burnt) \n" +
                 "VALUES(?,?,?,?,?,?,?,?)";
 
-        Connection dbConn = DatabaseOperations.getDbConnection();
+
 
         PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
         pUpdateStmt.setInt(1, userID);
@@ -94,89 +217,7 @@ public class ActivityDBOperations {
 
     }
 
-    /**
-     * Creates a new JavaFX ObservableList containing all of the users activities in the database
-     *
-     * @param userID UserID of the activities to read from database
-     * @return Observable List of the Users activities
-     * @throws SQLException If unable to read/ write from/ to database
-     */
-    public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
-        //TODO - Change this to avoid duplicate code
 
-        DatabaseOperations.connectToDB();
-        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + userID + " ORDER BY date;";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
-
-        ObservableList<Activity> userActivities = FXCollections.observableArrayList();
-
-        while (queryResult.next()) {
-            int activityID = queryResult.getInt("activity_id");
-            String activityName = queryResult.getString("name");
-            Date activityDate = null;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-
-            try {
-                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
-            } catch (ParseException e) {
-                System.err.println("Unable to parse date");
-                e.printStackTrace();
-            }
-
-            String activityType = queryResult.getString("type");
-            double totalDistance = queryResult.getDouble("total_distance");
-            double totalTime = queryResult.getDouble("total_time");
-
-            Activity newActivity = new Activity(activityName, activityDate, activityType, totalTime, totalDistance);
-            newActivity.setAverageHR(DatapointDBOperations.getAverageHR(activityID));
-            newActivity.setId(activityID);
-            newActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
-            userActivities.add(newActivity);
-        }
-
-        DatabaseOperations.disconnectFromDB();
-
-        return userActivities;
-    }
-
-    /**
-     * Gets a specific activity from the database that matches the activityID
-     * @param activityID ActivityID of the activity to get from the database
-     * @return Activity retrieved from database
-     * @throws SQLException If unable to read from database
-     */
-    public static Activity getActivityFromDB(int activityID) throws SQLException {
-        DatabaseOperations.connectToDB();
-        String sqlQuery = "SELECT * FROM Activities WHERE activity_id = " + activityID + ";";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
-        Activity retrievedActivity = null;
-
-        if (queryResult.next()) {
-            //int activityID = queryResult.getInt("activity_id");
-            String activityName = queryResult.getString("name");
-            java.util.Date activityDate = null;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-
-            try {
-                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
-            } catch (ParseException e) {
-                System.out.println("Unable to parse date");
-                e.printStackTrace();
-            }
-
-            String activityType = queryResult.getString("type");
-            double totalDistance = queryResult.getDouble("total_distance");
-            double totalTime = queryResult.getDouble("total_time");
-            retrievedActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
-            retrievedActivity.setId(activityID);
-            retrievedActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
-
-        }
-
-        DatabaseOperations.disconnectFromDB();
-
-        return retrievedActivity;
-    }
 
     /**
      * Updates an existing activity in database to match passed activity
@@ -188,8 +229,8 @@ public class ActivityDBOperations {
         String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ?, calories_burnt = ? WHERE activity_id = ?";
 
         if (getActivityFromDB(activity.getId()) != null) {
-            DatabaseOperations.connectToDB();
-            Connection dbConn = DatabaseOperations.getDbConnection();
+
+            Connection dbConn = DatabaseOperations.connectToDB();
 
             PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStmt.setString(1, activity.getActivityName());
@@ -220,11 +261,11 @@ public class ActivityDBOperations {
      * @throws SQLException If unable to read/ write from/ to database
      */
     public static boolean deleteExistingActivity(int activityID) throws SQLException {
-        DatabaseOperations.connectToDB();
+        Connection dbConn = DatabaseOperations.connectToDB();
 
         String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
 
-        Connection dbConn = DatabaseOperations.getDbConnection();
+
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, activityID);
         pDeleteStmt.executeUpdate();

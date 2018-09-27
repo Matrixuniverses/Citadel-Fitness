@@ -85,9 +85,16 @@
 }
 
 
-.text-field.error {
-    -fx-text-box-border: red ;
-    -fx-focus-color: red ;
+.invalidField {
+    -fx-border-width: 2px;
+    -fx-border-color: red;
+    -fx-border-radius: 3px;
+}
+
+.validField {
+    -fx-border-width: 2px;
+    -fx-border-color: green;
+    -fx-border-radius: 3px;
 }
 
 .error-msg {
