@@ -21,7 +21,8 @@ public class DatabaseOperations {
     private static SQLiteConfig configureSQl() {
         SQLiteConfig sqlConfig = new SQLiteConfig();
         sqlConfig.enforceForeignKeys(true);
-        sqlConfig.setCacheSize(10000);
+        sqlConfig.setCacheSize(100000);
+
         return sqlConfig;
     }
 
@@ -30,9 +31,10 @@ public class DatabaseOperations {
      * the local java.sql.Connection object. The connection is set up with the configuration that Foreign Keys in the
      * data are enforced. The data is located in the User's home directory and the data is created in this
      * directory if it does not already exist.
+     * @return The Connection object that establishes a connection to the database
      * @throws SQLException if an error occurs preforming sql operations on the database.
      */
-    public static void connectToDB() throws SQLException {
+    public static Connection connectToDB() throws SQLException {
         try {
             Class.forName(driver);
             SQLiteConfig sqlConfig = configureSQl();
@@ -41,6 +43,8 @@ public class DatabaseOperations {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return dbConn;
+
 
     }
 
@@ -55,13 +59,7 @@ public class DatabaseOperations {
 
 
 
-    /**
-     *
-     * @return the Connection object that is linked to the database is not null.
-     */
-    public static Connection getDbConnection() {
-        return dbConn;
-    }
+
 
     /**
      * Closes down the connection to the data by calling the close method on the Connection object.
@@ -77,14 +75,6 @@ public class DatabaseOperations {
     }
 
 
-    //Hepler function to execute sqlStmts that are represented as strings
-    private static void executeSQLStatement(String sqlStmt, Connection dbConn) throws SQLException {
-
-        Statement newStmt = dbConn.createStatement();
-        newStmt.execute(sqlStmt);
-    }
-
-
     /**
      *  Creates a new data for the application if it does not already exist and creates the databases structure (tables
      *  and attributes). The data is stored in the project's directory and consists of four tables:
@@ -96,7 +86,7 @@ public class DatabaseOperations {
      *          user_id - The unique id of a user that is stored in the database. Primary key and has the property Autoincrement.
      *      </li>
      *      <li>
-     *          name - The name of the user. Varchar of max length 100 with the property not null.
+     *          name - The name of the user. Text with the property not null.
      *      </li>
      *      <li>
      *          age - The age of the user. Integer with the property not null.
@@ -108,7 +98,7 @@ public class DatabaseOperations {
      *          weight - The weight of the user in kg. Real number with the property not null.
      *      </li>
      *      <li>
-     *          gender - The gender of the user. Varchar with a max length of 2. Either set as 'M','F' or left as a null value
+     *          gender - The gender of the user. Text either set as 'M','F' or left as a null value
      *      </li>
      *  </ul>
      *  Activities
@@ -120,16 +110,16 @@ public class DatabaseOperations {
      *          user_id - foreign key which references a user_id from a tuple in Users. Has the properties not null and on delete cascade.
      *      </li>
      *      <li>
-     *          name - the name of the activity. Varchar with max length of 100 with the property not null.
+     *          name - the name of the activity. Text with the property not null.
      *      </li>
      *      <li>
-     *          date_string - a textual representation of the date that the activity was started on. Varchar with maxc length of 100 with the property not null.
+     *          date_string - a textual representation of the date that the activity was started on. Text with the property not null.
      *      </li>
      *      <li>
      *          date - the date that the activity was completed on represented by a long integer used to order activities by their date. Date type with property not null.
      *      </li>
      *      <li>
-     *          type - the activity's type. Varchar with a max length of 100 with the property not null
+     *          type - the activity's type. Text with the property not null
      *      </li>
      *      <li>
      *          total_distance - the total distance traversed during the activity in metres. Real number with property not null
@@ -150,7 +140,7 @@ public class DatabaseOperations {
      *          activity_id - foreign key which references an activity_id from a tuple in Activities. Has the properties not null and on delete cascade.
      *      </li>
      *      <li>
-     *          dp_date_string - a textual representation of the date/time that the data from the datapoint was recorded at. Varchar with maxc length of 100 with the property not null.
+     *          dp_date_string - a textual representation of the date/time that the data from the datapoint was recorded at. Text with the property not null.
      *      </li>
      *      <li>
      *           date - the date/time that the activity was completed on represented by a long integer used to order activities by their date. Date type with property not null.
@@ -186,10 +176,10 @@ public class DatabaseOperations {
      *          name - the name of the target. Varchar of max length 100 with the property not null.
      *      </li>
      *      <li>
-     *          date_achieved - the date the target was achieved on represented as a string. Varchar with max length of 100.
+     *          date_achieved - the date the target was achieved on represented as a string. Text data type.
      *      </li>
      *      <li>
-     *          type - the type of the target. Varchar with a max length of 100 with the property not null
+     *          type - the type of the target. Text with the property not null
      *      </li>
      *      <li>
      *          initial_value - The initial value of the set target. Real number with property not null.
@@ -209,20 +199,20 @@ public class DatabaseOperations {
 
             String sqlCreateUserTableStmt = "CREATE TABLE IF NOT EXISTS Users (\n"
                     + "user_id integer PRIMARY KEY AUTOINCREMENT, \n"
-                    + "name varchar(100) NOT NULL, \n"
+                    + "name text NOT NULL, \n"
                     + "age integer NOT NULL, \n"
                     + "height real NOT NULL, \n"
                     + "weight real NOT NULL, \n"
-                    + "gender varchar(10) NOT NULL \n"
+                    + "gender text NOT NULL \n"
                     + ");";
 
             String sqlCreateActivityTableStmt = "CREATE TABLE IF NOT EXISTS Activities (\n"
                     + "activity_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "user_id integer NOT NULL, \n"
-                    + "name varchar(100) NOT NULL, \n"
-                    + "date_string varchar(100) NOT NULL, \n"
+                    + "name text NOT NULL, \n"
+                    + "date_string text NOT NULL, \n"
                     + "date date NOT NULL, \n "
-                    + "type varchar(100) NOT NULL, \n"
+                    + "type text NOT NULL, \n"
                     + "total_distance real NOT NULL,"
                     + "total_time real NOT NULL,"
                     + "calories_burnt real NOT NULL,"
@@ -232,7 +222,7 @@ public class DatabaseOperations {
             String sqlCreateDatapointTableStmt = "CREATE TABLE IF NOT EXISTS Datapoints (\n"
                     + "dp_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "activity_id integer NOT NULL, \n"
-                    + "dp_date_string varchar(100) NOT NULL, \n"
+                    + "dp_date_string text NOT NULL, \n"
                     + "dp_date date NOT NULL, \n"
                     + "heart_rate integer NOT NULL, \n"
                     + "latitude real NOT NULL, \n"
@@ -246,9 +236,9 @@ public class DatabaseOperations {
             String sqlCreateTargetTableStmt = "CREATE TABLE IF NOT EXISTS Targets (\n"
                     + "target_id integer PRIMARY KEY AUTOINCREMENT, \n"
                     + "user_id integer NOT NULL, \n"
-                    + "name varchar(100) NOT NULL, \n"
-                    + "date_achieved varchar(100), \n"
-                    + "type varchar(100) NOT NULL, \n"
+                    + "name text NOT NULL, \n"
+                    + "date_achieved text, \n"
+                    + "type text NOT NULL, \n"
                     + "initial_value real NOT NULL, \n"
                     + "current_value real NOT NULL, \n"
                     + "final_value real NOT NULL, \n"
@@ -256,10 +246,15 @@ public class DatabaseOperations {
                     + ");";
 
 
-            executeSQLStatement(sqlCreateUserTableStmt, dbConn);
-            executeSQLStatement(sqlCreateActivityTableStmt, dbConn);
-            executeSQLStatement(sqlCreateDatapointTableStmt, dbConn);
-            executeSQLStatement(sqlCreateTargetTableStmt, dbConn);
+            PreparedStatement pCreateTableStmt = dbConn.prepareStatement(sqlCreateUserTableStmt);
+            pCreateTableStmt.executeUpdate();
+            pCreateTableStmt = dbConn.prepareStatement(sqlCreateActivityTableStmt);
+            pCreateTableStmt.executeUpdate();
+            pCreateTableStmt = dbConn.prepareStatement(sqlCreateDatapointTableStmt);
+            pCreateTableStmt.executeUpdate();
+            pCreateTableStmt = dbConn.prepareStatement(sqlCreateTargetTableStmt);
+            pCreateTableStmt.executeUpdate();
+            pCreateTableStmt.close();
 
         }
         disconnectFromDB();
@@ -293,20 +288,11 @@ public class DatabaseOperations {
             String sqlDeleteUsersStmt = "DELETE FROM Users";
             PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteUsersStmt);
             pDeleteStmt.executeUpdate();
+            pDeleteStmt.close();
 
         }
         disconnectFromDB();
     }
 
-    /**
-     * Executes a inputted sql query (as a string) and returns the result set from the query
-     * @param queryStmt A string representation of a sql query statement
-     * @return The result set from querying the data.
-     * @throws SQLException if an error occurs querying the database.
-     */
-    public static ResultSet executeDBQuery(String queryStmt) throws SQLException {
-        Statement dbStmt = dbConn.createStatement();
 
-        return dbStmt.executeQuery(queryStmt);
-    }
 }
