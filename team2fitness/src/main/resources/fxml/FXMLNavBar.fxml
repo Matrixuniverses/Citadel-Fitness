@@ -27,13 +27,10 @@
                   <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
-<<<<<<< HEAD
+                  <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="398.0" minHeight="10.0" prefHeight="356.0" vgrow="SOMETIMES" />
-=======
                   <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="54.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="398.0" minHeight="10.0" prefHeight="212.0" vgrow="SOMETIMES" />
->>>>>>> eefa55b02c666deb5578c28ad90e628e3ed11be8
                   <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
@@ -43,15 +40,12 @@
                   <Button fx:id="activityButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddActivity" prefHeight="25.0" prefWidth="230.0" text="Activities" textAlignment="CENTER" GridPane.rowIndex="2" />
                   <Button fx:id="addDataButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddData" prefHeight="25.0" prefWidth="215.0" text="Import Data" textAlignment="CENTER" GridPane.rowIndex="3" />
                   <Button fx:id="graphViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showGraph" prefHeight="25.0" prefWidth="226.0" text="Graph View" textAlignment="CENTER" GridPane.rowIndex="4" />
-                  <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Logout" textAlignment="CENTER" GridPane.rowIndex="9" />
+                  <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Logout" textAlignment="CENTER" GridPane.rowIndex="10" />
                   <Button fx:id="mapViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showMap" prefHeight="25.0" prefWidth="226.0" text="Map View" textAlignment="CENTER" GridPane.rowIndex="5" />
-                  <Button fx:id="editProfileButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="8" />
-                  <ImageView fx:id="navLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7" />
-<<<<<<< HEAD
+                  <Button fx:id="editProfileButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="9" />
+                  <ImageView fx:id="navLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8" />
                   <Button fx:id="mapMyRunButton" mnemonicParsing="false" onAction="#showMapMyRun" text="Map My Run" GridPane.rowIndex="6" />
-=======
-                  <Button fx:id="CalendarButton" mnemonicParsing="false" onAction="#showCalendar" prefHeight="28.0" prefWidth="224.0" text="Calendar" GridPane.rowIndex="6" />
->>>>>>> eefa55b02c666deb5578c28ad90e628e3ed11be8
+                  <Button fx:id="CalendarButton" mnemonicParsing="false" onAction="#showCalendar" prefHeight="28.0" prefWidth="224.0" text="Calendar" GridPane.rowIndex="7" />
                </children>
             </GridPane>
          </center>
