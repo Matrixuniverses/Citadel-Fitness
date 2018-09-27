@@ -40,9 +40,9 @@
                   <Button fx:id="activityButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddActivity" prefHeight="25.0" prefWidth="230.0" text="Activities" textAlignment="CENTER" GridPane.rowIndex="2" />
                   <Button fx:id="addDataButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddData" prefHeight="25.0" prefWidth="215.0" text="Import Data" textAlignment="CENTER" GridPane.rowIndex="3" />
                   <Button fx:id="graphViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showGraph" prefHeight="25.0" prefWidth="226.0" text="Graph View" textAlignment="CENTER" GridPane.rowIndex="4" />
-                  <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Logout" textAlignment="CENTER" GridPane.rowIndex="10" />
+                  <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Logout" textAlignment="CENTER" GridPane.rowIndex="12" />
                   <Button fx:id="mapViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showMap" prefHeight="25.0" prefWidth="226.0" text="Map View" textAlignment="CENTER" GridPane.rowIndex="5" />
-                  <Button fx:id="editProfileButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="9" />
+                  <Button fx:id="editProfileButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="11" />
                   <ImageView fx:id="navLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="7" />
 
                   <Button fx:id="mapMyRunButton" mnemonicParsing="false" onAction="#showMapMyRun" text="Map My Run" GridPane.rowIndex="6" />
