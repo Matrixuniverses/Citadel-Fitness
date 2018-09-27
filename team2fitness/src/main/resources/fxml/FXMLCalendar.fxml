@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="calendarScene" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.CalendarController">
+   <children>
+      <TableView fx:id="calendarTable" layoutX="14.0" layoutY="14.0" prefHeight="625.0" prefWidth="756.0">
+        <columns>
+          <TableColumn fx:id="mondayCol" maxWidth="108.0" minWidth="108.0" prefWidth="108.0" sortable="false" text="Monday" />
+          <TableColumn fx:id="tuesdayCol" maxWidth="108.0" minWidth="108.0" prefWidth="108.0" text="Tuesday" />
+            <TableColumn fx:id="wednesdayCol" maxWidth="108.0" minWidth="108.0" prefWidth="108.0" text="WednesDay" />
+            <TableColumn fx:id="thursdayCol" maxWidth="108.0" minWidth="108.0" prefWidth="108.0" text="Thursday" />
+            <TableColumn fx:id="fridayCol" maxWidth="108.0" minWidth="108.0" prefWidth="108.0" text="Friday" />
+            <TableColumn fx:id="saturdayCol" maxWidth="108.0" minWidth="108.0" prefWidth="108.0" text="Saturday" />
+            <TableColumn fx:id="sundayCol" maxWidth="108.0" minWidth="108.0" prefWidth="108.0" resizable="false" text="Sunday" />
+        </columns>
+      </TableView>
+      <Button fx:id="currentButton" layoutX="784.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Current Week" />
+      <Button fx:id="nextButton" layoutX="784.0" layoutY="64.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Next Week" />
+      <Button fx:id="previousButton" layoutX="784.0" layoutY="114.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Previous Week" />
+      <DatePicker layoutX="784.0" layoutY="164.0" prefHeight="36.0" prefWidth="207.0" />
+      <Button fx:id="detailButton" layoutX="784.0" layoutY="600.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Details" />
+   </children>
+</AnchorPane>

@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
  */
 public class MainController implements Initializable {
 
-    private SimpleStringProperty status = new SimpleStringProperty("loggedout");
+    private SimpleStringProperty status = new SimpleStringProperty("logout");
     private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
@@ -51,6 +51,7 @@ public class MainController implements Initializable {
     private MapViewController mapViewController;
     private ActivityInfoController activityInfoController;
     private EditProfileController editProfileController;
+    private CalendarController calendarController;
 
     @FXML
     private HeaderController headerController;
@@ -67,6 +68,7 @@ public class MainController implements Initializable {
     private AnchorPane mapView;
     private AnchorPane activityInfo;
     private AnchorPane editProfile;
+    private AnchorPane calendarScene;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -125,6 +127,11 @@ public class MainController implements Initializable {
             editProfile = loader.load();
             editProfileController = loader.getController();
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLCalendar.fxml"));
+            calendarScene = loader.load();
+            calendarController = loader.getController();
+            paneMap.put("Calendar", calendarScene);
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityInfo.fxml"));
             activityInfo = loader.load();
             activityInfoController = loader.getController();
@@ -132,7 +139,7 @@ public class MainController implements Initializable {
 
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile, calendarScene);
             profileView.toFront();
 
         } catch (IOException ex_) {
@@ -181,7 +188,7 @@ public class MainController implements Initializable {
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                status.set("loggedout");
+                status.set("logout");
             }
         });
 
