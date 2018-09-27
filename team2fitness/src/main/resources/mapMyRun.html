@@ -41,6 +41,86 @@
             streetViewControl: false,
             fullscreenControl: false,
             mapTypeControl: false,
+            styles: [
+                {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+                {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+                {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+                {
+                    featureType: 'administrative.locality',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#d59563'}]
+                },
+                {
+                    featureType: 'poi',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#d59563'}]
+                },
+                {
+                    featureType: 'poi.park',
+                    elementType: 'geometry',
+                    stylers: [{color: '#263c3f'}]
+                },
+                {
+                    featureType: 'poi.park',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#6b9a76'}]
+                },
+                {
+                    featureType: 'road',
+                    elementType: 'geometry',
+                    stylers: [{color: '#38414e'}]
+                },
+                {
+                    featureType: 'road',
+                    elementType: 'geometry.stroke',
+                    stylers: [{color: '#212a37'}]
+                },
+                {
+                    featureType: 'road',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#9ca5b3'}]
+                },
+                {
+                    featureType: 'road.highway',
+                    elementType: 'geometry',
+                    stylers: [{color: '#746855'}]
+                },
+                {
+                    featureType: 'road.highway',
+                    elementType: 'geometry.stroke',
+                    stylers: [{color: '#1f2835'}]
+                },
+                {
+                    featureType: 'road.highway',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#f3d19c'}]
+                },
+                {
+                    featureType: 'transit',
+                    elementType: 'geometry',
+                    stylers: [{color: '#2f3948'}]
+                },
+                {
+                    featureType: 'transit.station',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#d59563'}]
+                },
+                {
+                    featureType: 'water',
+                    elementType: 'geometry',
+                    stylers: [{color: '#17263c'}]
+                },
+                {
+                    featureType: 'water',
+                    elementType: 'labels.text.fill',
+                    stylers: [{color: '#515c6d'}]
+                },
+                {
+                    featureType: 'water',
+                    elementType: 'labels.text.stroke',
+                    stylers: [{color: '#17263c'}]
+                }
+            ],
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
@@ -60,8 +140,9 @@
         runPath.push(location);
 
         calculateRoute(runPath);
+        distanceTest();
 
-        //map.setCenter(location);
+        map.setCenter(location);
     }
 
     function calculateRoute(runPath) {
@@ -85,43 +166,17 @@
         path.setMap(map);
         repositionMap(runPath);
 
-        /*if (runPath.length > 2) {
-            var begin = runPath[0];
-            var end = runPath[-1];
-            totalDistance = google.maps.geometry.spherical.computeDistanceBetween(begin, end);
-            return totalDistance;
-        } else {
-            return;
-        }*/
-
     }
 
-    function distance(p1, p2) {
-        var R = 6378137; // Earth’s mean radius in meter
-        var dLat = rad(p2.lat - p1.lat);
-        var dLong = rad(p2.lng - p1.lng);
-        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
-            Math.sin(dLong / 2) * Math.sin(dLong / 2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        var d = R * c;
-        return d; // returns the distance in meter
-    };
-
-    function rad(x) {
-        return x * Math.PI / 180;
-    };
-
-    function distanceTest() {
+    function calculateDistance() {
         if (runPath.length > 1) {
-
             start = runPath[runPath.length - 2];
             finish = runPath[runPath.length - 1];
             newDistance = google.maps.geometry.spherical.computeDistanceBetween(start, finish);
             totalDistance = (parseFloat(totalDistance) + parseFloat(newDistance)).toFixed(1);
             return totalDistance;
         } else {
-            return;
+            return 0.0;
         }
     }
 
@@ -133,10 +188,6 @@
         }
 
         map.fitBounds(bounds);
-    }
-
-    function test() {
-        return "Poo";
     }
 
 </script>

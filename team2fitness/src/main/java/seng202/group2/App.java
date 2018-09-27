@@ -30,7 +30,7 @@ public class App extends Application
         Parent root = fxml.load();
         root.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
         AppController controller = fxml.getController();
-//        mainStage.initStyle(StageStyle.UTILITY);
+        //mainStage.initStyle(StageStyle.UTILITY);
 
 
         mainStage.setTitle("Citadel Fitness");
