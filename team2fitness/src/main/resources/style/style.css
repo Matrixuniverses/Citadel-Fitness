@@ -241,3 +241,18 @@
     -fx-border-color: #4dd9da;
 }
 
+.dialog-pane,
+.dialog-pane .label,
+.dialog-pane:header .header-panel .label{
+    -fx-background-color: #36393f;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.dialog-pane .button-ok{
+    -fx-background-color: linear-gradient(to right, #604B53 ,#4e4b60);
+    -fx-background-size: 100% 100%;
+    -fx-border-width: 3px;
+    -fx-text-fill: white;
+    -fx-font-family: "Open Sans";
+}

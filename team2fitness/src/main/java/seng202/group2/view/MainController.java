@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -223,6 +224,9 @@ public class MainController implements Initializable {
                 alert.setTitle("Delete User");
                 alert.setHeaderText("Delete User");
                 alert.setContentText("Are you sure? Deleting will remove all user data. This can't be undone!");
+//                DialogPane dialogPane = alert.getDialogPane();
+//                dialogPane.getStylesheets().add(getClass().getResource("resources/style/style.css").toExternalForm());
+//                dialogPane.getStyleClass().add("dialog-pane");
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
@@ -230,11 +234,6 @@ public class MainController implements Initializable {
                     DataManager.getDataManager().deleteUser(currentUser);
                     paneMap.get("Summary").toFront();
                     navBarController.getLogoutButton().fire();
-
-
-
-                    System.out.println("Im done )))))))))))))))))))");
-
 
                 } else {
                     // ... user chose CANCEL or closed the dialog
