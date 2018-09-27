@@ -55,6 +55,24 @@ public class ActivityViewController implements Initializable, UserData {
     Button activityDeleteButton;
 
     @FXML
+    Button viewDataPoints;
+
+    @FXML
+    Button editActivityButton;
+
+    @FXML
+    Button searchButton;
+
+    @FXML
+    Button clearButton;
+
+    @FXML
+    DatePicker dateFromPicker;
+
+    @FXML
+    DatePicker dateToPicker;
+
+    @FXML
     private ImageView navLogo;
 
     StringProperty pulser = new SimpleStringProperty("0");
@@ -112,6 +130,14 @@ public class ActivityViewController implements Initializable, UserData {
                 dataManager.deleteActivity(activity);
             }
         }
+    }
+
+    public Button getClearButton() {
+        return clearButton;
+    }
+
+    public Button getSearchButton() {
+        return searchButton;
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {

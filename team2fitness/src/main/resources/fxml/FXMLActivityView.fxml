@@ -24,9 +24,16 @@
       </TableView>
       <Button fx:id="activityDeleteButton" layoutX="784.0" layoutY="600.0" mnemonicParsing="false" onAction="#delete" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Delete Activity" />
       <!-- TODO - Implement edit activity button-->
-      <Button fx:id="activityDeleteButton1" layoutX="783.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Edit Activity(s)" visible="false" />
-      <Button fx:id="detailButton" layoutX="784.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Details" />
+      <Button fx:id="editActivityButton" layoutX="783.0" layoutY="550.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Edit Activity(s)" />
+      <Button fx:id="detailButton" layoutX="784.0" layoutY="450.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Details" />
       <!-- TODO - Implement view datapoints -->
-      <Button fx:id="viewDataPoints" layoutX="784.0" layoutY="65.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Data Points" visible="false" />
+      <Button fx:id="viewDataPoints" layoutX="784.0" layoutY="500.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Data Points" />
+      <Button fx:id="searchButton" layoutX="919.0" layoutY="164.0" mnemonicParsing="false" text="Search" />
+      <Button fx:id="clearButton" layoutX="862.0" layoutY="164.0" mnemonicParsing="false" text="Clear" />
+      <DatePicker fx:id="dateFromPicker" layoutX="784.0" layoutY="14.0" promptText="Date From" />
+      <DatePicker fx:id="dateToPicker" layoutX="784.0" layoutY="44.0" promptText="Date To" />
+      <ComboBox layoutX="784.0" layoutY="74.0" prefHeight="25.0" prefWidth="198.0" promptText="Type" />
+      <TextField fx:id="minDistance" layoutX="784.0" layoutY="104.0" prefHeight="25.0" prefWidth="198.0" promptText="Min Distance" />
+      <TextField fx:id="maxDistance" layoutX="784.0" layoutY="134.0" prefHeight="25.0" prefWidth="198.0" promptText="Max Distance" />
    </children>
 </AnchorPane>
