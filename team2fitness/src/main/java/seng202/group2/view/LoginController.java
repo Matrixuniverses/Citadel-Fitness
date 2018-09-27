@@ -7,7 +7,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,13 +14,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import jdk.nashorn.internal.runtime.ParserException;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
-
-import javax.xml.crypto.Data;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -89,10 +84,15 @@ public class LoginController implements Initializable {
      * Empties the text fields when a valid user is created.
      */
     private void clearFields() {
+        errorLabel.setText("");
         nameField.setText("");
+        nameField.getStyleClass().setAll("text-input", "text-field");
         ageField.setText("");
+        ageField.getStyleClass().setAll("text-input", "text-field");
         heightField.setText("");
+        heightField.getStyleClass().setAll("text-input", "text-field");
         weightField.setText("");
+        weightField.getStyleClass().setAll("text-input", "text-field");
     }
 
     /**
