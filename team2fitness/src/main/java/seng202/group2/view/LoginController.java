@@ -3,6 +3,8 @@ package seng202.group2.view;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventType;
@@ -13,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import jdk.nashorn.internal.runtime.ParserException;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 
@@ -156,6 +159,43 @@ public class LoginController implements Initializable {
         userTable.setPlaceholder(new Label("No users created yet."));
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         imageViewLogo.setImage(new Image("/images/citadelLogo.png"));
+
+        nameField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                int length = nameField.getText().length();
+                if (length == 0 || length > 25) {
+                    nameField.getStyleClass().clear();
+                    nameField.getStyleClass().add("invalidField");
+                    createButton.disableProperty().setValue(true);
+                } else {
+                    nameField.getStyleClass().clear();
+                    nameField.getStyleClass().add("validField");
+                    createButton.disableProperty().setValue(false);
+                }
+            }
+        });
+
+        ageField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if (Integer.valueOf(ageField.getText()) <= 0) {
+                        ageField.getStyleClass().clear();
+                        ageField.getStyleClass().add("invalidField");
+                        createButton.disableProperty().setValue(true);
+                    } else {
+                        ageField.getStyleClass().clear();
+                        ageField.getStyleClass().add("validField");
+                        createButton.disableProperty().setValue(false);
+                    }
+                } catch (NumberFormatException e) {
+                    ageField.getStyleClass().clear();
+                    ageField.getStyleClass().add("invalidField");
+                    createButton.disableProperty().setValue(true);
+                }
+            }
+        });
 
 
         // Spinny boi
