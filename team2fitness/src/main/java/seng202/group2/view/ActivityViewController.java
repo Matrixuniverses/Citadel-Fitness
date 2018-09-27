@@ -17,6 +17,8 @@ import seng202.group2.model.User;
 
 import javax.xml.crypto.Data;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -73,6 +75,9 @@ public class ActivityViewController implements Initializable, UserData {
     DatePicker dateToPicker;
 
     @FXML
+    Label errorLabel;
+
+    @FXML
     private ImageView navLogo;
 
     StringProperty pulser = new SimpleStringProperty("0");
@@ -98,6 +103,33 @@ public class ActivityViewController implements Initializable, UserData {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
                 activityTable.setItems(DataManager.getDataManager().getActivityList());
+            }
+        });
+
+        searchButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try{
+                    String dateToString = null;
+                    String dateFromString = null;
+                    if (dateToPicker.getValue() != null){
+                        dateToString = dateToPicker.getValue().toString();
+                    } else {
+                        throw new IllegalArgumentException("Must pick a 'To' date to perform a search.");
+                    }
+                    if (dateFromPicker.getValue() != null){
+                        dateFromString = dateFromPicker.getValue().toString();
+                    } else {
+                        throw new IllegalArgumentException("Must pick a 'From' date to perform a search.");
+                    }
+                    Date start = Date.valueOf(dateFromString);
+                    Date end = Date.valueOf(dateToString);
+                    activityTable.setItems(DataManager.getDataManager().getActivitiesBetweenDates(start, end));
+
+                } catch (IllegalArgumentException e){
+                    errorLabel.setText(e.getMessage());
+                }
+
             }
         });
 
@@ -130,6 +162,14 @@ public class ActivityViewController implements Initializable, UserData {
                 dataManager.deleteActivity(activity);
             }
         }
+    }
+
+    public DatePicker getDateFromPicker() {
+        return dateFromPicker;
+    }
+
+    public DatePicker getDateToPicker() {
+        return dateToPicker;
     }
 
     public Button getClearButton() {
