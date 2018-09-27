@@ -52,26 +52,11 @@ public class ActivityDBOperations {
         return false;
     }
 
-    /**
-     * Creates a new JavaFX ObservableList containing all of the users activities in the database
-     *
-     * @param userID UserID of the activities to read from database
-     * @return Observable List of the Users activities
-     * @throws SQLException If unable to read/ write from/ to database
-     */
-    public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
-        //TODO - Change this to avoid duplicate code
+    private static ObservableList<Activity> getResultSetActivities(ResultSet queryResult) throws SQLException{
 
-        Connection dbConn = DatabaseOperations.connectToDB();
-        String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? ORDER BY date;";
-        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
-        pQueryStmt.setInt(1, userID);
-        ResultSet queryResult = pQueryStmt.executeQuery();
+        ObservableList<Activity> collectedActivities = FXCollections.observableArrayList();
 
-
-        ObservableList<Activity> userActivities = FXCollections.observableArrayList();
-
-        while (queryResult.next()) {
+        while(queryResult.next()) {
             int activityID = queryResult.getInt("activity_id");
             String activityName = queryResult.getString("name");
             Date activityDate = null;
@@ -92,8 +77,52 @@ public class ActivityDBOperations {
             newActivity.setAverageHR(DatapointDBOperations.getAverageHR(activityID));
             newActivity.setId(activityID);
             newActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
-            userActivities.add(newActivity);
+            collectedActivities.add(newActivity);
         }
+
+        return collectedActivities;
+    }
+
+    public static ObservableList<Activity> getActivitiesBetweenDates(java.sql.Date minDate, java.sql.Date maxDate, int UserID) throws SQLException {
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date";
+
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, UserID);
+        pQueryStmt.setDate(2, minDate);
+        pQueryStmt.setDate(3, maxDate);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
+        ObservableList<Activity> collectedActivities = getResultSetActivities(queryResult);
+
+        pQueryStmt.close();
+        DatabaseOperations.disconnectFromDB();
+        return collectedActivities;
+
+
+    }
+
+    /**
+     * Creates a new JavaFX ObservableList containing all of the users activities in the database
+     *
+     * @param userID UserID of the activities to read from database
+     * @return Observable List of the Users activities
+     * @throws SQLException If unable to read/ write from/ to database
+     */
+    public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
+        //TODO - Change this to avoid duplicate code
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? ORDER BY date;";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, userID);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
+
+        ObservableList<Activity> userActivities = getResultSetActivities(queryResult);
+
+
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
