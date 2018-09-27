@@ -192,7 +192,6 @@ public class MainController implements Initializable {
                 scaleTransition.setDuration(Duration.seconds(60/pulseRate));
                 scaleTransition.setAutoReverse(true);
                 scaleTransition.play();
-
             }
         });
 
