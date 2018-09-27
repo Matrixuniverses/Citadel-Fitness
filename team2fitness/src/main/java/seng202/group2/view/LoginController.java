@@ -34,7 +34,6 @@ public class LoginController implements Initializable {
     private StringProperty status = new SimpleStringProperty("logged out");
 
 
-
     @FXML
     private Button loginButton;
 
@@ -106,9 +105,9 @@ public class LoginController implements Initializable {
             errorLabel.setVisible(true);
 
             String name = nameField.getText();
-            Integer age = Integer.valueOf(ageField.getText());
-            Double height = Double.valueOf(heightField.getText());
-            Float weight = Float.valueOf(weightField.getText());
+            int age = Integer.valueOf(ageField.getText());
+            double height = Double.valueOf(heightField.getText());
+            double weight = Double.valueOf(weightField.getText());
             String gender = genderComboBox.getSelectionModel().getSelectedItem();
 
             if (name.length() == 0) {
@@ -125,7 +124,7 @@ public class LoginController implements Initializable {
                 errorLabel.setText("User '" + name + "' successfully created.");
                 clearFields();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             errorLabel.setText("Unable to create user!");
         }
     }
@@ -149,6 +148,24 @@ public class LoginController implements Initializable {
         return status;
     }
 
+    /**
+     * Helper function to set the visual input validity of the passed field
+     *
+     * @param field         Field to set the style on
+     * @param disableButton If the create button should be disabled or not
+     */
+    private void fieldUpdate(TextField field, Boolean disableButton) {
+        if (disableButton) {
+            field.getStyleClass().clear();
+            field.getStyleClass().add("invalidField");
+            createButton.disableProperty().setValue(true);
+        } else {
+            field.getStyleClass().clear();
+            field.getStyleClass().add("validField");
+            createButton.disableProperty().setValue(false);
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -165,13 +182,9 @@ public class LoginController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 int length = nameField.getText().length();
                 if (length == 0 || length > 25) {
-                    nameField.getStyleClass().clear();
-                    nameField.getStyleClass().add("invalidField");
-                    createButton.disableProperty().setValue(true);
+                    fieldUpdate(nameField, true);
                 } else {
-                    nameField.getStyleClass().clear();
-                    nameField.getStyleClass().add("validField");
-                    createButton.disableProperty().setValue(false);
+                    fieldUpdate(nameField, false);
                 }
             }
         });
@@ -181,18 +194,45 @@ public class LoginController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     if (Integer.valueOf(ageField.getText()) <= 0) {
-                        ageField.getStyleClass().clear();
-                        ageField.getStyleClass().add("invalidField");
-                        createButton.disableProperty().setValue(true);
+                        fieldUpdate(ageField, true);
                     } else {
-                        ageField.getStyleClass().clear();
-                        ageField.getStyleClass().add("validField");
-                        createButton.disableProperty().setValue(false);
+                        fieldUpdate(ageField, false);
                     }
                 } catch (NumberFormatException e) {
-                    ageField.getStyleClass().clear();
-                    ageField.getStyleClass().add("invalidField");
-                    createButton.disableProperty().setValue(true);
+                    fieldUpdate(ageField, true);
+                }
+            }
+        });
+
+        heightField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    double height = Double.valueOf(heightField.getText());
+                    if (height <= 0 || height >= 300) {
+                        fieldUpdate(heightField, true);
+                    } else {
+                        fieldUpdate(heightField, false);
+                    }
+
+                } catch (NumberFormatException ex) {
+                    fieldUpdate(heightField, true);
+                }
+            }
+        });
+
+        weightField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    double weight = Double.valueOf(weightField.getText());
+                    if (weight <= 0 || weight >= 650) {
+                        fieldUpdate(weightField, true);
+                    } else {
+                        fieldUpdate(weightField, false);
+                    }
+                } catch (NumberFormatException ex) {
+                    fieldUpdate(weightField, true);
                 }
             }
         });
