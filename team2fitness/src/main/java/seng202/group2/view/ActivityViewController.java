@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
  */
 public class ActivityViewController implements Initializable, UserData {
 
-
+    User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
@@ -106,32 +106,35 @@ public class ActivityViewController implements Initializable, UserData {
             }
         });
 
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try{
-                    String dateToString = null;
-                    String dateFromString = null;
-                    if (dateToPicker.getValue() != null){
-                        dateToString = dateToPicker.getValue().toString();
-                    } else {
-                        throw new IllegalArgumentException("Must pick a 'To' date to perform a search.");
-                    }
-                    if (dateFromPicker.getValue() != null){
-                        dateFromString = dateFromPicker.getValue().toString();
-                    } else {
-                        throw new IllegalArgumentException("Must pick a 'From' date to perform a search.");
-                    }
-                    Date start = Date.valueOf(dateFromString);
-                    Date end = Date.valueOf(dateToString);
-                    activityTable.setItems(DataManager.getDataManager().getActivitiesBetweenDates(start, end));
-
-                } catch (IllegalArgumentException e){
-                    errorLabel.setText(e.getMessage());
-                }
-
-            }
-        });
+       // searchButton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                try{
+//                    String dateToString = null;
+//                    String dateFromString = null;
+//                    if (dateToPicker.getValue() != null){
+//                        dateToString = dateToPicker.getValue().toString();
+//                    } else {
+//                        throw new IllegalArgumentException("Must pick a 'To' date to perform a search.");
+//                    }
+//                    if (dateFromPicker.getValue() != null){
+//                        dateFromString = dateFromPicker.getValue().toString();
+//                    } else {
+//                        throw new IllegalArgumentException("Must pick a 'From' date to perform a search.");
+//                    }
+//                    Date start = Date.valueOf(dateFromString);
+//                    Date end = Date.valueOf(dateToString);
+//                    int id = currentUser.getId();
+//                    activityTable.setItems(ActivityDBOperations.getActivitiesBetweenDates(start, end, id));
+//
+//                } catch (IllegalArgumentException e){
+//                    errorLabel.setText(e.getMessage());
+//                } catch (SQLException e){
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        });
 
 
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
