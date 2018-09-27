@@ -71,6 +71,22 @@
     -fx-font-family: "Open Sans";
 }
 
+.customGreenButton{
+    -fx-background-color: linear-gradient(to right, #53604b ,#4b5e60);
+    -fx-background-size: 100% 100%;
+    -fx-border-width: 3px;
+    -fx-text-fill: white;
+    -fx-font-family: "Open Sans";
+}
+
+.customRedButton {
+    -fx-background-color: linear-gradient(to right, #604B53 ,#4e4b60);
+    -fx-background-size: 100% 100%;
+    -fx-border-width: 3px;
+    -fx-text-fill: white;
+    -fx-font-family: "Open Sans";
+}
+
 .customTable {
     -fx-background-color: white;
     -fx-font-family: "Francois One";
