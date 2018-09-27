@@ -20,9 +20,9 @@
             <AnchorPane layoutX="426.0" layoutY="451.0" prefHeight="38.0" prefWidth="330.0" />
             <AnchorPane layoutX="-52.0" layoutY="435.0" prefHeight="80.0" prefWidth="162.0" />
          </children></AnchorPane>
-      <TableView fx:id="mapActivityTable" layoutX="783.0" layoutY="15.0" prefHeight="592.0" prefWidth="200.0">
+      <TableView fx:id="mapActivityTable" layoutX="783.0" layoutY="15.0" prefHeight="592.0" prefWidth="205.0">
           <columns>
-          <TableColumn fx:id="mapActivityNameCol" editable="false" prefWidth="200.0" text="Activity" />
+          <TableColumn fx:id="mapActivityNameCol" editable="false" prefWidth="204.0" resizable="false" text="Activity" />
           </columns>
       </TableView>
    </children>
