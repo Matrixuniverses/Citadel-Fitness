@@ -24,17 +24,21 @@ public class ActivityDBOperations {
      * that an activity of the same date, name and distances will be the same activity
      *
      * @param activityToCheck Activity object to compare to the database
-     * @param user_id         UserID of the user that the activity belongs to
+     * @param userID         UserID of the user that the activity belongs to
      * @return True if activity is a duplicate, false if not @future null if unable to determine
      * @throws SQLException If unable to read from database
      */
-    public static boolean checkDuplicateActivity(Activity activityToCheck, int user_id) throws SQLException {
-        DatabaseOperations.connectToDB();
+    public static boolean checkDuplicateActivity(Activity activityToCheck, int userID) throws SQLException {
+
+        Connection dbConn = DatabaseOperations.connectToDB();
 
         String dateString = activityToCheck.getDate().toString();
-        String sqlQueryStmt = "SELECT date_string, name FROM Activities WHERE user_id = "
-                + user_id + " AND date_string = '" + dateString + "'";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStmt);
+        String sqlQueryStmt = "SELECT date_string, name FROM Activities WHERE user_id = ? AND date_string =  ? ";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, userID);
+        pQueryStmt.setString(2, dateString);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
 
         if (queryResult.next()) {
             if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
@@ -42,54 +46,10 @@ public class ActivityDBOperations {
                 return true;
             }
         }
-
+        pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
         return false;
-    }
-
-    /**
-     * Inserts a new activity into the database, if the user exists in the database
-     *
-     * @param activity Activity to insert
-     * @param userID UserID of the user that the activity will be written to
-     * @return ActivityID of the inserted activity, -1 if the user is not in the database
-     * @throws SQLException If unable to read/ write from/ to database
-     */
-    public static int insertNewActivity(Activity activity, int userID) throws SQLException {
-        // Check the user exists in the database
-        if (UserDBOperations.getUserFromRS(userID) == null) {
-            return -1;
-        }
-
-        DatabaseOperations.connectToDB();
-
-        String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time,calories_burnt) \n" +
-                "VALUES(?,?,?,?,?,?,?,?)";
-
-        Connection dbConn = DatabaseOperations.getDbConnection();
-
-        PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
-        pUpdateStmt.setInt(1, userID);
-        pUpdateStmt.setString(2, activity.getActivityName());
-        pUpdateStmt.setString(3, activity.getDate().toString());
-        pUpdateStmt.setDate(4, new java.sql.Date(activity.getDate().getTime()));
-        pUpdateStmt.setString(5, activity.getActivityType());
-        pUpdateStmt.setDouble(6, activity.getTotalDistance());
-        pUpdateStmt.setDouble(7, activity.getTotalTime());
-        pUpdateStmt.setDouble(8, activity.getCaloriesBurned());
-        pUpdateStmt.executeUpdate();
-
-        ResultSet results = pUpdateStmt.getGeneratedKeys();
-        results.next();
-
-        int activity_id = results.getInt(1);
-
-
-        pUpdateStmt.close();
-        DatabaseOperations.disconnectFromDB();
-        return activity_id;
-
     }
 
     /**
@@ -102,9 +62,12 @@ public class ActivityDBOperations {
     public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
         //TODO - Change this to avoid duplicate code
 
-        DatabaseOperations.connectToDB();
-        String sqlQueryStatement = "SELECT * FROM Activities WHERE user_id = " + userID + " ORDER BY date;";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQueryStatement);
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? ORDER BY date;";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, userID);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
 
         ObservableList<Activity> userActivities = FXCollections.observableArrayList();
 
@@ -131,7 +94,7 @@ public class ActivityDBOperations {
             newActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
             userActivities.add(newActivity);
         }
-
+        pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
         return userActivities;
@@ -144,13 +107,18 @@ public class ActivityDBOperations {
      * @throws SQLException If unable to read from database
      */
     public static Activity getActivityFromDB(int activityID) throws SQLException {
-        DatabaseOperations.connectToDB();
-        String sqlQuery = "SELECT * FROM Activities WHERE activity_id = " + activityID + ";";
-        ResultSet queryResult = DatabaseOperations.executeDBQuery(sqlQuery);
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+        String sqlQueryStmt = "SELECT * FROM Activities WHERE activity_id = ?;";
+        PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
+        pQueryStmt.setInt(1, activityID);
+        ResultSet queryResult = pQueryStmt.executeQuery();
+
+
         Activity retrievedActivity = null;
 
         if (queryResult.next()) {
-            //int activityID = queryResult.getInt("activity_id");
+
             String activityName = queryResult.getString("name");
             java.util.Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
@@ -170,11 +138,57 @@ public class ActivityDBOperations {
             retrievedActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
 
         }
-
+        pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
         return retrievedActivity;
     }
+
+    /**
+     * Inserts a new activity into the database, if the user exists in the database
+     *
+     * @param activity Activity to insert
+     * @param userID UserID of the user that the activity will be written to
+     * @return ActivityID of the inserted activity, -1 if the user is not in the database
+     * @throws SQLException If unable to read/ write from/ to database
+     */
+    public static int insertNewActivity(Activity activity, int userID) throws SQLException {
+        // Check the user exists in the database
+        if (UserDBOperations.getUserFromRS(userID) == null) {
+            return -1;
+        }
+
+        Connection dbConn = DatabaseOperations.connectToDB();
+
+        String sqlInsertStmt = "INSERT INTO Activities(user_id,name,date_string,date,type,total_distance,total_time,calories_burnt) \n" +
+                "VALUES(?,?,?,?,?,?,?,?)";
+
+
+
+        PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
+        pUpdateStmt.setInt(1, userID);
+        pUpdateStmt.setString(2, activity.getActivityName());
+        pUpdateStmt.setString(3, activity.getDate().toString());
+        pUpdateStmt.setDate(4, new java.sql.Date(activity.getDate().getTime()));
+        pUpdateStmt.setString(5, activity.getActivityType());
+        pUpdateStmt.setDouble(6, activity.getTotalDistance());
+        pUpdateStmt.setDouble(7, activity.getTotalTime());
+        pUpdateStmt.setDouble(8, activity.getCaloriesBurned());
+        pUpdateStmt.executeUpdate();
+
+        ResultSet results = pUpdateStmt.getGeneratedKeys();
+        results.next();
+
+        int activity_id = results.getInt(1);
+
+
+        pUpdateStmt.close();
+        DatabaseOperations.disconnectFromDB();
+        return activity_id;
+
+    }
+
+
 
     /**
      * Updates an existing activity in database to match passed activity
@@ -186,8 +200,8 @@ public class ActivityDBOperations {
         String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ?, calories_burnt = ? WHERE activity_id = ?";
 
         if (getActivityFromDB(activity.getId()) != null) {
-            DatabaseOperations.connectToDB();
-            Connection dbConn = DatabaseOperations.getDbConnection();
+
+            Connection dbConn = DatabaseOperations.connectToDB();
 
             PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStmt.setString(1, activity.getActivityName());
@@ -218,11 +232,11 @@ public class ActivityDBOperations {
      * @throws SQLException If unable to read/ write from/ to database
      */
     public static boolean deleteExistingActivity(int activityID) throws SQLException {
-        DatabaseOperations.connectToDB();
+        Connection dbConn = DatabaseOperations.connectToDB();
 
         String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
 
-        Connection dbConn = DatabaseOperations.getDbConnection();
+
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, activityID);
         pDeleteStmt.executeUpdate();
