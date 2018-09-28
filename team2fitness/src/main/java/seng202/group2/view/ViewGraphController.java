@@ -4,6 +4,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
@@ -20,10 +22,15 @@ import java.util.ResourceBundle;
 /**
  * This is the controller for the ViewGraph Scene and handles events within this scene
  */
-public class ViewGraphController implements UserData, Initializable{
+public class ViewGraphController implements Initializable {
+
+
+    // Set Data Manager
 
     private DataManager dataManager = DataManager.getDataManager();
-    private ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
+
+
+    // Inject FXML
 
     @FXML
     private LineChart<?, ?> lineChart;
@@ -37,6 +44,9 @@ public class ViewGraphController implements UserData, Initializable{
     @FXML
     private TableColumn activityNameCol;
 
+    @FXML
+    private Button toggleButton;
+
     /**
      *  Initializes the activity tables to show a list of activities.
      * @param location
@@ -44,26 +54,40 @@ public class ViewGraphController implements UserData, Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time", "Heart Rate / Time", "Speed Graph",  "Calories Burnt"));
-        graphTypeChoice.getSelectionModel().select(0);
-        //creating the chart
+
+        // Creating the chart
         lineChart.setTitle("Distance/Time");
         lineChart.getXAxis().setLabel("Time(s)");
         lineChart.getYAxis().setLabel("Distance(m)");
+        lineChart.setCreateSymbols(false);
 
+        // Initialize table
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
 
+        // Update graph when new activity is selected
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 updateGraph();
             }
         });
 
+        // When current user is change update the list the table points to.
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
                 activityTable.setItems(dataManager.getCurrentUser().getActivityList());
+            }
+        });
+
+        // Initialize choice box
+        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time", "Heart Rate / Time", "Speed Graph",  "Calories Burnt"));
+        graphTypeChoice.getSelectionModel().select(0);
+
+        graphTypeChoice.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                updateGraph();
             }
         });
     }
@@ -71,16 +95,11 @@ public class ViewGraphController implements UserData, Initializable{
     /**
      * Called on button click when a new activity is selected and displays the selected activity
      * in a graphical form.
+     * Resets the data displayed in the graph also
      */
     public void updateGraph() {
         lineChart.getData().removeAll(lineChart.getData());
         ObservableList<Activity> activityList = activityTable.getSelectionModel().getSelectedItems();
-
-        if (activityList.size() > 1) {
-            lineChart.setCreateSymbols(false);
-        } else {
-            lineChart.setCreateSymbols(true);
-        }
         ObservableList<XYChart.Series> seriesList = FXCollections.observableArrayList();
         for (Activity activity : activityList) {
             if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 0){
@@ -121,8 +140,14 @@ public class ViewGraphController implements UserData, Initializable{
     }
 
 
-    @Override
-    public void updateUser() {
-
+    /**
+     *  Function used by the "Toggle Points" button to turn the graph points on and off
+     */
+    public void togglePoints() {
+        if (lineChart.getCreateSymbols() == true) {
+            lineChart.setCreateSymbols(false);
+        } else {
+            lineChart.setCreateSymbols(true);
+        }
     }
 }

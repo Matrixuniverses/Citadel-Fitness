@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
+import seng202.group2.model.HealthWarning;
 import seng202.group2.model.User;
 import java.sql.SQLException;
 
@@ -14,6 +15,7 @@ public class DataManager {
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
     private ObjectProperty<User> currentUser = new SimpleObjectProperty<User>(new User("", 0, 0,0,"Male"));
+    private ObservableList<HealthWarning> healthWarnings = FXCollections.observableArrayList();
 
     private static DataManager dataManager = new DataManager();
 
@@ -105,6 +107,7 @@ public class DataManager {
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.get().getId()));
                 DatapointDBOperations.insertDataPointList(activity.getActivityData(), activity.getId());
                 currentUser.get().addActivity(activity);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
