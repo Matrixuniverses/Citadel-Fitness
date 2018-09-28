@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
@@ -62,6 +63,9 @@ public class LoginController implements Initializable {
     @FXML
     private ComboBox<String> genderComboBox;
 
+    @FXML
+    private AnchorPane loginBackground;
+
     private boolean shouldSpin = true;
     private int rotation = 0;
     private AnimationTimer timer;
@@ -101,31 +105,53 @@ public class LoginController implements Initializable {
      * Otherwise an appropriate error message will be displayed telling the user what to modify.
      */
     public void create() {
-        try {
-            errorLabel.setVisible(true);
+        errorLabel.setVisible(true);
+        String name = nameField.getText();
 
-            String name = nameField.getText();
-            int age = Integer.valueOf(ageField.getText());
-            double height = Double.valueOf(heightField.getText());
-            double weight = Double.valueOf(weightField.getText());
-            String gender = genderComboBox.getSelectionModel().getSelectedItem();
+        if (name.length() == 0) {
+            errorLabel.setText("Please enter a name");
+            fieldUpdate(nameField, true);
+        } else if (name.length() > 25){
+            errorLabel.setText("Name cannot exceed 25 characters");
+            fieldUpdate(nameField, true);
+        } else {
 
-            if (name.length() == 0) {
-                errorLabel.setText("Please enter a Name.");
-            } else if (name.length() > 25) {
-                errorLabel.setText("Name cannot exceed 25 characters.");
-            } else if (age < 0) {
-                errorLabel.setText("Age value cannot be negative.");
-            } else if (height <= 0 || weight <= 0) {
-                errorLabel.setText("Height/Weight values must be positive numbers.");
-            } else {
-                dataManager.addUser(name, age, height, weight, gender);
-                errorLabel.setTextFill(Color.BLACK);
-                errorLabel.setText("User '" + name + "' successfully created.");
-                clearFields();
+            try {
+                int age = Integer.valueOf(ageField.getText());
+                if (age <= 0 || age > 115) {
+                    errorLabel.setText("Age must be in range 1 - 115");
+                    fieldUpdate(ageField, true);
+                } else {
+
+                    try {
+                        double height = Double.valueOf(heightField.getText());
+                        double weight = Double.valueOf(weightField.getText());
+
+                        if (height <= 0 || weight <= 0) {
+                            errorLabel.setText("Height and weight cannot be negative!");
+                            fieldUpdate(weightField, true);
+                            fieldUpdate(heightField, true);
+                        } else if (genderComboBox.getSelectionModel().getSelectedItem() == null) {
+                            errorLabel.setText("Please select a gender");
+                            // TODO - overload this shit
+                            // fieldUpdate(genderComboBox, true);
+                        } else {
+                            dataManager.addUser(name, age, height, weight, genderComboBox.getSelectionModel().getSelectedItem());
+                            errorLabel.setTextFill(Color.BLACK);
+                            errorLabel.setText("User '" + name + "' successfully created.");
+                            clearFields();
+                        }
+
+                    } catch (NumberFormatException ex) {
+                        errorLabel.setText("Height and weight must be numbers!");
+                        fieldUpdate(weightField, true);
+                        fieldUpdate(heightField, true);
+                    }
+                }
+            } catch (NumberFormatException ex) {
+                errorLabel.setText("Age must be a number!");
+                fieldUpdate(ageField, true);
             }
-        } catch (Exception e) {
-            errorLabel.setText("Unable to create user!");
         }
     }
 
@@ -152,17 +178,15 @@ public class LoginController implements Initializable {
      * Helper function to set the visual input validity of the passed field
      *
      * @param field         Field to set the style on
-     * @param disableButton If the create button should be disabled or not
+     * @param invalidField If the field is invalid or not
      */
-    private void fieldUpdate(TextField field, Boolean disableButton) {
-        if (disableButton) {
+    private void fieldUpdate(TextField field, Boolean invalidField) {
+        if (invalidField) {
             field.getStyleClass().clear();
             field.getStyleClass().add("invalidField");
-            createButton.disableProperty().setValue(true);
         } else {
             field.getStyleClass().clear();
             field.getStyleClass().add("validField");
-            createButton.disableProperty().setValue(false);
         }
     }
 
@@ -236,7 +260,6 @@ public class LoginController implements Initializable {
                 }
             }
         });
-
 
         // Spinny boi
         timer = new AnimationTimer() {

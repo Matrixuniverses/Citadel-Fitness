@@ -273,10 +273,6 @@ public class DatapointDBOperations {
             primaryKeys.add(rs.getInt(1));
         }
 
-
-
-
-
         prep.close();
         stmt.execute("END TRANSACTION;");
         stmt.close();

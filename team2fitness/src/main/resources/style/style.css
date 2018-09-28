@@ -172,12 +172,13 @@
     -fx-background-color: #36393f;
 }
 
-.login {
-    /* Uncomment for a good meme
+.pingu {
     -fx-background-image: url("../images/meme.jpg");
-    -fx-background-size: 1200 720;
+    -fx-background-size: 1200 650;
     -fx-background-repeat: stretch;
-    */
+}
+
+.login {
     -fx-background-color: #d8d8d8;
     -fx-text-fill: blue;
 }
