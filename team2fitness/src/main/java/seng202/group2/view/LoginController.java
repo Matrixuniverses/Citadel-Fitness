@@ -31,16 +31,10 @@ public class LoginController implements Initializable {
 
 
     @FXML
-    private Button loginButton;
-
-    @FXML
     private TableView<User> userTable;
 
     @FXML
     private TableColumn userTableCol;
-
-    @FXML
-    private Button createButton;
 
     @FXML
     private TextField nameField;
@@ -62,9 +56,6 @@ public class LoginController implements Initializable {
 
     @FXML
     private ComboBox<String> genderComboBox;
-
-    @FXML
-    private AnchorPane loginBackground;
 
     private boolean[] fields = new boolean[4];
 
