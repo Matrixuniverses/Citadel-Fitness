@@ -195,6 +195,8 @@ public class MainController implements Initializable {
             }
         });
 
+        activityViewController.setNavBarController(navBarController);
+
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -269,5 +271,4 @@ public class MainController implements Initializable {
     public Button getLogoutButton() {
         return navBarController.getLogoutButton();
     }
-
 }

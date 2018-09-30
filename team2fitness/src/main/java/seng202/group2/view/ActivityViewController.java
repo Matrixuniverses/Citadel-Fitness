@@ -80,10 +80,9 @@ public class ActivityViewController implements Initializable, UserData {
     Label errorLabel;
 
     @FXML
-    Button activityAddButton;
-
-    @FXML
     private ImageView navLogo;
+
+    private NavBarController navBarController;
 
     StringProperty pulser = new SimpleStringProperty("0");
 
@@ -186,7 +185,13 @@ public class ActivityViewController implements Initializable, UserData {
         }
     }
 
+
+    public void setNavBarController(NavBarController controller) {
+        navBarController = controller;
+    }
+
     public void addActivities() {
+        navBarController.showAddData();
         // TODO - Restructure code to swap views and add it here, I stared into the void return type and it stared back
     }
 
