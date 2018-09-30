@@ -279,6 +279,7 @@ public class Activity {
      */
     public Date getDate() {
         if (!manualEntry) {
+            activityDate = activityData.get(0).getDate();
             return activityData.get(0).getDate();
         } else {
             return activityDate;

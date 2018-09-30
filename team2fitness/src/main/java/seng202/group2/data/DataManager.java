@@ -104,6 +104,7 @@ public class DataManager {
         try {
             DatabaseOperations.createDatabase();
             if (!ActivityDBOperations.checkDuplicateActivity(activity, currentUser.get().getId())) {
+                System.out.println(activity.getDate());
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.get().getId()));
                 DatapointDBOperations.insertDataPointList(activity.getActivityData(), activity.getId());
                 currentUser.get().addActivity(activity);
