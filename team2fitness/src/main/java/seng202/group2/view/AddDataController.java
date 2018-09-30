@@ -236,8 +236,14 @@ public class AddDataController implements Initializable, UserData {
             try {
                 DataParser parser = new DataParser(parsable);
                 dataManager.addActivities(parser.getActivitiesRead());
+                importInfoLabel.setVisible(true);
+                importInfoLabel.setTextFill(Color.GREEN);
+                importInfoLabel.setText("Activities added!");
             } catch (FileFormatException e) {
-                e.printStackTrace();
+                String msg = e.getMessage();
+                importInfoLabel.setVisible(true);
+                importInfoLabel.setTextFill(Color.RED);
+                importInfoLabel.setText(msg);
             }
         }
         event.setDropCompleted(true);
