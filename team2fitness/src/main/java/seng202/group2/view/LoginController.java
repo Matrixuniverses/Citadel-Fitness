@@ -66,6 +66,8 @@ public class LoginController implements Initializable {
     @FXML
     private AnchorPane loginBackground;
 
+    private boolean[] fields = new boolean[4];
+
     private boolean shouldSpin = true;
     private int rotation = 0;
     private AnimationTimer timer;
@@ -108,50 +110,31 @@ public class LoginController implements Initializable {
         errorLabel.setVisible(true);
         String name = nameField.getText();
 
-        if (name.length() == 0) {
-            errorLabel.setText("Please enter a name");
-            fieldUpdate(nameField, true);
-        } else if (name.length() > 25){
-            errorLabel.setText("Name cannot exceed 25 characters");
-            fieldUpdate(nameField, true);
+        if (!fields[0]) {
+            errorLabel.setText("Name length must be in range 1 - 25");
+            fieldUpdate(nameField, true, 0);
+        } else if (!fields[1]) {
+            errorLabel.setText("Age must be in range 1 - 115");
+            fieldUpdate(ageField, true, 1);
+        } else if (!fields[2]) {
+            errorLabel.setText("Invalid height");
+            fieldUpdate(heightField, true, 2);
+        } else if (!fields[3]) {
+            errorLabel.setText("Invalid weight");
+            fieldUpdate(weightField, true, 3);
+        } else if (genderComboBox.getSelectionModel().getSelectedItem() == null) {
+            errorLabel.setText("Please select a gender!");
         } else {
+            // Don't need to worry about exceptions because control flow prevents any bad numbers from getting to
+            // this point
+            int age = Integer.valueOf(ageField.getText());
+            double height = Double.valueOf(heightField.getText());
+            double weight = Double.valueOf(weightField.getText());
 
-            try {
-                int age = Integer.valueOf(ageField.getText());
-                if (age <= 0 || age > 115) {
-                    errorLabel.setText("Age must be in range 1 - 115");
-                    fieldUpdate(ageField, true);
-                } else {
-
-                    try {
-                        double height = Double.valueOf(heightField.getText());
-                        double weight = Double.valueOf(weightField.getText());
-
-                        if (height <= 0 || weight <= 0) {
-                            errorLabel.setText("Height and weight cannot be negative!");
-                            fieldUpdate(weightField, true);
-                            fieldUpdate(heightField, true);
-                        } else if (genderComboBox.getSelectionModel().getSelectedItem() == null) {
-                            errorLabel.setText("Please select a gender");
-                            // TODO - overload this shit
-                            // fieldUpdate(genderComboBox, true);
-                        } else {
-                            dataManager.addUser(name, age, height, weight, genderComboBox.getSelectionModel().getSelectedItem());
-                            errorLabel.setTextFill(Color.BLACK);
-                            errorLabel.setText("User '" + name + "' successfully created.");
-                            clearFields();
-                        }
-
-                    } catch (NumberFormatException ex) {
-                        errorLabel.setText("Height and weight must be numbers!");
-                        fieldUpdate(weightField, true);
-                        fieldUpdate(heightField, true);
-                    }
-                }
-            } catch (NumberFormatException ex) {
-                errorLabel.setText("Age must be a number!");
-                fieldUpdate(ageField, true);
-            }
+            dataManager.addUser(name, age, height, weight, genderComboBox.getSelectionModel().getSelectedItem());
+            errorLabel.setTextFill(Color.BLACK);
+            errorLabel.setText("User '" + name + "' successfully created.");
+            clearFields();
         }
     }
 
@@ -177,16 +160,19 @@ public class LoginController implements Initializable {
     /**
      * Helper function to set the visual input validity of the passed field
      *
-     * @param field         Field to set the style on
+     * @param field Field to set the style on
      * @param invalidField If the field is invalid or not
+     * @param index Index in the validation array of correct fields
      */
-    private void fieldUpdate(TextField field, Boolean invalidField) {
+    private void fieldUpdate(TextField field, Boolean invalidField, int index) {
         if (invalidField) {
             field.getStyleClass().clear();
             field.getStyleClass().add("invalidField");
+            fields[index] = false;
         } else {
             field.getStyleClass().clear();
             field.getStyleClass().add("validField");
+            fields[index] = true;
         }
     }
 
@@ -206,9 +192,9 @@ public class LoginController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 int length = nameField.getText().length();
                 if (length == 0 || length > 25) {
-                    fieldUpdate(nameField, true);
+                    fieldUpdate(nameField, true, 0);
                 } else {
-                    fieldUpdate(nameField, false);
+                    fieldUpdate(nameField, false, 0);
                 }
             }
         });
@@ -218,12 +204,12 @@ public class LoginController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     if (Integer.valueOf(ageField.getText()) <= 0) {
-                        fieldUpdate(ageField, true);
+                        fieldUpdate(ageField, true,1 );
                     } else {
-                        fieldUpdate(ageField, false);
+                        fieldUpdate(ageField, false, 1);
                     }
                 } catch (NumberFormatException e) {
-                    fieldUpdate(ageField, true);
+                    fieldUpdate(ageField, true, 1);
                 }
             }
         });
@@ -234,13 +220,13 @@ public class LoginController implements Initializable {
                 try {
                     double height = Double.valueOf(heightField.getText());
                     if (height <= 0 || height >= 300) {
-                        fieldUpdate(heightField, true);
+                        fieldUpdate(heightField, true, 2);
                     } else {
-                        fieldUpdate(heightField, false);
+                        fieldUpdate(heightField, false, 2);
                     }
 
                 } catch (NumberFormatException ex) {
-                    fieldUpdate(heightField, true);
+                    fieldUpdate(heightField, true, 2);
                 }
             }
         });
@@ -251,12 +237,12 @@ public class LoginController implements Initializable {
                 try {
                     double weight = Double.valueOf(weightField.getText());
                     if (weight <= 0 || weight >= 650) {
-                        fieldUpdate(weightField, true);
+                        fieldUpdate(weightField, true, 3);
                     } else {
-                        fieldUpdate(weightField, false);
+                        fieldUpdate(weightField, false, 3);
                     }
                 } catch (NumberFormatException ex) {
-                    fieldUpdate(weightField, true);
+                    fieldUpdate(weightField, true, 3);
                 }
             }
         });
