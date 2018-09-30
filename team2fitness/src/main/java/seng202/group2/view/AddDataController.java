@@ -5,11 +5,16 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seng202.group2.data.DataParser;
@@ -61,6 +66,9 @@ public class AddDataController implements Initializable, UserData {
 
     @FXML
     private ChoiceBox choiceBoxType;
+
+    @FXML
+    private AnchorPane addDataScene;
 
     public DatePicker getDateInput() {
         return dateInput;
@@ -216,5 +224,37 @@ public class AddDataController implements Initializable, UserData {
         typeOptions.add("Swim");
         choiceBoxType.setItems(typeOptions);
         choiceBoxType.setValue("Run");
+
+        addDataScene.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                selectFileButton.setOnAction(null);
+                selectFileButton.setText("Drop File");
+            }
+        });
+
+        selectFileButton.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                Dragboard dragboard = event.getDragboard();
+                File file = dragboard.getFiles().get(0);
+                System.out.println(file.getAbsolutePath());
+            }
+        });
+
+        addDataScene.setOnDragExited(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                selectFileButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        selectFileAction(event);
+                    }
+                });
+                selectFileButton.setText("Select File");
+            }
+        });
+
+
     }
 }
