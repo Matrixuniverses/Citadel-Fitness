@@ -80,6 +80,9 @@ public class ActivityViewController implements Initializable, UserData {
     Label errorLabel;
 
     @FXML
+    Button activityAddButton;
+
+    @FXML
     private ImageView navLogo;
 
     StringProperty pulser = new SimpleStringProperty("0");
@@ -125,10 +128,21 @@ public class ActivityViewController implements Initializable, UserData {
 
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
+                viewDataPoints.setDisable(false);
+                editActivityButton.setDisable(false);
+                detailButton.setDisable(false);
+                activityDeleteButton.setDisable(false);
+
                 Double heartRate = newSelection.getAverageHR();
                 pulser.setValue(Double.toString(heartRate));
+            } else {
+                detailButton.setDisable(true);
+                viewDataPoints.setDisable(true);
+                editActivityButton.setDisable(true);
+                activityDeleteButton.setDisable(true);
             }
         });
+
 
     }
 
@@ -172,7 +186,9 @@ public class ActivityViewController implements Initializable, UserData {
         }
     }
 
-
+    public void addActivities() {
+        // TODO - Restructure code to swap views and add it here, I stared into the void return type and it stared back
+    }
 
     public void delete(){
         Activity activity = activityTable.getSelectionModel().getSelectedItem();
