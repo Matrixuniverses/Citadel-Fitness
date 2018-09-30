@@ -214,6 +214,39 @@ public class AddDataController implements Initializable, UserData {
         }
     }
 
+    public void dragEntered(final DragEvent event) {
+        selectFileButton.setText("Drop File");
+        selectFileButton.getStyleClass().setAll("button", "main-panel", "dragStyle");
+    }
+
+    public void dragOver(final DragEvent event) {
+        Dragboard board = event.getDragboard();
+
+        if (board.hasFiles()) {
+            event.acceptTransferModes(TransferMode.ANY);
+            event.consume();
+        }
+    }
+
+    public void dragDropped(final DragEvent event) {
+        Dragboard board = event.getDragboard();
+
+        if (board.hasFiles()) {
+            File parsable = board.getFiles().get(0);
+            try {
+                DataParser parser = new DataParser(parsable);
+                dataManager.addActivities(parser.getActivitiesRead());
+            } catch (FileFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        event.setDropCompleted(true);
+    }
+
+    public void dragExited(final DragEvent event) {
+        selectFileButton.setText("Select File");
+        selectFileButton.getStyleClass().setAll("button", "main-panel");
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -224,37 +257,5 @@ public class AddDataController implements Initializable, UserData {
         typeOptions.add("Swim");
         choiceBoxType.setItems(typeOptions);
         choiceBoxType.setValue("Run");
-
-        addDataScene.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                selectFileButton.setOnAction(null);
-                selectFileButton.setText("Drop File");
-            }
-        });
-
-        selectFileButton.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard dragboard = event.getDragboard();
-                File file = dragboard.getFiles().get(0);
-                System.out.println(file.getAbsolutePath());
-            }
-        });
-
-        addDataScene.setOnDragExited(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                selectFileButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        selectFileAction(event);
-                    }
-                });
-                selectFileButton.setText("Select File");
-            }
-        });
-
-
     }
 }

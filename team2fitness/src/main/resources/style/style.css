@@ -212,6 +212,12 @@
     -fx-border-color: #d8d8d8;
 }
 
+.dragStyle {
+    -fx-border-width: 4px;
+    -fx-border-style: dashed;
+    -fx-border-color: black;
+    -fx-border-radius: 5px;
+}
 
 
 .chart-title {
