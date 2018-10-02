@@ -57,6 +57,7 @@ public class MainController implements Initializable {
     private EditProfileController editProfileController;
     private MapMyRunController mapMyRunController;
     private CalendarController calendarController;
+    private ActivitiesFoundController activitiesFoundController;
 
     @FXML
     private HeaderController headerController;
@@ -75,6 +76,7 @@ public class MainController implements Initializable {
     private AnchorPane editProfile;
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
+    private AnchorPane activitiesFoundScene;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -147,9 +149,15 @@ public class MainController implements Initializable {
             mapMyRunController = loader.getController();
             paneMap.put("Map My Run", mapMyRun);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivitiesFound.fxml"));
+            activitiesFoundScene = loader.load();
+            activitiesFoundController = loader.getController();
+            paneMap.put("Activities found", activitiesFoundScene);
+
+
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile, mapMyRun, calendarScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
 
             profileView.toFront();
 
