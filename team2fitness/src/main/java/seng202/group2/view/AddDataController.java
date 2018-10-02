@@ -29,6 +29,9 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 /**
  *Controller for AddData Scene
@@ -36,6 +39,7 @@ import java.util.ResourceBundle;
 public class AddDataController implements Initializable, UserData {
 
     private File selectedFile;
+    private Executor executionThreads;
     private IntegerProperty newFile = new SimpleIntegerProperty(0);
 
 
@@ -192,5 +196,15 @@ public class AddDataController implements Initializable, UserData {
         typeOptions.add("Swim");
         choiceBoxType.setItems(typeOptions);
         choiceBoxType.setValue("Run");
+
+        // Multithreading
+        executionThreads = Executors.newCachedThreadPool(new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setDaemon(true);
+                return thread;
+            }
+        });
     }
 }
