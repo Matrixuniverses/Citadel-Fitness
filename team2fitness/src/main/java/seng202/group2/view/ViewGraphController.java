@@ -81,7 +81,7 @@ public class ViewGraphController implements Initializable {
         });
 
         // Initialize choice box
-        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time", "Heart Rate / Time", "Speed Graph",  "Calories Burnt"));
+        graphTypeChoice.setItems(FXCollections.observableArrayList("Distance / Time", "Altitude / Time", "Heart Rate / Time", "Speed Graph",  "Calories Burnt"));
         graphTypeChoice.getSelectionModel().select(0);
 
         graphTypeChoice.setOnAction(new EventHandler<ActionEvent>() {
@@ -104,30 +104,38 @@ public class ViewGraphController implements Initializable {
         for (Activity activity : activityList) {
             if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 0){
                 lineChart.setTitle("Distance/Time");
-                lineChart.getXAxis().setLabel("Time(s)");
-                lineChart.getYAxis().setLabel("Distance(m)");
+                lineChart.getXAxis().setLabel("Time (minutes)");
+                lineChart.getYAxis().setLabel("Distance (metres)");
 
                 XYChart.Series series = GraphGenerator.createTimeSeries(activity);
                 seriesList.add(series);
                 lineChart.getData().add(series);
             } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 1) {
+                lineChart.setTitle("Altitude/Time");
+                lineChart.getXAxis().setLabel("Time (minutes)");
+                lineChart.getYAxis().setLabel("Altitude (metres)");
+
+                XYChart.Series series = GraphGenerator.createAltitudeTimeSeries(activity);
+                seriesList.add(series);
+                lineChart.getData().add(series);
+            } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 2) {
                 lineChart.setTitle("Heart Rate/Time");
-                lineChart.getXAxis().setLabel("Time(s)");
-                lineChart.getYAxis().setLabel("Hart Rate");
+                lineChart.getXAxis().setLabel("Time (minutes)");
+                lineChart.getYAxis().setLabel("Heart Rate (BPM)");
 
                 XYChart.Series series = GraphGenerator.createHeartRateTimeSeries(activity);
                 seriesList.add(series);
                 lineChart.getData().add(series);
-            } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 2) {
+            } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 3) {
                 lineChart.setTitle("Speed/Time");
-                lineChart.getXAxis().setLabel("Time(s)");
-                lineChart.getYAxis().setLabel("Speed(m/s)");
+                lineChart.getXAxis().setLabel("Time (minutes)");
+                lineChart.getYAxis().setLabel("Speed (m/s)");
                 XYChart.Series series = GraphGenerator.createSpeedTimeSeries(activity);
                 seriesList.add(series);
                 lineChart.getData().add(series);
-            }else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 3) {
+            } else if (graphTypeChoice.getSelectionModel().getSelectedIndex() == 4) {
                 lineChart.setTitle("Calories Burnt");
-                lineChart.getXAxis().setLabel("Time(s)");
+                lineChart.getXAxis().setLabel("Time (minutes)");
                 lineChart.getYAxis().setLabel("Calories");
                 XYChart.Series series = GraphGenerator.createCaloriesTimeSeries(activity);
                 seriesList.add(series);
