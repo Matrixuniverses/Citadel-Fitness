@@ -138,7 +138,7 @@ public class User {
      * @param activity activity object
      */
     public void addActivity(Activity activity){
-        double avgHR = DataAnalyzer.calcAverageHR(activity);
+        //double avgHR = DataAnalyzer.calcAverageHR(activity);
         double caloriesBurned = DataAnalyzer.calcCalories(this, activity);
         activity.setCaloriesBurned(caloriesBurned);
         this.activityList.add(activity);

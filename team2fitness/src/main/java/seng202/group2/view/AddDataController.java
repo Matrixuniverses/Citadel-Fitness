@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +23,7 @@ import seng202.group2.data.DataManager;
 import java.io.File;
 import java.net.URL;
 import java.time.ZoneId;
+//import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;
@@ -33,11 +35,8 @@ import java.util.concurrent.Executors;
  */
 public class AddDataController implements Initializable, UserData {
 
-    private File selectedFile;
     private Executor executionThreads;
     private IntegerProperty newFile = new SimpleIntegerProperty(0);
-
-
     private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
@@ -68,19 +67,28 @@ public class AddDataController implements Initializable, UserData {
     @FXML
     public void selectFileAction(ActionEvent event){
         FileChooser fc = new FileChooser();
-        selectedFile = fc.showOpenDialog(null);
+        final File selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
-            DataParser parser;
-            try {
+            Task<DataParser> addDataTask = new Task<DataParser>() {
+                @Override
+                protected DataParser call() throws Exception {
+                    return new DataParser(selectedFile);
+                }
+            };
+
+            addDataTask.setOnSucceeded(succeededEvent -> {
+                dataManager.addActivities(addDataTask.getValue().getActivitiesRead());
                 importInfoLabel.setVisible(true);
-                parser = new DataParser(selectedFile);
-                dataManager.addActivities(parser.getActivitiesRead());
                 importInfoLabel.setTextFill(Color.GREEN);
                 importInfoLabel.setText("Activities added successfully.");
-            } catch (FileFormatException f) {
+            });
+
+            addDataTask.setOnFailed(failedEvent -> {
                 importInfoLabel.setTextFill(Color.RED);
                 importInfoLabel.setText("Error reading data from file.");
-            }
+            });
+
+            executionThreads.execute(addDataTask);
         }
         event.consume();
     }
@@ -161,6 +169,8 @@ public class AddDataController implements Initializable, UserData {
         Dragboard board = event.getDragboard();
 
         if (board.hasFiles()) {
+            //TODO - Add handling in parser for multiple files (resource saving)
+            //ArrayList<File> files = new ArrayList<File>(board.getFiles());
             File parsable = board.getFiles().get(0);
             try {
                 DataParser parser = new DataParser(parsable);
