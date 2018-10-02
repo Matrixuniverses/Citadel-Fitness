@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -14,15 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seng202.group2.data.DataParser;
 import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
-
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.net.URL;
 import java.time.ZoneId;
@@ -31,7 +27,6 @@ import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 /**
  *Controller for AddData Scene
@@ -87,6 +82,7 @@ public class AddDataController implements Initializable, UserData {
                 importInfoLabel.setText("Error reading data from file.");
             }
         }
+        event.consume();
     }
 
     @Override
@@ -109,11 +105,11 @@ public class AddDataController implements Initializable, UserData {
             if (name.length() == 0) {
                 throw new IllegalArgumentException("Activity must be named.");
             }
-            Double distance = Double.parseDouble(textFieldDistance.getText());
+            double distance = Double.parseDouble(textFieldDistance.getText());
             if (distance < 0) {
                 throw new IllegalArgumentException("The distance value cannot be negative.");
             }
-            Double time = Double.parseDouble(textFieldTime.getText());
+            double time = Double.parseDouble(textFieldTime.getText());
             if (time < 0) {
                 throw new IllegalArgumentException("The time value cannot be negative.");
             }
@@ -147,6 +143,7 @@ public class AddDataController implements Initializable, UserData {
     public void dragEntered(final DragEvent event) {
         selectFileButton.setText("Drop File");
         selectFileButton.getStyleClass().setAll("button", "main-panel", "dragStyle");
+        event.consume();
     }
 
     @FXML
@@ -179,12 +176,14 @@ public class AddDataController implements Initializable, UserData {
             }
         }
         event.setDropCompleted(true);
+        event.consume();
     }
 
     @FXML
     public void dragExited(final DragEvent event) {
         selectFileButton.setText("Select File");
         selectFileButton.getStyleClass().setAll("button", "main-panel");
+        event.consume();
     }
 
     @Override
@@ -198,13 +197,11 @@ public class AddDataController implements Initializable, UserData {
         choiceBoxType.setValue("Run");
 
         // Multithreading
-        executionThreads = Executors.newCachedThreadPool(new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread thread = new Thread(r);
-                thread.setDaemon(true);
-                return thread;
-            }
+        executionThreads = Executors.newCachedThreadPool(runnable -> {
+            Thread thread = new Thread(runnable);
+            thread.setDaemon(true);
+            return thread;
         });
+
     }
 }
