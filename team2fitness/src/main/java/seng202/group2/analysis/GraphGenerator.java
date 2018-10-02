@@ -12,7 +12,7 @@ public class GraphGenerator {
 
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
-            time += dataPoint.getTimeDelta();
+            time += dataPoint.getTimeDelta() / 60;
             distance += dataPoint.getDistanceDelta();
             series.getData().add(new XYChart.Data(time, distance));
             series.setName(activity.getActivityName());
@@ -27,7 +27,7 @@ public class GraphGenerator {
 
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
-            time += dataPoint.getTimeDelta();
+            time += dataPoint.getTimeDelta() / 60;
             heartRate = dataPoint.getHeartRate();
             series.getData().add(new XYChart.Data(time, heartRate));
             series.setName(activity.getActivityName());
@@ -43,7 +43,7 @@ public class GraphGenerator {
 
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
-            time += dataPoint.getTimeDelta();
+            time += dataPoint.getTimeDelta() / 60;
             if (dataPoint.getTimeDelta() != 0) {
                 speed = dataPoint.getDistanceDelta() / dataPoint.getTimeDelta();
             } else {
@@ -62,9 +62,23 @@ public class GraphGenerator {
 
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()){
-            time += dataPoint.getTimeDelta();
+            time += dataPoint.getTimeDelta() / 60;
             calories += 10;
             series.getData().add(new XYChart.Data(time, calories));
+            series.setName(activity.getActivityName());
+        }
+        return series;
+    }
+
+    public static XYChart.Series createAltitudeTimeSeries(Activity activity) {
+        double time = 0;
+        double altitude = 0;
+
+        XYChart.Series series = new XYChart.Series();
+        for (DataPoint dataPoint : activity.getActivityData()) {
+            time += dataPoint.getTimeDelta() / 60;
+            altitude = dataPoint.getAltitude();
+            series.getData().add(new XYChart.Data(time, altitude));
             series.setName(activity.getActivityName());
         }
         return series;
