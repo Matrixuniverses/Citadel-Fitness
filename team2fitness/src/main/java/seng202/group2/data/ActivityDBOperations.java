@@ -273,11 +273,6 @@ public class ActivityDBOperations {
         pDeleteStmt.executeUpdate();
         DatabaseOperations.disconnectFromDB();
 
-        if (getActivityFromDB(activityID) == null) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return (getActivityFromDB(activityID) == null);
     }
 }
