@@ -40,6 +40,7 @@ public class AddDataController implements Initializable, UserData {
 
 
     private DataManager dataManager = DataManager.getDataManager();
+
     @FXML
     private Button selectFileButton;
 
@@ -59,16 +60,13 @@ public class AddDataController implements Initializable, UserData {
     private Label errorLabel;
 
     @FXML
-    private Button buttonSubmitData;
-
-    @FXML
     private Label importInfoLabel;
 
     @FXML
     private ChoiceBox choiceBoxType;
 
 
-
+    @FXML
     public void selectFileAction(ActionEvent event){
         FileChooser fc = new FileChooser();
         selectedFile = fc.showOpenDialog(null);
@@ -141,11 +139,13 @@ public class AddDataController implements Initializable, UserData {
         }
     }
 
+    @FXML
     public void dragEntered(final DragEvent event) {
         selectFileButton.setText("Drop File");
         selectFileButton.getStyleClass().setAll("button", "main-panel", "dragStyle");
     }
 
+    @FXML
     public void dragOver(final DragEvent event) {
         Dragboard board = event.getDragboard();
 
@@ -155,6 +155,7 @@ public class AddDataController implements Initializable, UserData {
         }
     }
 
+    @FXML
     public void dragDropped(final DragEvent event) {
         Dragboard board = event.getDragboard();
 
@@ -176,6 +177,7 @@ public class AddDataController implements Initializable, UserData {
         event.setDropCompleted(true);
     }
 
+    @FXML
     public void dragExited(final DragEvent event) {
         selectFileButton.setText("Select File");
         selectFileButton.getStyleClass().setAll("button", "main-panel");
