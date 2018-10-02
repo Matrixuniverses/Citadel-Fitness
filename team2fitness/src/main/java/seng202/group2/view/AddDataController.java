@@ -1,7 +1,8 @@
 package seng202.group2.view;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+//import javafx.beans.property.IntegerProperty;
+//import javafx.beans.property.SimpleIntegerProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -20,6 +21,7 @@ import seng202.group2.data.DataParser;
 import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
+
 import java.io.File;
 import java.net.URL;
 import java.time.ZoneId;
@@ -31,12 +33,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- *Controller for AddData Scene
+ * Controller for AddData Scene
  */
 public class AddDataController implements Initializable, UserData {
 
     private Executor executionThreads;
-    private IntegerProperty newFile = new SimpleIntegerProperty(0);
+    //private IntegerProperty newFile = new SimpleIntegerProperty(0);
     private DataManager dataManager = DataManager.getDataManager();
 
     @FXML
@@ -63,34 +65,57 @@ public class AddDataController implements Initializable, UserData {
     @FXML
     private ChoiceBox choiceBoxType;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.add("Run");
+        typeOptions.add("Walk");
+        typeOptions.add("Cycle");
+        typeOptions.add("Swim");
+        choiceBoxType.setItems(typeOptions);
+        choiceBoxType.setValue("Run");
+
+        // Multithreading
+        executionThreads = Executors.newCachedThreadPool(runnable -> {
+            Thread thread = new Thread(runnable);
+            thread.setDaemon(true);
+            return thread;
+        });
+    }
 
     @FXML
-    public void selectFileAction(ActionEvent event){
+    protected void selectFileAction(ActionEvent event) {
         FileChooser fc = new FileChooser();
         final File selectedFile = fc.showOpenDialog(null);
         if (selectedFile != null) {
-            Task<DataParser> addDataTask = new Task<DataParser>() {
-                @Override
-                protected DataParser call() throws Exception {
-                    return new DataParser(selectedFile);
-                }
-            };
-
-            addDataTask.setOnSucceeded(succeededEvent -> {
-                dataManager.addActivities(addDataTask.getValue().getActivitiesRead());
-                importInfoLabel.setVisible(true);
-                importInfoLabel.setTextFill(Color.GREEN);
-                importInfoLabel.setText("Activities added successfully.");
-            });
-
-            addDataTask.setOnFailed(failedEvent -> {
-                importInfoLabel.setTextFill(Color.RED);
-                importInfoLabel.setText("Error reading data from file.");
-            });
-
-            executionThreads.execute(addDataTask);
+            addData(selectedFile);
         }
         event.consume();
+    }
+
+    private void addData(File fileToRead) {
+        Task<DataParser> addDataTask = new Task<DataParser>() {
+            @Override
+            protected DataParser call() throws Exception {
+                return new DataParser(fileToRead);
+            }
+        };
+
+        addDataTask.setOnSucceeded(succeededEvent -> {
+            dataManager.addActivities(addDataTask.getValue().getActivitiesRead());
+            importInfoLabel.setVisible(true);
+            importInfoLabel.setTextFill(Color.GREEN);
+            importInfoLabel.setText("Activities added successfully!");
+
+        });
+
+        addDataTask.setOnFailed(failedEvent -> {
+            importInfoLabel.setTextFill(Color.RED);
+            importInfoLabel.setText("Error reading data from file.");
+        });
+
+        importInfoLabel.setText("Reading file");
+        executionThreads.execute(addDataTask);
     }
 
     @Override
@@ -103,7 +128,7 @@ public class AddDataController implements Initializable, UserData {
      * Creates an activity object with the data the user entered. Adds it to the user's activities list.
      * If the user enters invalid information, an alert is opened with error message.
      */
-    public void addManualData(){
+    public void addManualData() {
         try {
             importInfoLabel.setVisible(false);
             errorLabel.setTextFill(Color.RED);
@@ -169,21 +194,7 @@ public class AddDataController implements Initializable, UserData {
         Dragboard board = event.getDragboard();
 
         if (board.hasFiles()) {
-            //TODO - Add handling in parser for multiple files (resource saving)
-            //ArrayList<File> files = new ArrayList<File>(board.getFiles());
-            File parsable = board.getFiles().get(0);
-            try {
-                DataParser parser = new DataParser(parsable);
-                dataManager.addActivities(parser.getActivitiesRead());
-                importInfoLabel.setVisible(true);
-                importInfoLabel.setTextFill(Color.GREEN);
-                importInfoLabel.setText("Activities added!");
-            } catch (FileFormatException e) {
-                String msg = e.getMessage();
-                importInfoLabel.setVisible(true);
-                importInfoLabel.setTextFill(Color.RED);
-                importInfoLabel.setText(msg);
-            }
+            addData(board.getFiles().get(0));
         }
         event.setDropCompleted(true);
         event.consume();
@@ -194,24 +205,5 @@ public class AddDataController implements Initializable, UserData {
         selectFileButton.setText("Select File");
         selectFileButton.getStyleClass().setAll("button", "main-panel");
         event.consume();
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<String> typeOptions = FXCollections.observableArrayList();
-        typeOptions.add("Run");
-        typeOptions.add("Walk");
-        typeOptions.add("Cycle");
-        typeOptions.add("Swim");
-        choiceBoxType.setItems(typeOptions);
-        choiceBoxType.setValue("Run");
-
-        // Multithreading
-        executionThreads = Executors.newCachedThreadPool(runnable -> {
-            Thread thread = new Thread(runnable);
-            thread.setDaemon(true);
-            return thread;
-        });
-
     }
 }
