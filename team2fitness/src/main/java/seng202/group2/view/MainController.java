@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,14 +12,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
@@ -57,6 +52,7 @@ public class MainController implements Initializable {
     private EditProfileController editProfileController;
     private MapMyRunController mapMyRunController;
     private CalendarController calendarController;
+    private ActivitiesFoundController activitiesFoundController;
 
     @FXML
     private HeaderController headerController;
@@ -75,6 +71,7 @@ public class MainController implements Initializable {
     private AnchorPane editProfile;
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
+    private AnchorPane activitiesFoundScene;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -99,9 +96,8 @@ public class MainController implements Initializable {
 
     /**
      * This adds all scenes to the mainStack so they can be called to front when required
-     * @throws IOException ex_
      */
-    private void initializeViews(){
+    private void initializeViews() {
         try {
             FXMLLoader loader;
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivityView.fxml"));
@@ -147,9 +143,15 @@ public class MainController implements Initializable {
             mapMyRunController = loader.getController();
             paneMap.put("Map My Run", mapMyRun);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivitiesFound.fxml"));
+            activitiesFoundScene = loader.load();
+            activitiesFoundController = loader.getController();
+            paneMap.put("ActivitiesFound", activitiesFoundScene);
+
+
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile, mapMyRun, calendarScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
 
             profileView.toFront();
 
@@ -195,7 +197,12 @@ public class MainController implements Initializable {
             }
         });
 
-        activityViewController.setNavBarController(navBarController);
+        activityViewController.getActivityAddButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                navBarController.getCurrentView().set("Import Data");
+            }
+        });
 
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override

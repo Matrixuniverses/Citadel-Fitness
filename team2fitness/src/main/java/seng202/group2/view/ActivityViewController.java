@@ -80,9 +80,7 @@ public class ActivityViewController implements Initializable, UserData {
     Label errorLabel;
 
     @FXML
-    private ImageView navLogo;
-
-    private NavBarController navBarController;
+    Button addActivityButton;
 
     StringProperty pulser = new SimpleStringProperty("0");
 
@@ -185,16 +183,6 @@ public class ActivityViewController implements Initializable, UserData {
         }
     }
 
-
-    public void setNavBarController(NavBarController controller) {
-        navBarController = controller;
-    }
-
-    public void addActivities() {
-        navBarController.showAddData();
-        // TODO - Restructure code to swap views and add it here, I stared into the void return type and it stared back
-    }
-
     public void delete(){
         Activity activity = activityTable.getSelectionModel().getSelectedItem();
         if (activity != null) {
@@ -210,37 +198,15 @@ public class ActivityViewController implements Initializable, UserData {
         }
     }
 
-    public DatePicker getDateFromPicker() {
-        return dateFromPicker;
-    }
-
-    public DatePicker getDateToPicker() {
-        return dateToPicker;
-    }
-
-    public Button getClearButton() {
-        return clearButton;
-    }
-
-    public Button getSearchButton() {
-        return searchButton;
+    public Button getActivityAddButton(){
+        return addActivityButton;
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
         return activityTable;
     }
 
-    public Button getActivityDeleteButton() {
-        return activityDeleteButton;
-    }
-
     public void updateUser() {
-
-
-    }
-
-    public TableView<Activity> getTable() {
-        return activityTable;
     }
 
     public Button getDetailButton() {

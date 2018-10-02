@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.Activity;
-import seng202.group2.model.DataPoint;
 import seng202.group2.model.HealthWarning;
 import seng202.group2.model.User;
 import java.sql.SQLException;
@@ -124,7 +123,7 @@ public class DataManager {
 
     /**
      * deletes an activity from the current user and updates the data
-     * @param activity
+     * @param activity Activity to delete
      */
     public void deleteActivity(Activity activity) {
         try {
@@ -142,12 +141,6 @@ public class DataManager {
     public ObservableList<Activity> getActivityList() {
         return currentUser.get().getActivityList();
     }
-
-
-
-
-    //Getters and setters
-
 
     public ObservableList<User> getUserList() {
         return userList;

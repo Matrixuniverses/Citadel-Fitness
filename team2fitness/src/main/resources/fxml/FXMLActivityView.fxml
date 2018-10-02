@@ -33,6 +33,6 @@
       <DatePicker fx:id="dateFromPicker" layoutX="784.0" layoutY="14.0" prefHeight="36.0" prefWidth="207.0" promptText="Date From" styleClass="customLabels" />
       <DatePicker fx:id="dateToPicker" layoutX="784.0" layoutY="64.0" prefHeight="36.0" prefWidth="207.0" promptText="Date To" styleClass="customLabels" />
       <Label fx:id="errorLabel" layoutX="784.0" layoutY="77.0" prefHeight="15.0" prefWidth="198.0" styleClass="error" text="Label" visible="false" />
-      <Button layoutX="783.0" layoutY="401.0" mnemonicParsing="false" onAction="#addActivities" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Add Activities" />
+      <Button fx:id="addActivityButton" layoutX="783.0" layoutY="401.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Add Activities" />
    </children>
 </AnchorPane>
