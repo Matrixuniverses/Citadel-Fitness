@@ -4,24 +4,27 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Date;
+
 public class Target {
 
     private int id;
     private SimpleStringProperty name;
-    private SimpleStringProperty dateAchieved;
     private SimpleStringProperty type;
-
     private SimpleDoubleProperty initialValue;
     private SimpleDoubleProperty currentValue;
     private SimpleDoubleProperty finalValue;
+    private Date completionDate;
 
     private BooleanProperty completed = new SimpleBooleanProperty(false);
 
-    public Target(String tName, String tType, Double tValue) {
+    public Target(String tName, String tType, Double tValue, Date tDate) {
         name = new SimpleStringProperty(tName);
         type = new SimpleStringProperty(tType);
-        initialValue = new SimpleDoubleProperty(tValue);
+        initialValue = new SimpleDoubleProperty(tValue); // Needs to identify value to use.
         currentValue = new SimpleDoubleProperty(tValue);
+        finalValue = new SimpleDoubleProperty(tValue);
+        completionDate = tDate;
     }
 
     public void updateProgress(SimpleDoubleProperty progress) {
