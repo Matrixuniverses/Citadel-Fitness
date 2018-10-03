@@ -2,6 +2,9 @@ package seng202.group2.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.data.DataManager;
 import seng202.group2.view.ActivityInfoController;
@@ -29,7 +32,7 @@ public class Activity {
     private SimpleDoubleProperty maxHR;
     private SimpleDoubleProperty vo2MAX;
     private Date activityDate;
-    private ArrayList<DataPoint> activityData = new ArrayList<>();
+    private ObservableList<DataPoint> activityData = FXCollections.observableArrayList();
     //Will add code functionality later
     private boolean manualEntry = false;
 
@@ -47,6 +50,13 @@ public class Activity {
         this.activityDate = new Date(0);
         this.minHR = new SimpleDoubleProperty(0);
         this.maxHR = new SimpleDoubleProperty(0);
+        this.vo2MAX = new SimpleDoubleProperty(0);
+        activityData.addListener(new ListChangeListener<DataPoint>() {
+            @Override
+            public void onChanged(Change<? extends DataPoint> c) {
+                calcVo2Max();
+            }
+        });
 
     }
 
@@ -68,8 +78,13 @@ public class Activity {
         this.caloriesBurned = new SimpleDoubleProperty(0);
         this.minHR = new SimpleDoubleProperty(Double.valueOf(getMinHR()));
         this.maxHR = new SimpleDoubleProperty(Double.valueOf(getMaxHR()));
-        this.vo2MAX = new SimpleDoubleProperty(Double.valueOf(calcVo2Max()));
-
+        this.vo2MAX = new SimpleDoubleProperty(0);
+        activityData.addListener(new ListChangeListener<DataPoint>() {
+            @Override
+            public void onChanged(Change<? extends DataPoint> c) {
+                calcVo2Max();
+            }
+        });
         manualEntry = true;
     }
 
@@ -197,7 +212,7 @@ public class Activity {
      * This returns the activityData as an arrayList of data points
      * @return returns ArrayList<DataPoint> activityData
      */
-    public ArrayList<DataPoint> getActivityData() {
+    public ObservableList<DataPoint> getActivityData() {
         return activityData;
     }
 
@@ -313,18 +328,16 @@ public class Activity {
     /**
      * Inputs a age value and a resting heart rate (beats per minute) and calculates an estimate of
      * the VO2 max based of these values.
-     * @param age The age of the person in years
-     * @param restingHeartRate The resting heart rate of the person in beats per minute
      * @return An estimate value of the VO2 max based off the inputted values
      * @throws IllegalArgumentException if the restingHeartRate value is not greater than zero
      */
-    public double calcVo2Max() {
+    public void calcVo2Max() {
         double max = getMaxHR();
         double min = getMinHR();
         if (min <= 0) {
             throw new IllegalArgumentException("restingHeartRate must be greater than zero");
         }
         double maxHeartRate = 15 * (max/min);
-        return maxHeartRate;
+        this.vo2MAX.set(maxHeartRate);
     }
 }

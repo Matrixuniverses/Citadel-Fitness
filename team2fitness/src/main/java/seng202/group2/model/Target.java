@@ -18,6 +18,16 @@ public class Target {
 
     private BooleanProperty completed = new SimpleBooleanProperty(false);
 
+    public Target(String name, String type, double initialValue, double currentValue, double finalValue, Date completionDate){
+        this.name.set(name);
+        this.type.set(type);
+        this.initialValue.set(initialValue);
+        this.currentValue.set(currentValue);
+        this.finalValue.set(finalValue);
+        this.completionDate = completionDate;
+
+    }
+
     public Target(String tName, String tType, Double tValue, Date tDate) {
         name = new SimpleStringProperty(tName);
         type = new SimpleStringProperty(tType);
@@ -41,4 +51,17 @@ public class Target {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getName() { return name.get(); }
+
+    public String getType() { return type.get(); }
+
+    public double getInitialValue() { return initialValue.get(); }
+
+    public double getCurrentValue() { return currentValue.get(); }
+
+    public double getfinalValue() { return finalValue.get(); }
+
+    public java.util.Date getCompletionDate() { return completionDate; }
+
 }

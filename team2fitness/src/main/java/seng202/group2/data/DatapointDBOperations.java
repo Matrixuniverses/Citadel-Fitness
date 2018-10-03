@@ -248,7 +248,7 @@ public class DatapointDBOperations {
      * @param activityID ActivityID to attach the datapoints to
      * @throws SQLException If unable to write to database
      */
-    public static ArrayList<Integer> insertDataPointList(ArrayList<DataPoint> points, int activityID) throws SQLException{
+    public static ArrayList<Integer> insertDataPointList(ObservableList<DataPoint> points, int activityID) throws SQLException{
 
         Connection dbConn = DatabaseOperations.connectToDB();
         Statement stmt = dbConn.createStatement();
