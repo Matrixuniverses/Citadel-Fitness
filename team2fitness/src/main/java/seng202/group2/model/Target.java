@@ -55,11 +55,17 @@ public class Target {
 
     public String getName() { return name.get(); }
 
+    public void setName(String newName) { this.name.set(newName); }
+
     public String getType() { return type.get(); }
+
+    public void setType(String newType) { this.type.set(newType); }
 
     public double getInitialValue() { return initialValue.get(); }
 
+
     public double getCurrentValue() { return currentValue.get(); }
+
 
     public double getFinalValue() { return finalValue.get(); }
 

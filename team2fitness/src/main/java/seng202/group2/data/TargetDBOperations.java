@@ -84,7 +84,12 @@ public class TargetDBOperations {
         pQueryStmt.setInt(1, targetID);
         ResultSet queryResult = pQueryStmt.executeQuery();
 
-        Target collectedTarget = getResultSetTargets(queryResult).get(0);
+        Target collectedTarget = null;
+        ObservableList<Target> collectedTargetList = getResultSetTargets(queryResult);
+
+        if (!(collectedTargetList.isEmpty())) {
+            collectedTarget = collectedTargetList.get(0);
+        }
 
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
