@@ -169,9 +169,11 @@ public class ActivityViewController implements Initializable, UserData {
             }
             Date start = Date.valueOf(dateFromString);
             Date end = Date.valueOf(dateToString);
-            if (start.toString() == end.toString()){
-                System.out.println(end); //TODO: sort out what happens when the dates are the same.
-            }
+
+            //end date is set to midnight
+            LocalDate modifiedDate = end.toLocalDate().plusDays(1);
+            end = Date.valueOf(modifiedDate);
+
             int id = currentUser.getId();
             System.out.println(currentUser.getId());
             activityTable.setItems(ActivityDBOperations.getActivitiesBetweenDates(start, end, id));

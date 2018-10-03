@@ -152,7 +152,6 @@ public class AddDataController implements Initializable, UserData {
             } else {
                 Date date = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Activity userActivity = new Activity(name, date, type, time, distance);
-                DataManager.getDataManager().addActivity(userActivity);
                 dataManager.addActivity(userActivity);
                 errorLabel.setTextFill(Color.GREEN);
                 errorLabel.setText("Activity added successfully.");
