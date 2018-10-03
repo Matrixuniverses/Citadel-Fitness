@@ -106,7 +106,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="CalendarButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showCalendar" prefHeight="28.0" prefWidth="224.0" text="  Targets" GridPane.halignment="LEFT" GridPane.rowIndex="7">
+            <Button fx:id="CalendarButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showTarget" prefHeight="28.0" prefWidth="224.0" text="  Targets" GridPane.halignment="LEFT" GridPane.rowIndex="7">
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
