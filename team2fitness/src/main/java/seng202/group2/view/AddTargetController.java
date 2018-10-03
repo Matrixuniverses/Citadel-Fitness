@@ -72,7 +72,7 @@ public class AddTargetController implements Initializable, UserData {
 
     }
 
-    private void addTarget() {
+    public void addTarget() {
 
         nameErrorLabel.setText("");
         typeErrorLabel.setText("");
