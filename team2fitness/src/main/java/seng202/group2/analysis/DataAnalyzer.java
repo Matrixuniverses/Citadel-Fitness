@@ -172,6 +172,37 @@ public class DataAnalyzer {
     }
 
     /**
+     * Implements a function that calculates a general estimate of the amount of calories burned during physical exercise
+     * based on a persons age, weight, average heard rate while exercising, time spent exercising and their gender. The
+     * function is based of the equation supplied from The Journal of Sports Sciences.
+     * @see <a href="http://fitnowtraining.com/2012/01/formula-for-calories-burned/">http://fitnowtraining.com/2012/01/formula-for-calories-burned/</a>
+     * @param user The user doing the activity
+     * @param time Length of activity in minutes
+     * @return An estimate value of the amount of Calories burned by the person during the physical exercise
+     * @throws IllegalArgumentException if the resulted calories burned is a negative value
+     */
+    public static double calcCaloriesEstimate(User user, Double time) {
+        double result;
+        int mets = 590;
+
+        double weight = weightKgToLbs(user.getWeight());
+        if (user.getGender().equals("Male")) {
+            result = 66.5 + (13.75 * weight) + (5.003 * user.getHeight())-(6.775 * user.getAge());
+            result = (result * mets)/24;
+            result = (result * (time * 60));
+        } else {
+            result = 655.1 + (9.563 * weight) + (1.85 * user.getHeight())-(4.676 * user.getAge());
+            result = (result * mets)/24;
+            result = (result * (time * 60));
+        }
+        if (result < 0) {
+            throw new IllegalArgumentException("Calories burned cannot be negative");
+        }
+
+        return result / 10000;
+    }
+
+    /**
      * Implements a function that calculates if a user has Tachycardia based on a persons age and resting heart rate.
      * @param age The age of the person in years.
      * @param restingHR The resting heart rate of a person in beats per minute.

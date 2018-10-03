@@ -11,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import seng202.group2.analysis.DataAnalyzer;
+import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
 import java.awt.event.MouseEvent;
 import java.net.URL;
@@ -44,7 +47,9 @@ public class MapMyRunController implements Initializable, UserData {
     private DoubleProperty calories;
     private DoubleProperty time;
 
-
+    private DataManager dataManager = DataManager.getDataManager();
+    private User user = dataManager.getCurrentUser();
+    private DataAnalyzer dataAnalyzer;
 
     public void initialize(URL location, ResourceBundle resources) {
         distance = new SimpleDoubleProperty(0.0);
@@ -54,6 +59,7 @@ public class MapMyRunController implements Initializable, UserData {
         caloriesLabel.textProperty().bind(Bindings.format("%.0f", calories));
         timeLabel.textProperty().bind(Bindings.format("%.1f", time));
         errorLabel.setVisible(false);
+        dataAnalyzer = new DataAnalyzer();
         initMap();
 
         // Listener. Calls the javascript distance calculation when the user adds a new marker to their path. The distance property is then updated.
@@ -61,10 +67,11 @@ public class MapMyRunController implements Initializable, UserData {
             @Override
             public void handle(javafx.scene.input.MouseEvent event) {
                 if (event.isStillSincePress()) {
-                    //System.out.println("test");
+                    errorLabel.setVisible(false);
                     String distanceString = webEngine.executeScript("calculateDistance();").toString();
                     distance.set(Double.parseDouble(distanceString));
                     time.set(calcTime());
+                    calories.set(calcCalories());
                 }
 
             }
@@ -93,12 +100,21 @@ public class MapMyRunController implements Initializable, UserData {
     }
 
     /**
+     * Calculates an estimate of how many calories burned for the path chosen by user.
+     * @return
+     */
+    public Double calcCalories() {
+        double calories = dataAnalyzer.calcCaloriesEstimate(user, time.getValue());
+        return calories;
+    }
+
+    /**
      * Calculates an estimate for how long it would take to run the route selected by user.
      * Uses the distance property, which is updated eahc time the user adds a marker.
      * @return The time in minutes
      */
     public Double calcTime() {
-        Double timePerM = 0.24;
+        Double timePerM = 0.36;
         Double time = timePerM * distance.getValue();
         return time / 60;
     }

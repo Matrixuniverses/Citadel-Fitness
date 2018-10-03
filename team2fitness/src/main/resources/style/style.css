@@ -69,6 +69,8 @@
     -fx-border-width: 3px;
     -fx-text-fill: white;
     -fx-font-family: "Open Sans";
+    -fx-cursor: hand;
+
 }
 
 .customGreenButton{
@@ -77,6 +79,8 @@
     -fx-border-width: 3px;
     -fx-text-fill: white;
     -fx-font-family: "Open Sans";
+    -fx-cursor: hand;
+
 }
 
 .customRedButton {
@@ -85,6 +89,8 @@
     -fx-border-width: 3px;
     -fx-text-fill: white;
     -fx-font-family: "Open Sans";
+    -fx-cursor: hand;
+
 }
 
 .customTable {
@@ -262,4 +268,6 @@
     -fx-border-width: 3px;
     -fx-text-fill: white;
     -fx-font-family: "Open Sans";
+    -fx-cursor: hand;
+
 }
