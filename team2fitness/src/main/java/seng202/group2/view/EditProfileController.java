@@ -1,7 +1,5 @@
 package seng202.group2.view;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,23 +7,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.util.converter.NumberStringConverter;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
-
-import javax.xml.crypto.Data;
 import java.net.URL;
-import java.util.IllegalFormatException;
-import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 
 /**
  * This is the controller for EditProfile Scene, initializes and handles Scene events
  */
 public class EditProfileController implements Initializable, UserData {
-
-    @FXML
-    private Button updateButton;
 
     @FXML
     private TextField nameField;
@@ -62,8 +52,7 @@ public class EditProfileController implements Initializable, UserData {
 
     private DataManager dataManager = DataManager.getDataManager();
 
-
-    User currentUser;
+    private User currentUser;
 
     public void initialize(URL location, ResourceBundle resources) {
         nameErrorLabel.setTextFill(Color.RED);
@@ -72,17 +61,15 @@ public class EditProfileController implements Initializable, UserData {
         ageErrorLabel.setTextFill(Color.RED);
         confirmLabel.setTextFill(Color.RED);
 
-        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
-            @Override
-            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-                currentUser = DataManager.getDataManager().getCurrentUser();
-                setFields();
-                nameErrorLabel.setText("");
-                ageErrorLabel.setText("");
-                heightErrorLabel.setText("");
-                weightErrorLabel.setText("");
-                confirmLabel.setText("");
-            }
+        dataManager.currentUserProperty().addListener((ObservableValue<? extends User> observable,
+                                                       User oldValue, User newValue) -> {
+            currentUser = DataManager.getDataManager().getCurrentUser();
+            setFields();
+            nameErrorLabel.setText("");
+            ageErrorLabel.setText("");
+            heightErrorLabel.setText("");
+            weightErrorLabel.setText("");
+            confirmLabel.setText("");
         });
     }
 
@@ -105,13 +92,13 @@ public class EditProfileController implements Initializable, UserData {
     /**
      * Updates the user's data with the fields provided. User information is changed and written to database.
      */
+    @FXML
     public void update() {
 
         nameErrorLabel.setText("");
         ageErrorLabel.setText("");
         heightErrorLabel.setText("");
         weightErrorLabel.setText("");
-
 
         boolean update = true;
         int age = 0;
