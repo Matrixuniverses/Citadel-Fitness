@@ -22,7 +22,7 @@
 <script>
 
     var map;
-    var path;
+    var polylinePath;
 
     var currentPoint;
 
@@ -30,16 +30,19 @@
     var newDistance;
     var start;
     var finish;
-    var runPath = new Array();
-
+    var runPath = [];
+    var markersArray = [];
+    var polylineArray = [];
 
     function initMap() {
         var options = {
             center: {lat: -43.522551, lng: 172.581065},
             zoom: 16,
             scaleControl: false,
+            zoomControl: false,
             streetViewControl: false,
             fullscreenControl: false,
+            scaleControl: false,
             mapTypeControl: false,
             styles: [
                 {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
@@ -138,6 +141,7 @@
             map: map
         });
         runPath.push(location);
+        markersArray.push(marker);
 
         calculateRoute(runPath);
         distanceTest();
@@ -152,7 +156,7 @@
             return;
         }
 
-        path = new google.maps.Polyline({
+        polylinePath = new google.maps.Polyline({
             path: runPath,
             geodesic: true,
             strokeColour: 'orange',
@@ -160,10 +164,10 @@
             strokeOpacity: 1.0,
             strokeWeight: 2
         });
+        polylineArray.push(polylinePath);
+        polylinePath.setOptions({strokeColor: '#f4aa42'});
 
-        path.setOptions({strokeColor: '#f4aa42'});
-
-        path.setMap(map);
+        polylinePath.setMap(map);
         repositionMap(runPath);
 
     }
@@ -189,6 +193,20 @@
 
         map.fitBounds(bounds);
     }
+
+    function clearMap() {
+        for (var i = 0 ; i < markersArray.length ; i++) {
+            markersArray[i].setMap(null);
+        }
+        for (var j = 0 ; j < polylineArray.length ; j++) {
+            polylineArray[j].setMap(null);
+        }
+        polylineArray = [];
+        markersArray = [];
+        runPath = [];
+    }
+
+
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3bfC_qUCluh16vnRtDhw3j5UJnM5XeTY&callback=initMap"
