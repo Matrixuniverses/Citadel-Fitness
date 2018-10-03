@@ -152,6 +152,10 @@ public class User {
         this.activityList.remove(activity);
     }
 
+    public void addTarget(Target target){
+        this.targetList.add(target);
+    }
+
     /**
      * This returns the id of the user
      * @return returns int id
