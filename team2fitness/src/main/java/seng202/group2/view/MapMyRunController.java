@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.web.WebEngine;
@@ -14,6 +15,8 @@ import javafx.scene.web.WebView;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static java.lang.Boolean.FALSE;
 
 public class MapMyRunController implements Initializable, UserData {
 
@@ -29,11 +32,18 @@ public class MapMyRunController implements Initializable, UserData {
     @FXML
     private WebView mapWebView;
 
+    @FXML
+    private Label errorLabel;
+
+    @FXML
+    private Button resetMapButton;
+
     private WebEngine webEngine;
 
     private DoubleProperty distance;
     private DoubleProperty calories;
     private DoubleProperty time;
+
 
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,6 +53,7 @@ public class MapMyRunController implements Initializable, UserData {
         distanceLabel.textProperty().bind(Bindings.format("%.0f", distance));
         caloriesLabel.textProperty().bind(Bindings.format("%.0f", calories));
         timeLabel.textProperty().bind(Bindings.format("%.1f", time));
+        errorLabel.setVisible(false);
         initMap();
 
         // Listener. Calls the javascript distance calculation when the user adds a new marker to their path. The distance property is then updated.
@@ -55,6 +66,7 @@ public class MapMyRunController implements Initializable, UserData {
                     distance.set(Double.parseDouble(distanceString));
                     time.set(calcTime());
                 }
+
             }
         });
     }
@@ -67,14 +79,14 @@ public class MapMyRunController implements Initializable, UserData {
     private void initMap() {
         webEngine = mapWebView.getEngine();
         webEngine.load(this.getClass().getClassLoader().getResource("mapMyRun.html").toExternalForm());
-    }
 
-    /**
-     * Test function to calculate distance for map my run feature.
-     */
-    public void clickTest() {
-        String distanceString= webEngine.executeScript("distanceTest();").toString();
-        distance.set(Double.parseDouble(distanceString));
+        // Clear the map and show an error message if there is no internet connection
+        try {
+            resetMap();
+        } catch (netscape.javascript.JSException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Internet connection required for map view.");
+        }
     }
 
     public void updateUser() {
@@ -91,5 +103,14 @@ public class MapMyRunController implements Initializable, UserData {
         return time / 60;
     }
 
-
+    /**
+     * Calls a javascript function to clear all markers and polylines from the maps.
+     * Empties the arrays for storing the user's run path so they can draw a new one.
+     */
+    public void resetMap() {
+        webEngine.executeScript("clearMap();");
+        distance.set(0);
+        time.set(0);
+        calories.set(0);
+    }
 }
