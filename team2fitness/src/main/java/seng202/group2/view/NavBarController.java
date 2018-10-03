@@ -64,8 +64,6 @@ public class NavBarController implements Initializable {
 
     public void showMapMyRun() { currentView.set("Map My Run");}
 
-    public void showCalendar() { currentView.set("Calendar");}
-
     public Button getEditProfileButton() {
         return editProfileButton;
     }

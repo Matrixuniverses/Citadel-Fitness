@@ -1,6 +1,7 @@
 package seng202.group2.data;
 
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
@@ -381,7 +382,7 @@ public class DatabaseTest {
             Instant dateNow = Instant.now();
             DataPoint dp7 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(100))), 168, 9.72, 10.0, 99.0);
             DataPoint dp8 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(90))), 168, 9.72, 10.0, 99.0);
-            ArrayList<DataPoint> testPoints = new ArrayList<>();
+            ObservableList<DataPoint> testPoints = FXCollections.observableArrayList();
             testPoints.add(dp7);
             testPoints.add(dp8);
             ArrayList<Integer> pkeys = DatapointDBOperations.insertDataPointList(testPoints, 1);
@@ -393,7 +394,7 @@ public class DatabaseTest {
 
     @Test
     public void testDataPointTransactionEmptyList() throws SQLException {
-        ArrayList<DataPoint> testPoints = new ArrayList<>();
+        ObservableList<DataPoint> testPoints = FXCollections.observableArrayList();
         ArrayList<Integer> pkeys = DatapointDBOperations.insertDataPointList(testPoints, 1);
         assertEquals(true, pkeys.isEmpty());
     }
