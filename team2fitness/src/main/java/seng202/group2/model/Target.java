@@ -51,4 +51,17 @@ public class Target {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getName() { return name.get(); }
+
+    public String getType() { return type.get(); }
+
+    public double getInitialValue() { return initialValue.get(); }
+
+    public double getCurrentValue() { return currentValue.get(); }
+
+    public double getfinalValue() { return finalValue.get(); }
+
+    public java.util.Date getCompletionDate() { return completionDate; }
+
 }
