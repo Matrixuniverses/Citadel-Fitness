@@ -39,7 +39,7 @@ public class TargetDBOperations {
             double targetCurrVal = rs.getDouble(7);
             double targetFinVal = rs.getDouble(8);
 
-            Target newTarget = new Target(targetName, targetType, targetInitVal, targetCurrVal, targetFinVal, targetDate);
+            Target newTarget = new Target(targetName, targetDate, targetType, targetInitVal, targetCurrVal, targetFinVal);
             newTarget.setId(targetID);
             collectedTargets.add(newTarget);
         }

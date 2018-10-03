@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
+import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.sql.Connection;
@@ -41,7 +42,7 @@ public class DatabaseTest {
         Activity activity1 = new Activity("Activity1", Date.from(dateNow), "Run", 100.0, 15.0);
         Activity activity2 = new Activity("Activity2", Date.from(dateNow), "Run", 90.0, 12.0);
         Activity activity3 = new Activity("Activity3", Date.from(dateNow), "Run", 90.0, 10.0);
-        Activity activity4 = new Activity("Activity4", Date.from(dateNow.minus(Duration.ofDays(20))), "Walk", 70.0, 11.0);
+        Activity activity4 = new Activity("Activity4", Date.from(dateNow.minus(Duration.ofDays(20))), "Walkplus", 70.0, 11.0);
         Activity activity5 = new Activity("Activity5", Date.from(dateNow.minus(Duration.ofDays(10))), "Walk", 80.0, 9.0);
         Activity activity6 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(40))), "Walk", 90.0, 3.5);
         Activity activity7 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(60))), "Walk", 89.0, 3.43);
@@ -53,6 +54,11 @@ public class DatabaseTest {
         DataPoint dp4 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(40))), 167, 9.76, 10.0, 98.0);
         DataPoint dp5 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(50))), 168, 9.72, 10.0, 99.0);
         DataPoint dp6 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(10))), 168, 9.72, 10.0, 99.0);
+
+
+        Target target1 = new Target("Target1", Date.from(dateNow.plus(Duration.ofDays(3))),  "type1", 0.0, 10.0, 100.0);
+        Target target2 = new Target("Target2", Date.from(dateNow.plus(Duration.ofDays(6))), "type1", 0.0, 70.0, 80.0);
+        Target target3 = new Target("Target3", Date.from(dateNow.plus(Duration.ofDays(9))), "type2", 0.0, 70.0, 80.0);
 
 
         DatabaseOperations.createDatabase();
@@ -78,6 +84,11 @@ public class DatabaseTest {
         DatapointDBOperations.insertNewDataPoint(dp4, 1);
         DatapointDBOperations.insertNewDataPoint(dp5, 1);
         DatapointDBOperations.insertNewDataPoint(dp6, 7);
+
+
+        TargetDBOperations.insertNewTarget(target1, 1);
+        TargetDBOperations.insertNewTarget(target2, 1);
+        TargetDBOperations.insertNewTarget(target3, 1);
 
 
 
