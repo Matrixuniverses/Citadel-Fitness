@@ -45,6 +45,8 @@ public class MainController implements Initializable {
     // Controllers
     private ActivityViewController activityViewController;
     private AddDataController addDataController;
+    private TargetViewController targetViewController;
+    private AddTargetController addTargetController;
     private ViewGraphController viewGraphController;
     private ProfileController profileViewController;
     private MapViewController mapViewController;
@@ -53,7 +55,6 @@ public class MainController implements Initializable {
     private MapMyRunController mapMyRunController;
     private CalendarController calendarController;
     private ActivitiesFoundController activitiesFoundController;
-    private TargetViewController targetViewController;
 
     @FXML
     private HeaderController headerController;
@@ -65,15 +66,16 @@ public class MainController implements Initializable {
     // Views
     private AnchorPane activityView;
     private AnchorPane addDataView;
+    private AnchorPane targetView;
     private AnchorPane viewGraphScene;
     private AnchorPane profileView;
     private AnchorPane mapView;
     private AnchorPane activityInfo;
+    private AnchorPane addTargetView;
     private AnchorPane editProfile;
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
     private AnchorPane activitiesFoundScene;
-    private AnchorPane targetViewScene;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -112,6 +114,11 @@ public class MainController implements Initializable {
             addDataController = loader.getController();
             paneMap.put("Import Data", addDataView);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLTargetView.fxml"));
+            targetView = loader.load();
+            targetViewController = loader.getController();
+            paneMap.put("Targets", targetView);
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLViewGraph.fxml"));
             viewGraphScene = loader.load();
             viewGraphController = loader.getController();
@@ -126,6 +133,10 @@ public class MainController implements Initializable {
             mapView = loader.load();
             mapViewController = loader.getController();
             paneMap.put("Maps", mapView);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLAddTarget.fxml"));
+            addTargetView = loader.load();
+            addTargetController = loader.getController();
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditProfile.fxml"));
             editProfile = loader.load();
@@ -150,15 +161,10 @@ public class MainController implements Initializable {
             activitiesFoundController = loader.getController();
             paneMap.put("ActivitiesFound", activitiesFoundScene);
 
-            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLTargetView.fxml"));
-            targetViewScene = loader.load();
-            targetViewController = loader.getController();
-            paneMap.put("Targets", targetViewScene);
-
 
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(targetViewScene, activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, mapView, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
 
             profileView.toFront();
 
@@ -222,6 +228,20 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 editProfile.toFront();
+            }
+        });
+
+        targetViewController.getAddTargetButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                addTargetView.toFront();
+            }
+        });
+
+        addTargetController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                addTargetView.toBack();
             }
         });
 

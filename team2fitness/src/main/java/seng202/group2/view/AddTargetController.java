@@ -4,13 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Target;
 
-import java.awt.*;
+
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
@@ -56,10 +55,9 @@ public class AddTargetController implements Initializable, UserData {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
-        typeOptions.add("Travel Distance");
         typeOptions.add("Weight Loss");
         typeComboBox.setItems(typeOptions);
-        typeComboBox.setValue("Travel Distance");
+        typeComboBox.setValue("Weight Loss");
 
         nameErrorLabel.setText("");
         typeErrorLabel.setText("");
@@ -72,7 +70,7 @@ public class AddTargetController implements Initializable, UserData {
 
     }
 
-    private void addTarget() {
+    public void addTarget() {
 
         nameErrorLabel.setText("");
         typeErrorLabel.setText("");
@@ -97,8 +95,8 @@ public class AddTargetController implements Initializable, UserData {
 
         try {
             value = Double.valueOf(valueTextField.getText());
-            if (value < 0) {
-                valueErrorLabel.setText("Value cannot be negative.");
+            if (type == "Weight Loss" && (value < 0 || value > 600)) {
+                valueErrorLabel.setText("Target weight must be between 0 and 600.");
                 validTarget = false;
             }
             // TODO Implement error checking based off type of target.
@@ -117,12 +115,15 @@ public class AddTargetController implements Initializable, UserData {
 
         if (validTarget) {
             Target userTarget = new Target(name, type, value, date);
-            /*
-            Don't want to push broken code, in comment lines below.
-            DataManager.getDataManager().addTarget(userTarget);
             dataManager.addTarget(userTarget);
-             */
             confirmationLabel.setText("Target added successfully.");
+
+            // Clear fields
+
         }
+    }
+
+    public Button getCloseButton() {
+        return closeButton;
     }
 }

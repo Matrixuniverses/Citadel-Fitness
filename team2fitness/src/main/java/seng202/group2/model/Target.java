@@ -53,22 +53,83 @@ public class Target {
         this.id = id;
     }
 
-    public String getName() { return name.get(); }
+    public String getName() {
+        return name.get();
+    }
 
-    public void setName(String newName) { this.name.set(newName); }
+    public SimpleStringProperty nameProperty() {
+        return name;
+    }
 
-    public String getType() { return type.get(); }
+    public void setName(String name) {
+        this.name.set(name);
+    }
 
-    public void setType(String newType) { this.type.set(newType); }
+    public String getType() {
+        return type.get();
+    }
 
-    public double getInitialValue() { return initialValue.get(); }
+    public SimpleStringProperty typeProperty() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type.set(type);
+    }
 
-    public double getCurrentValue() { return currentValue.get(); }
+    public double getInitialValue() {
+        return initialValue.get();
+    }
 
+    public SimpleDoubleProperty initialValueProperty() {
+        return initialValue;
+    }
 
-    public double getFinalValue() { return finalValue.get(); }
+    public void setInitialValue(double initialValue) {
+        this.initialValue.set(initialValue);
+    }
 
-    public java.util.Date getCompletionDate() { return completionDate; }
+    public double getCurrentValue() {
+        return currentValue.get();
+    }
 
+    public SimpleDoubleProperty currentValueProperty() {
+        return currentValue;
+    }
+
+    public void setCurrentValue(double currentValue) {
+        this.currentValue.set(currentValue);
+    }
+
+    public double getFinalValue() {
+        return finalValue.get();
+    }
+
+    public SimpleDoubleProperty finalValueProperty() {
+        return finalValue;
+    }
+
+    public void setFinalValue(double finalValue) {
+        this.finalValue.set(finalValue);
+    }
+
+    public Date getCompletionDate() {
+        return completionDate;
+    }
+
+    public void setCompletionDate(Date completionDate) {
+        this.completionDate = completionDate;
+    }
+
+    public boolean isCompleted() {
+        return completed.get();
+    }
+
+    public BooleanProperty completedProperty() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed.set(completed);
+    }
 }
