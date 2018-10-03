@@ -1,5 +1,6 @@
 package seng202.group2.analysis;
 
+import javafx.collections.ObservableList;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
 import seng202.group2.model.User;
@@ -19,7 +20,7 @@ public class DataAnalyzer {
 
     public static void calculateDeltas(ArrayList<Activity> activitiesToUpdate) {
         for (Activity activity : activitiesToUpdate) {
-            ArrayList<DataPoint> points = activity.getActivityData();
+            ObservableList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
             int totalTime = 0;
 
@@ -116,8 +117,6 @@ public class DataAnalyzer {
     /**
      * Inputs a age value and a resting heart rate (beats per minute) and calculates an estimate of
      * the VO2 max based of these values.
-     * @param age The age of the person in years
-     * @param restingHeartRate The resting heart rate of the person in beats per minute
      * @return An estimate value of the VO2 max based off the inputted values
      * @throws IllegalArgumentException if the restingHeartRate value is not greater than zero
      */

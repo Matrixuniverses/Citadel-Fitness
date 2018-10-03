@@ -1,13 +1,15 @@
 package seng202.group2.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import seng202.group2.model.DataPoint;
 
 import java.util.ArrayList;
 
 public class Route {
-    private ArrayList<DataPoint> path = new ArrayList<DataPoint>();
+    private ObservableList<DataPoint> path = FXCollections.observableArrayList();
 
-    public Route(ArrayList<DataPoint> points) {
+    public Route(ObservableList<DataPoint> points) {
         path = points;
     }
 
