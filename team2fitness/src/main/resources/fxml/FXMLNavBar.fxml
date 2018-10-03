@@ -14,42 +14,108 @@
 
 <AnchorPane fx:id="navBar" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="200.0" styleClass="navbar" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.NavBarController">
    <children>
-      <BorderPane prefHeight="650.0" prefWidth="200.0" styleClass="navbar">
-         <center>
-            <GridPane alignment="CENTER" prefHeight="650.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints maxHeight="68.0" minHeight="0.0" percentHeight="3.0" prefHeight="15.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="146.0" minHeight="10.0" percentHeight="7.0" prefHeight="63.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="398.0" minHeight="10.0" prefHeight="356.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="54.0" vgrow="SOMETIMES" />
+      <GridPane alignment="CENTER_LEFT" prefHeight="650.0" prefWidth="200.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="68.0" minHeight="0.0" percentHeight="3.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="146.0" minHeight="10.0" percentHeight="7.0" prefHeight="63.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="398.0" minHeight="10.0" prefHeight="356.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="54.0" vgrow="SOMETIMES" />
 
-
+      
                   <RowConstraints maxHeight="398.0" minHeight="10.0" percentHeight="7.0" prefHeight="356.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Button fx:id="summaryButton" alignment="CENTER" mnemonicParsing="false" onAction="#showSummary" prefHeight="28.0" prefWidth="186.0" styleClass="navbutton" stylesheets="@../style/style.css" text="Summary" textAlignment="CENTER" GridPane.rowIndex="1" />
-                  <Button fx:id="activityButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddActivity" prefHeight="25.0" prefWidth="230.0" text="Activities" textAlignment="CENTER" GridPane.rowIndex="2" />
-                  <Button fx:id="addDataButton" alignment="CENTER" mnemonicParsing="false" onAction="#showAddData" prefHeight="25.0" prefWidth="215.0" text="Import Data" textAlignment="CENTER" GridPane.rowIndex="3" />
-                  <Button fx:id="graphViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showGraph" prefHeight="25.0" prefWidth="226.0" text="Graph View" textAlignment="CENTER" GridPane.rowIndex="4" />
-                  <Button fx:id="logoutButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Logout" textAlignment="CENTER" GridPane.rowIndex="10" />
-                  <Button fx:id="mapViewButton" alignment="CENTER" mnemonicParsing="false" onAction="#showMap" prefHeight="25.0" prefWidth="226.0" text="Map View" textAlignment="CENTER" GridPane.rowIndex="5" />
-                  <Button fx:id="editProfileButton" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="Edit Profile" textAlignment="CENTER" GridPane.rowIndex="9" />
-                  <ImageView fx:id="navLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8" />
-                  <Button fx:id="mapMyRunButton" mnemonicParsing="false" onAction="#showMapMyRun" text="Map My Run" GridPane.rowIndex="6" />
-                  <Button fx:id="CalendarButton" mnemonicParsing="false" onAction="#showCalendar" prefHeight="28.0" prefWidth="224.0" text="Calendar" GridPane.rowIndex="7" />
-               </children>
-            </GridPane>
-         </center>
-      </BorderPane>
+          <RowConstraints maxHeight="92.0" minHeight="10.0" percentHeight="7.0" prefHeight="92.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="summaryButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showSummary" prefHeight="42.0" prefWidth="201.0" styleClass="navbutton" stylesheets="@../style/style.css" text="  Summary" GridPane.rowIndex="1">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/dumbellIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="activityButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showAddActivity" prefHeight="25.0" prefWidth="230.0" text="  Activities" textAlignment="CENTER" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/runningIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="addDataButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showAddData" prefHeight="25.0" prefWidth="215.0" text="  Import Data" textAlignment="CENTER" GridPane.halignment="LEFT" GridPane.rowIndex="3">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/file-addIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="graphViewButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showGraph" prefHeight="25.0" prefWidth="226.0" text="  Graph View" textAlignment="CENTER" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/line-chartIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="logoutButton" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="  Logout" textAlignment="CENTER" GridPane.halignment="LEFT" GridPane.rowIndex="10">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/log-outIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <Button fx:id="mapViewButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showMap" prefHeight="28.0" prefWidth="206.0" text="  Map View" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/mapIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="editProfileButton" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="25.0" prefWidth="226.0" text="  Edit Profile" textAlignment="CENTER" GridPane.halignment="LEFT" GridPane.rowIndex="9">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/edit-profileIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+            <ImageView fx:id="navLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="8" />
+            <Button fx:id="mapMyRunButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showMapMyRun" prefHeight="28.0" prefWidth="210.0" text="  Map My Run" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/map-runIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="CalendarButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#showCalendar" prefHeight="28.0" prefWidth="224.0" text="  Targets" GridPane.halignment="LEFT" GridPane.rowIndex="7">
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/targetIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>

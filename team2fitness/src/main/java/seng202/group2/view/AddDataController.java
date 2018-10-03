@@ -114,7 +114,7 @@ public class AddDataController implements Initializable, UserData {
             importInfoLabel.setText("Error reading data from file.");
         });
 
-        importInfoLabel.setText("Reading file");
+        importInfoLabel.setText("\uf017 Reading file");
         executionThreads.execute(addDataTask);
     }
 
