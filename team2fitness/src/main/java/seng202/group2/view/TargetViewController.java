@@ -60,13 +60,13 @@ public class TargetViewController implements Initializable, UserData {
         targetTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         targetTable.setPlaceholder(new Label("No targets set."));
 
-        targetNameCol.setCellValueFactory(new PropertyValueFactory<Target, String>("targetName"));
-        targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("targetType"));
-        targetInitValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("targetInitialValue"));
-        targetCurrValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("targetCurrentValue"));
-        targetGoalValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("targetGoalValue"));
-        targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedDateEnd"));
-        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("targetStatus"));
+        targetNameCol.setCellValueFactory(new PropertyValueFactory<Target, String>("name"));
+        targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("type"));
+        targetInitValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("initialValue"));
+        targetCurrValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("currentValue"));
+        targetGoalValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("finalValue"));
+        targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("completionDate"));
+        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("completed"));
 
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override

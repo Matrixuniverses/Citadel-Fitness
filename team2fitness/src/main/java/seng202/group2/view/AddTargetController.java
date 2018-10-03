@@ -115,7 +115,6 @@ public class AddTargetController implements Initializable, UserData {
 
         if (validTarget) {
             Target userTarget = new Target(name, type, value, date);
-            DataManager.getDataManager().addTarget(userTarget);
             dataManager.addTarget(userTarget);
             confirmationLabel.setText("Target added successfully.");
 
