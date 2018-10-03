@@ -1,6 +1,7 @@
 package seng202.group2.data;
 
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.After;
@@ -10,6 +11,7 @@ import static org.junit.Assert.*;
 
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
+import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.sql.Connection;
@@ -41,10 +43,10 @@ public class DatabaseTest {
         Activity activity1 = new Activity("Activity1", Date.from(dateNow), "Run", 100.0, 15.0);
         Activity activity2 = new Activity("Activity2", Date.from(dateNow), "Run", 90.0, 12.0);
         Activity activity3 = new Activity("Activity3", Date.from(dateNow), "Run", 90.0, 10.0);
-        Activity activity4 = new Activity("Activity4", Date.from(dateNow.minus(Duration.ofDays(20))), "Walk", 70.0, 11.0);
+        Activity activity4 = new Activity("Activity4", Date.from(dateNow.minus(Duration.ofDays(20))), "Walkplus", 70.0, 11.0);
         Activity activity5 = new Activity("Activity5", Date.from(dateNow.minus(Duration.ofDays(10))), "Walk", 80.0, 9.0);
         Activity activity6 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(40))), "Walk", 90.0, 3.5);
-        Activity activity7 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(60))), "Walk", 89.0, 3.43);
+        Activity activity7 = new Activity("Activity7", Date.from(dateNow.minus(Duration.ofDays(60))), "Walk", 89.0, 3.43);
 
 
         DataPoint dp1 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(10))), 170, 10.0, 10.0, 100.0);
@@ -53,6 +55,11 @@ public class DatabaseTest {
         DataPoint dp4 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(40))), 167, 9.76, 10.0, 98.0);
         DataPoint dp5 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(50))), 168, 9.72, 10.0, 99.0);
         DataPoint dp6 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(10))), 168, 9.72, 10.0, 99.0);
+
+
+        Target target1 = new Target("Target1", Date.from(dateNow.plus(Duration.ofDays(3))),  "type1", 0.0, 10.0, 100.0);
+        Target target2 = new Target("Target2", Date.from(dateNow.plus(Duration.ofDays(6))), "type1", 0.0, 70.0, 80.0);
+        Target target3 = new Target("Target3", Date.from(dateNow.plus(Duration.ofDays(9))), "type2", 0.0, 70.0, 80.0);
 
 
         DatabaseOperations.createDatabase();
@@ -78,6 +85,11 @@ public class DatabaseTest {
         DatapointDBOperations.insertNewDataPoint(dp4, 1);
         DatapointDBOperations.insertNewDataPoint(dp5, 1);
         DatapointDBOperations.insertNewDataPoint(dp6, 7);
+
+
+        TargetDBOperations.insertNewTarget(target1, 1);
+        TargetDBOperations.insertNewTarget(target2, 2);
+        TargetDBOperations.insertNewTarget(target3, 1);
 
 
 
@@ -121,6 +133,7 @@ public class DatabaseTest {
 
     @Test
     public void testGetUserFromRS() throws SQLException {
+
 
 
         User matchingUser = new User(1, "User1", 17, 160.0, 70, "Male");
@@ -173,10 +186,21 @@ public class DatabaseTest {
     }
 
     @Test
-    public void testDeleteExistingUserCascade() throws SQLException {
+    public void testDeleteExistingUserCascadeActivities() throws SQLException {
 
         if (UserDBOperations.deleteExistingUser(2)) {
             assertEquals(null, ActivityDBOperations.getActivityFromDB(2));
+        } else {
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testDeleteExistingUserCascadeTargets() throws SQLException {
+
+        if (UserDBOperations.deleteExistingUser(2)) {
+            assertEquals(null, TargetDBOperations.getTargetFromDB(2));
         } else {
             fail();
         }
@@ -216,7 +240,40 @@ public class DatabaseTest {
     }
 
     @Test
+    public void testGetActivitiesBetweenDatesSuccessLen() throws SQLException {
+
+        Instant endDate = Instant.now();
+        Instant startDate = endDate.minus(Duration.ofDays(41));
+        assertEquals(2, ActivityDBOperations.getActivitiesBetweenDates(new java.sql.Date(Date.from(startDate).getTime()), new java.sql.Date(Date.from(endDate).getTime()), 3).size());
+    }
+
+    @Test
+    public void testGetActivitiesBetweenDatesSuccessOrdering() throws SQLException {
+
+        Instant endDate = Instant.now();
+        Instant startDate = endDate.minus(Duration.ofDays(51));
+        ObservableList<Activity> activities = ActivityDBOperations.getActivitiesBetweenDates(new java.sql.Date(Date.from(startDate).getTime()), new java.sql.Date(Date.from(endDate).getTime()), 3);
+        assertEquals(true, (activities.get(0).getDate().before(activities.get(1).getDate())));
+    }
+
+    @Test
+    public void testGetActivitiesBetweenDatesSuccessEmpty() throws SQLException {
+        Instant endDate = Instant.now().minus(Duration.ofDays(10));
+        Instant startDate = endDate.minus(Duration.ofDays(10));
+        assertEquals(true, ActivityDBOperations.getActivitiesBetweenDates(new java.sql.Date(Date.from(startDate).getTime()), new java.sql.Date(Date.from(endDate).getTime()), 3).isEmpty());
+
+    }
+
+    @Test
+    public void testGetActivitiesBetweenDatesInvalidUserId() throws SQLException {
+        Instant endDate = Instant.now();
+        Instant startDate = endDate.minus(Duration.ofDays(1000));
+        assertEquals(true, ActivityDBOperations.getActivitiesBetweenDates(new java.sql.Date(Date.from(startDate).getTime()), new java.sql.Date(Date.from(endDate).getTime()), 1000).isEmpty());
+    }
+
+    @Test
     public void testGetAllActivitiesForUserSuccess() throws SQLException {
+
 
         ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1);
         assertNotNull(activities);
@@ -398,6 +455,71 @@ public class DatabaseTest {
         ArrayList<Integer> pkeys = DatapointDBOperations.insertDataPointList(testPoints, 1);
         assertEquals(true, pkeys.isEmpty());
     }
+
+    @Test
+    public void testInsertNewTargetSuccess() throws SQLException {
+        Instant dateNow = Instant.now();
+        Target newTarget = new Target("Target4", Date.from(dateNow.plus(Duration.ofDays(12))), "type2", 0.0, 70.0, 90.0);
+        assertEquals(4, TargetDBOperations.insertNewTarget(newTarget, 3));
+    }
+
+    @Test
+    public void testInsertNewTargetFail() throws SQLException {
+        Instant dateNow = Instant.now();
+        Target newTarget = new Target("Target4", Date.from(dateNow.plus(Duration.ofDays(12))), "type2", 0.0, 70.0, 90.0);
+        assertEquals(-1, TargetDBOperations.insertNewTarget(newTarget, 3000));
+    }
+
+    @Test
+    public void testGetAllTargetsSuccess() throws SQLException {
+        ObservableList<Target> targets = TargetDBOperations.getAllUserTargets(1);
+        assertEquals(false, targets.isEmpty());
+    }
+
+    @Test
+    public void testGetAllTargetsEmpty() throws SQLException {
+        ObservableList<Target> noTargets = TargetDBOperations.getAllUserTargets(4);
+        assertEquals(true, noTargets.isEmpty());
+    }
+
+    @Test
+    public void testGetAllTargetsInvalid() throws SQLException {
+        ObservableList<Target> noTargets = TargetDBOperations.getAllUserTargets(1000);
+        assertEquals(true, noTargets.isEmpty());
+    }
+
+    @Test
+    public void testGetTargetFromDBValid() throws SQLException {
+        Target retrievedTarget = TargetDBOperations.getTargetFromDB(1);
+        assertEquals(1, retrievedTarget.getId());
+    }
+
+    @Test
+    public void testGetTargetFromDBInvalid() throws SQLException {
+        Target nonExistent = TargetDBOperations.getTargetFromDB(1000);
+        assertNull(nonExistent);
+    }
+
+    @Test
+    public void testUpdateTargetValid() throws SQLException {
+        Target targetToUpdate = TargetDBOperations.getTargetFromDB(2);
+        targetToUpdate.updateProgress(new SimpleDoubleProperty(75.0));
+        assertEquals(true, TargetDBOperations.updateExistingTarget(targetToUpdate));
+    }
+
+    @Test
+    public void testUpdateTargetInvalid() throws SQLException {
+        Target targetToUpdate = TargetDBOperations.getTargetFromDB(2);
+        targetToUpdate.setId(1000);
+        assertEquals(false, TargetDBOperations.updateExistingTarget(targetToUpdate));
+    }
+
+    @Test
+    public void testDeleteTarget() throws SQLException{
+        assertEquals(true, TargetDBOperations.deleteExistingTarget(3));
+    }
+
+
 
 
 
