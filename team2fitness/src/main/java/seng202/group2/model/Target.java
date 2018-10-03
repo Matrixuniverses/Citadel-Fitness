@@ -60,7 +60,7 @@ public class Target {
 
     public double getCurrentValue() { return currentValue.get(); }
 
-    public double getfinalValue() { return finalValue.get(); }
+    public double getFinalValue() { return finalValue.get(); }
 
     public java.util.Date getCompletionDate() { return completionDate; }
 

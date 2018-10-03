@@ -270,7 +270,6 @@ public class ActivityDBOperations {
         pDeleteStmt.setInt(1, activityID);
         pDeleteStmt.executeUpdate();
 
-        pDeleteStmt.executeUpdate();
         DatabaseOperations.disconnectFromDB();
 
         return (getActivityFromDB(activityID) == null);
