@@ -38,16 +38,16 @@ public class NavBarController implements Initializable {
         return logoutButton;
     }
 
-    public void showTarget(){
-        currentView.set("Targets");
-    }
-
     public void showAddData(){
         currentView.set("Import Data");
     }
 
     public void showAddActivity(){
         currentView.set("Activities");
+    }
+
+    public void showTarget(){
+        currentView.set("Targets");
     }
 
     public void showGraph(){

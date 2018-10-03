@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivitiesFoundController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.ActivitiesFoundController">
    <children>
       <TableView layoutX="14.0" layoutY="14.0" prefHeight="485.0" prefWidth="972.0">
         <columns>
