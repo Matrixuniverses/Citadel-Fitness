@@ -164,7 +164,7 @@ public class MainController implements Initializable {
 
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, mapView, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
 
             profileView.toFront();
 
