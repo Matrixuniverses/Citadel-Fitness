@@ -3,6 +3,8 @@ package seng202.group2.view;
 //import javafx.beans.property.IntegerProperty;
 //import javafx.beans.property.SimpleIntegerProperty;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -21,6 +23,7 @@ import seng202.group2.data.DataParser;
 import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
 import java.io.File;
 import java.net.URL;
@@ -80,6 +83,12 @@ public class AddDataController implements Initializable, UserData {
             Thread thread = new Thread(runnable);
             thread.setDaemon(true);
             return thread;
+        });
+        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                reset();
+            }
         });
     }
 
@@ -157,10 +166,7 @@ public class AddDataController implements Initializable, UserData {
                 errorLabel.setText("Activity added successfully.");
 
                 //Clear fields
-                textFieldName.setText(null);
-                textFieldDistance.setText(null);
-                textFieldTime.setText(null);
-                dateInput.setValue(null);
+                reset();
             }
         } catch (NumberFormatException e) {
             errorLabel.setText("Time and Distance must be numbers.");
@@ -169,6 +175,17 @@ public class AddDataController implements Initializable, UserData {
         } catch (IllegalArgumentException e) {
             errorLabel.setText(e.getMessage());
         }
+    }
+
+    /**
+     * Resets the manual entry fields to empty
+     */
+    public void reset(){
+        //Clear fields
+        textFieldName.setText(null);
+        textFieldDistance.setText(null);
+        textFieldTime.setText(null);
+        dateInput.setValue(null);
     }
 
     @FXML
