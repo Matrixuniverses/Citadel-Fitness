@@ -144,7 +144,11 @@ public class DataManager {
 
     public void addTarget(Target target){
         currentUser.get().addTarget(target);
-        // TODO Add Database Connection
+        try {
+            target.setId(TargetDBOperations.insertNewTarget(target, currentUser.get().getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public ObservableList<Target> getTargetList() {

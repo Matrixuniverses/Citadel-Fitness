@@ -91,7 +91,7 @@ public class ActivityInfoController implements Initializable {
         distanceLabel.textProperty().bind(Bindings.format("%.0f", activity.totalDistanceProperty()));
         timeLabel.textProperty().bind(Bindings.format("%.0fh %.0fm %.0fs",
                 activity.totalTimeProperty().get() / 3600,
-                (activity.totalTimeProperty().get() % 3600) / 60,
+                Math.floor((activity.totalTimeProperty().get() % 3600) / 60),
                 activity.totalTimeProperty().get() % 60));
         speedLabel.textProperty().bind(Bindings.format("%.2f", activity.totalDistanceProperty().divide(activity.totalTimeProperty())));
         caloriesLabel.textProperty().bind(Bindings.format("%.0f", activity.caloriesBurnedProperty()));
