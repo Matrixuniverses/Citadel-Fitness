@@ -83,6 +83,16 @@ public class ActivityDBOperations {
         return collectedActivities;
     }
 
+    /**
+     * Queries the database for all activities inclusively between two inputted dates. The activities are are returned as
+     * an ObservableList where the Activities are ordered by the date that they were completed on.
+     * @param minDate the minimum bound for the date query as a sql.Date.
+     * @param maxDate the maximum bound for the date query as a sql.Date.
+     * @param UserID the id of the user that the activities are for.
+     * @return An ObservableList containing all the activities returned by the query ordered by the date the activity was
+     * completed in ascending order.
+     * @throws SQLException if an sql related error occurs while querying the database.
+     */
     public static ObservableList<Activity> getActivitiesBetweenDates(java.sql.Date minDate, java.sql.Date maxDate, int UserID) throws SQLException {
 
         Connection dbConn = DatabaseOperations.connectToDB();
@@ -255,7 +265,8 @@ public class ActivityDBOperations {
     }
 
     /**
-     * Deletes activity in the database with the given activity ID
+     * Deletes activity in the database with the given activity ID.
+     * This method automatically connects to and disconnects from the database.
      * @param activityID ActivityID of activity to delete
      * @return True if activity to delete exists in database and has been deleted, False otherwise
      * @throws SQLException If unable to read/ write from/ to database
