@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.Activity;
 import seng202.group2.model.HealthWarning;
+import seng202.group2.model.Target;
 import seng202.group2.model.User;
 import java.sql.SQLException;
 
@@ -139,6 +140,15 @@ public class DataManager {
 
     public ObservableList<Activity> getActivityList() {
         return currentUser.get().getActivityList();
+    }
+
+    public void addTarget(Target target){
+        currentUser.get().addTarget(target);
+        // TODO Add Database Connection
+    }
+
+    public ObservableList<Target> getTargetList() {
+        return currentUser.get().getTargetList();
     }
 
     public ObservableList<User> getUserList() {

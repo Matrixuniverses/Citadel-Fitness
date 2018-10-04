@@ -150,9 +150,6 @@ public class DataAnalyzer {
             result = (result * mets)/24;
             result = (result * activity.getTotalTime())/60;
         }
-        if (result < 0) {
-            throw new IllegalArgumentException("Calories burned cannot be negative");
-        }
 
         return result / 10000;
     }
