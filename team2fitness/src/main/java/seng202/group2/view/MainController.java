@@ -181,9 +181,6 @@ public class MainController implements Initializable {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
-                    if (newValue == "Import Data"){
-//                        addDataController.clearData();
-                    }
                     paneMap.get(newValue).toFront();
                     headerController.getViewLabel().setText(newValue);
                     navBarController.getCurrentView().setValue("");
@@ -220,7 +217,9 @@ public class MainController implements Initializable {
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                System.out.println("LGFSFDSDSF");
                 status.set("logout");
+                profileView.toFront();
             }
         });
 
@@ -300,6 +299,13 @@ public class MainController implements Initializable {
                 activityInfo.toBack();
             }
         });
+    }
+
+    /**
+     * resets summary scene to the first scene on login
+     */
+    public void summaryToFront(){
+        profileView.toFront();
     }
 
     public Button getLogoutButton() {

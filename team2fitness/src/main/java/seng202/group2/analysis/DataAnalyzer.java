@@ -138,7 +138,24 @@ public class DataAnalyzer {
      */
     public static double calcCalories(User user, Activity activity) {
         double result;
-        int mets = 590;
+        int mets;
+        String type = activity.getActivityType();
+        switch (type){
+            case "Run":
+                mets = 590;
+                break;
+            case "Swim":
+                mets = 600;
+                break;
+            case "Cycle":
+                mets = 500;
+                break;
+            case "Walk":
+                mets = 350;
+                break;
+            default:
+                mets = 590;
+        }
 
         double weight = weightKgToLbs(user.getWeight());
         if (user.getGender().equals("Male")) {
