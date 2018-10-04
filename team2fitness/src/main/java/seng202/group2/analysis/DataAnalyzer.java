@@ -114,20 +114,6 @@ public class DataAnalyzer {
         return weight / Math.pow(height, 2.0);
     }
 
-    /**
-     * Inputs a age value and a resting heart rate (beats per minute) and calculates an estimate of
-     * the VO2 max based of these values.
-     * @return An estimate value of the VO2 max based off the inputted values
-     * @throws IllegalArgumentException if the restingHeartRate value is not greater than zero
-     */
-    public static double calcVo2Max(double max, double min) {
-        if (min <= 0) {
-            throw new IllegalArgumentException("restingHeartRate must be greater than zero");
-        }
-        double maxHeartRate = 15 * (max/min);
-        return maxHeartRate;
-    }
-
     public static double calcAverageHR(Activity activity) {
         int totalHR = 0;
         int count = 0;
@@ -152,7 +138,24 @@ public class DataAnalyzer {
      */
     public static double calcCalories(User user, Activity activity) {
         double result;
-        int mets = 590;
+        int mets;
+        String type = activity.getActivityType();
+        switch (type){
+            case "Run":
+                mets = 590;
+                break;
+            case "Swim":
+                mets = 600;
+                break;
+            case "Cycle":
+                mets = 500;
+                break;
+            case "Walk":
+                mets = 350;
+                break;
+            default:
+                mets = 590;
+        }
 
         double weight = weightKgToLbs(user.getWeight());
         if (user.getGender().equals("Male")) {

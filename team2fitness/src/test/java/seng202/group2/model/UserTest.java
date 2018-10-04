@@ -13,6 +13,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 
 
@@ -82,6 +84,7 @@ public class UserTest {
         user.setWeight(120);
         assertEquals(37.04, user.getBmi(), 1e-2);
     }
+
 
     @Test
     public void testBmiHeightUpdate(){
