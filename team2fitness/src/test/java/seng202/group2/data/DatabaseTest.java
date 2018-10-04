@@ -171,7 +171,7 @@ public class DatabaseTest {
         retrievedUser.setWeight(91.2);
         if (UserDBOperations.updateExistingUser(retrievedUser)) {
             User updatedDatabaseUser = UserDBOperations.getUserFromRS(3);
-            assertEquals(91.2, updatedDatabaseUser.getWeight(), 0.01);
+            assertEquals(91.2, updatedDatabaseUser.getWeight(), 0.1);
         } else {
             fail();
         }

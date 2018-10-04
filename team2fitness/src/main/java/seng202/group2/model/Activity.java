@@ -334,10 +334,11 @@ public class Activity {
     public void calcVo2Max() {
         double max = getMaxHR();
         double min = getMinHR();
-        if (min <= 0) {
+        if (min < 0) {
             throw new IllegalArgumentException("restingHeartRate must be greater than zero");
         }
         double maxHeartRate = 15 * (max/min);
         this.vo2MAX.set(maxHeartRate);
     }
+
 }

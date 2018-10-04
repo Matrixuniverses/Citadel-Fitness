@@ -99,22 +99,7 @@ public class DataAnalyzerTest {
         DataAnalyzer.calcBMI(0.0, 97.2);
     }
 
-//    @Test
-//    public void calcVo2MaxReturnsCorrectResult1() {
-//        double vo2Max;
-//
-//        vo2Max = DataAnalyzer.calcVo2Max(25, 75);
-//        assertEquals(38.862, vo2Max);
-//    }
-//
-//    @Test
-//    public void calcVo2MaxReturnsCorrectResult2() {
-//        double vo2Max;
-//
-//        vo2Max = DataAnalyzer.calcVo2Max(54, 53);
-//        vo2Max = (double)Math.round(vo2Max * 1000d) / 1000d;
-//        assertEquals(49.133, vo2Max);
-//    }
+
 //
 //    @Test(expected = IllegalArgumentException.class)
 //    public void calcVo2MaxReturnsCorrectResult3() {
