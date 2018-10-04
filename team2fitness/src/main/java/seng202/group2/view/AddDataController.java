@@ -20,15 +20,12 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seng202.group2.data.DataParser;
-import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
-
 import java.io.File;
 import java.net.URL;
 import java.time.ZoneId;
-//import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;
@@ -120,11 +117,12 @@ public class AddDataController implements Initializable, UserData {
         });
 
         addDataTask.setOnFailed(failedEvent -> {
+            Exception thrown = (Exception) addDataTask.getException();
             importInfoLabel.setTextFill(Color.RED);
-            importInfoLabel.setText("Error reading data from file.");
+            importInfoLabel.setText(thrown.getLocalizedMessage());
         });
 
-        importInfoLabel.setText("\uf017 Reading file");
+        importInfoLabel.setText("Reading file");
         executionThreads.execute(addDataTask);
     }
 

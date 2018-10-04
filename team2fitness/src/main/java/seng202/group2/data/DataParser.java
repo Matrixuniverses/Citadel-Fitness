@@ -3,7 +3,6 @@ package seng202.group2.data;
 import com.opencsv.CSVReader;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,15 +13,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-// TODO - Need to get multithreading working
-
 /**
  * DataParser designed to read a CSV file for activity data.
  */
 public class DataParser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
     private ArrayList<Activity> activitiesRead;
-
 
     /**
      * Creates a new parser object, reading location and fitness information into Activities and Datapoints
@@ -34,6 +30,8 @@ public class DataParser {
         try {
             if (file == null) {
                 throw new FileFormatException("File is null");
+            } else if (file.isDirectory()) {
+                throw new FileFormatException("Please select a file");
             }
 
             FileReader readFile = new FileReader(file);
