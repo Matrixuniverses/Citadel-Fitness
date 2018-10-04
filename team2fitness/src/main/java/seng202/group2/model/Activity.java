@@ -270,7 +270,7 @@ public class Activity {
      */
     public String getFormattedTotalTime() {
         double sec = this.totalTime.get();
-        return String.format("%.0fh %.0fm %.0fs", sec / 3600, (sec % 3600) / 60, (sec % 60));
+        return String.format("%.0fh %.0fm %.0fs", sec / 3600, Math.floor((sec % 3600) / 60), (sec % 60));
     }
 
     /**
