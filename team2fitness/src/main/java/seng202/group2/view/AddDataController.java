@@ -84,6 +84,7 @@ public class AddDataController implements Initializable, UserData {
             thread.setDaemon(true);
             return thread;
         });
+
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {

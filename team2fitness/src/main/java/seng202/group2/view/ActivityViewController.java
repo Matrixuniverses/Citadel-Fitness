@@ -4,19 +4,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
-
-import javax.xml.crypto.Data;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -29,8 +24,8 @@ import java.util.ResourceBundle;
  */
 public class ActivityViewController implements Initializable, UserData {
 
-    User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
+    private StringProperty pulser = new SimpleStringProperty("0");
 
     @FXML
     TableView<Activity> activityTable;
@@ -82,7 +77,7 @@ public class ActivityViewController implements Initializable, UserData {
     @FXML
     Button addActivityButton;
 
-    StringProperty pulser = new SimpleStringProperty("0");
+
 
 
     /**
@@ -108,20 +103,6 @@ public class ActivityViewController implements Initializable, UserData {
             }
         });
 
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                searchPushed();
-            }
-        });
-
-        clearButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                clearPushed();
-            }
-        });
-
 
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -130,7 +111,7 @@ public class ActivityViewController implements Initializable, UserData {
                 detailButton.setDisable(false);
                 activityDeleteButton.setDisable(false);
 
-                Double heartRate = newSelection.getAverageHR();
+                double heartRate = newSelection.getAverageHR();
                 pulser.setValue(Double.toString(heartRate));
             } else {
                 detailButton.setDisable(true);
@@ -147,15 +128,17 @@ public class ActivityViewController implements Initializable, UserData {
         return pulser;
     }
 
+    @FXML
     public void clearPushed(){
         activityTable.setItems(DataManager.getDataManager().getActivityList());
     }
 
+    @FXML
     public void searchPushed(){
         try{
             String dateFromString;
             String dateToString;
-            currentUser = DataManager.getDataManager().getCurrentUser();
+            User currentUser = DataManager.getDataManager().getCurrentUser();
 
             if (dateToPicker.getValue() != null){
                 dateToString = dateToPicker.getValue().toString();

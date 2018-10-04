@@ -28,8 +28,8 @@
       <Button fx:id="detailButton" disable="true" layoutX="784.0" layoutY="450.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Details" />
       <!-- TODO - Implement view datapoints -->
       <Button fx:id="viewDataPoints" disable="true" layoutX="784.0" layoutY="500.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="View Data Points" />
-      <Button fx:id="searchButton" layoutX="928.0" layoutY="113.0" mnemonicParsing="false" prefHeight="36.0" styleClass="customGreenButton" text="Search" />
-      <Button fx:id="clearButton" layoutX="870.0" layoutY="113.0" mnemonicParsing="false" prefHeight="36.0" styleClass="customRedButton" text="Clear" />
+      <Button fx:id="searchButton" onAction="#searchPushed" layoutX="928.0" layoutY="113.0" mnemonicParsing="false" prefHeight="36.0" styleClass="customGreenButton" text="Search" />
+      <Button fx:id="clearButton" onAction="#clearPushed" layoutX="870.0" layoutY="113.0" mnemonicParsing="false" prefHeight="36.0" styleClass="customRedButton" text="Clear" />
       <DatePicker fx:id="dateFromPicker" layoutX="784.0" layoutY="14.0" prefHeight="36.0" prefWidth="207.0" promptText="Date From" styleClass="customLabels" />
       <DatePicker fx:id="dateToPicker" layoutX="784.0" layoutY="64.0" prefHeight="36.0" prefWidth="207.0" promptText="Date To" styleClass="customLabels" />
       <Label fx:id="errorLabel" layoutX="784.0" layoutY="77.0" prefHeight="15.0" prefWidth="198.0" styleClass="error" text="Label" visible="false" />
