@@ -138,6 +138,9 @@ public class DataParser {
                         currentActivity.addDataPoint(point);
                         totalHR += point.getHeartRate();
                         HRCounts += 1;
+                    } else {
+                        MalformedLine lineAttempt = malformedLines.get(malformedLines.size() - 1);
+
                     }
                 }
             }

@@ -3,10 +3,13 @@ package seng202.group2.view;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.analysis.GraphGenerator;
@@ -62,6 +65,8 @@ public class ActivityInfoController implements Initializable {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private ImageView disconnectedIcon;
 
 
     /**
@@ -103,10 +108,14 @@ public class ActivityInfoController implements Initializable {
             String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
             webEngine.executeScript(scriptToExecute);
             errorLabel.setVisible(false);
+            mapWebView.setVisible(true);
+            disconnectedIcon.setVisible(false);
         }
         catch (netscape.javascript.JSException e) {
+            mapWebView.setVisible(false);
+            disconnectedIcon.setVisible(true);
             errorLabel.setVisible(true);
-            errorLabel.setText("Internet must be connected for map view.");
+            errorLabel.setText("Internet connection required for map view");
         }
 
         activityChart.getData().removeAll(activityChart.getData());

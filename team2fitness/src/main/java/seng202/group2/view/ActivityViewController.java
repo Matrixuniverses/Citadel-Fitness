@@ -28,54 +28,48 @@ public class ActivityViewController implements Initializable, UserData {
     private StringProperty pulser = new SimpleStringProperty("0");
 
     @FXML
-    TableView<Activity> activityTable;
+    private TableView<Activity> activityTable;
 
     //Table Columns
     @FXML
-    TableColumn activityDateCol;
+    private TableColumn activityDateCol;
 
     @FXML
-    TableColumn activityNameCol;
+    private TableColumn activityNameCol;
 
     @FXML
-    TableColumn activityTypeCol;
+    private TableColumn activityTypeCol;
 
     @FXML
-    TableColumn activityDistanceCol;
+    private TableColumn activityDistanceCol;
 
     @FXML
-    TableColumn activityTimeCol;
+    private TableColumn activityTimeCol;
 
     //Buttons
     @FXML
     private Button detailButton;
 
     @FXML
-    Button activityDeleteButton;
+    private Button activityDeleteButton;
 
     @FXML
-    Button viewDataPoints;
+    private Button viewDataPoints;
 
     @FXML
-    Button editActivityButton;
+    private Button editActivityButton;
 
     @FXML
-    Button searchButton;
+    private DatePicker dateFromPicker;
 
     @FXML
-    Button clearButton;
+    private DatePicker dateToPicker;
 
     @FXML
-    DatePicker dateFromPicker;
+    private Label errorLabel;
 
     @FXML
-    DatePicker dateToPicker;
-
-    @FXML
-    Label errorLabel;
-
-    @FXML
-    Button addActivityButton;
+    private Button addActivityButton;
 
 
 
@@ -158,7 +152,6 @@ public class ActivityViewController implements Initializable, UserData {
             end = Date.valueOf(modifiedDate);
 
             int id = currentUser.getId();
-            System.out.println(currentUser.getId());
             activityTable.setItems(ActivityDBOperations.getActivitiesBetweenDates(start, end, id));
 
         } catch (IllegalArgumentException e){
