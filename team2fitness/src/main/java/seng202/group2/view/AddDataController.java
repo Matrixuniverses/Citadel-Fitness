@@ -68,10 +68,7 @@ public class AddDataController implements Initializable, UserData {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
-        typeOptions.add("Run");
-        typeOptions.add("Walk");
-        typeOptions.add("Cycle");
-        typeOptions.add("Swim");
+        typeOptions.addAll("Run", "Walk", "Cycle", "Swim");
         choiceBoxType.setItems(typeOptions);
         choiceBoxType.setValue("Run");
 
