@@ -120,11 +120,12 @@ public class AddDataController implements Initializable, UserData {
         });
 
         addDataTask.setOnFailed(failedEvent -> {
+            importInfoLabel.setVisible(true);
             importInfoLabel.setTextFill(Color.RED);
-            importInfoLabel.setText("Error reading data from file.");
+            importInfoLabel.setText(addDataTask.getException().getMessage());
         });
 
-        importInfoLabel.setText("\uf017 Reading file");
+        importInfoLabel.setText("Reading file");
         executionThreads.execute(addDataTask);
     }
 
