@@ -73,6 +73,12 @@ public class TargetViewController implements Initializable, UserData {
         });
     }
 
+    @FXML
+    private void deleteTarget() {
+        dataManager.deleteTarget(targetTable.getSelectionModel().getSelectedItem());
+
+    }
+
     public void updateUser() {
 
     }

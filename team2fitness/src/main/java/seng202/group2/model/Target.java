@@ -3,6 +3,7 @@ package seng202.group2.model;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,7 +21,6 @@ public class Target {
     private BooleanProperty completed = new SimpleBooleanProperty(false);
 
     public Target(String tName, Date completionDate, String tType, double initialValue, double currentValue, double finalValue ){
-
         this.name  = new SimpleStringProperty(tName);
         this.type = new SimpleStringProperty(tType);
         this.initialValue = new SimpleDoubleProperty(initialValue);
@@ -46,34 +46,37 @@ public class Target {
         }
     }
 
+    /**
+     * Used to display the type of target in the target list table (Called by javafx at runtime)
+     * @return String with the formatted type
+     */
     public String getFormattedType() {
         String type = this.type.get();
-        String formatted = "";
 
-        if (type == "Total Distance (m)") {
-            formatted = "Total Distance";
-        } else if (type == "Target Weight (kg)") {
-            formatted = "Target Weight";
-        } else if (type == "Average Speed (m/s)") {
-            formatted = "Average Speed";
+        switch(type){
+            case "Total Distance (m)": return "Total Distance";
+            case "Target Weight (kg)": return "Target Weight";
+            case "Average Speed (m/s)": return "Average Speed";
         }
-
-        return formatted;
+        return null;
     }
+
+
 
     public String format(Double val) {
         String type = this.type.get();
         String formatted = "";
 
-        if (type == "Total Distance (m)") {
+        if (type.equals("Total Distance (m)")) {
             formatted = Integer.toString((int)Math.round(val)) + " m";
-        } else if (type == "Target Weight (kg)") {
+        } else if (type.equals("Target Weight (kg)")) {
             if (val == 0.0) {
                 formatted = "0 kg";
             } else {
+
                 formatted = Double.toString(Math.round(val * 10.0) / 10.0) + " kg";
             }
-        } else if (type == "Average Speed (m/s)") {
+        } else if (type.equals("Average Speed (m/s)")) {
             if (val == 0.0) {
                 formatted = "0 m/s";
             } else {
@@ -86,16 +89,12 @@ public class Target {
 
     public String getFormattedInitialValue() {
         double initVal = this.initialValue.get();
-        String formatted = format(initVal);
-
-        return formatted;
+        return format(initVal);
     }
 
     public String getFormattedCurrentValue() {
         double currVal = this.currentValue.get();
-        String formatted = format(currVal);
-
-        return formatted;
+        return format(currVal);
     }
 
     public String getFormattedFinalValue() {
@@ -132,20 +131,12 @@ public class Target {
         return name.get();
     }
 
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name.set(name);
     }
 
     public String getType() {
         return type.get();
-    }
-
-    public SimpleStringProperty typeProperty() {
-        return type;
     }
 
     public void setType(String type) {
@@ -156,20 +147,12 @@ public class Target {
         return initialValue.get();
     }
 
-    public SimpleDoubleProperty initialValueProperty() {
-        return initialValue;
-    }
-
     public void setInitialValue(double initialValue) {
         this.initialValue.set(initialValue);
     }
 
     public double getCurrentValue() {
         return currentValue.get();
-    }
-
-    public SimpleDoubleProperty currentValueProperty() {
-        return currentValue;
     }
 
     public void setCurrentValue(double currentValue) {
@@ -206,5 +189,9 @@ public class Target {
 
     public void setCompleted(boolean completed) {
         this.completed.set(completed);
+    }
+
+    public SimpleStringProperty nameProperty() {
+        return name;
     }
 }
