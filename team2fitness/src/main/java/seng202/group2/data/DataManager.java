@@ -73,20 +73,7 @@ public class DataManager {
         userList.remove(user);
     }
 
-    public void changeUserWeight(int newWeight) {
-        // TODO Add Database Connection!
-        currentUser.get().setWeight(newWeight);
-    }
 
-    public void changeUserName(String newName) {
-        // TODO Add Database Connection!
-        currentUser.get().setName(newName);
-    }
-
-    public void changeUserHeight(int newWeight) {
-        // TODO Add Database Connection!
-        currentUser.get().setHeight(newWeight);
-    }
 
     public User getCurrentUser() {
         return currentUser.get();
@@ -134,9 +121,7 @@ public class DataManager {
         }
     }
 
-    public void updateActivity(Activity activity) {
-        // TODO Add Database Connection!
-    }
+
 
     public ObservableList<Activity> getActivityList() {
         return currentUser.get().getActivityList();

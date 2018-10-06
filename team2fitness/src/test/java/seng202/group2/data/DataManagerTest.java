@@ -1,21 +1,17 @@
 package seng202.group2.data;
 
 
-import javafx.collections.ObservableList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert.*;
 
-import seng202.group2.data.ActivityDBOperations;
-import seng202.group2.data.DatabaseOperations;
-import seng202.group2.data.DatapointDBOperations;
-import seng202.group2.data.UserDBOperations;
+
+
 import seng202.group2.model.Activity;
-import seng202.group2.model.DataPoint;
 import seng202.group2.model.User;
 
-import java.sql.Connection;
+
 import java.time.Duration;
 import java.time.Instant;
 
@@ -23,7 +19,7 @@ import java.time.Instant;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+
 
 import static org.junit.Assert.assertEquals;
 
@@ -59,21 +55,13 @@ public class DataManagerTest {
         activity7 = new Activity("Activity6", Date.from(dateNow.minus(Duration.ofDays(60))), "Walk", 89.0, 3.43);
 
 
-        DataPoint dp1 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(10))), 170, 10.0, 10.0, 100.0);
-        DataPoint dp2 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(20))), 160, 9.9, 10.0, 100.0);
-        DataPoint dp3 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(30))), 165, 9.8, 10.0, 99.0);
-        DataPoint dp4 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(40))), 167, 9.76, 10.0, 98.0);
-        DataPoint dp5 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(50))), 168, 9.72, 10.0, 99.0);
-        DataPoint dp6 = new DataPoint(Date.from(dateNow.minus(Duration.ofSeconds(10))), 168, 9.72, 10.0, 99.0);
-
         try {
             DatabaseOperations.createDatabase();
 
             //inserting test users
             UserDBOperations.insertNewUser(user1);
             UserDBOperations.insertNewUser(user2);
-            UserDBOperations.insertNewUser(user3);
-            UserDBOperations.insertNewUser(user4);
+
 
             //inserting test activities
             ActivityDBOperations.insertNewActivity(activity1, 1);
@@ -82,15 +70,9 @@ public class DataManagerTest {
             ActivityDBOperations.insertNewActivity(activity4, 1);
             ActivityDBOperations.insertNewActivity(activity5, 2);
             ActivityDBOperations.insertNewActivity(activity6, 3);
-            //ActivityDBOperations.insertNewActivity(activity7, 3);
 
-            //inserting test datapoints
-            DatapointDBOperations.insertNewDataPoint(dp1, 1);
-            DatapointDBOperations.insertNewDataPoint(dp2, 1);
-            DatapointDBOperations.insertNewDataPoint(dp3, 1);
-            DatapointDBOperations.insertNewDataPoint(dp4, 1);
-            DatapointDBOperations.insertNewDataPoint(dp5, 1);
-            DatapointDBOperations.insertNewDataPoint(dp6, 7);
+
+
 
             dataManager = new DataManager();
 
@@ -106,24 +88,17 @@ public class DataManagerTest {
 
     @Test
     public void testDataManagerInitialization() {
-        assertEquals(4, dataManager.getUserList().size());
+        assertEquals(2, dataManager.getUserList().size());
 
     }
 
 
-    @Test
-    public void testDataManagerAddUser(){
-        dataManager.addUser("User5", 20, 186.0,78, "Male");
-        dataManager.changeUserHeight(154);
-        dataManager.changeUserWeight(50);
-        assertEquals(5, dataManager.getUserList().size());
-    }
 
     @Test
     public void testDataManagerDeleteUser(){
 
-        dataManager.deleteUser(user1);
-        assertEquals(4, dataManager.getUserList().size());
+        dataManager.deleteUser(dataManager.getUserList().get(0));
+        assertEquals(1, dataManager.getUserList().size());
     }
 
     @Test
@@ -158,12 +133,7 @@ public class DataManagerTest {
         assertEquals(0,dataManager.getActivityList().size());
     }
 
-    @Test
-    public void testDataManagerChangeUserData(){
-        dataManager.setCurrentUser(user2);
-        dataManager.changeUserName("Dave");
-        assertEquals("Dave", dataManager.getCurrentUser().getName());
-    }
+
 
     @After
     public void resetTestingDB() {
