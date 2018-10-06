@@ -3,7 +3,9 @@ package seng202.group2.model;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Target {
@@ -19,7 +21,6 @@ public class Target {
     private BooleanProperty completed = new SimpleBooleanProperty(false);
 
     public Target(String tName, Date completionDate, String tType, double initialValue, double currentValue, double finalValue ){
-
         this.name  = new SimpleStringProperty(tName);
         this.type = new SimpleStringProperty(tType);
         this.initialValue = new SimpleDoubleProperty(initialValue);
@@ -45,6 +46,79 @@ public class Target {
         }
     }
 
+    /**
+     * Used to display the type of target in the target list table (Called by javafx at runtime)
+     * @return String with the formatted type
+     */
+    public String getFormattedType() {
+        String type = this.type.get();
+
+        switch(type){
+            case "Total Distance (m)": return "Total Distance";
+            case "Target Weight (kg)": return "Target Weight";
+            case "Average Speed (m/s)": return "Average Speed";
+        }
+        return null;
+    }
+
+
+
+    public String format(Double val) {
+        String type = this.type.get();
+        String formatted = "";
+
+        if (type.equals("Total Distance (m)")) {
+            formatted = Integer.toString((int)Math.round(val)) + " m";
+        } else if (type.equals("Target Weight (kg)")) {
+            if (val == 0.0) {
+                formatted = "0 kg";
+            } else {
+
+                formatted = Double.toString(Math.round(val * 10.0) / 10.0) + " kg";
+            }
+        } else if (type.equals("Average Speed (m/s)")) {
+            if (val == 0.0) {
+                formatted = "0 m/s";
+            } else {
+                formatted = Double.toString(Math.round(val * 10.0) / 10.0) + " m/s";
+            }
+        }
+
+        return formatted;
+    }
+
+    public String getFormattedInitialValue() {
+        double initVal = this.initialValue.get();
+        return format(initVal);
+    }
+
+    public String getFormattedCurrentValue() {
+        double currVal = this.currentValue.get();
+        return format(currVal);
+    }
+
+    public String getFormattedFinalValue() {
+        double finVal = this.finalValue.get();
+        String formatted = format(finVal);
+
+        return formatted;
+    }
+
+    public String getFormattedCompletionDate() {
+        return new SimpleDateFormat("MMMM d, YYYY").format(this.completionDate);
+    }
+
+    public String getFormattedStatus() {
+        String percentStr;
+        if (this.completed.get()) {
+            percentStr = "COMPLETED";
+        } else {
+            int percentVal = (int) Math.round(Math.abs((this.currentValue.get() - this.initialValue.get()) / (this.finalValue.get() - this.initialValue.get())) * 100.0);
+            percentStr = Integer.toString(percentVal) + "%";
+        }
+        return percentStr;
+    }
+
     public int getId() {
         return id;
     }
@@ -57,20 +131,12 @@ public class Target {
         return name.get();
     }
 
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name.set(name);
     }
 
     public String getType() {
         return type.get();
-    }
-
-    public SimpleStringProperty typeProperty() {
-        return type;
     }
 
     public void setType(String type) {
@@ -81,20 +147,12 @@ public class Target {
         return initialValue.get();
     }
 
-    public SimpleDoubleProperty initialValueProperty() {
-        return initialValue;
-    }
-
     public void setInitialValue(double initialValue) {
         this.initialValue.set(initialValue);
     }
 
     public double getCurrentValue() {
         return currentValue.get();
-    }
-
-    public SimpleDoubleProperty currentValueProperty() {
-        return currentValue;
     }
 
     public void setCurrentValue(double currentValue) {
@@ -131,5 +189,9 @@ public class Target {
 
     public void setCompleted(boolean completed) {
         this.completed.set(completed);
+    }
+
+    public SimpleStringProperty nameProperty() {
+        return name;
     }
 }

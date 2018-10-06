@@ -16,36 +16,33 @@ import java.util.ResourceBundle;
 public class TargetViewController implements Initializable, UserData {
 
     @FXML
-    TableView<Target> targetTable;
+    private TableView<Target> targetTable;
 
     // Table Columns
     @FXML
-    TableColumn targetNameCol;
+    private TableColumn targetNameCol;
 
     @FXML
-    TableColumn targetTypeCol;
+    private TableColumn targetTypeCol;
 
     @FXML
-    TableColumn targetDateStartCol;
+    private TableColumn targetInitValueCol;
 
     @FXML
-    TableColumn targetInitValueCol;
+    private TableColumn targetCurrValueCol;
 
     @FXML
-    TableColumn targetCurrValueCol;
+    private TableColumn targetGoalValueCol;
 
     @FXML
-    TableColumn targetGoalValueCol;
+    private TableColumn targetDateEndCol;
 
     @FXML
-    TableColumn targetDateEndCol;
-
-    @FXML
-    TableColumn targetStatusCol;
+    private TableColumn targetStatusCol;
 
     // Buttons
     @FXML
-    Button addTargetButton;
+    private Button addTargetButton;
 
     @FXML
     Button modifyTargetButton;
@@ -53,7 +50,7 @@ public class TargetViewController implements Initializable, UserData {
     @FXML
     Button deleteTargetButton;
 
-    User currentUser;
+    private User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,12 +58,12 @@ public class TargetViewController implements Initializable, UserData {
         targetTable.setPlaceholder(new Label("No targets set."));
 
         targetNameCol.setCellValueFactory(new PropertyValueFactory<Target, String>("name"));
-        targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("type"));
-        targetInitValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("initialValue"));
-        targetCurrValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("currentValue"));
-        targetGoalValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("finalValue"));
-        targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("completionDate"));
-        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("completed"));
+        targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedType"));
+        targetInitValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedInitialValue"));
+        targetCurrValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedCurrentValue"));
+        targetGoalValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedFinalValue"));
+        targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedCompletionDate"));
+        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedStatus"));
 
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
@@ -74,6 +71,12 @@ public class TargetViewController implements Initializable, UserData {
                 targetTable.setItems(DataManager.getDataManager().getTargetList());
             }
         });
+    }
+
+    @FXML
+    private void deleteTarget() {
+        dataManager.deleteTarget(targetTable.getSelectionModel().getSelectedItem());
+
     }
 
     public void updateUser() {

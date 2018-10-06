@@ -33,6 +33,7 @@ public class DataManager {
                         activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
                         activity.setCaloriesBurned(DataAnalyzer.calcCalories(user, activity));
                     }
+                    user.getTargetList().addAll(TargetDBOperations.getAllUserTargets(user.getId()));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -133,6 +134,15 @@ public class DataManager {
             target.setId(TargetDBOperations.insertNewTarget(target, currentUser.get().getId()));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void deleteTarget(Target target) {
+        currentUser.get().getTargetList().remove(target);
+        try {
+            TargetDBOperations.deleteExistingTarget(target.getId());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 
