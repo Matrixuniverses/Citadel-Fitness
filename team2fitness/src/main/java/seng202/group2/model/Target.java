@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Target {
@@ -43,6 +44,80 @@ public class Target {
         if (currentValue.get() >= finalValue.get()) {
             completed.setValue(true);
         }
+    }
+
+    public String getFormattedType() {
+        String type = this.type.get();
+        String formatted = "";
+
+        if (type == "Total Distance (m)") {
+            formatted = "Total Distance";
+        } else if (type == "Target Weight (kg)") {
+            formatted = "Target Weight";
+        } else if (type == "Average Speed (m/s)") {
+            formatted = "Average Speed";
+        }
+
+        return formatted;
+    }
+
+    public String format(Double val) {
+        String type = this.type.get();
+        String formatted = "";
+
+        if (type == "Total Distance (m)") {
+            formatted = Integer.toString((int)Math.round(val)) + " m";
+        } else if (type == "Target Weight (kg)") {
+            if (val == 0.0) {
+                formatted = "0 kg";
+            } else {
+                formatted = Double.toString(Math.round(val * 10.0) / 10.0) + " kg";
+            }
+        } else if (type == "Average Speed (m/s)") {
+            if (val == 0.0) {
+                formatted = "0 m/s";
+            } else {
+                formatted = Double.toString(Math.round(val * 10.0) / 10.0) + " m/s";
+            }
+        }
+
+        return formatted;
+    }
+
+    public String getFormattedInitialValue() {
+        double initVal = this.initialValue.get();
+        String formatted = format(initVal);
+
+        return formatted;
+    }
+
+    public String getFormattedCurrentValue() {
+        double currVal = this.currentValue.get();
+        String formatted = format(currVal);
+
+        return formatted;
+    }
+
+    public String getFormattedFinalValue() {
+        double finVal = this.finalValue.get();
+        String formatted = format(finVal);
+
+        return formatted;
+    }
+
+    public String getFormattedCompletionDate() {
+        return new SimpleDateFormat("MMMM d, YYYY").format(this.completionDate);
+    }
+
+    public String getFormattedStatus() {
+        String percentStr;
+        if (this.completed.get()) {
+            percentStr = "COMPLETED";
+        } else {
+            int percentVal = (int) Math.round(Math.abs((this.currentValue.get() - this.initialValue.get()) / (this.finalValue.get() - this.initialValue.get())) * 100.0);
+            percentStr = Integer.toString(percentVal) + "%";
+        }
+        return percentStr;
     }
 
     public int getId() {

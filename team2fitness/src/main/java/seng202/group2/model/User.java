@@ -152,7 +152,23 @@ public class User {
         this.activityList.remove(activity);
     }
 
+    /**
+     * Adds target to users target list and sets initial value depending on type of target
+     * @param target target object to be added
+     */
     public void addTarget(Target target){
+        if (target.getType() == "Target Weight (kg)") {
+            double currentWeight = this.getWeight();
+            target.setInitialValue(currentWeight);
+            target.setCurrentValue(currentWeight);
+        } else if (target.getType() == "Average Speed (m/s)") {
+            // TODO Optional: Set initial and current value users highest average speed in the last week/month.
+            target.setInitialValue(0);
+            target.setCurrentValue(0);
+        } else if (target.getType() == "Total Distance (m)") {
+            target.setInitialValue(0);
+            target.setCurrentValue(0);
+        }
         this.targetList.add(target);
     }
 
