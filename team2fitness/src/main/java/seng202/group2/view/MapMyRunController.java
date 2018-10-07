@@ -17,6 +17,8 @@ import seng202.group2.model.User;
 
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static java.lang.Boolean.FALSE;
@@ -41,11 +43,16 @@ public class MapMyRunController implements Initializable, UserData {
     @FXML
     private Button resetMapButton;
 
+    @FXML
+    private Button undoButton;
+
     private WebEngine webEngine;
 
     private DoubleProperty distance;
     private DoubleProperty calories;
     private DoubleProperty time;
+
+    private List<Double> distanceArray;
 
     private DataManager dataManager = DataManager.getDataManager();
     private User user = dataManager.getCurrentUser();
@@ -60,6 +67,8 @@ public class MapMyRunController implements Initializable, UserData {
         timeLabel.textProperty().bind(Bindings.format("%.1f", time));
         errorLabel.setVisible(false);
         dataAnalyzer = new DataAnalyzer();
+        distanceArray = new ArrayList<>();
+        distanceArray.add(0.0);
         initMap();
 
         // Listener. Calls the javascript distance calculation when the user adds a new marker to their path. The distance property is then updated.
@@ -69,11 +78,12 @@ public class MapMyRunController implements Initializable, UserData {
                 if (event.isStillSincePress()) {
                     errorLabel.setVisible(false);
                     String distanceString = webEngine.executeScript("calculateDistance();").toString();
+                    System.out.println("DistanceString = " + distanceString);
+                    distanceArray.add(Double.parseDouble(distanceString));
                     distance.set(Double.parseDouble(distanceString));
                     time.set(calcTime());
                     calories.set(calcCalories());
                 }
-
             }
         });
     }
@@ -128,5 +138,21 @@ public class MapMyRunController implements Initializable, UserData {
         distance.set(0);
         time.set(0);
         calories.set(0);
+    }
+
+    /**
+     * Calls a JavaScript function to remove the last marker the user placed on the map.
+     * Removes the last calculated distance, and reverts to the previous one.
+     * Re-calculates time and calories based on the updated distance value.
+     */
+    public void undoMarker() {
+        webEngine.executeScript("undoMarker();");
+        if (distanceArray.size() > 1) {
+            System.out.println("poo");
+            distance.set(distanceArray.get(distanceArray.size() - 2));
+            distanceArray.remove(distanceArray.size() - 1);
+            time.set(calcTime());
+            calories.set(calcCalories());
+        }
     }
 }

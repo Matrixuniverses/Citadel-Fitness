@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -25,7 +30,7 @@
             </BarChart>
          </children>
       </AnchorPane>
-      <GridPane hgap="10.0" layoutX="76.0" layoutY="50.0" prefHeight="251.0" prefWidth="850.0">
+      <GridPane hgap="10.0" layoutX="75.0" layoutY="50.0" prefHeight="251.0" prefWidth="860.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="207.0" />
@@ -44,11 +49,6 @@
                      </font>
                   </Label>
                   <Label alignment="CENTER" layoutX="28.5" layoutY="14.0" prefHeight="24.0" prefWidth="150.0" styleClass="customLabels" text="Total Distance (km)" />
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" stylesheets="@../style/style.css" GridPane.columnIndex="2" GridPane.columnSpan="2">
-               <children>
-                  <Label fx:id="targetsLabel" alignment="CENTER" layoutX="140.0" layoutY="105.0" prefHeight="24.0" prefWidth="130.0" styleClass="customLabels" text="No Targets Set" />
                </children>
             </AnchorPane>
             <GridPane vgap="10.0">
@@ -86,6 +86,14 @@
                   </BorderPane>
                </children>
             </GridPane>
+            <TableView fx:id="targetTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+              <columns>
+                <TableColumn fx:id="nameColumn" prefWidth="120.0" text="Target Name" />
+                <TableColumn fx:id="typeColumn" prefWidth="105.0" text="Target Type" />
+                  <TableColumn fx:id="progressColumn" prefWidth="103.0" text="Progress" />
+                  <TableColumn fx:id="statusColumn" prefWidth="85.0" text="Status" />
+              </columns>
+            </TableView>
          </children>
       </GridPane>
    </children>

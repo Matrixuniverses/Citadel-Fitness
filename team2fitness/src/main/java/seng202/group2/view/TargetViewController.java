@@ -5,12 +5,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.Activity;
 import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TargetViewController implements Initializable, UserData {
@@ -26,13 +30,7 @@ public class TargetViewController implements Initializable, UserData {
     private TableColumn targetTypeCol;
 
     @FXML
-    private TableColumn targetInitValueCol;
-
-    @FXML
-    private TableColumn targetCurrValueCol;
-
-    @FXML
-    private TableColumn targetGoalValueCol;
+    private TableColumn targetProgressColumn;
 
     @FXML
     private TableColumn targetDateEndCol;
@@ -45,10 +43,10 @@ public class TargetViewController implements Initializable, UserData {
     private Button addTargetButton;
 
     @FXML
-    Button modifyTargetButton;
+    public Button modifyTargetButton;
 
     @FXML
-    Button deleteTargetButton;
+    public Button deleteTargetButton;
 
     private User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
@@ -59,31 +57,80 @@ public class TargetViewController implements Initializable, UserData {
 
         targetNameCol.setCellValueFactory(new PropertyValueFactory<Target, String>("name"));
         targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedType"));
-        targetInitValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedInitialValue"));
-        targetCurrValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedCurrentValue"));
-        targetGoalValueCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedFinalValue"));
         targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedCompletionDate"));
-        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedStatus"));
+        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedProgress"));
+        targetProgressColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
+        targetProgressColumn.setCellFactory(ProgressBarTableCell.<Target> forTableColumn());
 
+        currentUser = dataManager.getCurrentUser();
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                currentUser = newValue;
                 targetTable.setItems(DataManager.getDataManager().getTargetList());
             }
         });
+
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        for (Target target : currentUser.getTargetList()) {
+            System.out.println(target.getName());
+            switch(target.getType()) {
+                case "Total Distance (m)":
+                    currentUser.totalDistanceProperty().addListener(new ChangeListener<Number>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                            target.updateProgress((double) newValue);
+                        }
+                    });
+                case "Target Weight (kg)":
+                    currentUser.weightProperty().addListener(new ChangeListener<Number>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                            target.updateProgress((double) newValue);
+                        }
+                    });
+                case "Average Speed (m/s)":
+                    currentUser.avgSpeedProperty().addListener(new ChangeListener<Number>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                            target.updateProgress((double) newValue);
+                        }
+                    });
+            }
+        }
+
     }
 
     @FXML
     private void deleteTarget() {
-        dataManager.deleteTarget(targetTable.getSelectionModel().getSelectedItem());
+        Target target = targetTable.getSelectionModel().getSelectedItem();
+        if (target != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm delete");
+            alert.setContentText("Do you want to delete the selected target?");
 
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                dataManager.deleteTarget(target);
+            }
+        }
     }
 
-    public void updateUser() {
-
+    public TableView<Target> getTargetTable() {
+        return targetTable;
     }
 
     public Button getAddTargetButton() {
         return addTargetButton;
     }
+
+    public Button getModifyTargetButton() {
+        return modifyTargetButton;
+    }
+
+    public void updateUser() {}
 }

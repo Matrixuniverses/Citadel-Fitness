@@ -73,15 +73,12 @@ public class EditProfileController implements Initializable, UserData {
         });
     }
 
+    @Override
+    public void updateUser() {}
 
     /**
      * Fills the provided fields with the user's current information.
      */
-    @Override
-    public void updateUser() {
-
-    }
-
     private void setFields() {
         nameField.setText(currentUser.getName());
         ageField.setText(Integer.toString(currentUser.getAge()));

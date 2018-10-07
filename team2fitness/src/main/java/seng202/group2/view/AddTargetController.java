@@ -1,5 +1,7 @@
 package seng202.group2.view;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +13,8 @@ import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 
+import javax.lang.model.util.SimpleElementVisitor6;
+import java.awt.font.NumericShaper;
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -52,15 +56,12 @@ public class AddTargetController implements Initializable, UserData {
     @FXML
     private Button closeButton;
 
-    private User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
-        typeOptions.add("Average Speed (m/s)");
-        typeOptions.add("Target Weight (kg)");
-        typeOptions.add("Total Distance (m)");
+        typeOptions.addAll("Average Speed (m/s)", "Target Weight (kg)", "Total Distance (m)");
         typeComboBox.setItems(typeOptions);
 
         nameErrorLabel.setText("");
@@ -85,43 +86,63 @@ public class AddTargetController implements Initializable, UserData {
         dateErrorLabel.setText("");
         confirmationLabel.setText("");
 
-        String type = "";
         Double value = 0.0;
         Date date = null;
         boolean validTarget = true;
+        Double currVal = 0.0;
 
         String name = nameTextField.getText();
         if (name.length() == 0) {
             nameErrorLabel.setText("Target must have a name.");
             validTarget = false;
-        } else if (name.length() > 15) {
-            nameErrorLabel.setText("Name cannot exceed 15 characters.");
+        } else if (name.length() > 30) {
+            nameErrorLabel.setText("Name cannot exceed 30 characters.");
             validTarget = false;
         }
 
-        try {
-            type = typeComboBox.getValue().toString();
-        } catch (NullPointerException e) {
-            typeErrorLabel.setText("Target must have a type.");
+        String type = "";
+        if (typeComboBox.getSelectionModel().getSelectedItem() == null) {
             validTarget = false;
+            typeErrorLabel.setText("Please select a target type");
+        } else {
+            type = typeComboBox.getValue().toString();
         }
 
         try {
             value = Double.valueOf(valueTextField.getText());
-            if (type == "Target Weight (kg)" && (value < 0 || value > 600)) {
-                valueErrorLabel.setText("Weight must be between 0 and 600 kg.");
-                validTarget = false;
-            } else if (type == "Average Speed (m/s)" && (value <= 0 || value >= 10)) {
-                valueErrorLabel.setText("Speed must be between 0.1 and 10 m/s.");
-                validTarget = false;
-            } else if (type == "Total Distance (m)" && (value <= 0)) {
-                valueErrorLabel.setText("Distance must be greater than 0 m.");
-                validTarget = false;
+
+            switch(type){
+                case "Target Weight (kg)":
+                    if (value <= 0 || value > 600) {
+                        valueErrorLabel.setText("Weight targets must be in range 1 - 600");
+                        validTarget = false;
+                    }
+                    currVal = dataManager.getCurrentUser().weightProperty().get();
+                    break;
+
+                case "Average Speed (m/s)":
+                    if (value < 0) {
+                        valueErrorLabel.setText("Speed target cannot be negative!");
+                        validTarget = false;
+                    }
+                    currVal = dataManager.getCurrentUser().avgSpeedProperty().get();
+                    value += currVal;
+                    break;
+
+                case "Total Distance (m)":
+                    if (value < 0) {
+                        valueErrorLabel.setText("Total distance cannot be negative!");
+                        validTarget = false;
+                    }
+                    currVal = dataManager.getCurrentUser().totalDistanceProperty().get();
+                    value += currVal;
+                    break;
             }
-        } catch (NumberFormatException e) {
-            valueErrorLabel.setText("Value must be a number.");
-            validTarget = false;
+
+        } catch (NumberFormatException ex) {
+            valueErrorLabel.setText("Target value must be a number!");
         }
+
 
         if (dateDatePicker.getValue() == null) {
             dateErrorLabel.setText("Target must have a completion date.");
@@ -140,7 +161,7 @@ public class AddTargetController implements Initializable, UserData {
         }
 
         if (validTarget) {
-            Target userTarget = new Target(name, type, value, date);
+            Target userTarget = new Target(name, date, type, currVal, currVal, value);
             dataManager.addTarget(userTarget);
             confirmationLabel.setText("Target added successfully.");
             clearFields();
