@@ -1,10 +1,12 @@
 package seng202.group2.analysis;
 
+import javafx.application.Application;
 import javafx.collections.ObservableList;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
 import seng202.group2.model.User;
 
+import java.io.IOException;
 import java.lang.Math;
 import java.awt.Desktop;
 import java.net.URI;
@@ -298,6 +300,11 @@ public class DataAnalyzer {
 
         String googleURL;
 
+        /*
+            CODE USED FROM GROUP 5 TO FIX BROWSER ERROR
+         */
+
+
         try {
             googleURL = "https://www.google.com/search?q=" + genValidURLSearchTerm(searchTerm);
         } catch (IllegalArgumentException e) {
@@ -308,10 +315,30 @@ public class DataAnalyzer {
         }
 
         try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI(googleURL));
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.indexOf("nix") >=0 || os.indexOf("nux") >=0) {
+                Runtime rt = Runtime.getRuntime();
+                String[] browsers = { "epiphany", "firefox", "mozilla", "konqueror",
+                        "netscape", "opera", "links", "lynx" };
+
+                StringBuffer cmd = new StringBuffer();
+                for (int i = 0; i < browsers.length; i++)
+                    if(i == 0)
+                        cmd.append(String.format(    "%s \"%s\"", browsers[i], googleURL));
+                    else
+                        cmd.append(String.format(" || %s \"%s\"", browsers[i], googleURL));
+                // If the first didn't work, try the next browser and so on
+                try {
+                    rt.exec(new String[] { "sh", "-c", cmd.toString() });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                System.err.println("Java desktop integration is not supported on the current operating system.");
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(new URI(googleURL));
+                } else {
+                    System.err.println("Java desktop integration is not supported on the current operating system.");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

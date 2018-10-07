@@ -103,7 +103,7 @@ public class AddTargetController implements Initializable, UserData {
         String type = "";
         if (typeComboBox.getSelectionModel().getSelectedItem() == null) {
             validTarget = false;
-            typeErrorLabel.setText("Please select a target type");
+            typeErrorLabel.setText("Please select a target type.");
         } else {
             type = typeComboBox.getValue().toString();
         }
@@ -113,25 +113,27 @@ public class AddTargetController implements Initializable, UserData {
 
             switch(type){
                 case "Target Weight (kg)":
+                    currVal = dataManager.getCurrentUser().weightProperty().get();
                     if (value <= 0 || value > 600) {
                         valueErrorLabel.setText("Weight targets must be in range 1 - 600");
                         validTarget = false;
+                    } else if (value == currVal) {
+                        valueErrorLabel.setText("Weight target cannot equal current weight.");
+                        validTarget = false;
                     }
-                    currVal = dataManager.getCurrentUser().weightProperty().get();
                     break;
 
                 case "Average Speed (m/s)":
                     if (value < 0) {
-                        valueErrorLabel.setText("Speed target cannot be negative!");
+                        valueErrorLabel.setText("Speed target cannot be negative.");
                         validTarget = false;
                     }
                     currVal = dataManager.getCurrentUser().avgSpeedProperty().get();
-                    value += currVal;
                     break;
 
                 case "Total Distance (m)":
                     if (value < 0) {
-                        valueErrorLabel.setText("Total distance cannot be negative!");
+                        valueErrorLabel.setText("Total distance cannot be negative.");
                         validTarget = false;
                     }
                     currVal = dataManager.getCurrentUser().totalDistanceProperty().get();
@@ -140,7 +142,7 @@ public class AddTargetController implements Initializable, UserData {
             }
 
         } catch (NumberFormatException ex) {
-            valueErrorLabel.setText("Target value must be a number!");
+            valueErrorLabel.setText("Target value must be a number.");
         }
 
 
