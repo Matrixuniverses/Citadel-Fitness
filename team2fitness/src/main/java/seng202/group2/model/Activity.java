@@ -2,6 +2,8 @@ package seng202.group2.model;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -58,6 +60,8 @@ public class Activity {
             }
         });
 
+
+        setupDatabaseHandlers();
     }
 
     /**
@@ -86,6 +90,34 @@ public class Activity {
             }
         });
         manualEntry = true;
+
+        setupDatabaseHandlers();
+    }
+
+    private void setupDatabaseHandlers() {
+        activityName.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    ActivityDBOperations.updateExistingActivity(Activity.this);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        activityType.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    ActivityDBOperations.updateExistingActivity(Activity.this);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
     /**
@@ -262,6 +294,14 @@ public class Activity {
      */
     public String getFormattedDate() {
         return new SimpleDateFormat("MMMM d, YYYY").format(this.activityDate);
+    }
+
+    /**
+     * Returns nicely formatted date
+     * @return Date in the format of: 'January 1, 1970'
+     */
+    public String getShortFormattedDate() {
+        return new SimpleDateFormat("d-MM-YYYY").format(this.activityDate);
     }
 
     /**

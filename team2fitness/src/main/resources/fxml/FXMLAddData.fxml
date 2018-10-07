@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -12,13 +7,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="addDataScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.AddDataController">
+<AnchorPane fx:id="addDataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.AddDataController">
    <children>
       <AnchorPane layoutX="100.0" layoutY="122.0">
          <children>
@@ -27,6 +21,7 @@
                   <GridPane layoutX="22.0" layoutY="2.0" prefHeight="391.0" prefWidth="260.0">
                     <columnConstraints>
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -39,12 +34,12 @@
                         <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ChoiceBox fx:id="choiceBoxType" prefHeight="28.0" prefWidth="261.0" style="-fx-background-color: #ffffff; -fx-border-color: #0d4868; -fx-border-radius: 10;" GridPane.rowIndex="1" />
-                        <TextField id="textFieldName" fx:id="textFieldName" prefHeight="25.0" prefWidth="237.0" promptText="Name" GridPane.rowIndex="2" />
-                        <DatePicker fx:id="dateInput" prefHeight="26.0" prefWidth="262.0" promptText="Date of activity" GridPane.rowIndex="3" />
-                        <TextField id="textFieldDistance" fx:id="textFieldDistance" prefHeight="25.0" prefWidth="258.0" promptText="Distance (m)" GridPane.rowIndex="4" />
-                        <TextField fx:id="textFieldTime" prefHeight="25.0" prefWidth="360.0" promptText="Time (s)" GridPane.rowIndex="5" />
-                        <Button fx:id="buttonSubmitData" alignment="CENTER" mnemonicParsing="false" onAction="#addManualData" prefHeight="25.0" prefWidth="112.0" styleClass="customButton" text="Submit" textFill="#fcfcfc" GridPane.rowIndex="7">
+                        <ChoiceBox fx:id="choiceBoxType" prefHeight="28.0" prefWidth="261.0" style="-fx-background-color: #ffffff; -fx-border-color: #0d4868; -fx-border-radius: 10;" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                        <TextField id="textFieldName" fx:id="textFieldName" prefHeight="25.0" prefWidth="237.0" promptText="Name" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                        <DatePicker fx:id="dateInput" prefHeight="26.0" prefWidth="262.0" promptText="Date of activity" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                        <TextField id="textFieldDistance" fx:id="textFieldDistance" prefHeight="26.0" prefWidth="130.0" promptText="Distance (m)" GridPane.rowIndex="4" />
+                        <TextField fx:id="textFieldTime" prefHeight="25.0" prefWidth="360.0" promptText="Time (s)" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                        <Button fx:id="buttonSubmitData" alignment="CENTER" mnemonicParsing="false" onAction="#addManualData" prefHeight="25.0" prefWidth="112.0" styleClass="customButton" text="Submit" textFill="#fcfcfc" GridPane.columnSpan="2" GridPane.rowIndex="7">
                            <font>
                               <Font name="System Bold Italic" size="13.0" />
                            </font>
@@ -52,12 +47,12 @@
                               <Insets bottom="12.0" />
                            </GridPane.margin>
                         </Button>
-                        <Label text="Manual Entry">
+                        <Label prefHeight="26.0" prefWidth="150.0" text="Manual Entry" GridPane.columnSpan="2">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="errorLabel" text="Confirm/Error Message" textFill="RED" visible="false" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                        <Label fx:id="errorLabel" prefHeight="14.0" prefWidth="238.0" text="Confirm/Error Message" textFill="RED" visible="false" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                            <GridPane.margin>
                               <Insets bottom="7.0" left="16.0" />
                            </GridPane.margin>
@@ -65,6 +60,11 @@
                               <Font size="11.0" />
                            </font>
                         </Label>
+                        <Button fx:id="buttonSelectRoute" alignment="CENTER" mnemonicParsing="false" onAction="#openSelectRoute" prefHeight="25.0" prefWidth="112.0" styleClass="customButton" text="Select Route" textFill="#fcfcfc" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="System Bold Italic" size="13.0" />
+                           </font>
+                        </Button>
                      </children>
                   </GridPane>
                </children>

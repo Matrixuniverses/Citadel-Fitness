@@ -1,6 +1,5 @@
 package seng202.group2.view;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +10,6 @@ import javafx.scene.control.TextField;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Target;
 import seng202.group2.model.User;
-
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -62,7 +60,12 @@ public class EditTargetController implements Initializable, UserData {
 
     public void updateTargetFields(Target target) {
         nameTextField.setText(target.getName());
-        valueTextField.setText(Double.toString(target.getFinalValue()));
+        String type = target.getType();
+        if (type.equals("Total Distance (m)") || type.equals("Average Speed (m/s)")) {
+            valueTextField.setText(Double.toString(Math.round(target.getFinalValue() - target.getInitialValue())));
+        } else {
+            valueTextField.setText(Double.toString(Math.round(target.getFinalValue() * 10.0) / 10.0));
+        }
         dateDatePicker.setValue(target.getCompletionDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         currentTarget = target;
     }

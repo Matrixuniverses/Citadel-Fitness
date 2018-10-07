@@ -1,11 +1,14 @@
 package seng202.group2.data;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.Activity;
 import seng202.group2.model.HealthWarning;
@@ -17,7 +20,14 @@ public class DataManager {
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
     private ObjectProperty<User> currentUser = new SimpleObjectProperty<User>(new User("", 0, 0,0,"Male"));
-    private ObservableList<HealthWarning> healthWarnings = FXCollections.observableArrayList();
+
+
+    // Health Warning Booleans
+    private BooleanProperty newHealthWarning = new SimpleBooleanProperty(false);
+    private BooleanProperty hasTachycardia = new SimpleBooleanProperty(true);
+    private BooleanProperty hasCardiovascular = new SimpleBooleanProperty(true);
+    private BooleanProperty hasBradycardia = new SimpleBooleanProperty(true);
+
 
     private static DataManager dataManager = new DataManager();
 
@@ -53,6 +63,7 @@ public class DataManager {
     }
 
     public void setCurrentUser(User currentUser) {
+        resetWarnings();
         this.currentUser.set(currentUser);
     }
 
@@ -99,6 +110,7 @@ public class DataManager {
                 activity.setId(ActivityDBOperations.insertNewActivity(activity, currentUser.get().getId()));
                 DatapointDBOperations.insertDataPointList(activity.getActivityData(), activity.getId());
                 currentUser.get().addActivity(activity);
+                checkHealthWarnings(activity);
 
             }
         } catch (SQLException e) {
@@ -135,7 +147,6 @@ public class DataManager {
     private void listenTarget(Target target, User user) {
         switch(target.getType()) {
             case "Target Weight (kg)":
-                System.out.println("beans");
                 user.weightProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -174,6 +185,7 @@ public class DataManager {
         }
     }
 
+
     public void deleteTarget(Target target) {
         currentUser.get().getTargetList().remove(target);
         try {
@@ -189,5 +201,59 @@ public class DataManager {
 
     public ObservableList<User> getUserList() {
         return userList;
+    }
+
+    private void checkHealthWarnings(Activity activity) {
+        if (DataAnalyzer.hasTachycardia(currentUser.get().getAge(), (int) activity.getMinHR())) {
+            hasTachycardia.set(true);
+            newHealthWarning.setValue(true);
+        }
+        if (DataAnalyzer.hasBradycardia(currentUser.get().getAge(), (int) activity.getMinHR())) {
+            hasBradycardia.set(true);
+            newHealthWarning.setValue(true);
+        }
+        if (DataAnalyzer.cardiovascularMortalityProne(currentUser.get().getAge(), (int) activity.getMinHR())) {
+            hasCardiovascular.set(true);
+            newHealthWarning.setValue(true);
+        }
+    }
+
+    private void resetWarnings(){
+        hasBradycardia.set(false);
+        hasCardiovascular.set(false);
+        hasTachycardia.set(false);
+        newHealthWarning.setValue(false);
+    }
+
+    public boolean isHasTachycardia() {
+        return hasTachycardia.get();
+    }
+
+    public BooleanProperty hasTachycardiaProperty() {
+        return hasTachycardia;
+    }
+
+    public boolean isHasCardiovascular() {
+        return hasCardiovascular.get();
+    }
+
+    public BooleanProperty hasCardiovascularProperty() {
+        return hasCardiovascular;
+    }
+
+    public boolean isHasBradycardia() {
+        return hasBradycardia.get();
+    }
+
+    public BooleanProperty hasBradycardiaProperty() {
+        return hasBradycardia;
+    }
+
+    public boolean isNewHealthWarning() {
+        return newHealthWarning.get();
+    }
+
+    public BooleanProperty newHealthWarningProperty() {
+        return newHealthWarning;
     }
 }
