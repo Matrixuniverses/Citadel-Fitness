@@ -178,7 +178,6 @@ public class ProfileController implements Initializable, UserData {
             }
             remaining -= 1;
         }
-        System.out.println("Bar Graph activities size: " + Integer.toString(recentActivities.size()));
         activityGraph.getData().removeAll(activityGraph.getData());
         XYChart.Series series = GraphGenerator.createRecentActivitySeries(recentActivities);
         activityGraph.getData().add(series);

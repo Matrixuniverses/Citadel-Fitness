@@ -215,7 +215,6 @@ public class ActivityViewController implements Initializable, UserData {
                 Date start = Date.from(dateFromPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
 
-                System.out.println(obj.getDate());
                 if (obj.getDate().before(start) || obj.getDate().after(end)) {
                     return false;
                 }

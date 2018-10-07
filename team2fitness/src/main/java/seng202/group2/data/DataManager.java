@@ -51,7 +51,6 @@ public class DataManager {
                     listenTarget(target, user);
                 }
             }
-            System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
 
         } catch (SQLException e) {
             e.printStackTrace();
