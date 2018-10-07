@@ -142,7 +142,6 @@ public class ProfileController implements Initializable, UserData {
                         @Override
                         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                             target.updateProgress((double) newValue);
-                            System.out.println(newValue);
                         }
                     });
                 case "Average Speed (m/s)":
@@ -165,7 +164,6 @@ public class ProfileController implements Initializable, UserData {
             }
             remaining -= 1;
         }
-        System.out.println("Bar Graph activities size: " + Integer.toString(recentActivities.size()));
         activityGraph.getData().removeAll(activityGraph.getData());
         XYChart.Series series = GraphGenerator.createRecentActivitySeries(recentActivities);
         activityGraph.getData().add(series);

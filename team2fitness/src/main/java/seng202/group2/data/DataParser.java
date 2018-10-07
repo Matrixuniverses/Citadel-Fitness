@@ -142,7 +142,6 @@ public class DataParser {
         if (malformedMessage.length() == 0) {
             return new DataPoint(date, heart, lat, lon, alt);
         } else {
-            System.out.println(malformedMessage);
             malformedLines.add(new MalformedLine(line, currentActivity, malformedMessage));
             return null;
         }
