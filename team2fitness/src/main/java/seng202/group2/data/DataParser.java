@@ -40,7 +40,7 @@ public class DataParser {
             String name = file.getName();
             String extension = name.substring(name.lastIndexOf(".") + 1);
 
-            //TODO - Look at this (might not need to ignore all files of the incorrect format)
+            // Checking if the extension is CSV, if not file parsing halted
             if (!extension.equals("csv")) {
                 throw new FileFormatException("Incorrect file format");
             }
