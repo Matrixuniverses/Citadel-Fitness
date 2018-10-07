@@ -1,8 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="303.0" prefWidth="269.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.WarningPanelController">
-
-</AnchorPane>
+<VBox fx:id="vboxPanel" maxHeight="-Infinity" maxWidth="-Infinity" styleClass="main-panel" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.WarningPanelController">
+   <children>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="300.0">
+         <children>
+            <Button fx:id="resolveAllButton" layoutX="203.0" layoutY="6.0" mnemonicParsing="false" onAction="#resolveAll" styleClass="customGreenButton" text="Resolve All" />
+            <Label layoutX="14.0" layoutY="-2.0" prefHeight="40.0" prefWidth="163.0" text="Health Warnings">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="bradycardiaPanel" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="300.0" styleClass="main-panel">
+         <children>
+            <Button fx:id="bradycardiaButton" layoutX="225.0" layoutY="78.0" mnemonicParsing="false" onAction="#resolveBradycardia" styleClass="customGreenButton" text="Resolve" />
+            <Button fx:id="bradycardiaSearch" layoutX="14.0" layoutY="78.0" mnemonicParsing="false" onAction="#bradycardiaSearch" styleClass="customButton" text="Web Search" />
+            <Label layoutX="14.0" layoutY="7.0" prefHeight="15.0" prefWidth="157.0" text="Bradycardia" />
+            <Label layoutX="14.0" layoutY="30.0" prefHeight="40.0" prefWidth="276.0" text="One or more of your recent activities has shown signs of Bradycardia." wrapText="true" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="tachycardiaPanel" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="300.0">
+         <children>
+            <Button fx:id="tachycardiaButton" layoutX="225.0" layoutY="78.0" mnemonicParsing="false" onAction="#resolveTachycardia" styleClass="customGreenButton" text="Resolve" />
+            <Button fx:id="tachycardiaSearch" layoutX="14.0" layoutY="78.0" mnemonicParsing="false" onAction="#tachycardiaSearch" styleClass="customButton" text="Web Search" />
+            <Label layoutX="14.0" layoutY="7.0" prefHeight="15.0" prefWidth="157.0" text="Tachycardia" />
+            <Label layoutX="14.0" layoutY="30.0" prefHeight="40.0" prefWidth="276.0" text="One or more of your recent activities has shown signs of Tachycardia." wrapText="true" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="cardiovascularPanel" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="300.0" styleClass="main-panel">
+         <children>
+            <Button layoutX="225.0" layoutY="78.0" mnemonicParsing="false" onAction="#resolveCardiovascular" styleClass="customGreenButton" text="Resolve" />
+            <Button fx:id="cardiovascularSearch" layoutX="14.0" layoutY="78.0" mnemonicParsing="false" onAction="#cardiovascularSearch" styleClass="customButton" text="Web Search" />
+            <Label layoutX="14.0" layoutY="7.0" prefHeight="15.0" prefWidth="188.0" text="Cardiovascular Mortality" />
+            <Label layoutX="14.0" layoutY="30.0" prefHeight="40.0" prefWidth="276.0" text="One or more of your recent activities has shown signs Cardiovascular Mortality." wrapText="true" />
+         </children>
+      </AnchorPane>
+      <BorderPane fx:id="noWarningsPanel" prefHeight="55.0" prefWidth="300.0" styleClass="main-panel">
+         <center>
+            <Label alignment="CENTER" prefHeight="30.0" prefWidth="294.0" text="No Current Health Warnings" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</VBox>

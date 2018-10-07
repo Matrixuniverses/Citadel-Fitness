@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,7 +27,7 @@
                </children>
             </AnchorPane>
             <Label layoutX="852.0" layoutY="118.0" />
-            <GridPane layoutX="780.0" layoutY="15.0" prefHeight="552.0" prefWidth="207.0">
+            <GridPane layoutX="780.0" layoutY="15.0" prefHeight="495.0" prefWidth="207.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -59,7 +63,8 @@
                   </BorderPane>
                </children>
             </GridPane>
-            <Button fx:id="resetMapButton" layoutX="780.0" layoutY="571.0" mnemonicParsing="false" onAction="#resetMap" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Reset Markers" />
+            <Button fx:id="resetMapButton" layoutX="780.0" layoutY="571.0" mnemonicParsing="false" onAction="#resetMap" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Reset " />
+            <Button fx:id="undoButton" layoutX="780.0" layoutY="524.0" mnemonicParsing="false" onAction="#undoMarker" prefHeight="36.0" prefWidth="207.0" styleClass="customButton" text="Undo " />
          </children>
       </AnchorPane>
    </children>

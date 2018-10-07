@@ -18,7 +18,7 @@ import java.util.Locale;
  */
 public class DataParser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
-    private ArrayList<Activity> activitiesRead;
+    private ArrayList<Activity> activitiesRead = new ArrayList<>();;
 
     /**
      * Creates a new parser object, reading location and fitness information into Activities and Datapoints
@@ -45,7 +45,6 @@ public class DataParser {
                 throw new FileFormatException("Incorrect file format");
             }
 
-            this.activitiesRead = new ArrayList<>();
             readLines(readCSV);
 
             // Updating the activities read by calculating distances for each datapoint and activity
@@ -69,34 +68,79 @@ public class DataParser {
      */
     private DataPoint readLine(String line[], int fields, Activity currentActivity) {
         int lineLength = line.length;
+        String malformedMessage = "";
 
+        //field num check
         if (lineLength != fields) {
-            malformedLines.add(new MalformedLine(line, currentActivity, "Unexpected number of fields"));
-            return null;
+            malformedMessage += "Unexpected number of Fields: Expected " + fields + ", got " + lineLength + "\n";
         }
 
+        //Date format check
         Date date = checkDateTimeFormat(line[0], line[1]);
         if (date == null) {
-            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect date format"));
-            return null;
-        }
 
-        try {
-            int heart = Integer.parseInt(line[2]);
-            double lat = Double.parseDouble(line[3]);
-            double lon = Double.parseDouble(line[4]);
-            double alt = Double.parseDouble(line[5]);
-
-            if (lat >= -90 && lat <= 90 && lon >= -180 && lat <= 180) {
-                return new DataPoint(date, heart, lat, lon, alt);
-            } else {
-                throw new NumberFormatException();
+            if (line[0].trim().equals("")) {
+                line[0] = "No Value";
             }
 
+            if (line[1].trim().equals("")) {
+                line[1] = "No Value";
+            }
+            malformedMessage += "Date Format Error: Expected dd/MM/yyyy, HH:mm:ss format, got " + line[0] +  ", " + line[1] + " \n";
+
+        }
+
+        int heart = 0;
+        double lat = 0.0, lon = 0.0, alt = 0.0;
+
+        //Heart rate check
+        try {
+            heart = Integer.parseInt(line[2]);
+            if (heart < 20 || heart > 300) {
+                malformedMessage += "Unexpected Heart Rate: Expected heart rate between 20 and 300, got " + heart + "\n";
+            }
         } catch (NumberFormatException e) {
-            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect numerical format"));
+            malformedMessage += "Heart Rate Format Error: Incorrect numerical format + \n";
+        }
+
+        //latitude check
+        try {
+            lat = Double.parseDouble(line[3]);
+            if (lat < -90 || lat > 90) {
+                malformedMessage += "Unexpected Latitude: Expected latitude between -90 and 90, got " + lat + "\n";
+            }
+        } catch (NumberFormatException e) {
+            malformedMessage += "Latitude Format Error: Incorrect numerical format + \n";
+        }
+
+        //longitude check
+        try {
+            lon = Double.parseDouble(line[4]);
+            if (lon < -180 || lon > 180) {
+                malformedMessage += "Unexpected Longitude: Expected longitude between -180 and 180, got " + lon + "\n";
+            }
+        } catch (NumberFormatException e) {
+            malformedMessage += "Longitude Format Error: Incorrect numerical format + \n";
+        }
+
+        //altitude check
+        try {
+            alt = Double.parseDouble(line[5]);
+            if (alt < -1500 || alt > 9000) {
+                malformedMessage += "Unexpected Altitude: Expected longitude between -1500 and 9000, got " + alt + "\n";
+            }
+        } catch (NumberFormatException e) {
+            malformedMessage += "Altitude Format Error: Incorrect numerical format + \n";
+        }
+
+        //If nothing is added to the malformed Message then the datapoint is valid
+        if (malformedMessage.length() == 0) {
+            return new DataPoint(date, heart, lat, lon, alt);
+        } else {
+            malformedLines.add(new MalformedLine(line, currentActivity, malformedMessage));
             return null;
         }
+
     }
 
 
@@ -134,6 +178,9 @@ public class DataParser {
                         currentActivity.addDataPoint(point);
                         totalHR += point.getHeartRate();
                         HRCounts += 1;
+                    } else {
+                        MalformedLine lineAttempt = malformedLines.get(malformedLines.size() - 1);
+
                     }
                 }
             }

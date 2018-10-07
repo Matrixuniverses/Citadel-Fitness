@@ -131,7 +131,7 @@
 
 
 /*Disables scroll bars for login table views.*/
-.login .table-view *.scroll-bar:horizontal *.increment-button,
+.table-view *.scroll-bar:horizontal *.increment-button,
 .table-view *.scroll-bar:horizontal *.decrement-button {
     -fx-background-color: null;
     -fx-background-radius: 0;
@@ -139,7 +139,7 @@
     -fx-padding: 0;
 }
 
-.login .table-view *.scroll-bar:horizontal *.increment-arrow,
+.table-view *.scroll-bar:horizontal *.increment-arrow,
 .table-view *.scroll-bar:horizontal *.decrement-arrow {
     -fx-background-color: null;
     -fx-background-radius: 0;
@@ -147,6 +147,7 @@
     -fx-padding: 0;
     -fx-shape: null;
 }
+
 
 .main-panel Button {
     /*-fx-cursor: hand;*/
@@ -271,3 +272,6 @@
     -fx-cursor: hand;
 
 }
+
+
+.default-color0.chart-bar { -fx-background-color: orange; }

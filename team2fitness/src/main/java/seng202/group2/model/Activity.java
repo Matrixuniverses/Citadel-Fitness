@@ -1,10 +1,14 @@
 package seng202.group2.model;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.data.DataManager;
 import seng202.group2.view.ActivityInfoController;
@@ -36,11 +40,15 @@ public class Activity {
     //Will add code functionality later
     private boolean manualEntry = false;
 
+    private Image statusImage;
+    private SimpleBooleanProperty checked = new SimpleBooleanProperty();
+
     /**
      * Initialises an activity with only name as input
      * @param activityName name of the activity
      */
     public Activity(String activityName) {
+
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty("Exercise");
         this.totalTime = new SimpleDoubleProperty(10);
@@ -58,6 +66,8 @@ public class Activity {
             }
         });
 
+
+        setupDatabaseHandlers();
     }
 
     /**
@@ -86,6 +96,34 @@ public class Activity {
             }
         });
         manualEntry = true;
+
+        setupDatabaseHandlers();
+    }
+
+    private void setupDatabaseHandlers() {
+        activityName.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    ActivityDBOperations.updateExistingActivity(Activity.this);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        activityType.addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    ActivityDBOperations.updateExistingActivity(Activity.this);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 
     /**
@@ -265,6 +303,14 @@ public class Activity {
     }
 
     /**
+     * Returns nicely formatted date
+     * @return Date in the format of: 'January 1, 1970'
+     */
+    public String getShortFormattedDate() {
+        return new SimpleDateFormat("d-MM-YYYY").format(this.activityDate);
+    }
+
+    /**
      * Returns nicely formatted time separated into time quantities
      * @return Time in the format of: '1h 20m 30s'
      */
@@ -301,6 +347,10 @@ public class Activity {
         }
     }
 
+    /**
+     * Retrieves the minimum heart rate value from an an activities datapoints.
+     * @return the minimum heart rate value (in Beats Per Minute).
+     */
     public double getMinHR(){
         double min = 1000;
         for (int i = 0; i< activityData.size(); i++){
@@ -311,6 +361,11 @@ public class Activity {
         return min;
 
     }
+
+    /**
+     * Retrieves the maximum heart rate value from an an activities datapoints.
+     * @return the maximum heart rate value (in Beats Per Minute).
+     */
     public double getMaxHR(){
         double max = 0;
         for (int i = 0; i < activityData.size(); i++){
@@ -320,6 +375,12 @@ public class Activity {
         }
         return max;
     }
+
+    public void setManualEntry(boolean isManualEntry) {
+        manualEntry = isManualEntry;
+    }
+
+    public boolean isManualEntry() {return manualEntry; }
 
     public SimpleDoubleProperty vo2MaxProperty(){
         return vo2MAX;
@@ -341,4 +402,23 @@ public class Activity {
         this.vo2MAX.set(maxHeartRate);
     }
 
+    public Image getStatusImage() {
+        return this.statusImage;
+    }
+
+    public void setStatusImage(Image statusImage) {
+        this.statusImage = statusImage;
+    }
+
+    public Boolean getChecked() {
+        return this.checked.get();
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked.set(checked);
+    }
+
+    public SimpleBooleanProperty checkedProperty() {
+        return checked;
+    }
 }

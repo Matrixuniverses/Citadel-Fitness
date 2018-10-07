@@ -16,9 +16,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
+import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.io.IOException;
@@ -41,12 +43,16 @@ public class MainController implements Initializable {
     @FXML
     StackPane mainStack;
 
+    @FXML
+    AnchorPane mainAnchorPane;
+
 
     // Controllers
     private ActivityViewController activityViewController;
     private AddDataController addDataController;
     private TargetViewController targetViewController;
     private AddTargetController addTargetController;
+    private EditTargetController editTargetController;
     private ViewGraphController viewGraphController;
     private ProfileController profileViewController;
     private MapViewController mapViewController;
@@ -55,6 +61,8 @@ public class MainController implements Initializable {
     private MapMyRunController mapMyRunController;
     private CalendarController calendarController;
     private ActivitiesFoundController activitiesFoundController;
+    private RouteSelectController routeSelectController;
+    private WarningPanelController warningPanelController;
 
     @FXML
     private HeaderController headerController;
@@ -72,10 +80,13 @@ public class MainController implements Initializable {
     private AnchorPane mapView;
     private AnchorPane activityInfo;
     private AnchorPane addTargetView;
+    private AnchorPane editTargetView;
     private AnchorPane editProfile;
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
     private AnchorPane activitiesFoundScene;
+    private AnchorPane routeSelect;
+    private VBox warningPanel;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -96,6 +107,7 @@ public class MainController implements Initializable {
         initializeViews();
         initializeNavBar();
         initializeActivityInfo();
+        initializeWarningPanel();
     }
 
     /**
@@ -138,6 +150,10 @@ public class MainController implements Initializable {
             addTargetView = loader.load();
             addTargetController = loader.getController();
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditTarget.fxml"));
+            editTargetView = loader.load();
+            editTargetController = loader.getController();
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditProfile.fxml"));
             editProfile = loader.load();
             editProfileController = loader.getController();
@@ -156,15 +172,22 @@ public class MainController implements Initializable {
             mapMyRunController = loader.getController();
             paneMap.put("Map My Run", mapMyRun);
 
-            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivitiesFound.fxml"));
-            activitiesFoundScene = loader.load();
-            activitiesFoundController = loader.getController();
-            paneMap.put("ActivitiesFound", activitiesFoundScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLWarningPanel.fxml"));
+            warningPanel = loader.load();
+            warningPanelController = loader.getController();
+            warningPanel.setLayoutX(890);
+            warningPanel.setLayoutY(55);
+            mainAnchorPane.getChildren().add(warningPanel);
+            warningPanel.setVisible(false);
+
+
 
 
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView,
+                    addTargetView, editTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene);
 
             profileView.toFront();
 
@@ -217,7 +240,6 @@ public class MainController implements Initializable {
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("LGFSFDSDSF");
                 status.set("logout");
                 profileView.toFront();
             }
@@ -237,10 +259,28 @@ public class MainController implements Initializable {
             }
         });
 
+        targetViewController.getModifyTargetButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Target selected = targetViewController.getTargetTable().getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    editTargetController.updateTargetFields(selected);
+                    editTargetView.toFront();
+                }
+            }
+        });
+
         addTargetController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 addTargetView.toBack();
+            }
+        });
+
+        editTargetController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                editTargetView.toBack();
             }
         });
 
@@ -281,7 +321,7 @@ public class MainController implements Initializable {
     /**
      * Initializes Activity info as the home scene after login
      */
-    public void initializeActivityInfo(){
+    public void initializeActivityInfo() {
         activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -297,6 +337,23 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 activityInfo.toBack();
+            }
+        });
+    }
+
+    /**
+     * Initializes the Warning Panel Button/Icon
+     */
+    public void initializeWarningPanel() {
+        headerController.getNotificationButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dataManager.newHealthWarningProperty().setValue(false);
+                if (warningPanel.isVisible()) {
+                    warningPanel.setVisible(false);
+                } else {
+                    warningPanel.setVisible(true);
+                }
             }
         });
     }

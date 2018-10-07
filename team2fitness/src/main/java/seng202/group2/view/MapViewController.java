@@ -9,6 +9,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import seng202.group2.model.Activity;
@@ -38,6 +39,9 @@ public class MapViewController implements Initializable, UserData  {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private ImageView disconnectedIcon;
+
     private WebEngine webEngine;
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,12 +54,13 @@ public class MapViewController implements Initializable, UserData  {
                 try {
                     Activity selectedActivity = mapActivityTable.getSelectionModel().getSelectedItem();
                     Route path = new Route(selectedActivity.getActivityData());
-                    System.out.println(path);
                     String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
                     webEngine.executeScript(scriptToExecute);
+                    disconnectedIcon.setVisible(false);
                     errorLabel.setVisible(false);
                 } catch (netscape.javascript.JSException e) {
                     errorLabel.setVisible(true);
+                    disconnectedIcon.setVisible(true);
                     errorLabel.setText("Internet connection required for map view.");
                 }
             }
@@ -65,8 +70,7 @@ public class MapViewController implements Initializable, UserData  {
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-                mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
-                mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
+                mapActivityTable.setItems(dataManager.getCurrentUser().getNonManualActivityList());
                 webEngine.executeScript("clearRoute()");
             }
         });

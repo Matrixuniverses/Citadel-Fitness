@@ -137,7 +137,7 @@ public class DatabaseTest {
 
 
         User matchingUser = new User(1, "User1", 17, 160.0, 70, "Male");
-        User retrievedUser = UserDBOperations.getUserFromRS(1);
+        User retrievedUser = UserDBOperations.getUserFromDB(1);
         assertEquals(true, matchingUser.getName().equals(retrievedUser.getName()));
 
 
@@ -147,7 +147,7 @@ public class DatabaseTest {
     public void testUpdateUserReturnValueSuccess() throws SQLException {
 
 
-        User retrievedUser = UserDBOperations.getUserFromRS(3);
+        User retrievedUser = UserDBOperations.getUserFromDB(3);
         retrievedUser.setWeight(90);
         assertEquals(true, UserDBOperations.updateExistingUser(retrievedUser));
 
@@ -157,7 +157,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateUserReturnValueFail() throws SQLException {
 
-        User retrievedUser = UserDBOperations.getUserFromRS(3);
+        User retrievedUser = UserDBOperations.getUserFromDB(3);
         retrievedUser.setWeight(90);
         retrievedUser.setId(1000000);
         assertEquals(false, UserDBOperations.updateExistingUser(retrievedUser));
@@ -167,10 +167,10 @@ public class DatabaseTest {
     public void testUserRecordStateAfterUpdate() throws SQLException {
 
 
-        User retrievedUser = UserDBOperations.getUserFromRS(3);
+        User retrievedUser = UserDBOperations.getUserFromDB(3);
         retrievedUser.setWeight(91.2);
         if (UserDBOperations.updateExistingUser(retrievedUser)) {
-            User updatedDatabaseUser = UserDBOperations.getUserFromRS(3);
+            User updatedDatabaseUser = UserDBOperations.getUserFromDB(3);
             assertEquals(91.2, updatedDatabaseUser.getWeight(), 0.1);
         } else {
             fail();
@@ -284,7 +284,11 @@ public class DatabaseTest {
     public void testGetAllActivitiesForUserOrdering() throws SQLException {
 
         ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1);
-        assertEquals(true, (activities.get(0).getDate().before(activities.get(1).getDate())));
+        Activity firstActivity = activities.get(0);
+        Activity secondActivity = activities.get(1);
+        firstActivity.setManualEntry(true); //to bypass active listener controlled activityData
+        secondActivity.setManualEntry(true);
+        assertEquals(true, firstActivity.getDate().before(secondActivity.getDate()));
 
     }
 
@@ -300,7 +304,15 @@ public class DatabaseTest {
     public void testGetActivityFromDBValid() throws SQLException {
 
         Activity activity = ActivityDBOperations.getActivityFromDB(1);
-        assertEquals(1, activity.getId());
+        assertEquals(false, activity.isManualEntry());
+
+    }
+
+    @Test
+    public void testGetManualEntryActivityFromDBValid() throws SQLException {
+
+        Activity activity = ActivityDBOperations.getActivityFromDB(2);
+        assertEquals(true, activity.isManualEntry());
 
     }
 
@@ -503,7 +515,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateTargetValid() throws SQLException {
         Target targetToUpdate = TargetDBOperations.getTargetFromDB(2);
-        targetToUpdate.updateProgress(new SimpleDoubleProperty(75.0));
+        targetToUpdate.updateProgress(75);
         assertEquals(true, TargetDBOperations.updateExistingTarget(targetToUpdate));
     }
 

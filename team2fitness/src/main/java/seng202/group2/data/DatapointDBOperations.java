@@ -19,6 +19,41 @@ import java.util.Locale;
 public class DatapointDBOperations {
 
 
+    //Helper function to retrieve an Observable list of Datapoints from a resultSet
+    private static ObservableList<DataPoint> getDatapointsFromResultSet(ResultSet rs) throws SQLException{
+
+        ObservableList<DataPoint> activityDatapoints = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            int datapointID = rs.getInt(1);
+            java.util.Date datapointDate = null;
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
+            try {
+                datapointDate = dateFormatter.parse(rs.getString(3));
+            } catch (ParseException e) {
+                System.err.println("Unable to parse date");
+                e.printStackTrace();
+            }
+
+            int dpHeartRate = rs.getInt(5);
+            double dpLatitude = rs.getDouble(6);
+            double dpLongitude = rs.getDouble(7);
+            double dpAltitude = rs.getDouble(8);
+            double dpTimeDelta = rs.getDouble(9);
+            double dpDistDelta = rs.getDouble(10);
+
+            DataPoint newDP = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
+            newDP.setTimeDelta(dpTimeDelta);
+            newDP.setDistanceDelta(dpDistDelta);
+            newDP.setId(datapointID);
+
+            activityDatapoints.add(newDP);
+        }
+        return  activityDatapoints;
+    }
+
+
     /**
      * Queries the data for all data points that belong to the Activity represented by an inputted Activity id. The
      * result of the query is returned from the function in the form of an ObservableList. If the activity id is invalid
@@ -39,34 +74,9 @@ public class DatapointDBOperations {
         ResultSet queryResult = pQueryStmt.executeQuery();
 
 
-        ObservableList<DataPoint> activityDatapoints = FXCollections.observableArrayList();
+        ObservableList<DataPoint> activityDatapoints = getDatapointsFromResultSet(queryResult);
 
-        while (queryResult.next()) {
-            int datapointID = queryResult.getInt("dp_id");
-            java.util.Date datapointDate = null;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
 
-            try {
-                datapointDate = dateFormatter.parse(queryResult.getString("dp_date_string"));
-            } catch (ParseException e) {
-                System.out.println("Unable to parse date");
-                e.printStackTrace();
-            }
-
-            int dpHeartRate = queryResult.getInt("heart_rate");
-            double dpLatitude = queryResult.getDouble("latitude");
-            double dpLongitude = queryResult.getDouble("longitude");
-            double dpAltitude = queryResult.getDouble("altitude");
-            double dpTimeDelta = queryResult.getDouble("time_delta");
-            double dpDistDelta = queryResult.getDouble("dist_delta");
-
-            DataPoint newDP = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
-            newDP.setTimeDelta(dpTimeDelta);
-            newDP.setDistanceDelta(dpDistDelta);
-            newDP.setId(datapointID);
-
-            activityDatapoints.add(newDP);
-        }
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
         return activityDatapoints;
@@ -94,29 +104,9 @@ public class DatapointDBOperations {
 
 
         DataPoint retrievedDataPoint = null;
-        if (queryResult.next()) {
-
-            java.util.Date datapointDate = null;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-
-            try {
-                datapointDate = dateFormatter.parse(queryResult.getString("dp_date_string"));
-            } catch (ParseException e) {
-                System.out.println("Unable to parse date");
-                e.printStackTrace();
-            }
-
-            int dpHeartRate = queryResult.getInt("heart_rate");
-            double dpLatitude = queryResult.getDouble("latitude");
-            double dpLongitude = queryResult.getDouble("longitude");
-            double dpAltitude = queryResult.getDouble("altitude");
-            double dpTimeDelta = queryResult.getDouble("time_delta");
-            double distDelta = queryResult.getDouble("dist_delta");
-
-            retrievedDataPoint = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
-            retrievedDataPoint.setTimeDelta(dpTimeDelta);
-            retrievedDataPoint.setDistanceDelta(distDelta);
-            retrievedDataPoint.setId(datapointID);
+        ObservableList<DataPoint> retrievedDatapoints = getDatapointsFromResultSet(queryResult);
+        if (retrievedDatapoints.size() > 0) {
+            retrievedDataPoint = retrievedDatapoints.get(0);
         }
 
 

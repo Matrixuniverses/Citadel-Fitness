@@ -74,21 +74,4 @@ public class ParserCSVErrorTests {
             fail("No exception should occur");
         }
     }
-
-    @Test
-    public void TestIncorrectGPSDataFormat() {
-        try {
-            DataParser parser = new DataParser(new File(testData + "/latLongBroken.csv"));
-            ArrayList<Activity> activities = parser.getActivitiesRead();
-            ArrayList<MalformedLine> malforms = parser.getMalformedLines();
-
-            assertEquals(1, activities.size());
-            assertEquals(3, malforms.size());
-            assertEquals("Incorrect numerical format", malforms.get(0).getMessage());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("No exception should occur");
-        }
-    }
 }

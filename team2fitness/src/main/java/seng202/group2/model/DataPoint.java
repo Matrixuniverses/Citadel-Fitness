@@ -1,5 +1,6 @@
 package seng202.group2.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DataPoint {
@@ -131,5 +132,9 @@ public class DataPoint {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFormattedDate() {
+        return new SimpleDateFormat("MMMM d, YYYY").format(this.date);
     }
 }

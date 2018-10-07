@@ -52,31 +52,37 @@ public class ActivityDBOperations {
         return false;
     }
 
+    //helper function to get an observable list of activities from a ResultSet object
     private static ObservableList<Activity> getResultSetActivities(ResultSet queryResult) throws SQLException{
 
         ObservableList<Activity> collectedActivities = FXCollections.observableArrayList();
 
         while(queryResult.next()) {
-            int activityID = queryResult.getInt("activity_id");
-            String activityName = queryResult.getString("name");
+
+            int activityID = queryResult.getInt(1);
+            String activityName = queryResult.getString(3);
+
             Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-
             try {
-                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
+                activityDate = dateFormatter.parse(queryResult.getString(4));
             } catch (ParseException e) {
                 System.err.println("Unable to parse date");
                 e.printStackTrace();
             }
 
-            String activityType = queryResult.getString("type");
-            double totalDistance = queryResult.getDouble("total_distance");
-            double totalTime = queryResult.getDouble("total_time");
+            String activityType = queryResult.getString(6);
+            double totalDistance = queryResult.getDouble(7);
+            double totalTime = queryResult.getDouble(8);
 
             Activity newActivity = new Activity(activityName, activityDate, activityType, totalTime, totalDistance);
             newActivity.setAverageHR(DatapointDBOperations.getAverageHR(activityID));
             newActivity.setId(activityID);
-            newActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
+            newActivity.setCaloriesBurned(queryResult.getDouble(9));
+
+            if (DatapointDBOperations.getAllActivityDatapoints(activityID).size() > 0) {
+                newActivity.setManualEntry(false);
+            }
             collectedActivities.add(newActivity);
         }
 
@@ -121,7 +127,6 @@ public class ActivityDBOperations {
      * @throws SQLException If unable to read/ write from/ to database
      */
     public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
-        //TODO - Change this to avoid duplicate code
 
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? ORDER BY date;";
@@ -156,27 +161,11 @@ public class ActivityDBOperations {
 
         Activity retrievedActivity = null;
 
-        if (queryResult.next()) {
-
-            String activityName = queryResult.getString("name");
-            java.util.Date activityDate = null;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-
-            try {
-                activityDate = dateFormatter.parse(queryResult.getString("date_string"));
-            } catch (ParseException e) {
-                System.out.println("Unable to parse date");
-                e.printStackTrace();
-            }
-
-            String activityType = queryResult.getString("type");
-            double totalDistance = queryResult.getDouble("total_distance");
-            double totalTime = queryResult.getDouble("total_time");
-            retrievedActivity = new Activity(activityName, activityDate, activityType, totalDistance, totalTime);
-            retrievedActivity.setId(activityID);
-            retrievedActivity.setCaloriesBurned(queryResult.getDouble("calories_burnt"));
-
+        ObservableList<Activity> retrievedActivities = getResultSetActivities(queryResult);
+        if (retrievedActivities.size() > 0) {
+            retrievedActivity = retrievedActivities.get(0);
         }
+
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -193,7 +182,7 @@ public class ActivityDBOperations {
      */
     public static int insertNewActivity(Activity activity, int userID) throws SQLException {
         // Check the user exists in the database
-        if (UserDBOperations.getUserFromRS(userID) == null) {
+        if (UserDBOperations.getUserFromDB(userID) == null) {
             return -1;
         }
 
