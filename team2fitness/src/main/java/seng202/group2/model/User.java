@@ -21,6 +21,8 @@ public class User {
     private DoubleProperty weight;
     private DoubleProperty bmi;
     private DoubleProperty totalDistance;
+    private DoubleProperty totalTime;
+    private DoubleProperty avgSpeed;
 
     private ObservableList<Activity> activityList = FXCollections.observableArrayList();
     private ObservableList<Target> targetList = FXCollections.observableArrayList();
@@ -47,12 +49,18 @@ public class User {
         this.bmi.bind(this.weight.divide(this.height.divide(100).multiply(this.height.divide(100))));
 
         totalDistance = new SimpleDoubleProperty(0);
+        totalTime = new SimpleDoubleProperty(0);
+        avgSpeed = new SimpleDoubleProperty(0);
         activityList.addListener(new ListChangeListener<Activity>() {
             @Override
             public void onChanged(Change<? extends Activity> c) {
-                totalDistance.setValue(calculateTotalUserDistance());
+                totalDistance.set(calculateTotalUserDistance());
+                totalTime.set(calculateTotalUserTime());
+                avgSpeed.set(totalDistance.get() / totalTime.get());
             }
         });
+
+
         setupDatabaseHandlers();
     }
 
@@ -80,7 +88,6 @@ public class User {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     UserDBOperations.updateExistingUser(User.this);
-                    System.out.println("name update");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -131,6 +138,18 @@ public class User {
             totalDistance += activity.getTotalDistance();
         }
         return totalDistance;
+    }
+
+    /**
+     * This returns the total time the user has spent travelling
+     * @return Double containing total time
+     */
+    private double calculateTotalUserTime() {
+        double totalTime = 0;
+        for (Activity activity : activityList) {
+            totalTime += activity.getTotalTime();
+        }
+        return totalTime;
     }
 
     /**
@@ -317,6 +336,21 @@ public class User {
     }
 
     /**
+     * Returns a list of the activities that have been completed by the user that have been loaded
+     * in from a csv file.
+     * @return returns an ObservableList of the user's activities that have not be manually entered in by the user.
+     */
+    public ObservableList<Activity> getNonManualActivityList() {
+        ObservableList<Activity> nonManualActivities = FXCollections.observableArrayList();
+        for (Activity activity : activityList) {
+            if (!(activity.isManualEntry())) {
+                nonManualActivities.add(activity);
+            }
+        }
+        return nonManualActivities;
+    }
+
+    /**
      * This returns the current users list of targets
      * @return returns Target targetList
      */
@@ -338,5 +372,9 @@ public class User {
      */
     public DoubleProperty totalDistanceProperty() {
         return totalDistance;
+    }
+
+    public DoubleProperty avgSpeedProperty() {
+        return avgSpeed;
     }
 }

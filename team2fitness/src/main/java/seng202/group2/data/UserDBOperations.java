@@ -27,7 +27,7 @@ public class UserDBOperations {
             double height = rs.getDouble(4);
             double weight = rs.getDouble(5);
             String gender = rs.getString(6);
-            User retrievedUser = new User(id,name, age, height, weight, gender);
+            User retrievedUser = new User(id, name, age, height, weight, gender);
 
             retrievedUsers.add(retrievedUser);
         }

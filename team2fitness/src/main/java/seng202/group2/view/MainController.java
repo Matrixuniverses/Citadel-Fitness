@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
+import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class MainController implements Initializable {
     private AddDataController addDataController;
     private TargetViewController targetViewController;
     private AddTargetController addTargetController;
+    private EditTargetController editTargetController;
     private ViewGraphController viewGraphController;
     private ProfileController profileViewController;
     private MapViewController mapViewController;
@@ -72,6 +74,7 @@ public class MainController implements Initializable {
     private AnchorPane mapView;
     private AnchorPane activityInfo;
     private AnchorPane addTargetView;
+    private AnchorPane editTargetView;
     private AnchorPane editProfile;
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
@@ -138,6 +141,10 @@ public class MainController implements Initializable {
             addTargetView = loader.load();
             addTargetController = loader.getController();
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditTarget.fxml"));
+            editTargetView = loader.load();
+            editTargetController = loader.getController();
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditProfile.fxml"));
             editProfile = loader.load();
             editProfileController = loader.getController();
@@ -164,7 +171,7 @@ public class MainController implements Initializable {
 
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, editTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
 
             profileView.toFront();
 
@@ -237,10 +244,28 @@ public class MainController implements Initializable {
             }
         });
 
+        targetViewController.getModifyTargetButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Target selected = targetViewController.getTargetTable().getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    editTargetController.updateTargetFields(selected);
+                    editTargetView.toFront();
+                }
+            }
+        });
+
         addTargetController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 addTargetView.toBack();
+            }
+        });
+
+        editTargetController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                editTargetView.toBack();
             }
         });
 
@@ -281,7 +306,7 @@ public class MainController implements Initializable {
     /**
      * Initializes Activity info as the home scene after login
      */
-    public void initializeActivityInfo(){
+    public void initializeActivityInfo() {
         activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
