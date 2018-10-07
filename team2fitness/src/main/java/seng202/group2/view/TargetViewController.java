@@ -58,7 +58,7 @@ public class TargetViewController implements Initializable, UserData {
         targetNameCol.setCellValueFactory(new PropertyValueFactory<Target, String>("name"));
         targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedType"));
         targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedCompletionDate"));
-        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedStatus"));
+        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedProgress"));
         targetProgressColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
         targetProgressColumn.setCellFactory(ProgressBarTableCell.<Target> forTableColumn());
 
@@ -90,7 +90,6 @@ public class TargetViewController implements Initializable, UserData {
                         @Override
                         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                             target.updateProgress((double) newValue);
-                            System.out.println(newValue);
                         }
                     });
                 case "Average Speed (m/s)":
