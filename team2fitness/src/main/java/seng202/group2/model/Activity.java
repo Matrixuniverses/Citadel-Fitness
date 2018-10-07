@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.data.DataManager;
 import seng202.group2.view.ActivityInfoController;
@@ -37,6 +38,8 @@ public class Activity {
     private ObservableList<DataPoint> activityData = FXCollections.observableArrayList();
     //Will add code functionality later
     private boolean manualEntry = false;
+
+    private Image statusImage;
 
     /**
      * Initialises an activity with only name as input
@@ -386,6 +389,14 @@ public class Activity {
         }
         double maxHeartRate = 15 * (max/min);
         this.vo2MAX.set(maxHeartRate);
+    }
+
+    public Image getStatusImage() {
+        return this.statusImage;
+    }
+
+    public void setStatusImage(Image statusImage) {
+        this.statusImage = statusImage;
     }
 
 }

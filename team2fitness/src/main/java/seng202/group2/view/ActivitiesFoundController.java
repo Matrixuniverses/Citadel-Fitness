@@ -8,9 +8,12 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import seng202.group2.data.DataManager;
+import seng202.group2.data.DataParser;
+import seng202.group2.data.MalformedLine;
 import seng202.group2.model.Activity;
 
 import java.net.URL;
@@ -44,13 +47,26 @@ public class ActivitiesFoundController implements Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<Activity, Date>("formattedDate"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
-        statusColumn.setCellFactory(new Callback<TableColumn, TableCell>() {
+
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Activity, Image>("statusImage"));
+        statusColumn.setCellFactory(new Callback<TableColumn<Activity, Image>, TableCell<Activity, Image>>() {
             @Override
-            public TableCell call(TableColumn param) {
-                //return new TableCell<ImageView>();
-                return null;
+            public TableCell<Activity, Image> call(TableColumn<Activity, Image> param) {
+                final ImageView imageView = new ImageView();
+
+
+                TableCell<Activity, Image> cell = new TableCell<Activity, Image>() {
+                    public void updateStatus(Activity activity) {
+                        imageView.setImage(activity.getStatusImage());
+                    }
+                };
+
+                cell.setGraphic(imageView);
+                return cell;
             }
         });
+
+
         importColumn.setCellFactory(new Callback<TableColumn, TableCell>() {
             @Override
             public TableCell call(TableColumn param) {
@@ -60,8 +76,14 @@ public class ActivitiesFoundController implements Initializable {
 
     }
 
-    public void update(ArrayList<Activity> activities) {
-        this.activities = activities;
+    public void update(DataParser parser) {
+        for (Activity activity : parser.getActivitiesRead()) {
+            activity.setStatusImage(new Image(getClass().getResource("images/greenCheck.png").toExternalForm()));
+        }
+
+        for (MalformedLine malformed : parser.getMalformedLines()) {
+            malformed.getActivity().setStatusImage(new Image(getClass().getResource("images/redWarning.png").toExternalForm()));
+        }
 
     }
 }
