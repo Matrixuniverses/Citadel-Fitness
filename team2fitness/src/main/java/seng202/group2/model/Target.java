@@ -39,6 +39,7 @@ public class Target {
 
     public void updateProgress(double newCurrent) {
         this.progress.set(calculateProgress(this.initialValue.get(), newCurrent, this.finalValue.get()));
+        this.currentValue.set(newCurrent);
         try {
             TargetDBOperations.updateExistingTarget(this);
         } catch (SQLException e) {
