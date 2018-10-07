@@ -7,7 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import seng202.group2.data.DataManager;
+import seng202.group2.data.TargetDBOperations;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -31,6 +33,7 @@ public class Target {
         this.currentValue = new SimpleDoubleProperty(currentValue);
         this.finalValue = new SimpleDoubleProperty(finalValue);
         this.completionDate = completionDate;
+        this.progress = new SimpleDoubleProperty();
     }
 
     public Target(String tName, String tType, Double tValue, Date tDate) {
@@ -43,10 +46,25 @@ public class Target {
         completionDate = tDate;
     }
 
-    public void updateProgress(double progress) {
-        currentValue.set(progress);
-        if (currentValue.get() >= finalValue.get()) {
-            completed.setValue(true);
+    public void updateProgress(double newCurrent) {
+        Double totalDetla = (finalValue.get() - initialValue.get());
+        Double achievedDelta = (currentValue.get() - initialValue.get());
+        Double completed = achievedDelta / totalDetla;
+        currentValue.set(newCurrent);
+
+        if (completed <= 0) {
+            this.progress.set(0);
+        } else if (completed >= 1) {
+            this.progress.set(1);
+            this.completed.set(true);
+        } else {
+            this.progress.set(completed);
+        }
+
+        try {
+            TargetDBOperations.updateExistingTarget(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -200,6 +218,6 @@ public class Target {
     }
 
     public SimpleDoubleProperty progressProperty() {
-        return currentValue;
+        return progress;
     }
 }
