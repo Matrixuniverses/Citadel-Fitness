@@ -102,6 +102,7 @@ public class EditProfileController implements Initializable, UserData {
         double height = 0.0;
         double weight = 0.0;
 
+        // Checks name
         String name = nameField.getText();
         if (name.length() > 25) {
             nameErrorLabel.setText("Name cannot exceed 25 characters");
@@ -111,6 +112,7 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // Checks age
         try {
             age = Integer.valueOf(ageField.getText());
             if (age > 140 || age < 0) {
@@ -122,6 +124,7 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // Checks height
         try {
             height = Double.valueOf(heightField.getText());
             if (height > 270 || height <= 50) {
@@ -134,6 +137,7 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // Checks weight
         try {
             weight = Double.valueOf(weightField.getText());
             if (weight > 600 || weight < 0) {
@@ -146,6 +150,7 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // If all checks verfiy the input is valid, the current user's profile is updated.
         if (update) {
             currentUser.setName(name);
             currentUser.setAge(age);
