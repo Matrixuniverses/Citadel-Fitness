@@ -14,6 +14,7 @@ import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TargetViewController implements Initializable, UserData {
@@ -42,10 +43,19 @@ public class TargetViewController implements Initializable, UserData {
     private Button addTargetButton;
 
     @FXML
-    public Button modifyTargetButton;
+    private Button modifyTargetButton;
 
     @FXML
-    public Button deleteTargetButton;
+    private Button deleteTargetButton;
+
+    @FXML
+    private Label statusLabel;
+
+    @FXML
+    private Label currentValueLabel;
+
+    @FXML
+    private Label targetValueLabel;
 
     private User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
@@ -57,7 +67,7 @@ public class TargetViewController implements Initializable, UserData {
         targetNameCol.setCellValueFactory(new PropertyValueFactory<Target, String>("name"));
         targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedType"));
         targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedCompletionDate"));
-        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedStatus"));
+        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedProgress"));
         targetProgressColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
         targetProgressColumn.setCellFactory(ProgressBarTableCell.<Target> forTableColumn());
 
@@ -70,12 +80,34 @@ public class TargetViewController implements Initializable, UserData {
             }
         });
 
+        targetTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Target>() {
+            @Override
+            public void changed(ObservableValue<? extends Target> observable, Target oldValue, Target newValue) {
+                // TODO - implement getstatus in the thing
+                // statusLabel.setText(newValue.getStatus());
+                String type = newValue.getType();
+                System.out.println(type);
+                if(type.equals("Total Distance (m)") || type.equals("Average Speed (m/s")) {
+                    double current = newValue.getCurrentValue() - newValue.getInitialValue();
+                    double target = newValue.getFinalValue() - newValue.getInitialValue();
+                    currentValueLabel.setText(Double.toString(current));
+                    targetValueLabel.setText(Double.toString(target));
+                } else {
+                    currentValueLabel.setText(Double.toString(newValue.getCurrentValue()));
+                    targetValueLabel.setText(Double.toString(newValue.getFinalValue()));
+                }
+            }
+        });
+
         setupListeners();
     }
 
+    /**
+     * Helper function that will add change listeners to user fields that will update a targets current value when the
+     * user fields are changed
+     */
     private void setupListeners() {
         for (Target target : currentUser.getTargetList()) {
-            System.out.println(target.getName());
             switch(target.getType()) {
                 case "Total Distance (m)":
                     currentUser.totalDistanceProperty().addListener(new ChangeListener<Number>() {
@@ -89,7 +121,6 @@ public class TargetViewController implements Initializable, UserData {
                         @Override
                         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                             target.updateProgress((double) newValue);
-                            System.out.println(newValue);
                         }
                     });
                 case "Average Speed (m/s)":
@@ -101,13 +132,22 @@ public class TargetViewController implements Initializable, UserData {
                     });
             }
         }
-
     }
 
     @FXML
     private void deleteTarget() {
-        dataManager.deleteTarget(targetTable.getSelectionModel().getSelectedItem());
+        Target target = targetTable.getSelectionModel().getSelectedItem();
+        if (target != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm delete");
+            alert.setContentText("Do you want to delete the selected target?");
 
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                dataManager.deleteTarget(target);
+            }
+        }
     }
 
     public TableView<Target> getTargetTable() {

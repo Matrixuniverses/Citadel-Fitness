@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1200.0" styleClass="header" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="seng202.group2.view.HeaderController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1200.0" styleClass="header" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.HeaderController">
    <children>
       <BorderPane prefHeight="50.0" prefWidth="1200.0">
          <center>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1000.0" styleClass="header" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="nameLabel" alignment="CENTER_RIGHT" layoutX="619.0" layoutY="10.0" prefHeight="25.0" prefWidth="367.0" text="John Smith" textAlignment="RIGHT" textFill="#36393f">
+                  <Label fx:id="nameLabel" alignment="CENTER_RIGHT" layoutX="569.0" layoutY="13.0" prefHeight="25.0" prefWidth="367.0" text="John Smith" textAlignment="RIGHT" textFill="#36393f">
                      <font>
                         <Font size="21.0" />
                      </font>
@@ -21,6 +26,15 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
+                  <Button fx:id="notificationButton" layoutX="946.0" layoutY="4.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <ImageView fx:id="notificationImage" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/notification0.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </AnchorPane>
          </center>
