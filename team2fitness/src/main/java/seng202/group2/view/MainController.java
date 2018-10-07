@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
@@ -42,6 +43,9 @@ public class MainController implements Initializable {
     @FXML
     StackPane mainStack;
 
+    @FXML
+    AnchorPane mainAnchorPane;
+
 
     // Controllers
     private ActivityViewController activityViewController;
@@ -57,6 +61,7 @@ public class MainController implements Initializable {
     private MapMyRunController mapMyRunController;
     private CalendarController calendarController;
     private ActivitiesFoundController activitiesFoundController;
+    private WarningPanelController warningPanelController;
 
     @FXML
     private HeaderController headerController;
@@ -79,6 +84,7 @@ public class MainController implements Initializable {
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
     private AnchorPane activitiesFoundScene;
+    private VBox warningPanel;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -99,6 +105,7 @@ public class MainController implements Initializable {
         initializeViews();
         initializeNavBar();
         initializeActivityInfo();
+        initializeWarningPanel();
     }
 
     /**
@@ -167,6 +174,15 @@ public class MainController implements Initializable {
             activitiesFoundScene = loader.load();
             activitiesFoundController = loader.getController();
             paneMap.put("ActivitiesFound", activitiesFoundScene);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLWarningPanel.fxml"));
+            warningPanel = loader.load();
+            warningPanelController = loader.getController();
+            warningPanel.setLayoutX(890);
+            warningPanel.setLayoutY(55);
+            mainAnchorPane.getChildren().add(warningPanel);
+            warningPanel.setVisible(false);
+
 
 
             activityInfo.toFront();
@@ -322,6 +338,23 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 activityInfo.toBack();
+            }
+        });
+    }
+
+    /**
+     * Initializes the Warning Panel Button/Icon
+     */
+    public void initializeWarningPanel() {
+        headerController.getNotificationButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dataManager.newHealthWarningProperty().setValue(false);
+                if (warningPanel.isVisible()) {
+                    warningPanel.setVisible(false);
+                } else {
+                    warningPanel.setVisible(true);
+                }
             }
         });
     }

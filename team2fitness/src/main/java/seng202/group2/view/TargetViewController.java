@@ -43,10 +43,19 @@ public class TargetViewController implements Initializable, UserData {
     private Button addTargetButton;
 
     @FXML
-    public Button modifyTargetButton;
+    private Button modifyTargetButton;
 
     @FXML
-    public Button deleteTargetButton;
+    private Button deleteTargetButton;
+
+    @FXML
+    private Label statusLabel;
+
+    @FXML
+    private Label currentValueLabel;
+
+    @FXML
+    private Label targetValueLabel;
 
     private User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
@@ -71,12 +80,34 @@ public class TargetViewController implements Initializable, UserData {
             }
         });
 
+        targetTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Target>() {
+            @Override
+            public void changed(ObservableValue<? extends Target> observable, Target oldValue, Target newValue) {
+                // TODO - implement getstatus in the thing
+                // statusLabel.setText(newValue.getStatus());
+                String type = newValue.getType();
+                System.out.println(type);
+                if(type.equals("Total Distance (m)") || type.equals("Average Speed (m/s")) {
+                    double current = newValue.getCurrentValue() - newValue.getInitialValue();
+                    double target = newValue.getFinalValue() - newValue.getInitialValue();
+                    currentValueLabel.setText(Double.toString(current));
+                    targetValueLabel.setText(Double.toString(target));
+                } else {
+                    currentValueLabel.setText(Double.toString(newValue.getCurrentValue()));
+                    targetValueLabel.setText(Double.toString(newValue.getFinalValue()));
+                }
+            }
+        });
+
         setupListeners();
     }
 
+    /**
+     * Helper function that will add change listeners to user fields that will update a targets current value when the
+     * user fields are changed
+     */
     private void setupListeners() {
         for (Target target : currentUser.getTargetList()) {
-            System.out.println(target.getName());
             switch(target.getType()) {
                 case "Total Distance (m)":
                     currentUser.totalDistanceProperty().addListener(new ChangeListener<Number>() {
@@ -101,7 +132,6 @@ public class TargetViewController implements Initializable, UserData {
                     });
             }
         }
-
     }
 
     @FXML
