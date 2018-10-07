@@ -78,21 +78,24 @@ public class TargetViewController implements Initializable, UserData {
             @Override
             public void changed(ObservableValue<? extends Target> observable, Target oldValue, Target newValue) {
                 // TODO - implement getstatus in the thing
-                statusLabel.setText(newValue.getStatus());
-                String type = newValue.getType();
-                if (type.equals("Total Distance (m)")) {
-                    double current = newValue.getCurrentValue() - newValue.getInitialValue();
-                    double target = newValue.getFinalValue() - newValue.getInitialValue();
-                    current = Math.max(current, 0);
-                    currentValueLabel.setText(Integer.toString((int)Math.round(current)) + " m");
-                    targetValueLabel.setText(Integer.toString((int)Math.round(target)) + " m");
-                } else if (type.equals("Average Speed (m/s)")) {
-                    currentValueLabel.setText(Double.toString(Math.round(newValue.getCurrentValue() * 10.0) / 10.0) + " m/s");
-                    targetValueLabel.setText(Double.toString(Math.round(newValue.getFinalValue() * 10.0) / 10.0) + " m/s");
-                } else {
-                    currentValueLabel.setText(Double.toString(Math.round(newValue.getCurrentValue() * 10.0) / 10.0) + " kg");
-                    targetValueLabel.setText(Double.toString(Math.round(newValue.getFinalValue() * 10.0) / 10.0) + " kg");
+                if (newValue != null) {
+                    statusLabel.setText(newValue.getStatus());
+                    String type = newValue.getType();
+                    if (type.equals("Total Distance (m)")) {
+                        double current = newValue.getCurrentValue() - newValue.getInitialValue();
+                        double target = newValue.getFinalValue() - newValue.getInitialValue();
+                        current = Math.max(current, 0);
+                        currentValueLabel.setText(Integer.toString((int)Math.round(current)) + " m");
+                        targetValueLabel.setText(Integer.toString((int)Math.round(target)) + " m");
+                    } else if (type.equals("Average Speed (m/s)")) {
+                        currentValueLabel.setText(Double.toString(Math.round(newValue.getCurrentValue() * 10.0) / 10.0) + " m/s");
+                        targetValueLabel.setText(Double.toString(Math.round(newValue.getFinalValue() * 10.0) / 10.0) + " m/s");
+                    } else {
+                        currentValueLabel.setText(Double.toString(Math.round(newValue.getCurrentValue() * 10.0) / 10.0) + " kg");
+                        targetValueLabel.setText(Double.toString(Math.round(newValue.getFinalValue() * 10.0) / 10.0) + " kg");
+                    }
                 }
+
             }
         });
 

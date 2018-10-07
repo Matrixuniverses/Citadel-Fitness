@@ -26,6 +26,7 @@ public class DatabaseOperations {
         return sqlConfig;
     }
 
+
     /**
      * Establishes a connection to a sql data with the filename CitadelFitnessLocalDatabase.db which is assigned to
      * the local java.sql.Connection object. The connection is set up with the configuration that Foreign Keys in the
@@ -48,6 +49,7 @@ public class DatabaseOperations {
 
     }
 
+
     /**
      * Sets a new data URL.
      * @param newDatabaseURL The new URL for the data
@@ -55,10 +57,6 @@ public class DatabaseOperations {
     public static void setDatabaseURL(String newDatabaseURL) {
         dbURL = newDatabaseURL;
     }
-
-
-
-
 
 
     /**
