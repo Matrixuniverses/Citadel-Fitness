@@ -136,20 +136,17 @@ public class WarningPanelController implements Initializable {
 
     @FXML
     public void bradycardiaSearch(){
-
-//        DataAnalyzer.webSearch_Google("Bradycardia");
+        DataAnalyzer.webSearch_Google("Bradycardia");
     }
 
     @FXML
     public void tachycardiaSearch(){
-
-        //DataAnalyzer.webSearch_Google("Tachycardia");
+        DataAnalyzer.webSearch_Google("Tachycardia");
     }
 
     @FXML
     public void cardiovascularSearch(){
-
-        //DataAnalyzer.webSearch_Google("Cardiovascular Mortality");
+        DataAnalyzer.webSearch_Google("Cardiovascular Mortality");
     }
 
 
