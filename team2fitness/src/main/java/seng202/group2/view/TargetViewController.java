@@ -43,9 +43,6 @@ public class TargetViewController implements Initializable, UserData {
     private Button modifyTargetButton;
 
     @FXML
-    private Button deleteTargetButton;
-
-    @FXML
     private Label statusLabel;
 
     @FXML

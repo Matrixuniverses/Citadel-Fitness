@@ -43,6 +43,7 @@ public class Activity {
      * @param activityName name of the activity
      */
     public Activity(String activityName) {
+
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty("Exercise");
         this.totalTime = new SimpleDoubleProperty(10);
