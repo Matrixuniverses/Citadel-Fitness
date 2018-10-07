@@ -21,7 +21,7 @@ import java.util.Locale;
  */
 public class DataParser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
-    private ArrayList<Activity> activitiesRead;
+    private ArrayList<Activity> activitiesRead = new ArrayList<>();;
 
 
     /**
@@ -49,7 +49,6 @@ public class DataParser {
                 throw new FileFormatException("Incorrect file format");
             }
 
-            this.activitiesRead = new ArrayList<>();
             readLines(readCSV);
 
             // Updating the activities read by calculating distances for each datapoint and activity

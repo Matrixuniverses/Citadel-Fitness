@@ -154,6 +154,36 @@ public class AddDataController implements Initializable, UserData {
                 reset();
             }
         });
+
+
+        activitiesFoundController.getImportButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                activitiesFoundScene.toBack();
+                activitiesFoundScene.setVisible(false);
+                for (Activity activity : activitiesFoundController.getActivityList()) {
+                    if (activity.getChecked()) {
+                        dataManager.addActivity(activity);
+                    }
+                }
+
+                importInfoLabel.setVisible(true);
+                importInfoLabel.setTextFill(Color.GREEN);
+                importInfoLabel.setText("Activities added successfully!");
+
+            }
+        });
+
+        activitiesFoundController.getCancelButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                importInfoLabel.setText("");
+                activitiesFoundScene.toBack();
+                activitiesFoundScene.setVisible(false);
+            }
+        });
+
+
     }
 
     @FXML
@@ -178,10 +208,6 @@ public class AddDataController implements Initializable, UserData {
             activitiesFoundController.update(addDataTask.getValue());
             activitiesFoundScene.setVisible(true);
             activitiesFoundScene.toFront();
-            //dataManager.addActivities(addDataTask.getValue().getActivitiesRead());
-            //importInfoLabel.setVisible(true);
-           // importInfoLabel.setTextFill(Color.GREEN);
-            //importInfoLabel.setText("Activities added successfully!");
 
         });
 
