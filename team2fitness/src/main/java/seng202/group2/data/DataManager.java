@@ -2,6 +2,8 @@ package seng202.group2.data;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
@@ -26,19 +28,22 @@ public class DataManager {
     public DataManager() {
         try {
             userList.addAll(UserDBOperations.getAllUsers());
-            try {
-                for (User user : userList) {
-                    user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
-                    for (Activity activity : user.getActivityList()) {
-                        activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
-                        activity.setCaloriesBurned(DataAnalyzer.calcCalories(user, activity));
-                    }
-                    user.getTargetList().addAll(TargetDBOperations.getAllUserTargets(user.getId()));
+            for (User user : userList) {
+                user.getActivityList().addAll(ActivityDBOperations.getAllUsersActivities(user.getId()));
+                for (Activity activity : user.getActivityList()) {
+                    activity.getActivityData().addAll(DatapointDBOperations.getAllActivityDatapoints(activity.getId()));
+                    activity.setCaloriesBurned(DataAnalyzer.calcCalories(user, activity));
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                user.getTargetList().addAll(TargetDBOperations.getAllUserTargets(user.getId()));
+
+                // Cannot use the addAll() method as each target needs to have a listener added to the users data
+                //ObservableList test = TargetDBOperations.getAllUserTargets()
+                for (Target target : TargetDBOperations.getAllUserTargets(user.getId())) {
+                    addTarget(target, true);
+                }
             }
             System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,12 +133,43 @@ public class DataManager {
         return currentUser.get().getActivityList();
     }
 
-    public void addTarget(Target target){
-        currentUser.get().addTarget(target);
-        try {
-            target.setId(TargetDBOperations.insertNewTarget(target, currentUser.get().getId()));
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void addTarget(Target target, boolean databaseLoad){
+        System.out.println(target.getType().getClass());
+        switch(target.getType()) {
+            case "Target Weight (kg)":
+                currentUser.get().weightProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        target.updateProgress((double) newValue);
+                    }
+                });
+                break;
+
+            case "Average Speed (m/s)":
+                currentUser.get().avgSpeedProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        target.updateProgress((double) newValue);
+                    }
+                });
+                break;
+
+            case "Total Distance (m)":
+                currentUser.get().totalDistanceProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        target.updateProgress((double) newValue);
+                    }
+                });
+                break;
+        }
+
+        if (!databaseLoad) {
+            try {
+                target.setId(TargetDBOperations.insertNewTarget(target, currentUser.get().getId()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
