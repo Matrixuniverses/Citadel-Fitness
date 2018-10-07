@@ -38,7 +38,7 @@ public class DataManager {
 
                 // Cannot use the addAll() method as each target needs to have a listener added to the users data
                 for (Target target : user.getTargetList()) {
-                    listenTarget(target);
+                    listenTarget(target, user);
                 }
             }
             System.out.println(String.format("[INFO] Users loaded: %d", userList.size()));
@@ -132,21 +132,20 @@ public class DataManager {
         return currentUser.get().getActivityList();
     }
 
-    private void listenTarget(Target target) {
+    private void listenTarget(Target target, User user) {
         switch(target.getType()) {
             case "Target Weight (kg)":
                 System.out.println("beans");
-                currentUser.get().weightProperty().addListener(new ChangeListener<Number>() {
+                user.weightProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                        System.out.println("updated weight");
                         target.updateProgress((double) newValue);
                     }
                 });
                 break;
 
             case "Average Speed (m/s)":
-                currentUser.get().avgSpeedProperty().addListener(new ChangeListener<Number>() {
+                user.avgSpeedProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                         target.updateProgress((double) newValue);
@@ -155,7 +154,7 @@ public class DataManager {
                 break;
 
             case "Total Distance (m)":
-                currentUser.get().totalDistanceProperty().addListener(new ChangeListener<Number>() {
+                user.totalDistanceProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                         target.updateProgress((double) newValue);
@@ -166,7 +165,8 @@ public class DataManager {
     }
 
     public void addTarget(Target target){
-        listenTarget(target);
+        listenTarget(target, currentUser.get());
+        currentUser.get().getTargetList().add(target);
         try {
             target.setId(TargetDBOperations.insertNewTarget(target, currentUser.get().getId()));
         } catch (SQLException ex) {

@@ -33,31 +33,28 @@ public class Target {
         this.currentValue = new SimpleDoubleProperty(currentValue);
         this.finalValue = new SimpleDoubleProperty(finalValue);
         this.completionDate = completionDate;
-        this.progress = new SimpleDoubleProperty();
-
-        updateProgress(this.currentValue.get());
+        this.progress = new SimpleDoubleProperty(calculateProgress(initialValue, currentValue, finalValue));
     }
 
+
     public void updateProgress(double newCurrent) {
-        Double totalDetla = (finalValue.get() - initialValue.get());
-        Double achievedDelta = (newCurrent - initialValue.get());
-        Double completed = achievedDelta / totalDetla;
-        currentValue.set(newCurrent);
-
-        if (completed <= 0) {
-            this.progress.set(0);
-        } else if (completed >= 1) {
-            this.progress.set(1);
-            this.completed.set(true);
-        } else {
-            this.progress.set(completed);
-        }
-
+        this.progress.set(calculateProgress(this.initialValue.get(), newCurrent, this.finalValue.get()));
         try {
             TargetDBOperations.updateExistingTarget(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private double calculateProgress(double initialValue, double currentValue, double finalValue) {
+        System.out.println(initialValue + " "  + currentValue + " " + finalValue);
+        double completed = (currentValue - initialValue) / (finalValue - initialValue);
+        if (completed <= 0) {
+            return 0;
+        } else if (completed >= 1) {
+            return 1;
+        }
+        return completed;
     }
 
     /**

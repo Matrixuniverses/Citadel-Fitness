@@ -56,7 +56,6 @@ public class AddTargetController implements Initializable, UserData {
     @FXML
     private Button closeButton;
 
-    private User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
 
     @Override
@@ -70,7 +69,6 @@ public class AddTargetController implements Initializable, UserData {
         valueErrorLabel.setText("");
         dateErrorLabel.setText("");
         confirmationLabel.setText("");
-        currentUser = dataManager.getCurrentUser();
     }
 
     public void updateUser() {
@@ -119,7 +117,7 @@ public class AddTargetController implements Initializable, UserData {
                         valueErrorLabel.setText("Weight targets must be in range 1 - 600");
                         validTarget = false;
                     }
-                    currVal = currentUser.weightProperty().get();
+                    currVal = dataManager.getCurrentUser().weightProperty().get();
                     break;
 
                 case "Average Speed (m/s)":
@@ -127,7 +125,8 @@ public class AddTargetController implements Initializable, UserData {
                         valueErrorLabel.setText("Speed target cannot be negative!");
                         validTarget = false;
                     }
-                    currVal = currentUser.avgSpeedProperty().get();
+                    currVal = dataManager.getCurrentUser().avgSpeedProperty().get();
+                    value += currVal;
                     break;
 
                 case "Total Distance (m)":
@@ -135,7 +134,8 @@ public class AddTargetController implements Initializable, UserData {
                         valueErrorLabel.setText("Total distance cannot be negative!");
                         validTarget = false;
                     }
-                    currVal = currentUser.totalDistanceProperty().get();
+                    currVal = dataManager.getCurrentUser().totalDistanceProperty().get();
+                    value += currVal;
                     break;
             }
 
