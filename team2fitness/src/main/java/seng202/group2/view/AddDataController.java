@@ -128,10 +128,6 @@ public class AddDataController implements Initializable, UserData {
             }
         });
 
-
-
-
-
         // Multithreading
         executionThreads = Executors.newCachedThreadPool(runnable -> {
             Thread thread = new Thread(runnable);
@@ -253,14 +249,14 @@ public class AddDataController implements Initializable, UserData {
         name = textFieldName.getText();
         if (name == null || name.length() == 0) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Name can't be empty.");
+            errorLabel.setText("Activity must have a name.");
             valid = false;
         }
 
         // Check date
         if (dateInput.getValue() == null) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Date can't be empty.");
+            errorLabel.setText("Activity must have a date.");
             valid = false;
         }
 
@@ -269,7 +265,7 @@ public class AddDataController implements Initializable, UserData {
             distance = Double.parseDouble(textFieldDistance.getText());
             if (distance < 0) {
                 errorLabel.setVisible(true);
-                errorLabel.setText("Distance can't be negative.");
+                errorLabel.setText("Distance cannot be negative.");
                 valid = false;
             }
 
@@ -279,7 +275,7 @@ public class AddDataController implements Initializable, UserData {
             valid = false;
         } catch (NullPointerException e) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Distance can't be empty.");
+            errorLabel.setText("Activity must have a distance.");
             valid = false;
         }
 
@@ -288,7 +284,7 @@ public class AddDataController implements Initializable, UserData {
             time = Double.parseDouble(textFieldTime.getText());
             if (time < 0) {
                 errorLabel.setVisible(true);
-                errorLabel.setText("Time can't be negative.");
+                errorLabel.setText("Time cannot be negative.");
                 valid = false;
             }
         } catch (NumberFormatException e) {
@@ -297,7 +293,7 @@ public class AddDataController implements Initializable, UserData {
             valid = false;
         } catch (NullPointerException e) {
             errorLabel.setVisible(true);
-            errorLabel.setText("Time can't be empty.");
+            errorLabel.setText("Activity must have a time.");
             valid = false;
         }
 

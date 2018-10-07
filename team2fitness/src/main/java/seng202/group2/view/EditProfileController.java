@@ -124,7 +124,7 @@ public class EditProfileController implements Initializable, UserData {
 
         try {
             height = Double.valueOf(heightField.getText());
-            if (height > 270 || height <= 0) {
+            if (height > 270 || height <= 50) {
                 heightErrorLabel.setText("Height must be between 0 and 270");
                 update = false;
             }

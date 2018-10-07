@@ -27,9 +27,9 @@
                 <TableView fx:id="targetTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="756.0" GridPane.valignment="TOP">
                     <columns>
                         <TableColumn fx:id="targetNameCol" minWidth="-Infinity" prefWidth="150.0" text="Name" />
-                        <TableColumn fx:id="targetTypeCol" minWidth="-Infinity" prefWidth="105.0" text="Type" />
+                        <TableColumn fx:id="targetTypeCol" minWidth="-Infinity" prefWidth="115.0" text="Type" />
                         <TableColumn fx:id="targetDateEndCol" minWidth="-Infinity" prefWidth="166.0" text="Complete By" />
-                  <TableColumn fx:id="targetProgressColumn" prefWidth="334.0" text="Progress" />
+                  <TableColumn fx:id="targetProgressColumn" prefWidth="324.0" text="Progress" />
                     </columns>
                 </TableView>
             <AnchorPane prefWidth="201.0" GridPane.columnIndex="1">

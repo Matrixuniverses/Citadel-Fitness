@@ -11,6 +11,7 @@ import seng202.group2.data.TargetDBOperations;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Target {
@@ -43,10 +44,15 @@ public class Target {
      * Helper function to check the status of the target
      */
     private void generateStatus() {
-        if (completed.get()) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, -1);
+        Date today = cal.getTime();
+        if (this.progress.get() >= 1 || this.completed.get()) {
             status.set("Achieved");
-        } else if (new Date(System.currentTimeMillis()).after(completionDate)) {
-            status.set("Failed");
+            completed.set(true);
+        } else if (today.after(completionDate)) {
+            status.set("Delayed");
         } else {
             status.set("In Progress");
         }
@@ -57,12 +63,15 @@ public class Target {
      * @param newCurrent New current value of the target
      */
     public void updateProgress(double newCurrent) {
-        this.progress.set(calculateProgress(this.initialValue.get(), newCurrent, this.finalValue.get()));
-        this.currentValue.set(newCurrent);
-        try {
-            TargetDBOperations.updateExistingTarget(this);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (!this.completed.get()) {
+            this.progress.set(calculateProgress(this.initialValue.get(), newCurrent, this.finalValue.get()));
+            this.currentValue.set(newCurrent);
+            generateStatus();
+            try {
+                TargetDBOperations.updateExistingTarget(this);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -105,7 +114,9 @@ public class Target {
 
         switch(type) {
             case "Total Distance (m)":
-                formatted = Integer.toString((int)Math.round(this.finalValue.get())) + " m";
+                int value = (int)Math.round(this.finalValue.get() - this.initialValue.get());
+                value = Math.max(value, 0);
+                formatted = Integer.toString(value) + " m";
                 break;
             case "Target Weight (kg)":
                 formatted = Double.toString(Math.round(this.finalValue.get() * 10.0) / 10.0) + " kg";
