@@ -8,7 +8,7 @@ public class FileFormatException extends Exception {
 
     /**
      * Error occurs when reading or parsing a CSV file
-     * @param message       Error message to be displayed to the caller
+     * @param message Error message to be displayed to the caller
      */
     public FileFormatException(String message) {
         super(message);
