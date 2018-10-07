@@ -284,7 +284,11 @@ public class DatabaseTest {
     public void testGetAllActivitiesForUserOrdering() throws SQLException {
 
         ObservableList<Activity> activities = ActivityDBOperations.getAllUsersActivities(1);
-        assertEquals(true, (activities.get(0).getDate().before(activities.get(1).getDate())));
+        Activity firstActivity = activities.get(0);
+        Activity secondActivity = activities.get(1);
+        firstActivity.setManualEntry(true); //to bypass active listener controlled activityData
+        secondActivity.setManualEntry(true);
+        assertEquals(true, firstActivity.getDate().before(secondActivity.getDate()));
 
     }
 
@@ -300,7 +304,15 @@ public class DatabaseTest {
     public void testGetActivityFromDBValid() throws SQLException {
 
         Activity activity = ActivityDBOperations.getActivityFromDB(1);
-        assertEquals(1, activity.getId());
+        assertEquals(false, activity.isManualEntry());
+
+    }
+
+    @Test
+    public void testGetManualEntryActivityFromDBValid() throws SQLException {
+
+        Activity activity = ActivityDBOperations.getActivityFromDB(2);
+        assertEquals(true, activity.isManualEntry());
 
     }
 

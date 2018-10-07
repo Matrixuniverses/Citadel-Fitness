@@ -321,6 +321,12 @@ public class Activity {
         return max;
     }
 
+    public void setManualEntry(boolean isManualEntry) {
+        manualEntry = isManualEntry;
+    }
+
+    public boolean isManualEntry() {return manualEntry; }
+
     public SimpleDoubleProperty vo2MaxProperty(){
         return vo2MAX;
     }
