@@ -8,9 +8,11 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.data.UserDBOperations;
-
 import java.sql.SQLException;
 
+/**
+ * Model class for a user
+ */
 public class User {
 
     private int id;
@@ -51,6 +53,8 @@ public class User {
         totalDistance = new SimpleDoubleProperty(0);
         totalTime = new SimpleDoubleProperty(0);
         avgSpeed = new SimpleDoubleProperty(0);
+
+        // Change listener that will re-calculate the user total distance and time, used for targets
         activityList.addListener(new ListChangeListener<Activity>() {
             @Override
             public void onChanged(Change<? extends Activity> c) {
@@ -60,7 +64,7 @@ public class User {
             }
         });
 
-
+        // Creates new event listeners that update the database when the users properties are changed
         setupDatabaseHandlers();
     }
 
@@ -87,6 +91,7 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
+                    // Update the name in the database
                     UserDBOperations.updateExistingUser(User.this);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -98,6 +103,7 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 try {
+                    // Update age in the database
                     UserDBOperations.updateExistingUser(User.this);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -109,6 +115,7 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 try {
+                    // Update height in the database
                     UserDBOperations.updateExistingUser(User.this);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -120,6 +127,7 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 try {
+                    // Update weight in the database
                     UserDBOperations.updateExistingUser(User.this);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -169,26 +177,6 @@ public class User {
      */
     public void deleteActivity(Activity activity) {
         this.activityList.remove(activity);
-    }
-
-    /**
-     * Adds target to users target list and sets initial value depending on type of target
-     * @param target target object to be added
-     */
-    public void addTarget(Target target){
-        if (target.getType() == "Target Weight (kg)") {
-            double currentWeight = this.getWeight();
-            target.setInitialValue(currentWeight);
-            target.setCurrentValue(currentWeight);
-        } else if (target.getType() == "Average Speed (m/s)") {
-            // TODO Optional: Set initial and current value users highest average speed in the last week/month.
-            target.setInitialValue(0);
-            target.setCurrentValue(0);
-        } else if (target.getType() == "Total Distance (m)") {
-            target.setInitialValue(0);
-            target.setCurrentValue(0);
-        }
-        this.targetList.add(target);
     }
 
     /**
