@@ -11,6 +11,7 @@ import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TargetViewController implements Initializable, UserData {
@@ -75,8 +76,18 @@ public class TargetViewController implements Initializable, UserData {
 
     @FXML
     private void deleteTarget() {
-        dataManager.deleteTarget(targetTable.getSelectionModel().getSelectedItem());
+        Target target = targetTable.getSelectionModel().getSelectedItem();
+        if (target != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm delete");
+            alert.setContentText("Do you want to delete the selected target?");
 
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                dataManager.deleteTarget(target);
+            }
+        }
     }
 
     public TableView<Target> getTargetTable() {
