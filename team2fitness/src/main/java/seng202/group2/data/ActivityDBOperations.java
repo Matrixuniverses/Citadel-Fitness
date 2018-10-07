@@ -31,7 +31,8 @@ public class ActivityDBOperations {
     public static boolean checkDuplicateActivity(Activity activityToCheck, int userID) throws SQLException {
 
         Connection dbConn = DatabaseOperations.connectToDB();
-
+        //Search for an activity that belongs to the same user that occurred at the same time as the activity to
+        //be inputted into the database
         String dateString = activityToCheck.getDate().toString();
         String sqlQueryStmt = "SELECT date_string, name FROM Activities WHERE user_id = ? AND date_string =  ? ";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -39,13 +40,16 @@ public class ActivityDBOperations {
         pQueryStmt.setString(2, dateString);
         ResultSet queryResult = pQueryStmt.executeQuery();
 
-
+        //If the activity exists check if it has the same name
         if (queryResult.next()) {
             if (activityToCheck.getActivityName().equals(queryResult.getString("name"))) {
+                //If true then we can confirm that activity can be regarded as a duplicate
                 DatabaseOperations.disconnectFromDB();
                 return true;
             }
         }
+
+        //free up resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -57,11 +61,13 @@ public class ActivityDBOperations {
 
         ObservableList<Activity> collectedActivities = FXCollections.observableArrayList();
 
+        //loop through each record
         while(queryResult.next()) {
 
             int activityID = queryResult.getInt(1);
             String activityName = queryResult.getString(3);
 
+            //Parsing date string to convert it into a java.util.Date object.
             Date activityDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
             try {
@@ -80,6 +86,8 @@ public class ActivityDBOperations {
             newActivity.setId(activityID);
             newActivity.setCaloriesBurned(queryResult.getDouble(9));
 
+            //check to see whether the activity has datapoints stored in the database which determines whether the
+            //activity was manually entered or not
             if (DatapointDBOperations.getAllActivityDatapoints(activityID).size() > 0) {
                 newActivity.setManualEntry(false);
             }
@@ -104,6 +112,7 @@ public class ActivityDBOperations {
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date";
 
+        //Create and execute a prepared statement
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
         pQueryStmt.setInt(1, UserID);
         pQueryStmt.setDate(2, minDate);
@@ -112,6 +121,7 @@ public class ActivityDBOperations {
 
         ObservableList<Activity> collectedActivities = getResultSetActivities(queryResult);
 
+        //free resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
         return collectedActivities;
@@ -128,16 +138,17 @@ public class ActivityDBOperations {
      */
     public static ObservableList<Activity> getAllUsersActivities(int userID) throws SQLException {
 
+        //queries the database all activities for a user and orders the result set by the date the activity was
+        //completed on
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Activities WHERE user_id = ? ORDER BY date;";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
         pQueryStmt.setInt(1, userID);
         ResultSet queryResult = pQueryStmt.executeQuery();
 
-
         ObservableList<Activity> userActivities = getResultSetActivities(queryResult);
 
-
+        //free resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -152,6 +163,7 @@ public class ActivityDBOperations {
      */
     public static Activity getActivityFromDB(int activityID) throws SQLException {
 
+        //executes a query that retrieves an activity from the database with a specified id.
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Activities WHERE activity_id = ?;";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -160,12 +172,13 @@ public class ActivityDBOperations {
 
 
         Activity retrievedActivity = null;
-
+        //if the returned list has a length greater than 0 it must contain the retrieved activity object.
         ObservableList<Activity> retrievedActivities = getResultSetActivities(queryResult);
         if (retrievedActivities.size() > 0) {
             retrievedActivity = retrievedActivities.get(0);
         }
 
+        //freeing resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -192,7 +205,7 @@ public class ActivityDBOperations {
                 "VALUES(?,?,?,?,?,?,?,?)";
 
 
-
+        //Created and execute prepared statement
         PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
         pUpdateStmt.setInt(1, userID);
         pUpdateStmt.setString(2, activity.getActivityName());
@@ -209,7 +222,7 @@ public class ActivityDBOperations {
 
         int activity_id = results.getInt(1);
 
-
+        //freeing resources
         pUpdateStmt.close();
         DatabaseOperations.disconnectFromDB();
         return activity_id;
@@ -227,10 +240,12 @@ public class ActivityDBOperations {
     public static boolean updateExistingActivity(Activity activity) throws SQLException {
         String sqlUpdateStmt = "UPDATE Activities SET name = ?, date_string = ?, date = ?, type = ?, total_distance = ?, total_time = ?, calories_burnt = ? WHERE activity_id = ?";
 
+        //Check for whether the activity currently exists in the database
         if (getActivityFromDB(activity.getId()) != null) {
 
             Connection dbConn = DatabaseOperations.connectToDB();
 
+            //create and execute prepared statement
             PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStmt.setString(1, activity.getActivityName());
             pUpdateStmt.setString(2, activity.getDate().toString());
@@ -242,6 +257,7 @@ public class ActivityDBOperations {
             pUpdateStmt.setInt(8, activity.getId());
             pUpdateStmt.executeUpdate();
 
+            //free resources
             pUpdateStmt.close();
             DatabaseOperations.disconnectFromDB();
 
@@ -266,12 +282,14 @@ public class ActivityDBOperations {
         String sqlDeleteStmt = "DELETE FROM Activities WHERE activity_id = ?";
 
 
+        //creates and executes a prepared statement
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, activityID);
         pDeleteStmt.executeUpdate();
 
         DatabaseOperations.disconnectFromDB();
 
+        //check for whether the activity still exists in the database
         return (getActivityFromDB(activityID) == null);
     }
 }
