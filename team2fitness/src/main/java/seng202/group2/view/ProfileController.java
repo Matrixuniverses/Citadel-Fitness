@@ -1,10 +1,12 @@
 package seng202.group2.view;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.Chart;
@@ -12,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.Activity;
 import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
@@ -49,10 +52,13 @@ public class ProfileController implements Initializable, UserData {
     private Label weightLabel;
 
     @FXML
+    private Label heightLabel;
+
+    @FXML
     private Label totalDistanceLabel;
 
     @FXML
-    private Label targetsLabel;
+    private Label activityCountLabel;
 
     // Table
     @FXML
@@ -65,6 +71,9 @@ public class ProfileController implements Initializable, UserData {
     private TableColumn typeColumn;
 
     @FXML
+    private TableColumn valueColumn;
+
+    @FXML
     private TableColumn progressColumn;
 
     @FXML
@@ -75,9 +84,17 @@ public class ProfileController implements Initializable, UserData {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
                 bmiLabel.textProperty().bind(Bindings.format("%.0f", dataManager.getCurrentUser().bmiProperty()));
-                weightLabel.textProperty().bind(Bindings.format("%.0f",dataManager.getCurrentUser().weightProperty()));
-                totalDistanceLabel.textProperty().bind(Bindings.format("%.1f",dataManager.getCurrentUser().totalDistanceProperty().divide(1000)));
+                weightLabel.textProperty().bind(Bindings.format("%.1f", dataManager.getCurrentUser().weightProperty()));
+                heightLabel.textProperty().bind(Bindings.format("%.0f", dataManager.getCurrentUser().heightProperty()));
+                totalDistanceLabel.textProperty().bind(Bindings.format("%.1f", dataManager.getCurrentUser().totalDistanceProperty().divide(1000)));
+                activityCountLabel.textProperty().setValue(Integer.toString(dataManager.getCurrentUser().getActivityList().size()));
 
+                dataManager.getCurrentUser().getActivityList().addListener(new ListChangeListener<Activity>() {
+                    @Override
+                    public void onChanged(Change<? extends Activity> c) {
+                        activityCountLabel.textProperty().setValue(Integer.toString(dataManager.getCurrentUser().getActivityList().size()));
+                    }
+                });
             }
         });
 
@@ -86,9 +103,10 @@ public class ProfileController implements Initializable, UserData {
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<Target, String>("name"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedType"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedFinalValue"));
         progressColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
         progressColumn.setCellFactory(ProgressBarTableCell.<Target> forTableColumn());
-        statusColumn.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedStatus"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
 
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override

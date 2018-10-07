@@ -61,6 +61,7 @@ public class MainController implements Initializable {
     private MapMyRunController mapMyRunController;
     private CalendarController calendarController;
     private ActivitiesFoundController activitiesFoundController;
+    private RouteSelectController routeSelectController;
     private WarningPanelController warningPanelController;
 
     @FXML
@@ -84,6 +85,7 @@ public class MainController implements Initializable {
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
     private AnchorPane activitiesFoundScene;
+    private AnchorPane routeSelect;
     private VBox warningPanel;
 
     // Allows nav bar to work easily
@@ -185,9 +187,11 @@ public class MainController implements Initializable {
 
 
 
+
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, editTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView,
+                    addTargetView, editTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
 
             profileView.toFront();
 
@@ -240,7 +244,7 @@ public class MainController implements Initializable {
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("LGFSFDSDSF");
+                //System.out.println("LGFSFDSDSF");
                 status.set("logout");
                 profileView.toFront();
             }
