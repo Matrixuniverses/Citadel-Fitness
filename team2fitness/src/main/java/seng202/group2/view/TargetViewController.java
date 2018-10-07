@@ -77,7 +77,6 @@ public class TargetViewController implements Initializable, UserData {
         targetTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Target>() {
             @Override
             public void changed(ObservableValue<? extends Target> observable, Target oldValue, Target newValue) {
-                // TODO - implement getstatus in the thing
                 if (newValue != null) {
                     statusLabel.setText(newValue.getStatus());
                     String type = newValue.getType();
