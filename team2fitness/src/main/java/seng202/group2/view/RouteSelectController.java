@@ -23,6 +23,11 @@ import java.util.ResourceBundle;
 
 import static java.lang.Boolean.FALSE;
 
+/**
+ * This is the controller for the Route Select scene. Functions similarly to Map My Run.
+ * Initialises and handles scene events.
+ */
+
 public class RouteSelectController implements Initializable, UserData {
 
     @FXML
