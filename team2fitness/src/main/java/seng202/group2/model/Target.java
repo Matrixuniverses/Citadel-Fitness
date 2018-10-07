@@ -34,21 +34,13 @@ public class Target {
         this.finalValue = new SimpleDoubleProperty(finalValue);
         this.completionDate = completionDate;
         this.progress = new SimpleDoubleProperty();
-    }
 
-    public Target(String tName, String tType, Double tValue, Date tDate) {
-        name = new SimpleStringProperty(tName);
-        type = new SimpleStringProperty(tType);
-        initialValue = new SimpleDoubleProperty(80); // Needs to identify value to use.
-        currentValue = new SimpleDoubleProperty(85);
-        finalValue = new SimpleDoubleProperty(90);
-        progress = new SimpleDoubleProperty(currentValue.get() / finalValue.get());
-        completionDate = tDate;
+        updateProgress(this.currentValue.get());
     }
 
     public void updateProgress(double newCurrent) {
         Double totalDetla = (finalValue.get() - initialValue.get());
-        Double achievedDelta = (currentValue.get() - initialValue.get());
+        Double achievedDelta = (newCurrent - initialValue.get());
         Double completed = achievedDelta / totalDetla;
         currentValue.set(newCurrent);
 
