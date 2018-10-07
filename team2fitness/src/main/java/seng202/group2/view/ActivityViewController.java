@@ -29,7 +29,7 @@ import java.util.*;
 /**
  * Controller for Activity Scene
  */
-public class ActivityViewController implements Initializable, UserData {
+public class ActivityViewController implements Initializable  {
 
     private DataManager dataManager = DataManager.getDataManager();
     private StringProperty pulser = new SimpleStringProperty("0");
@@ -134,6 +134,8 @@ public class ActivityViewController implements Initializable, UserData {
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
                 filteredList = new FilteredList<>(DataManager.getDataManager().getActivityList());
                 activityTable.setItems(filteredList);
+
+                viewDataPointsScene.toBack();
             }
         });
 
@@ -215,6 +217,8 @@ public class ActivityViewController implements Initializable, UserData {
             }
         });
 
+
+
     }
 
     public StringProperty getPulser() {
@@ -246,9 +250,6 @@ public class ActivityViewController implements Initializable, UserData {
                     return false;
                 }
 
-//                if (obj.getDate().before(start) || obj.getDate().after(end)) {
-//                    return false;
-//                }
             }
 
             if (typePicker.getSelectionModel().getSelectedIndex() == 0) {
@@ -278,19 +279,15 @@ public class ActivityViewController implements Initializable, UserData {
         }
     }
 
+
+
     public Button getActivityAddButton(){
         return addActivityButton;
     }
 
-    public Button getEditActivityButton(){
-        return editActivityButton;
-    }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
         return activityTable;
-    }
-
-    public void updateUser() {
     }
 
     public Button getDetailButton() {

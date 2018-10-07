@@ -38,6 +38,12 @@ public class ActivitiesFoundController implements Initializable {
     @FXML
     private TableColumn importColumn;
 
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Button importButton;
+
 
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,6 +76,8 @@ public class ActivitiesFoundController implements Initializable {
     }
 
     public void update(DataParser parser) {
+        activityList.removeAll();
+        activityTable.getItems().clear();
         activityList.addAll(parser.getActivitiesRead());
         for (Activity activity : activityList) {
             activity.setStatusImage(new Image(getClass().getResource("/images/greenCheck.png").toExternalForm()));
@@ -82,5 +90,18 @@ public class ActivitiesFoundController implements Initializable {
         }
 
         activityTable.setItems(activityList);
+    }
+
+    public ObservableList<Activity> getActivityList() {
+        return activityList;
+    }
+
+
+    public Button getCancelButton() {
+        return cancelButton;
+    }
+
+    public Button getImportButton() {
+        return importButton;
     }
 }
