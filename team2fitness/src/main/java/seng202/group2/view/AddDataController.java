@@ -9,7 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -17,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seng202.group2.data.DataParser;
@@ -26,6 +29,7 @@ import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 //import java.util.ArrayList;
@@ -68,6 +72,19 @@ public class AddDataController implements Initializable, UserData {
     @FXML
     private ChoiceBox choiceBoxType;
 
+    @FXML
+    private AnchorPane addDataPane;
+
+    private AnchorPane routeSelectPane;
+
+    private RouteSelectController routeSelectController;
+
+    private Double routeDistance;
+
+    private Double routeTime;
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
@@ -77,6 +94,43 @@ public class AddDataController implements Initializable, UserData {
         typeOptions.add("Swim");
         choiceBoxType.setItems(typeOptions);
         choiceBoxType.setValue("Run");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLRouteSelect.fxml"));
+        try {
+            routeSelectPane  = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        routeSelectController = loader.getController();
+        addDataPane.getChildren().add(routeSelectPane);
+        routeSelectPane.toBack();
+        routeSelectPane.setVisible(false);
+
+        routeSelectController.getConfirmButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                routeDistance = routeSelectController.getRouteDistance();
+                routeTime = routeSelectController.getRouteTime() * 60;
+                routeSelectController.resetMap();
+                routeSelectPane.toBack();
+                routeSelectPane.setVisible(false);
+                textFieldDistance.setText(routeDistance.toString());
+                textFieldTime.setText(routeTime.toString());
+            }
+        });
+
+        routeSelectController.getCancelButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                routeSelectController.resetMap();
+                routeSelectPane.toBack();
+                routeSelectPane.setVisible(false);
+            }
+        });
+
+
+
+
 
         // Multithreading
         executionThreads = Executors.newCachedThreadPool(runnable -> {
@@ -139,7 +193,7 @@ public class AddDataController implements Initializable, UserData {
      * Creates an activity object with the data the user entered. Adds it to the user's activities list.
      * If the user enters invalid information, an alert is opened with error message.
      */
-    public void addManualData() {
+/*    public void addManualData() {
         try {
             importInfoLabel.setVisible(false);
             errorLabel.setTextFill(Color.RED);
@@ -177,7 +231,90 @@ public class AddDataController implements Initializable, UserData {
         } catch (IllegalArgumentException e) {
             errorLabel.setText(e.getMessage());
         }
+    }*/
+
+    /**
+     * Button for manual data entry.
+     * Creates an activity object with the data the user entered. Adds it to the user's activities list.
+     * If the user enters invalid information, an alert is opened with error message.
+     */
+    public void addManualData() {
+        errorLabel.setTextFill(Color.RED);
+
+        boolean valid = true;
+        String name;
+        Date date;
+        double distance = 0;
+        double time = 0;
+
+        String type = choiceBoxType.getValue().toString();
+
+        // Check name
+        name = textFieldName.getText();
+        if (name == null || name.length() == 0) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Name can't be empty.");
+            valid = false;
+        }
+
+        // Check date
+        if (dateInput.getValue() == null) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Date can't be empty.");
+            valid = false;
+        }
+
+        // Check distance
+        try {
+            distance = Double.parseDouble(textFieldDistance.getText());
+            if (distance < 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Distance can't be negative.");
+                valid = false;
+            }
+
+        } catch (NumberFormatException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Distance must be numeric.");
+            valid = false;
+        } catch (NullPointerException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Distance can't be empty.");
+            valid = false;
+        }
+
+        // Check time
+        try {
+            time = Double.parseDouble(textFieldTime.getText());
+            if (time < 0) {
+                errorLabel.setVisible(true);
+                errorLabel.setText("Time can't be negative.");
+                valid = false;
+            }
+        } catch (NumberFormatException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Time must be numeric.");
+            valid = false;
+        } catch (NullPointerException e) {
+            errorLabel.setVisible(true);
+            errorLabel.setText("Time can't be empty.");
+            valid = false;
+        }
+
+        // Add activity, if input clears all checks.
+        if (valid) {
+            date = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Activity userActivity = new Activity(name, date, type, time, distance);
+            dataManager.addActivity(userActivity);
+            errorLabel.setTextFill(Color.GREEN);
+            errorLabel.setText("Activity added successfully.");
+
+            //Clear fields
+            reset();
+        }
     }
+
+
 
     /**
      * Resets the manual entry fields to empty
@@ -224,4 +361,11 @@ public class AddDataController implements Initializable, UserData {
         selectFileButton.getStyleClass().setAll("button", "main-panel");
         event.consume();
     }
+
+    public void openSelectRoute() {
+        routeSelectPane.toFront();
+        routeSelectPane.setVisible(true);
+    }
+
+
 }

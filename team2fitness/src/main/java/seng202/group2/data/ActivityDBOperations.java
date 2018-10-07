@@ -66,7 +66,7 @@ public class ActivityDBOperations {
             try {
                 activityDate = dateFormatter.parse(queryResult.getString(4));
             } catch (ParseException e) {
-                System.out.println("Unable to parse date");
+                System.err.println("Unable to parse date");
                 e.printStackTrace();
             }
 
