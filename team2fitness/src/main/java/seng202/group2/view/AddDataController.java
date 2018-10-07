@@ -9,7 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -17,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import seng202.group2.data.DataParser;
@@ -26,6 +29,7 @@ import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.ZoneId;
 //import java.util.ArrayList;
@@ -68,6 +72,19 @@ public class AddDataController implements Initializable, UserData {
     @FXML
     private ChoiceBox choiceBoxType;
 
+    @FXML
+    private AnchorPane addDataPane;
+
+    private AnchorPane routeSelectPane;
+
+    private RouteSelectController routeSelectController;
+
+    private Double routeDistance;
+
+    private Double routeTime;
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
@@ -77,6 +94,43 @@ public class AddDataController implements Initializable, UserData {
         typeOptions.add("Swim");
         choiceBoxType.setItems(typeOptions);
         choiceBoxType.setValue("Run");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLRouteSelect.fxml"));
+        try {
+            routeSelectPane  = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        routeSelectController = loader.getController();
+        addDataPane.getChildren().add(routeSelectPane);
+        routeSelectPane.toBack();
+        routeSelectPane.setVisible(false);
+
+        routeSelectController.getConfirmButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                routeDistance = routeSelectController.getRouteDistance();
+                routeTime = routeSelectController.getRouteTime() * 60;
+                routeSelectController.resetMap();
+                routeSelectPane.toBack();
+                routeSelectPane.setVisible(false);
+                textFieldDistance.setText(routeDistance.toString());
+                textFieldTime.setText(routeTime.toString());
+            }
+        });
+
+        routeSelectController.getCancelButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                routeSelectController.resetMap();
+                routeSelectPane.toBack();
+                routeSelectPane.setVisible(false);
+            }
+        });
+
+
+
+
 
         // Multithreading
         executionThreads = Executors.newCachedThreadPool(runnable -> {
@@ -224,4 +278,11 @@ public class AddDataController implements Initializable, UserData {
         selectFileButton.getStyleClass().setAll("button", "main-panel");
         event.consume();
     }
+
+    public void openSelectRoute() {
+        routeSelectPane.toFront();
+        routeSelectPane.setVisible(true);
+    }
+
+
 }

@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 
 import static java.lang.Boolean.FALSE;
 
-public class MapMyRunController implements Initializable, UserData {
+public class RouteSelectController implements Initializable, UserData {
 
     @FXML
     private Label distanceLabel;
@@ -40,13 +40,21 @@ public class MapMyRunController implements Initializable, UserData {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Button confirmButton;
+
+    @FXML
+    private Button cancelButton;
+
     private WebEngine webEngine;
 
     private DoubleProperty distance;
     private DoubleProperty calories;
     private DoubleProperty time;
-
     private List<Double> distanceArray;
+
+    private String routeString;
+    private Double routeDistance;
 
     private DataManager dataManager = DataManager.getDataManager();
     private User user = dataManager.getCurrentUser();
@@ -81,7 +89,6 @@ public class MapMyRunController implements Initializable, UserData {
             }
         });
     }
-
 
     /**
      * Initialises Google Maps as a new web view, however as no API keys exist this method is subject to bandwidth
@@ -150,4 +157,25 @@ public class MapMyRunController implements Initializable, UserData {
             calories.set(calcCalories());
         }
     }
+
+    public void cancel() {
+
+    }
+
+    public Button getConfirmButton() {
+        return confirmButton;
+    }
+
+    public Button getCancelButton() {
+        return cancelButton;
+    }
+
+    public Double getRouteDistance() {
+        return distance.getValue();
+    }
+
+    public Double getRouteTime() {
+        return time.getValue();
+    }
+
 }
