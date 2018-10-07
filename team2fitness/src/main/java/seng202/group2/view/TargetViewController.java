@@ -45,10 +45,10 @@ public class TargetViewController implements Initializable, UserData {
     private Button addTargetButton;
 
     @FXML
-    Button modifyTargetButton;
+    public Button modifyTargetButton;
 
     @FXML
-    Button deleteTargetButton;
+    public Button deleteTargetButton;
 
     private User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
@@ -79,11 +79,17 @@ public class TargetViewController implements Initializable, UserData {
 
     }
 
-    public void updateUser() {
-
+    public TableView<Target> getTargetTable() {
+        return targetTable;
     }
 
     public Button getAddTargetButton() {
         return addTargetButton;
     }
+
+    public Button getModifyTargetButton() {
+        return modifyTargetButton;
+    }
+
+    public void updateUser() {}
 }
