@@ -80,8 +80,8 @@ public class ActivityInfoController implements Initializable {
         webEngine.load(this.getClass().getClassLoader().getResource("fitnessMap.html").toExternalForm());
 
         activityChart.setTitle("Distance/Time");
-        activityChart.getXAxis().setLabel("Time(s)");
-        activityChart.getYAxis().setLabel("Distance(m)");
+        activityChart.getXAxis().setLabel("Time (minutes)");
+        activityChart.getYAxis().setLabel("Distance (m)");
 
         activityChart.setCreateSymbols(false);
 
@@ -102,25 +102,39 @@ public class ActivityInfoController implements Initializable {
         caloriesLabel.textProperty().bind(Bindings.format("%.0f", activity.caloriesBurnedProperty()));
         bpmLabel.textProperty().bind(Bindings.format("%.0f", activity.averageHRProperty()));
         vmaxLabel.textProperty().bind(Bindings.format("%.0f", activity.vo2MaxProperty()));
-
-        try {
-            Route path = new Route(activity.getActivityData());
-            String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
-            webEngine.executeScript(scriptToExecute);
-            errorLabel.setVisible(false);
-            mapWebView.setVisible(true);
-            disconnectedIcon.setVisible(false);
-        }
-        catch (netscape.javascript.JSException e) {
-            mapWebView.setVisible(false);
-            disconnectedIcon.setVisible(true);
-            errorLabel.setVisible(true);
-            errorLabel.setText("Internet connection required for map view");
-        }
-
         activityChart.getData().removeAll(activityChart.getData());
-        XYChart.Series series = GraphGenerator.createTimeSeries(activity);
-        activityChart.getData().add(series);
+
+        if (activity.isManualEntry()) {
+            mapWebView.setVisible(false);
+            errorLabel.setVisible(true);
+            errorLabel.setTextFill(Color.BLACK);
+            errorLabel.setText("Map view is unavailable for this activity.");
+            disconnectedIcon.setVisible(false);
+            activityChart.setVisible(true);
+            activityChart.setTitle("No graph data available.");
+
+        } else {
+            try {
+                Route path = new Route(activity.getActivityData());
+                String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
+                webEngine.executeScript(scriptToExecute);
+                errorLabel.setVisible(false);
+                mapWebView.setVisible(true);
+                disconnectedIcon.setVisible(false);
+            }
+            catch (netscape.javascript.JSException e) {
+                mapWebView.setVisible(false);
+                disconnectedIcon.setVisible(true);
+                errorLabel.setVisible(true);
+                errorLabel.setTextFill(Color.RED);
+                errorLabel.setText("Internet connection required for map view");
+            }
+            activityChart.setTitle("Distance/Time");
+            XYChart.Series series = GraphGenerator.createTimeSeries(activity);
+            activityChart.getData().add(series);
+        }
+
+
     }
 
     public Button getCloseButton(){
