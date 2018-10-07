@@ -77,7 +77,7 @@ public class ActivitiesFoundController implements Initializable {
 
     public void update(DataParser parser) {
         activityList.removeAll();
-        activityTable.getItems().clear();
+        activityTable.getItems().clear();C
         activityList.addAll(parser.getActivitiesRead());
         for (Activity activity : activityList) {
             activity.setStatusImage(new Image(getClass().getResource("/images/greenCheck.png").toExternalForm()));
