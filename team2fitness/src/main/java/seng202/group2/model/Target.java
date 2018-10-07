@@ -85,6 +85,24 @@ public class Target {
         return null;
     }
 
+    public String getFormattedFinalValue() {
+        String formatted = "";
+        String type = this.type.get();
+
+        switch(type) {
+            case "Total Distance (m)":
+                formatted = Integer.toString((int)Math.round(this.finalValue.get())) + " m";
+                break;
+            case "Target Weight (kg)":
+                formatted = Double.toString(Math.round(this.finalValue.get() * 10.0) / 10.0) + " kg";
+                break;
+            case "Average Speed (m/s)":
+                formatted = Double.toString(Math.round(this.finalValue.get() * 10.0) / 10.0) + " m/s";
+                break;
+        }
+        return formatted;
+    }
+
     public String getFormattedCompletionDate() {
         return new SimpleDateFormat("MMMM d, YYYY").format(this.completionDate);
     }
