@@ -28,7 +28,7 @@ public class AppController implements Initializable {
 
     //Initialize Panes to be added
     private AnchorPane loginScene;
-    private BorderPane mainScene;
+    private AnchorPane mainScene;
 
     //Initializes Controllers
     private LoginController loginSceneController;
