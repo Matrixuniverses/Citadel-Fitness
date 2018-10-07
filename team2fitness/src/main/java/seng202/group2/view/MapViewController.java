@@ -49,6 +49,9 @@ public class MapViewController implements Initializable, UserData  {
         mapActivityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         mapActivityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
 
+
+        // Adds a listener to the activity table. When the user selects an activity, a Route is created based on
+        // that activities' points. This path (list of points) is fed in to a javascript function which generates the route on the map.
         mapActivityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 try {
@@ -66,7 +69,8 @@ public class MapViewController implements Initializable, UserData  {
             }
         });
 
-
+        // Adds a listener to the data manager. When the user is changed, the new user's activities are loaded, and
+        // a JavaScript function is called to clear the map of any markers.
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {

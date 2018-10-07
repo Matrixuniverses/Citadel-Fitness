@@ -21,6 +21,7 @@ public class UserDBOperations {
 
         ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
 
+        //loop through each record
         while (rs.next()) {
             int id = rs.getInt(1);
             String name = rs.getString(2);
@@ -46,6 +47,7 @@ public class UserDBOperations {
      */
     public static User getUserFromDB(int userID) throws SQLException {
 
+        //executes a query that retrieves a user from the database with a specified id.
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Users WHERE user_id = ?";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -54,10 +56,12 @@ public class UserDBOperations {
 
         User retrievedUser = null;
         ObservableList<User> retrievedUsers = getUsersFromRS(queryResult);
+        //if the returned list has a length greater than 0 it must contain the retrieved user object.
         if (retrievedUsers.size() > 0) {
             retrievedUser = retrievedUsers.get(0);
         }
 
+        //freeing resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -72,7 +76,7 @@ public class UserDBOperations {
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
     public static ObservableList<User> getAllUsers() throws SQLException {
-        //creates a new database if previously doesnt exist
+        //creates a new database if previously does not exist
         DatabaseOperations.createDatabase();
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * from Users";
@@ -83,7 +87,7 @@ public class UserDBOperations {
 
         ObservableList<User> retrievedUsers = getUsersFromRS(queryResult);
 
-
+        //freeing resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -105,7 +109,7 @@ public class UserDBOperations {
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlInsertStmt = "INSERT INTO Users(name, age, height, weight, gender) VALUES(?,?,?,?,?)";
 
-
+        //create and execute prepared statement
         PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
         pUpdateStmt.setString(1, user.getName());
         pUpdateStmt.setInt(2, user.getAge());
@@ -114,10 +118,12 @@ public class UserDBOperations {
         pUpdateStmt.setString(5, user.getGender());
         pUpdateStmt.executeUpdate();
 
+        //retrieve generated primary key
         ResultSet results = pUpdateStmt.getGeneratedKeys();
         results.next();
         int userID = results.getInt(1);
 
+        //free resources
         pUpdateStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -136,10 +142,11 @@ public class UserDBOperations {
     public static boolean updateExistingUser(User user) throws SQLException{
 
         String sqlUpdateStmt = "UPDATE Users SET name = ?, age = ?, height = ?, weight = ? WHERE user_id = ?";
+        //check if the user exists in the database by searching for the user via their unique id
         if (getUserFromDB(user.getId()) != null) {
 
             Connection dbConn = DatabaseOperations.connectToDB();
-
+            //create an execute a prepared statement
             PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStmt.setString(1, user.getName());
             pUpdateStmt.setInt(2, user.getAge());
@@ -148,6 +155,7 @@ public class UserDBOperations {
             pUpdateStmt.setInt(5, user.getId());
             pUpdateStmt.executeUpdate();
 
+            //freeing resources
             pUpdateStmt.close();
             DatabaseOperations.disconnectFromDB();
             return true;
@@ -172,12 +180,16 @@ public class UserDBOperations {
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Users WHERE user_id = ?";
 
+        //create and execute prepared statement.
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, userID);
         pDeleteStmt.executeUpdate();
 
+        //freeing resources
         pDeleteStmt.close();
         DatabaseOperations.disconnectFromDB();
+
+        //check for whether the deleted user still exists in the db
         if (getUserFromDB(userID) == null) {
             return true;
         } else {

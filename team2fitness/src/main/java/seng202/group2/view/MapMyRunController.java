@@ -23,6 +23,10 @@ import java.util.ResourceBundle;
 
 import static java.lang.Boolean.FALSE;
 
+/**
+ * This is the Controller for the Map My Run scene. Initialises and handles scene events.
+ */
+
 public class MapMyRunController implements Initializable, UserData {
 
     @FXML
