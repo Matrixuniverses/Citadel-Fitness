@@ -113,8 +113,8 @@ public class EditProfileController implements Initializable, UserData {
 
         try {
             age = Integer.valueOf(ageField.getText());
-            if (age > 105 || age < 0) {
-                ageErrorLabel.setText("Age must be between 0 and 105");
+            if (age > 140 || age < 0) {
+                ageErrorLabel.setText("Age must be between 0 and 140");
                 update = false;
             }
         } catch (NumberFormatException e) {
