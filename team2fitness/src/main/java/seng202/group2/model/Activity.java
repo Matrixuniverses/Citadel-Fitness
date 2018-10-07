@@ -347,6 +347,10 @@ public class Activity {
         }
     }
 
+    /**
+     * Retrieves the minimum heart rate value from an an activities datapoints.
+     * @return the minimum heart rate value (in Beats Per Minute).
+     */
     public double getMinHR(){
         double min = 1000;
         for (int i = 0; i< activityData.size(); i++){
@@ -357,6 +361,11 @@ public class Activity {
         return min;
 
     }
+
+    /**
+     * Retrieves the maximum heart rate value from an an activities datapoints.
+     * @return the maximum heart rate value (in Beats Per Minute).
+     */
     public double getMaxHR(){
         double max = 0;
         for (int i = 0; i < activityData.size(); i++){

@@ -16,7 +16,8 @@ import java.sql.SQLException;
  */
 public class UserDBOperations {
 
-    public static ObservableList<User> getUsersFromRS(ResultSet rs) throws SQLException {
+    //helper function to retrieve an Observable List of Users from a ResultSet Object
+    private static ObservableList<User> getUsersFromRS(ResultSet rs) throws SQLException {
 
         ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
 

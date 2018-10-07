@@ -52,6 +52,7 @@ public class ActivityDBOperations {
         return false;
     }
 
+    //helper function to get an observable list of activities from a ResultSet object
     private static ObservableList<Activity> getResultSetActivities(ResultSet queryResult) throws SQLException{
 
         ObservableList<Activity> collectedActivities = FXCollections.observableArrayList();
