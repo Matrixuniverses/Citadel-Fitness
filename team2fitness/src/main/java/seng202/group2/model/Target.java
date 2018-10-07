@@ -33,39 +33,28 @@ public class Target {
         this.currentValue = new SimpleDoubleProperty(currentValue);
         this.finalValue = new SimpleDoubleProperty(finalValue);
         this.completionDate = completionDate;
-        this.progress = new SimpleDoubleProperty();
+        this.progress = new SimpleDoubleProperty(calculateProgress(initialValue, currentValue, finalValue));
     }
 
-    public Target(String tName, String tType, Double tValue, Date tDate) {
-        name = new SimpleStringProperty(tName);
-        type = new SimpleStringProperty(tType);
-        initialValue = new SimpleDoubleProperty(80); // Needs to identify value to use.
-        currentValue = new SimpleDoubleProperty(85);
-        finalValue = new SimpleDoubleProperty(90);
-        progress = new SimpleDoubleProperty(currentValue.get() / finalValue.get());
-        completionDate = tDate;
-    }
 
     public void updateProgress(double newCurrent) {
-        Double totalDetla = (finalValue.get() - initialValue.get());
-        Double achievedDelta = (currentValue.get() - initialValue.get());
-        Double completed = achievedDelta / totalDetla;
-        currentValue.set(newCurrent);
-
-        if (completed <= 0) {
-            this.progress.set(0);
-        } else if (completed >= 1) {
-            this.progress.set(1);
-            this.completed.set(true);
-        } else {
-            this.progress.set(completed);
-        }
-
+        this.progress.set(calculateProgress(this.initialValue.get(), newCurrent, this.finalValue.get()));
         try {
             TargetDBOperations.updateExistingTarget(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private double calculateProgress(double initialValue, double currentValue, double finalValue) {
+        System.out.println(initialValue + " "  + currentValue + " " + finalValue);
+        double completed = (currentValue - initialValue) / (finalValue - initialValue);
+        if (completed <= 0) {
+            return 0;
+        } else if (completed >= 1) {
+            return 1;
+        }
+        return completed;
     }
 
     /**
