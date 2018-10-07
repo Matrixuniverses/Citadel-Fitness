@@ -10,13 +10,17 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
+
+import java.io.IOException;
 import java.net.URL;
 
 import java.time.LocalDate;
@@ -78,6 +82,12 @@ public class ActivityViewController implements Initializable, UserData {
     @FXML
     private Button addActivityButton;
 
+    @FXML
+    private AnchorPane activityView;
+
+    private AnchorPane editActivity;
+    private EditActivityController editActivityController;
+
 
 
     private FilteredList<Activity> filteredList;
@@ -88,7 +98,17 @@ public class ActivityViewController implements Initializable, UserData {
      * @param resources FXML and css resources for Activity View
      */
     public void initialize(URL location, ResourceBundle resources) {
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditActivity.fxml"));
+            editActivity = loader.load();
+            editActivityController = loader.getController();
+            activityView.getChildren().add(editActivity);
+            editActivity.toBack();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        editActivity.setLayoutX(250);
+        editActivity.setLayoutY(50);
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
 
@@ -140,6 +160,22 @@ public class ActivityViewController implements Initializable, UserData {
 
             }
         });
+
+
+
+        editActivityButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Activity selected = getActivityTable().getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    editActivityController.editActivity(selected);
+                    editActivity.toFront();
+                }
+
+            }
+        });
+
+
 
 
     }
@@ -208,6 +244,10 @@ public class ActivityViewController implements Initializable, UserData {
 
     public Button getActivityAddButton(){
         return addActivityButton;
+    }
+
+    public Button getEditActivityButton(){
+        return editActivityButton;
     }
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
