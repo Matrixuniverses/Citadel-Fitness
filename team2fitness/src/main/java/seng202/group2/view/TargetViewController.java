@@ -14,6 +14,7 @@ import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class TargetViewController implements Initializable, UserData {
@@ -57,7 +58,7 @@ public class TargetViewController implements Initializable, UserData {
         targetNameCol.setCellValueFactory(new PropertyValueFactory<Target, String>("name"));
         targetTypeCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedType"));
         targetDateEndCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedCompletionDate"));
-        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedStatus"));
+        targetStatusCol.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedProgress"));
         targetProgressColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
         targetProgressColumn.setCellFactory(ProgressBarTableCell.<Target> forTableColumn());
 
@@ -89,7 +90,6 @@ public class TargetViewController implements Initializable, UserData {
                         @Override
                         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                             target.updateProgress((double) newValue);
-                            System.out.println(newValue);
                         }
                     });
                 case "Average Speed (m/s)":
@@ -106,8 +106,18 @@ public class TargetViewController implements Initializable, UserData {
 
     @FXML
     private void deleteTarget() {
-        dataManager.deleteTarget(targetTable.getSelectionModel().getSelectedItem());
+        Target target = targetTable.getSelectionModel().getSelectedItem();
+        if (target != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm delete");
+            alert.setContentText("Do you want to delete the selected target?");
 
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+                dataManager.deleteTarget(target);
+            }
+        }
     }
 
     public TableView<Target> getTargetTable() {

@@ -73,60 +73,17 @@ public class Target {
         return null;
     }
 
-
-
-    public String format(Double val) {
-        String type = this.type.get();
-        String formatted = "";
-
-        if (type.equals("Total Distance (m)")) {
-            formatted = Integer.toString((int)Math.round(val)) + " m";
-        } else if (type.equals("Target Weight (kg)")) {
-            if (val == 0.0) {
-                formatted = "0 kg";
-            } else {
-
-                formatted = Double.toString(Math.round(val * 10.0) / 10.0) + " kg";
-            }
-        } else if (type.equals("Average Speed (m/s)")) {
-            if (val == 0.0) {
-                formatted = "0 m/s";
-            } else {
-                formatted = Double.toString(Math.round(val * 10.0) / 10.0) + " m/s";
-            }
-        }
-
-        return formatted;
-    }
-
-    public String getFormattedInitialValue() {
-        double initVal = this.initialValue.get();
-        return format(initVal);
-    }
-
-    public String getFormattedCurrentValue() {
-        double currVal = this.currentValue.get();
-        return format(currVal);
-    }
-
-    public String getFormattedFinalValue() {
-        double finVal = this.finalValue.get();
-        String formatted = format(finVal);
-
-        return formatted;
-    }
-
     public String getFormattedCompletionDate() {
         return new SimpleDateFormat("MMMM d, YYYY").format(this.completionDate);
     }
 
-    public String getFormattedStatus() {
+    public String getFormattedProgress() {
         String percentStr;
-        if (this.completed.get()) {
+        double progress = this.progress.get();
+        if (progress == 1) {
             percentStr = "COMPLETED";
         } else {
-            int percentVal = (int) Math.round(Math.abs((this.currentValue.get() - this.initialValue.get()) / (this.finalValue.get() - this.initialValue.get())) * 100.0);
-            percentStr = Integer.toString(percentVal) + "%";
+            percentStr = Integer.toString((int)Math.round(progress * 100)) + "%";
         }
         return percentStr;
     }
