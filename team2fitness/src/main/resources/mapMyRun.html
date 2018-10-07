@@ -225,6 +225,9 @@
         polylineArray = [];
         markersArray = [];
         runPath = [];
+
+        totalDistance = 0;
+        newDistance = 0;
     }
 
     /**
@@ -253,6 +256,10 @@
             runPath.splice(-1,1);
         }
 
+    }
+
+    function getRoute() {
+        return runPath;
     }
 
 
