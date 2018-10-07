@@ -54,7 +54,6 @@ public class MapViewController implements Initializable, UserData  {
                 try {
                     Activity selectedActivity = mapActivityTable.getSelectionModel().getSelectedItem();
                     Route path = new Route(selectedActivity.getActivityData());
-                    System.out.println(path);
                     String scriptToExecute = "displayRoute(" + path.toJSONArray() + ");";
                     webEngine.executeScript(scriptToExecute);
                     disconnectedIcon.setVisible(false);

@@ -57,7 +57,6 @@ public class User {
                 totalDistance.set(calculateTotalUserDistance());
                 totalTime.set(calculateTotalUserTime());
                 avgSpeed.set(totalDistance.get() / totalTime.get());
-                System.out.println("total distance change detected");
             }
         });
 
