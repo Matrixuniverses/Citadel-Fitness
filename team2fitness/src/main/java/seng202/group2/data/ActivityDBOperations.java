@@ -181,7 +181,7 @@ public class ActivityDBOperations {
      */
     public static int insertNewActivity(Activity activity, int userID) throws SQLException {
         // Check the user exists in the database
-        if (UserDBOperations.getUserFromRS(userID) == null) {
+        if (UserDBOperations.getUserFromDB(userID) == null) {
             return -1;
         }
 

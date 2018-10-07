@@ -117,7 +117,7 @@ public class TargetDBOperations {
     public static int insertNewTarget(Target target, int userID) throws SQLException {
 
         //check whether the user identified by their userId is in the database
-        if (UserDBOperations.getUserFromRS(userID) == null) {
+        if (UserDBOperations.getUserFromDB(userID) == null) {
             return -1;
         }
 
