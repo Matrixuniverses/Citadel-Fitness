@@ -8,10 +8,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="428.0" prefWidth="340.0" styleClass="main-panel" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.EditTargetController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="330.0" styleClass="main-panel" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.EditTargetController">
    <children>
-      <Label alignment="CENTER" layoutX="74.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="192.0" styleClass="customHeading" text="Edit Target" />
-      <GridPane layoutX="20.0" layoutY="106.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="300.0">
+      <Label alignment="CENTER" layoutX="69.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="192.0" styleClass="customHeading" text="Edit Target" />
+      <GridPane layoutX="20.0" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="290.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="205.0" />
@@ -33,7 +33,7 @@
                   <Insets left="16.5" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="nameErrorLabel" prefWidth="280.0" text="NameErrorLabel" textFill="RED" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <Label fx:id="nameErrorLabel" prefHeight="15.0" prefWidth="281.0" text="NameErrorLabel" textFill="RED" GridPane.columnSpan="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
@@ -63,11 +63,11 @@
             </Label>
             <TextField fx:id="nameTextField" GridPane.columnIndex="1" />
             <TextField fx:id="valueTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <DatePicker fx:id="dateDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="dateDatePicker" prefHeight="25.0" prefWidth="206.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Label fx:id="confirmationLabel" layoutX="40.0" layoutY="310.0" text="ConfirmationLabel" textFill="GREEN" />
-      <Button fx:id="updateButton" layoutX="33.3" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateTarget" prefHeight="45.0" prefWidth="120.0" styleClass="customGreenButton" text="Update" />
-      <Button fx:id="closeButton" layoutX="186.7" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" styleClass="customButton" text="Close" />
+      <Label fx:id="confirmationLabel" layoutX="37.0" layoutY="399.0" text="ConfirmationLabel" textFill="GREEN" />
+      <Button fx:id="updateButton" layoutX="183.33" layoutY="425.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#updateTarget" prefHeight="45.0" prefWidth="120.0" styleClass="customGreenButton" text="Update" />
+      <Button fx:id="closeButton" layoutX="36.67" layoutY="425.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" styleClass="customButton" text="Close" />
    </children>
 </AnchorPane>

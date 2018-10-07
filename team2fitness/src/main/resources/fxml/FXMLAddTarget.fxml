@@ -60,7 +60,7 @@
          </children>
       </GridPane>
       <Label fx:id="confirmationLabel" layoutX="27.0" layoutY="386.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="283.0" text="ConfirmationLabel" textFill="GREEN" />
-      <Button fx:id="addTargetButton" layoutX="36.67" layoutY="425.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addTarget" prefHeight="45.0" prefWidth="110.0" styleClass="customGreenButton" text="Add Target" />
-      <Button fx:id="closeButton" layoutX="183.33" layoutY="425.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="110.0" styleClass="customButton" text="Close" />
+      <Button fx:id="addTargetButton" layoutX="183.33" layoutY="425.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addTarget" prefHeight="45.0" prefWidth="110.0" styleClass="customGreenButton" text="Add Target" />
+      <Button fx:id="closeButton" layoutX="36.67" layoutY="425.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="110.0" styleClass="customButton" text="Close" />
    </children>
 </AnchorPane>
