@@ -47,12 +47,12 @@
                               <Insets bottom="12.0" />
                            </GridPane.margin>
                         </Button>
-                        <Label prefHeight="26.0" prefWidth="151.0" text="Manual Entry">
+                        <Label prefHeight="26.0" prefWidth="150.0" text="Manual Entry" GridPane.columnSpan="2">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="errorLabel" text="Confirm/Error Message" textFill="RED" visible="false" GridPane.halignment="LEFT" GridPane.rowIndex="6">
+                        <Label fx:id="errorLabel" prefHeight="14.0" prefWidth="238.0" text="Confirm/Error Message" textFill="RED" visible="false" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="6">
                            <GridPane.margin>
                               <Insets bottom="7.0" left="16.0" />
                            </GridPane.margin>

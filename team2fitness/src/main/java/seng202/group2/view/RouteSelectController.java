@@ -60,6 +60,8 @@ public class RouteSelectController implements Initializable, UserData {
     private User user = dataManager.getCurrentUser();
     private DataAnalyzer dataAnalyzer;
 
+    private boolean hasInternet;
+
     public void initialize(URL location, ResourceBundle resources) {
         distance = new SimpleDoubleProperty(0.0);
         time = new SimpleDoubleProperty(0.0);
@@ -77,7 +79,7 @@ public class RouteSelectController implements Initializable, UserData {
         mapWebView.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent event) {
-                if (event.isStillSincePress()) {
+                if (event.isStillSincePress() && hasInternet) {
                     errorLabel.setVisible(false);
                     String distanceString = webEngine.executeScript("calculateDistance();").toString();
                     System.out.println("DistanceString = " + distanceString);
@@ -101,9 +103,11 @@ public class RouteSelectController implements Initializable, UserData {
         // Clear the map and show an error message if there is no internet connection
         try {
             resetMap();
+            hasInternet = true;
         } catch (netscape.javascript.JSException e) {
             errorLabel.setVisible(true);
             errorLabel.setText("Internet connection required for map view.");
+            hasInternet = false;
         }
     }
 
@@ -158,9 +162,6 @@ public class RouteSelectController implements Initializable, UserData {
         }
     }
 
-    public void cancel() {
-
-    }
 
     public Button getConfirmButton() {
         return confirmButton;
