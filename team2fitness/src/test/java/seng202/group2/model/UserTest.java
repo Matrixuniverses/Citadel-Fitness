@@ -13,6 +13,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 
 
@@ -43,7 +45,7 @@ public class UserTest {
         Activity activity1 = new Activity("Activity1", Date.from(dateNow), "Run", 100.0, 15.0);
         Activity activity2 = new Activity("Activity2", Date.from(dateNow.minus(Duration.ofDays(20))), "Walk", 70.0, 11.0);
         Activity activity3 = new Activity("Activity3", Date.from(dateNow.minus(Duration.ofDays(5))), "Cycle", 70.0, 9.0);
-
+        activity3.setManualEntry(false);
 
         DatabaseOperations.setDatabaseURL(testDBURL);
         DatabaseOperations.createDatabase();
@@ -83,6 +85,7 @@ public class UserTest {
         assertEquals(37.04, user.getBmi(), 1e-2);
     }
 
+
     @Test
     public void testBmiHeightUpdate(){
         user.setHeight(190);
@@ -118,6 +121,10 @@ public class UserTest {
         assertEquals(36.0, userClone3.getTotalDistance(), 1e-2);
     }
 
+    @Test
+    public void testGetUserNonManualActivities() {
+        assertEquals(1, user.getNonManualActivityList().size());
+    }
 
 
 

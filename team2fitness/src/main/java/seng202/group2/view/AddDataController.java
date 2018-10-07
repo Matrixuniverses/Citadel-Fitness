@@ -3,6 +3,8 @@ package seng202.group2.view;
 //import javafx.beans.property.IntegerProperty;
 //import javafx.beans.property.SimpleIntegerProperty;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -21,6 +23,7 @@ import seng202.group2.data.DataParser;
 import seng202.group2.data.FileFormatException;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
+import seng202.group2.model.User;
 
 import java.io.File;
 import java.net.URL;
@@ -81,6 +84,13 @@ public class AddDataController implements Initializable, UserData {
             thread.setDaemon(true);
             return thread;
         });
+
+        dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                reset();
+            }
+        });
     }
 
     @FXML
@@ -110,11 +120,12 @@ public class AddDataController implements Initializable, UserData {
         });
 
         addDataTask.setOnFailed(failedEvent -> {
+            importInfoLabel.setVisible(true);
             importInfoLabel.setTextFill(Color.RED);
-            importInfoLabel.setText("Error reading data from file.");
+            importInfoLabel.setText(addDataTask.getException().getMessage());
         });
 
-        importInfoLabel.setText("\uf017 Reading file");
+        importInfoLabel.setText("Reading file");
         executionThreads.execute(addDataTask);
     }
 
@@ -152,16 +163,12 @@ public class AddDataController implements Initializable, UserData {
             } else {
                 Date date = Date.from(dateInput.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 Activity userActivity = new Activity(name, date, type, time, distance);
-                DataManager.getDataManager().addActivity(userActivity);
                 dataManager.addActivity(userActivity);
                 errorLabel.setTextFill(Color.GREEN);
                 errorLabel.setText("Activity added successfully.");
 
                 //Clear fields
-                textFieldName.setText(null);
-                textFieldDistance.setText(null);
-                textFieldTime.setText(null);
-                dateInput.setValue(null);
+                reset();
             }
         } catch (NumberFormatException e) {
             errorLabel.setText("Time and Distance must be numbers.");
@@ -170,6 +177,17 @@ public class AddDataController implements Initializable, UserData {
         } catch (IllegalArgumentException e) {
             errorLabel.setText(e.getMessage());
         }
+    }
+
+    /**
+     * Resets the manual entry fields to empty
+     */
+    public void reset(){
+        //Clear fields
+        textFieldName.setText(null);
+        textFieldDistance.setText(null);
+        textFieldTime.setText(null);
+        dateInput.setValue(null);
     }
 
     @FXML

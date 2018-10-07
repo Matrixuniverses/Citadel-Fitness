@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
+import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.io.IOException;
@@ -45,6 +46,9 @@ public class MainController implements Initializable {
     // Controllers
     private ActivityViewController activityViewController;
     private AddDataController addDataController;
+    private TargetViewController targetViewController;
+    private AddTargetController addTargetController;
+    private EditTargetController editTargetController;
     private ViewGraphController viewGraphController;
     private ProfileController profileViewController;
     private MapViewController mapViewController;
@@ -53,7 +57,6 @@ public class MainController implements Initializable {
     private MapMyRunController mapMyRunController;
     private CalendarController calendarController;
     private ActivitiesFoundController activitiesFoundController;
-    private TargetViewController targetViewController;
 
     @FXML
     private HeaderController headerController;
@@ -65,15 +68,17 @@ public class MainController implements Initializable {
     // Views
     private AnchorPane activityView;
     private AnchorPane addDataView;
+    private AnchorPane targetView;
     private AnchorPane viewGraphScene;
     private AnchorPane profileView;
     private AnchorPane mapView;
     private AnchorPane activityInfo;
+    private AnchorPane addTargetView;
+    private AnchorPane editTargetView;
     private AnchorPane editProfile;
     private AnchorPane mapMyRun;
     private AnchorPane calendarScene;
     private AnchorPane activitiesFoundScene;
-    private AnchorPane targetViewScene;
 
     // Allows nav bar to work easily
     private HashMap<String, Pane> paneMap = new HashMap<String, Pane>();
@@ -112,6 +117,11 @@ public class MainController implements Initializable {
             addDataController = loader.getController();
             paneMap.put("Import Data", addDataView);
 
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLTargetView.fxml"));
+            targetView = loader.load();
+            targetViewController = loader.getController();
+            paneMap.put("Targets", targetView);
+
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLViewGraph.fxml"));
             viewGraphScene = loader.load();
             viewGraphController = loader.getController();
@@ -126,6 +136,14 @@ public class MainController implements Initializable {
             mapView = loader.load();
             mapViewController = loader.getController();
             paneMap.put("Maps", mapView);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLAddTarget.fxml"));
+            addTargetView = loader.load();
+            addTargetController = loader.getController();
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditTarget.fxml"));
+            editTargetView = loader.load();
+            editTargetController = loader.getController();
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditProfile.fxml"));
             editProfile = loader.load();
@@ -150,15 +168,10 @@ public class MainController implements Initializable {
             activitiesFoundController = loader.getController();
             paneMap.put("ActivitiesFound", activitiesFoundScene);
 
-            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLTargetView.fxml"));
-            targetViewScene = loader.load();
-            targetViewController = loader.getController();
-            paneMap.put("Targets", targetViewScene);
-
 
             activityInfo.toFront();
 
-            mainStack.getChildren().addAll(targetViewScene, activityInfo, profileView, addDataView, activityView, viewGraphScene, mapView, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
+            mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView, addTargetView, editTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
 
             profileView.toFront();
 
@@ -175,9 +188,6 @@ public class MainController implements Initializable {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
-                    if (newValue == "Import Data"){
-//                        addDataController.clearData();
-                    }
                     paneMap.get(newValue).toFront();
                     headerController.getViewLabel().setText(newValue);
                     navBarController.getCurrentView().setValue("");
@@ -214,7 +224,9 @@ public class MainController implements Initializable {
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                System.out.println("LGFSFDSDSF");
                 status.set("logout");
+                profileView.toFront();
             }
         });
 
@@ -222,6 +234,38 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 editProfile.toFront();
+            }
+        });
+
+        targetViewController.getAddTargetButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                addTargetView.toFront();
+            }
+        });
+
+        targetViewController.getModifyTargetButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Target selected = targetViewController.getTargetTable().getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    editTargetController.updateTargetFields(selected);
+                    editTargetView.toFront();
+                }
+            }
+        });
+
+        addTargetController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                addTargetView.toBack();
+            }
+        });
+
+        editTargetController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                editTargetView.toBack();
             }
         });
 
@@ -262,7 +306,7 @@ public class MainController implements Initializable {
     /**
      * Initializes Activity info as the home scene after login
      */
-    public void initializeActivityInfo(){
+    public void initializeActivityInfo() {
         activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -280,6 +324,13 @@ public class MainController implements Initializable {
                 activityInfo.toBack();
             }
         });
+    }
+
+    /**
+     * resets summary scene to the first scene on login
+     */
+    public void summaryToFront(){
+        profileView.toFront();
     }
 
     public Button getLogoutButton() {

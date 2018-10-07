@@ -4,86 +4,83 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
-
-import javax.xml.crypto.Data;
 import java.net.URL;
-import java.sql.Date;
-import java.sql.SQLException;
+
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.time.ZoneId;
+import java.util.*;
 
 /**
  * Controller for Activity Scene
  */
 public class ActivityViewController implements Initializable, UserData {
 
-    User currentUser;
     private DataManager dataManager = DataManager.getDataManager();
+    private StringProperty pulser = new SimpleStringProperty("0");
 
     @FXML
-    TableView<Activity> activityTable;
+    private TableView<Activity> activityTable;
 
     //Table Columns
     @FXML
-    TableColumn activityDateCol;
+    private TableColumn activityDateCol;
 
     @FXML
-    TableColumn activityNameCol;
+    private TableColumn activityNameCol;
 
     @FXML
-    TableColumn activityTypeCol;
+    private TableColumn activityTypeCol;
 
     @FXML
-    TableColumn activityDistanceCol;
+    private TableColumn activityDistanceCol;
 
     @FXML
-    TableColumn activityTimeCol;
+    private TableColumn activityTimeCol;
 
     //Buttons
     @FXML
     private Button detailButton;
 
     @FXML
-    Button activityDeleteButton;
+    private Button activityDeleteButton;
 
     @FXML
-    Button viewDataPoints;
+    private Button viewDataPoints;
 
     @FXML
-    Button editActivityButton;
+    private Button editActivityButton;
 
     @FXML
-    Button searchButton;
+    private DatePicker dateFromPicker;
 
     @FXML
-    Button clearButton;
+    private DatePicker dateToPicker;
 
     @FXML
-    DatePicker dateFromPicker;
+    private Label errorLabel;
 
     @FXML
-    DatePicker dateToPicker;
+    private ChoiceBox typePicker;
 
     @FXML
-    Label errorLabel;
+    private Button addActivityButton;
 
-    @FXML
-    Button addActivityButton;
 
-    StringProperty pulser = new SimpleStringProperty("0");
 
+    private FilteredList<Activity> filteredList;
 
     /**
      * This initalizes the ActivityView scene
@@ -91,6 +88,7 @@ public class ActivityViewController implements Initializable, UserData {
      * @param resources FXML and css resources for Activity View
      */
     public void initialize(URL location, ResourceBundle resources) {
+
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
 
@@ -104,21 +102,8 @@ public class ActivityViewController implements Initializable, UserData {
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-                activityTable.setItems(DataManager.getDataManager().getActivityList());
-            }
-        });
-
-        searchButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                searchPushed();
-            }
-        });
-
-        clearButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                clearPushed();
+                filteredList = new FilteredList<>(DataManager.getDataManager().getActivityList());
+                activityTable.setItems(filteredList);
             }
         });
 
@@ -130,13 +115,29 @@ public class ActivityViewController implements Initializable, UserData {
                 detailButton.setDisable(false);
                 activityDeleteButton.setDisable(false);
 
-                Double heartRate = newSelection.getAverageHR();
+                double heartRate = newSelection.getAverageHR();
                 pulser.setValue(Double.toString(heartRate));
             } else {
                 detailButton.setDisable(true);
                 viewDataPoints.setDisable(true);
                 editActivityButton.setDisable(true);
                 activityDeleteButton.setDisable(true);
+            }
+        });
+
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.add("All");
+        typeOptions.add("Run");
+        typeOptions.add("Walk");
+        typeOptions.add("Cycle");
+        typeOptions.add("Swim");
+        typePicker.setItems(typeOptions);
+        typePicker.setValue("All");
+        typePicker.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                runFilters();
+
             }
         });
 
@@ -147,40 +148,42 @@ public class ActivityViewController implements Initializable, UserData {
         return pulser;
     }
 
+    @FXML
     public void clearPushed(){
-        activityTable.setItems(DataManager.getDataManager().getActivityList());
+        dateToPicker.setValue(null);
+        dateFromPicker.setValue(null);
+        typePicker.setValue("All");
+        runFilters();
     }
 
+    @FXML
     public void searchPushed(){
-        try{
-            String dateFromString;
-            String dateToString;
-            currentUser = DataManager.getDataManager().getCurrentUser();
+        runFilters();
 
-            if (dateToPicker.getValue() != null){
-                dateToString = dateToPicker.getValue().toString();
-            } else {
-                throw new IllegalArgumentException("Must pick a 'To' date to perform a search.");
-            }
-            if (dateFromPicker.getValue() != null){
-                dateFromString = dateFromPicker.getValue().toString();
-            } else {
-                throw new IllegalArgumentException("Must pick a 'From' date to perform a search.");
-            }
-            Date start = Date.valueOf(dateFromString);
-            Date end = Date.valueOf(dateToString);
-            if (start.toString() == end.toString()){
-                System.out.println(end); //TODO: sort out what happens when the dates are the same.
-            }
-            int id = currentUser.getId();
-            System.out.println(currentUser.getId());
-            activityTable.setItems(ActivityDBOperations.getActivitiesBetweenDates(start, end, id));
+    }
 
-        } catch (IllegalArgumentException e){
-            errorLabel.setText(e.getMessage());
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+    public void runFilters(){
+        filteredList.setPredicate(obj -> {
+
+            if ((dateToPicker.getValue() != null) && (dateFromPicker.getValue() != null)) {
+                Date start = Date.from(dateToPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date end = Date.from(dateFromPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                if (obj.getDate().before(end) || obj.getDate().after(start)) {
+                    return false;
+                }
+            }
+
+            if (typePicker.getSelectionModel().getSelectedIndex() == 0) {
+                return true;
+            }
+
+            if (typePicker.getSelectionModel().getSelectedItem().equals(obj.getActivityType())) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     public void delete(){

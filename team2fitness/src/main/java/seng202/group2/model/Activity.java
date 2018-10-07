@@ -270,7 +270,7 @@ public class Activity {
      */
     public String getFormattedTotalTime() {
         double sec = this.totalTime.get();
-        return String.format("%.0fh %.0fm %.0fs", sec / 3600, (sec % 3600) / 60, (sec % 60));
+        return String.format("%.0fh %.0fm %.0fs", sec / 3600, Math.floor((sec % 3600) / 60), (sec % 60));
     }
 
     /**
@@ -321,6 +321,12 @@ public class Activity {
         return max;
     }
 
+    public void setManualEntry(boolean isManualEntry) {
+        manualEntry = isManualEntry;
+    }
+
+    public boolean isManualEntry() {return manualEntry; }
+
     public SimpleDoubleProperty vo2MaxProperty(){
         return vo2MAX;
     }
@@ -334,10 +340,11 @@ public class Activity {
     public void calcVo2Max() {
         double max = getMaxHR();
         double min = getMinHR();
-        if (min <= 0) {
+        if (min < 0) {
             throw new IllegalArgumentException("restingHeartRate must be greater than zero");
         }
         double maxHeartRate = 15 * (max/min);
         this.vo2MAX.set(maxHeartRate);
     }
+
 }

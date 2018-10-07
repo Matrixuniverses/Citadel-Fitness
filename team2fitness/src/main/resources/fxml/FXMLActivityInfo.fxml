@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
@@ -97,14 +98,17 @@
                                     </LineChart>
                                  </center>
                               </BorderPane>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" GridPane.rowIndex="1">
-                                 <center>
-                                    <WebView fx:id="mapWebView" prefHeight="253.0" prefWidth="483.0" BorderPane.alignment="CENTER" />
-                                 </center>
-                                 <top>
-                                    <Label fx:id="errorLabel" alignment="CENTER" prefHeight="16.0" prefWidth="366.0" BorderPane.alignment="CENTER" />
-                                 </top>
-                              </BorderPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" GridPane.rowIndex="1">
+                                 <children>
+                                    <Label fx:id="errorLabel" alignment="CENTER" layoutX="60.0" layoutY="119.0" prefHeight="16.0" prefWidth="366.0" textAlignment="CENTER" textFill="RED" />
+                                    <WebView fx:id="mapWebView" prefHeight="253.0" prefWidth="483.0" />
+                                    <ImageView fx:id="disconnectedIcon" fitHeight="32.0" fitWidth="32.0" layoutX="228.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                       <image>
+                                          <Image url="@../images/disconnectedIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
                            </children>
                         </GridPane>
                         <GridPane hgap="10.0" vgap="10.0">
@@ -147,7 +151,7 @@
                                     <Label fx:id="distanceLabel" styleClass="customAccent" text="0" BorderPane.alignment="CENTER" />
                                  </center>
                                  <top>
-                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Distance" BorderPane.alignment="CENTER" />
+                                    <Label alignment="CENTER" prefHeight="34.0" prefWidth="234.0" styleClass="customLabels" text="Total Distance (m)" BorderPane.alignment="CENTER" />
                                  </top>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="main-panel" GridPane.rowIndex="2">

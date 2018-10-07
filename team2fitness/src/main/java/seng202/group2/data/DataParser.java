@@ -34,6 +34,8 @@ public class DataParser {
         try {
             if (file == null) {
                 throw new FileFormatException("File is null");
+            } else if (file.isDirectory()) {
+                throw new FileFormatException("Please select a file");
             }
 
             FileReader readFile = new FileReader(file);
@@ -136,6 +138,9 @@ public class DataParser {
                         currentActivity.addDataPoint(point);
                         totalHR += point.getHeartRate();
                         HRCounts += 1;
+                    } else {
+                        MalformedLine lineAttempt = malformedLines.get(malformedLines.size() - 1);
+
                     }
                 }
             }

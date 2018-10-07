@@ -102,6 +102,7 @@ public class AppController implements Initializable {
      */
     private void logout(){
         loginScene.toFront();
+        mainSceneController.summaryToFront();
         loginSceneController.statusProperty().setValue("logged out");
     }
 
