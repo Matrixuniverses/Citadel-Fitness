@@ -161,6 +161,13 @@ public class ActivityViewController implements Initializable, UserData {
             }
         });
 
+        editActivityController.getCancelButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                editActivity.toBack();
+            }
+        });
+
 
 
         editActivityButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -174,6 +181,9 @@ public class ActivityViewController implements Initializable, UserData {
 
             }
         });
+
+
+
 
 
 

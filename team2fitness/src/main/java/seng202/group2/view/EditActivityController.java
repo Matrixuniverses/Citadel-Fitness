@@ -43,6 +43,7 @@ public class EditActivityController {
 
     public void editActivity(Activity activity){
         nameErrorLabel.setVisible(false);
+        confirmationLabel.setVisible(false);
         currentActivity = activity;
         activityNameField.setText(activity.activityNameProperty().getValue().toString());
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
@@ -82,6 +83,7 @@ public class EditActivityController {
             currentActivity.setActivityName(newName);
             currentActivity.setActivityType(newType);
             confirmationLabel.setText("Activity Updated");
+            confirmationLabel.setVisible(true);
 
         }
     }

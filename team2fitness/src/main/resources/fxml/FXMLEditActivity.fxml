@@ -36,7 +36,7 @@
             <Label fx:id="confirmationLabel" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="283.0" text="ConfirmationLabel" textFill="GREEN" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <Button fx:id="cancelButton" layoutX="36.67" layoutY="425.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="110.0" styleClass="customRedButton" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="36.67" layoutY="425.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="110.0" styleClass="customRedButton" text="Close" />
       <Button fx:id="editButton" layoutX="183.33" layoutY="425.0" mnemonicParsing="false" onAction="#editButtonPushed" prefHeight="45.0" prefWidth="110.0" styleClass="customGreenButton" text="Edit" />
    </children>
 </AnchorPane>
