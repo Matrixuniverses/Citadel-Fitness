@@ -164,14 +164,19 @@ public class ActivityViewController implements Initializable, UserData {
 
     public void runFilters(){
         filteredList.setPredicate(obj -> {
-
             if ((dateToPicker.getValue() != null) && (dateFromPicker.getValue() != null)) {
-                Date start = Date.from(dateToPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Date end = Date.from(dateFromPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date end = Date.from(dateToPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant().plusSeconds(86400));
+                Date start = Date.from(dateFromPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-                if (obj.getDate().before(end) || obj.getDate().after(start)) {
+
+                System.out.println(obj.getDate());
+                if (obj.getDate().before(start) || obj.getDate().after(end)) {
                     return false;
                 }
+
+//                if (obj.getDate().before(start) || obj.getDate().after(end)) {
+//                    return false;
+//                }
             }
 
             if (typePicker.getSelectionModel().getSelectedIndex() == 0) {
