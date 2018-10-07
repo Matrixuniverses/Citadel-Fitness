@@ -32,7 +32,7 @@ public class DatapointDBOperations {
             try {
                 datapointDate = dateFormatter.parse(rs.getString(3));
             } catch (ParseException e) {
-                System.out.println("Unable to parse date");
+                System.err.println("Unable to parse date");
                 e.printStackTrace();
             }
 

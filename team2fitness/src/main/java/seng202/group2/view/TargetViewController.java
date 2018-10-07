@@ -82,7 +82,6 @@ public class TargetViewController implements Initializable, UserData {
                 // TODO - implement getstatus in the thing
                 statusLabel.setText(newValue.getStatus());
                 String type = newValue.getType();
-                System.out.println(type);
                 if(type.equals("Total Distance (m)") || type.equals("Average Speed (m/s")) {
                     double current = newValue.getCurrentValue() - newValue.getInitialValue();
                     double target = newValue.getFinalValue() - newValue.getInitialValue();

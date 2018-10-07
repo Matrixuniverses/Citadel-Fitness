@@ -147,7 +147,6 @@ public class DataManager {
     private void listenTarget(Target target, User user) {
         switch(target.getType()) {
             case "Target Weight (kg)":
-                System.out.println("beans");
                 user.weightProperty().addListener(new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {

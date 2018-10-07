@@ -75,7 +75,6 @@ public class Target {
      * @return Double in [0,1] with progress
      */
     private double calculateProgress(double initialValue, double currentValue, double finalValue) {
-        System.out.println(initialValue + " "  + currentValue + " " + finalValue);
         double completed = (currentValue - initialValue) / (finalValue - initialValue);
         if (completed <= 0) {
             return 0;
