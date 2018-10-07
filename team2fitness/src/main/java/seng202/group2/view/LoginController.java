@@ -105,7 +105,7 @@ public class LoginController implements Initializable {
             errorLabel.setText("Name length must be in range 1 - 25");
             fieldUpdate(nameField, true, 0);
         } else if (!fields[1]) {
-            errorLabel.setText("Age must be in range 1 - 115");
+            errorLabel.setText("Age must be in range 0 - 140");
             fieldUpdate(ageField, true, 1);
         } else if (!fields[2]) {
             errorLabel.setText("Invalid height");
@@ -194,7 +194,7 @@ public class LoginController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (Integer.valueOf(ageField.getText()) <= 0) {
+                    if (Integer.valueOf(ageField.getText()) < 0 || Integer.valueOf(ageField.getText()) > 140) {
                         fieldUpdate(ageField, true,1 );
                     } else {
                         fieldUpdate(ageField, false, 1);
