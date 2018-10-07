@@ -15,7 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import seng202.group2.data.ActivityDBOperations;
+import javafx.scene.layout.BorderPane;
 import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
@@ -23,7 +23,6 @@ import seng202.group2.model.User;
 import java.io.IOException;
 import java.net.URL;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -62,7 +61,7 @@ public class ActivityViewController implements Initializable, UserData {
     private Button activityDeleteButton;
 
     @FXML
-    private Button viewDataPoints;
+    private Button viewDataPointsButton;
 
     @FXML
     private Button editActivityButton;
@@ -88,7 +87,8 @@ public class ActivityViewController implements Initializable, UserData {
     private AnchorPane editActivity;
     private EditActivityController editActivityController;
 
-
+    private BorderPane viewDataPointsScene;
+    private ViewDataPointsController viewDataPointsController;
 
     private FilteredList<Activity> filteredList;
 
@@ -98,20 +98,30 @@ public class ActivityViewController implements Initializable, UserData {
      * @param resources FXML and css resources for Activity View
      */
     public void initialize(URL location, ResourceBundle resources) {
+        // Load edit activity view and data view
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLEditActivity.fxml"));
             editActivity = loader.load();
             editActivityController = loader.getController();
             activityView.getChildren().add(editActivity);
             editActivity.toBack();
+
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLViewDataPoints.fxml"));
+            viewDataPointsScene = loader.load();
+            viewDataPointsController = loader.getController();
+            activityView.getChildren().add(viewDataPointsScene);
+            viewDataPointsScene.toBack();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         editActivity.setLayoutX(250);
         editActivity.setLayoutY(50);
-        activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        activityTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
 
+        //Setup activity table
         activityDateCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("formattedDate"));
         activityNameCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         activityTypeCol.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
@@ -130,7 +140,7 @@ public class ActivityViewController implements Initializable, UserData {
 
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                viewDataPoints.setDisable(false);
+                viewDataPointsButton.setDisable(false);
                 editActivityButton.setDisable(false);
                 detailButton.setDisable(false);
                 activityDeleteButton.setDisable(false);
@@ -139,12 +149,13 @@ public class ActivityViewController implements Initializable, UserData {
                 pulser.setValue(Double.toString(heartRate));
             } else {
                 detailButton.setDisable(true);
-                viewDataPoints.setDisable(true);
+                viewDataPointsButton.setDisable(true);
                 editActivityButton.setDisable(true);
                 activityDeleteButton.setDisable(true);
             }
         });
 
+        // setup filters
         ObservableList<String> typeOptions = FXCollections.observableArrayList();
         typeOptions.add("All");
         typeOptions.add("Run");
@@ -183,10 +194,26 @@ public class ActivityViewController implements Initializable, UserData {
         });
 
 
+        viewDataPointsButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Activity selected = getActivityTable().getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    viewDataPointsController.updateActivity(selected);
+                    viewDataPointsScene.toFront();
+                    viewDataPointsScene.setVisible(true);
+                }
+            }
+        });
 
 
-
-
+        viewDataPointsController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                viewDataPointsScene.setVisible(false);
+                viewDataPointsScene.toBack();
+            }
+        });
 
     }
 

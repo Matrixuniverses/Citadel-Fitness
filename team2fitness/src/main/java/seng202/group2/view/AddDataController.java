@@ -83,6 +83,9 @@ public class AddDataController implements Initializable, UserData {
 
     private Double routeTime;
 
+    private AnchorPane activitiesFoundScene;
+    private ActivitiesFoundController activitiesFoundController;
+
 
 
     @Override
@@ -95,16 +98,26 @@ public class AddDataController implements Initializable, UserData {
         choiceBoxType.setItems(typeOptions);
         choiceBoxType.setValue("Run");
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLRouteSelect.fxml"));
+
         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/FXMLRouteSelect.fxml"));
             routeSelectPane  = loader.load();
+            routeSelectController = loader.getController();
+            addDataPane.getChildren().add(routeSelectPane);
+            routeSelectPane.toBack();
+            routeSelectPane.setVisible(false);
+
+            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivitiesFound.fxml"));
+            activitiesFoundScene = loader.load();
+            activitiesFoundController = loader.getController();
+            addDataPane.getChildren().add(activitiesFoundScene);
+            activitiesFoundScene.toBack();
+            activitiesFoundScene.setVisible(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        routeSelectController = loader.getController();
-        addDataPane.getChildren().add(routeSelectPane);
-        routeSelectPane.toBack();
-        routeSelectPane.setVisible(false);
+
+
 
         routeSelectController.getConfirmButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -165,7 +178,7 @@ public class AddDataController implements Initializable, UserData {
             dataManager.addActivities(addDataTask.getValue().getActivitiesRead());
             importInfoLabel.setVisible(true);
             importInfoLabel.setTextFill(Color.GREEN);
-            importInfoLabel.setText("Activities added successfully!");
+            //importInfoLabel.setText("Activities added successfully!");
 
         });
 
