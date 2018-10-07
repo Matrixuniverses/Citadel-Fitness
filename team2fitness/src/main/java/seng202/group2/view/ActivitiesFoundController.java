@@ -1,11 +1,10 @@
 package seng202.group2.view;
 
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -15,19 +14,17 @@ import seng202.group2.data.DataManager;
 import seng202.group2.data.DataParser;
 import seng202.group2.data.MalformedLine;
 import seng202.group2.model.Activity;
-
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ActivitiesFoundController implements Initializable {
 
     private DataManager dataManager = DataManager.getDataManager();
-    private ArrayList<Activity> activities;
+    private ObservableList<Activity> activityList = FXCollections.observableArrayList();
 
     @FXML
-    private TableColumn dateColumn;
+    private TableView activityTable;
 
     @FXML
     private TableColumn nameColumn;
@@ -44,20 +41,20 @@ public class ActivitiesFoundController implements Initializable {
 
 
     public void initialize(URL location, ResourceBundle resources) {
-        dateColumn.setCellValueFactory(new PropertyValueFactory<Activity, Date>("formattedDate"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
-
         statusColumn.setCellValueFactory(new PropertyValueFactory<Activity, Image>("statusImage"));
         statusColumn.setCellFactory(new Callback<TableColumn<Activity, Image>, TableCell<Activity, Image>>() {
             @Override
             public TableCell<Activity, Image> call(TableColumn<Activity, Image> param) {
                 final ImageView imageView = new ImageView();
-
+                imageView.setFitHeight(24);
+                imageView.setFitWidth(24);
 
                 TableCell<Activity, Image> cell = new TableCell<Activity, Image>() {
-                    public void updateStatus(Activity activity) {
-                        imageView.setImage(activity.getStatusImage());
+                    @Override
+                    public void updateItem(Image item, boolean empty) {
+                        imageView.setImage(item);
                     }
                 };
 
@@ -66,24 +63,24 @@ public class ActivitiesFoundController implements Initializable {
             }
         });
 
-
-        importColumn.setCellFactory(new Callback<TableColumn, TableCell>() {
-            @Override
-            public TableCell call(TableColumn param) {
-                return new CheckBoxTableCell();
-            }
-        });
-
+        importColumn.setCellValueFactory(new PropertyValueFactory<Activity, Boolean>("checked"));
+        importColumn.setCellFactory(CheckBoxTableCell.forTableColumn(importColumn));
+        importColumn.setEditable(true);
+        activityTable.setEditable(true);
     }
 
     public void update(DataParser parser) {
-        for (Activity activity : parser.getActivitiesRead()) {
-            activity.setStatusImage(new Image(getClass().getResource("images/greenCheck.png").toExternalForm()));
+        activityList.addAll(parser.getActivitiesRead());
+        for (Activity activity : activityList) {
+            activity.setStatusImage(new Image(getClass().getResource("/images/greenCheck.png").toExternalForm()));
+            activity.setChecked(true);
         }
 
         for (MalformedLine malformed : parser.getMalformedLines()) {
-            malformed.getActivity().setStatusImage(new Image(getClass().getResource("images/redWarning.png").toExternalForm()));
+            malformed.getActivity().setStatusImage(new Image(getClass().getResource("/images/redWarning.png").toExternalForm()));
+            malformed.getActivity().setChecked(false);
         }
 
+        activityTable.setItems(activityList);
     }
 }

@@ -1,5 +1,6 @@
 package seng202.group2.model;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -40,6 +41,7 @@ public class Activity {
     private boolean manualEntry = false;
 
     private Image statusImage;
+    private SimpleBooleanProperty checked = new SimpleBooleanProperty();
 
     /**
      * Initialises an activity with only name as input
@@ -399,4 +401,15 @@ public class Activity {
         this.statusImage = statusImage;
     }
 
+    public Boolean getChecked() {
+        return this.checked.get();
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked.set(checked);
+    }
+
+    public SimpleBooleanProperty checkedProperty() {
+        return checked;
+    }
 }
