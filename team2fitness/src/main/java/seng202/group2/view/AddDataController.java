@@ -175,9 +175,11 @@ public class AddDataController implements Initializable, UserData {
         };
 
         addDataTask.setOnSucceeded(succeededEvent -> {
-            dataManager.addActivities(addDataTask.getValue().getActivitiesRead());
-            importInfoLabel.setVisible(true);
-            importInfoLabel.setTextFill(Color.GREEN);
+            activitiesFoundController.update(addDataTask.getValue().getActivitiesRead());
+            activitiesFoundScene.toFront();
+            //dataManager.addActivities(addDataTask.getValue().getActivitiesRead());
+            //importInfoLabel.setVisible(true);
+           // importInfoLabel.setTextFill(Color.GREEN);
             //importInfoLabel.setText("Activities added successfully!");
 
         });

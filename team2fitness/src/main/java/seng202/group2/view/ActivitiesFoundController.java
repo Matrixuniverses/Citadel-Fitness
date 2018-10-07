@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class ActivitiesFoundController implements Initializable, UserData {
+public class ActivitiesFoundController implements Initializable {
 
     private DataManager dataManager = DataManager.getDataManager();
     private ArrayList<Activity> activities;
@@ -60,7 +60,8 @@ public class ActivitiesFoundController implements Initializable, UserData {
 
     }
 
-    public void updateUser() {
+    public void update(ArrayList<Activity> activities) {
+        this.activities = activities;
 
     }
 }
