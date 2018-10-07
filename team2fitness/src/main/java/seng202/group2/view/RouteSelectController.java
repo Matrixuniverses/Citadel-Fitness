@@ -79,7 +79,7 @@ public class RouteSelectController implements Initializable, UserData {
         mapWebView.addEventHandler(javafx.scene.input.MouseEvent.MOUSE_CLICKED, new EventHandler<javafx.scene.input.MouseEvent>() {
             @Override
             public void handle(javafx.scene.input.MouseEvent event) {
-                if (event.isStillSincePress() && hasInternet) {
+                if (event.isStillSincePress()) {
                     errorLabel.setVisible(false);
                     String distanceString = webEngine.executeScript("calculateDistance();").toString();
                     distanceArray.add(Double.parseDouble(distanceString));
@@ -102,7 +102,6 @@ public class RouteSelectController implements Initializable, UserData {
         // Clear the map and show an error message if there is no internet connection
         try {
             resetMap();
-            hasInternet = true;
         } catch (netscape.javascript.JSException e) {
             errorLabel.setVisible(true);
             errorLabel.setText("Internet connection required for map view.");
