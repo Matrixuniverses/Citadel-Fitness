@@ -210,7 +210,7 @@ public class LoginController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     double height = Double.valueOf(heightField.getText());
-                    if (height <= 0 || height >= 300) {
+                    if (height < 50 || height > 270) {
                         fieldUpdate(heightField, true, 2);
                     } else {
                         fieldUpdate(heightField, false, 2);
