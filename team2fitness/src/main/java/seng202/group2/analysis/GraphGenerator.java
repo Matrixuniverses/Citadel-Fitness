@@ -3,9 +3,7 @@ package seng202.group2.analysis;
 import javafx.scene.chart.XYChart;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 public class GraphGenerator {
 
@@ -20,6 +18,7 @@ public class GraphGenerator {
         double time = 0;
         double distance = 0;
 
+        // Adding each Data Point into the chart for the Time axis
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
             time += dataPoint.getTimeDelta() / 60;
@@ -41,6 +40,7 @@ public class GraphGenerator {
         double time = 0;
         double heartRate;
 
+        // Adding each Data Point into the chart for the HeartRate axis
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
             time += dataPoint.getTimeDelta() / 60;
@@ -62,6 +62,7 @@ public class GraphGenerator {
         double time = 0;
         double speed;
 
+        // Adding each Data Point into the chart for the Speed axis
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()) {
             time += dataPoint.getTimeDelta() / 60;
@@ -87,6 +88,7 @@ public class GraphGenerator {
         double time = 0;
         double calories = 0;
 
+        // Adding each Data Point into the chart for the Calories burnt axis
         XYChart.Series series = new XYChart.Series();
         for (DataPoint dataPoint : activity.getActivityData()){
             time += dataPoint.getTimeDelta() / 60;
