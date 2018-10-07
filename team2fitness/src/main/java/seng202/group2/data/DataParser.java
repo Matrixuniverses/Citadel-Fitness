@@ -18,7 +18,7 @@ import java.util.Locale;
  */
 public class DataParser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
-    private ArrayList<Activity> activitiesRead = new ArrayList<>();;
+    private ArrayList<Activity> activitiesRead = new ArrayList<>();
 
     /**
      * Creates a new parser object, reading location and fitness information into Activities and Datapoints
@@ -45,6 +45,7 @@ public class DataParser {
                 throw new FileFormatException("Incorrect file format");
             }
 
+            // Reads lines from CSV and checks validity
             readLines(readCSV);
 
             // Updating the activities read by calculating distances for each datapoint and activity
@@ -159,28 +160,33 @@ public class DataParser {
         int totalHR = 0;
         int HRCounts = 0;
 
+        // Iterate through all lines of the CSV
         while ((line = readCSV.readNext()) != null) {
+            // Line length needs to be more than 2 in order to get an activity name
             if (line.length >= 2) {
+                // Activity found
                 if (line[0] != null && line[0].equals("#start")) {
                     currentActivity.setAverageHR((double) totalHR / HRCounts);
                     currentActivity = new Activity("Unnamed");
                     activitiesRead.add(currentActivity);
+                    // Start the average heart rate calculation for the given activity
                     totalHR = 0;
                     HRCounts = 0;
 
+                    // Unnamed activity found
                     if (line[1] != null && !line[1].equals("")) {
                         currentActivity.setActivityName(line[1]);
                     }
 
+                    // Datapoint found
                 } else {
+                    // Reads a Datapoint line and checks for validity, if the line is invalid the returned point is null
+                    // Continue iterating through the loop
                     DataPoint point = readLine(line, fields, currentActivity);
                     if (point != null) {
                         currentActivity.addDataPoint(point);
                         totalHR += point.getHeartRate();
                         HRCounts += 1;
-                    } else {
-                        MalformedLine lineAttempt = malformedLines.get(malformedLines.size() - 1);
-
                     }
                 }
             }
@@ -197,7 +203,6 @@ public class DataParser {
      */
     private static Date checkDateTimeFormat(String date, String time) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy,HH:mm:ss", Locale.ENGLISH);
-
         try {
             return dateFormatter.parse(date + "," + time);
         } catch (ParseException e) {
@@ -212,40 +217,5 @@ public class DataParser {
 
     public ArrayList<MalformedLine> getMalformedLines() {
         return this.malformedLines;
-    }
-
-    /**
-     * Checks a passed line to see if it is valid or not
-     *
-     * @param line Line to be checked
-     * @return True if line is valid, False if not
-     */
-    public static boolean isValidLine(String[] line) {
-        int lineLength = line.length;
-
-        // Default number of fields that should be contained in the line
-        if (lineLength != 6) {
-            return false;
-        }
-
-        // Checks date
-        Date date = checkDateTimeFormat(line[0], line[1]);
-        if (date == null) {
-            return false;
-        }
-
-        // Checks only the data type of the line fields
-        try {
-            // The return values of these variables is not used, they are dummy calls designed to throw an
-            // exception upon an invalid value being passed
-            Integer.parseInt(line[2]); // HeartRate check
-            Double.parseDouble(line[3]); // Latitude check
-            Double.parseDouble(line[4]); // Longitude check
-            Double.parseDouble(line[5]); // Altitude check
-            return true;
-
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }
