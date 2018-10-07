@@ -8,21 +8,18 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.image.Image;
+import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.data.ActivityDBOperations;
-import seng202.group2.data.DataManager;
-import seng202.group2.view.ActivityInfoController;
-import seng202.group2.view.ActivityViewController;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * This is activity model class responsible for manipulating data required for activities
  * @author Seng202team2
- * @version 1.0
+ * @version 1.1
  */
 public class Activity {
     private int id;
@@ -32,23 +29,21 @@ public class Activity {
     private SimpleDoubleProperty totalDistance;
     private SimpleDoubleProperty caloriesBurned;
     private SimpleDoubleProperty averageHR;
-    private SimpleDoubleProperty minHR;
-    private SimpleDoubleProperty maxHR;
     private SimpleDoubleProperty vo2MAX;
     private Date activityDate;
     private ObservableList<DataPoint> activityData = FXCollections.observableArrayList();
-    //Will add code functionality later
     private boolean manualEntry = false;
 
+    // Used for the import activities conformation screen
     private Image statusImage;
     private SimpleBooleanProperty checked = new SimpleBooleanProperty();
 
     /**
-     * Initialises an activity with only name as input
+     * Initialises an activity with only name as input, this is used for the Dataparser where a blank activity has
+     * items read into it. This is also used to read an activit into the database
      * @param activityName name of the activity
      */
     public Activity(String activityName) {
-
         this.activityName = new SimpleStringProperty(activityName);
         this.activityType = new SimpleStringProperty("Exercise");
         this.totalTime = new SimpleDoubleProperty(10);
@@ -56,9 +51,9 @@ public class Activity {
         this.caloriesBurned = new SimpleDoubleProperty(0);
         this.averageHR = new SimpleDoubleProperty(0);
         this.activityDate = new Date(0);
-        this.minHR = new SimpleDoubleProperty(0);
-        this.maxHR = new SimpleDoubleProperty(0);
         this.vo2MAX = new SimpleDoubleProperty(0);
+
+        // Change listener that recalculates the VO2MAX
         activityData.addListener(new ListChangeListener<DataPoint>() {
             @Override
             public void onChanged(Change<? extends DataPoint> c) {
@@ -66,12 +61,12 @@ public class Activity {
             }
         });
 
-
+        // Sets up database operations that are fired when a change in the activity data is detected
         setupDatabaseHandlers();
     }
 
     /**
-     * This sets name, date, type, time and distance variables for an activity
+     * This sets name, date, type, time and distance variables for an activity. This is used when inserting manual activities
      * @param activityName name of the activity
      * @param activityDate date of the activity
      * @param activityType type of the activity
@@ -86,21 +81,31 @@ public class Activity {
         this.totalDistance = new SimpleDoubleProperty(Double.valueOf((new DecimalFormat("#.##")).format(totalDistance)));
         this.averageHR = new SimpleDoubleProperty(0);
         this.caloriesBurned = new SimpleDoubleProperty(0);
-        this.minHR = new SimpleDoubleProperty(Double.valueOf(getMinHR()));
-        this.maxHR = new SimpleDoubleProperty(Double.valueOf(getMaxHR()));
         this.vo2MAX = new SimpleDoubleProperty(0);
+
+        // Change listener that recalculates VO2MAX
         activityData.addListener(new ListChangeListener<DataPoint>() {
             @Override
             public void onChanged(Change<? extends DataPoint> c) {
                 calcVo2Max();
             }
         });
+
+        // Activities created using this constructor will always be manual
         manualEntry = true;
 
+        // Creates the database handlers for updating database upon activity property change
         setupDatabaseHandlers();
     }
 
+
+    /**
+     * Helper function that creates event listeners to each of the editable activity properties that will update the
+     * database when the property is changed. This method will assume that error checking has already been performed
+     * by the controller classes, thus will always write to the database
+     */
     private void setupDatabaseHandlers() {
+        // Name is editable
         activityName.addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -113,6 +118,7 @@ public class Activity {
             }
         });
 
+        // Editable type
         activityType.addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -125,6 +131,69 @@ public class Activity {
             }
         });
     }
+
+    /**
+     * Inputs a age value and a resting heart rate (beats per minute) and calculates an estimate of
+     * the VO2 max based of these values.
+     * @return An estimate value of the VO2 max based off the inputted values
+     * @throws IllegalArgumentException if the restingHeartRate value is not greater than zero
+     */
+    public void calcVo2Max() {
+        double max = getMaxHR();
+        double min = getMinHR();
+        if (min < 0) {
+            throw new IllegalArgumentException("restingHeartRate must be greater than zero");
+        }
+        double maxHeartRate = 15 * (max/min);
+        this.vo2MAX.set(maxHeartRate);
+    }
+
+    // IMPORTANT - These getters are used by the CellValueFactories created in TableViews during JavaFX RUNTIME. They
+    // are not used in code, but deleting them will break all the custom table formats
+
+    public SimpleBooleanProperty checkedProperty() {
+        return checked;
+    }
+
+    /**
+     * Returns nicely formatted date
+     * @return Date in the format of: 'January 1, 1970'
+     */
+    public String getShortFormattedDate() {
+        return new SimpleDateFormat("d-MM-YYYY").format(this.activityDate);
+    }
+
+    /**
+     * Returns nicely formatted time separated into time quantities
+     * @return Time in the format of: '1h 20m 30s'
+     */
+    public String getFormattedTotalTime() {
+        double sec = this.totalTime.get();
+        return String.format("%.0fh %.0fm %.0fs", sec / 3600, Math.floor((sec % 3600) / 60), (sec % 60));
+    }
+
+    /**
+     * Returns nicely formatted distance, (m) for distances less than 1.5km (km) else
+     * @return Distance in the format of: '400m' or '1.6km'
+     */
+    public String getFormattedTotalDistance() {
+        if (this.totalDistance.get() >= 1500) {
+            return String.format("%.2fkm", this.totalDistance.get() / 1e3);
+        } else {
+            return String.format("%.0fm", this.totalDistance.get());
+        }
+    }
+
+    /**
+     * Returns nicely formatted date
+     * @return Date in the format of: 'January 1, 1970'
+     */
+    public String getFormattedDate() {
+        return new SimpleDateFormat("MMMM d, YYYY").format(this.activityDate);
+    }
+
+
+    // Normal getters and setters
 
     /**
      * Sets the total time in seconds as formatted to 1dp
@@ -295,43 +364,6 @@ public class Activity {
     }
 
     /**
-     * Returns nicely formatted date
-     * @return Date in the format of: 'January 1, 1970'
-     */
-    public String getFormattedDate() {
-        return new SimpleDateFormat("MMMM d, YYYY").format(this.activityDate);
-    }
-
-    /**
-     * Returns nicely formatted date
-     * @return Date in the format of: 'January 1, 1970'
-     */
-    public String getShortFormattedDate() {
-        return new SimpleDateFormat("d-MM-YYYY").format(this.activityDate);
-    }
-
-    /**
-     * Returns nicely formatted time separated into time quantities
-     * @return Time in the format of: '1h 20m 30s'
-     */
-    public String getFormattedTotalTime() {
-        double sec = this.totalTime.get();
-        return String.format("%.0fh %.0fm %.0fs", sec / 3600, Math.floor((sec % 3600) / 60), (sec % 60));
-    }
-
-    /**
-     * Returns nicely formatted distance, (m) for distances less than 1.5km (km) else
-     * @return Distance in the format of: '400m' or '1.6km'
-     */
-    public String getFormattedTotalDistance() {
-        if (this.totalDistance.get() >= 1500) {
-            return String.format("%.2fkm", this.totalDistance.get() / 1e3);
-        } else {
-            return String.format("%.0fm", this.totalDistance.get());
-        }
-    }
-
-    /**
      * This returns the date of the first element of activityData with the
      * data type Date if the activity was entered manually
      *
@@ -386,22 +418,6 @@ public class Activity {
         return vo2MAX;
     }
 
-    /**
-     * Inputs a age value and a resting heart rate (beats per minute) and calculates an estimate of
-     * the VO2 max based of these values.
-     * @return An estimate value of the VO2 max based off the inputted values
-     * @throws IllegalArgumentException if the restingHeartRate value is not greater than zero
-     */
-    public void calcVo2Max() {
-        double max = getMaxHR();
-        double min = getMinHR();
-        if (min < 0) {
-            throw new IllegalArgumentException("restingHeartRate must be greater than zero");
-        }
-        double maxHeartRate = 15 * (max/min);
-        this.vo2MAX.set(maxHeartRate);
-    }
-
     public Image getStatusImage() {
         return this.statusImage;
     }
@@ -416,9 +432,5 @@ public class Activity {
 
     public void setChecked(boolean checked) {
         this.checked.set(checked);
-    }
-
-    public SimpleBooleanProperty checkedProperty() {
-        return checked;
     }
 }
