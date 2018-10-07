@@ -82,14 +82,18 @@ public class TargetViewController implements Initializable, UserData {
                 // TODO - implement getstatus in the thing
                 statusLabel.setText(newValue.getStatus());
                 String type = newValue.getType();
-                if(type.equals("Total Distance (m)") || type.equals("Average Speed (m/s")) {
+                if (type.equals("Total Distance (m)")) {
                     double current = newValue.getCurrentValue() - newValue.getInitialValue();
                     double target = newValue.getFinalValue() - newValue.getInitialValue();
-                    currentValueLabel.setText(Double.toString(current));
-                    targetValueLabel.setText(Double.toString(target));
+                    current = Math.max(current, 0);
+                    currentValueLabel.setText(Integer.toString((int)Math.round(current)) + " m");
+                    targetValueLabel.setText(Integer.toString((int)Math.round(target)) + " m");
+                } else if (type.equals("Average Speed (m/s)")) {
+                    currentValueLabel.setText(Double.toString(Math.round(newValue.getCurrentValue() * 10.0) / 10.0) + " m/s");
+                    targetValueLabel.setText(Double.toString(Math.round(newValue.getFinalValue() * 10.0) / 10.0) + " m/s");
                 } else {
-                    currentValueLabel.setText(Double.toString(newValue.getCurrentValue()));
-                    targetValueLabel.setText(Double.toString(newValue.getFinalValue()));
+                    currentValueLabel.setText(Double.toString(Math.round(newValue.getCurrentValue() * 10.0) / 10.0) + " kg");
+                    targetValueLabel.setText(Double.toString(Math.round(newValue.getFinalValue() * 10.0) / 10.0) + " kg");
                 }
             }
         });

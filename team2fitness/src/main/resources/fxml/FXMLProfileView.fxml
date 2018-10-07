@@ -30,7 +30,7 @@
          <children>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="972.0" styleClass="main-panel" GridPane.rowIndex="1">
                <children>
-                  <BarChart fx:id="activityGraph" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="972.0" styleClass="customLabels" title="Recent Activities" verticalGridLinesVisible="false">
+                  <BarChart fx:id="activityGraph" barGap="10.0" layoutY="10.0" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="281.0" prefWidth="972.0" styleClass="barChart" title="Recent Activities" verticalGridLinesVisible="false">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -96,9 +96,9 @@
                     <columns>
                       <TableColumn fx:id="nameColumn" prefWidth="115.0" text="Target Name" />
                       <TableColumn fx:id="typeColumn" prefWidth="115.0" text="Target Type" />
-                        <TableColumn fx:id="valueColumn" prefWidth="100.0" text="Target Value" />
-                        <TableColumn fx:id="progressColumn" prefWidth="134.0" text="Progress" />
-                        <TableColumn fx:id="statusColumn" text="Status" />
+                        <TableColumn fx:id="valueColumn" prefWidth="95.0" text="Target Value" />
+                        <TableColumn fx:id="progressColumn" prefWidth="129.0" text="Progress" />
+                        <TableColumn fx:id="statusColumn" prefWidth="90.0" text="Status" />
                     </columns>
                   </TableView>
                   <GridPane vgap="14.0" GridPane.columnIndex="1">
@@ -118,7 +118,7 @@
                                     <Font size="58.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" layoutX="25.0" prefHeight="50.0" prefWidth="150.0" styleClass="customLabels" text="Total Distance (km)" />
+                              <Label alignment="CENTER" layoutX="25.0" prefHeight="50.0" prefWidth="150.0" styleClass="customLabels" text="Total Distance (km)" textFill="#f8b03b" />
                            </children>
                         </AnchorPane>
                         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" styleClass="main-panel" GridPane.rowIndex="1">

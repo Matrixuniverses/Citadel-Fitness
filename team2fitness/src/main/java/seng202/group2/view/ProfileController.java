@@ -115,7 +115,7 @@ public class ProfileController implements Initializable, UserData {
         valueColumn.setCellValueFactory(new PropertyValueFactory<Target, String>("formattedFinalValue"));
         progressColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
         progressColumn.setCellFactory(ProgressBarTableCell.<Target> forTableColumn());
-        statusColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("progress"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("status"));
 
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
@@ -142,7 +142,6 @@ public class ProfileController implements Initializable, UserData {
                         @Override
                         public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                             target.updateProgress((double) newValue);
-                            System.out.println(newValue);
                         }
                     });
                 case "Average Speed (m/s)":
@@ -169,8 +168,7 @@ public class ProfileController implements Initializable, UserData {
         activityGraph.getData().removeAll(activityGraph.getData());
         XYChart.Series series = GraphGenerator.createRecentActivitySeries(recentActivities);
         activityGraph.getData().add(series);
-        activityGraph.getXAxis().setLabel("Activity Date");
-        activityGraph.getYAxis().setLabel("Activity Distance (m)");
+        activityGraph.getYAxis().setLabel("Total Distance (m)");
     }
 
         @Override
