@@ -134,6 +134,9 @@ public class TargetViewController implements Initializable, UserData {
         }
     }
 
+    /**
+     * Deletes the selected target from the database and the target list for the current user
+     */
     @FXML
     private void deleteTarget() {
         Target target = targetTable.getSelectionModel().getSelectedItem();

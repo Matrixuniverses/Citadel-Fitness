@@ -61,8 +61,13 @@ public class EditTargetController implements Initializable, UserData {
     }
 
     public void updateTargetFields(Target target) {
+        String type = target.getType();
+        if(type.equals("Total Distance (m)") || type.equals("Average Speed (m/s)")) {
+            valueTextField.setText(Double.toString(target.getFinalValue() - target.getInitialValue()));
+        } else {
+            valueTextField.setText(Double.toString(target.getFinalValue()));
+        }
         nameTextField.setText(target.getName());
-        valueTextField.setText(Double.toString(target.getFinalValue()));
         dateDatePicker.setValue(target.getCompletionDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         currentTarget = target;
     }
