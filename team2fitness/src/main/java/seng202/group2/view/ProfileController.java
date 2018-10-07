@@ -63,6 +63,9 @@ public class ProfileController implements Initializable, UserData {
     @FXML
     private Label activityCountLabel;
 
+    @FXML
+    private Label maxSpeedLabel;
+
     // Table
     @FXML
     private TableView<Target> targetTable;
@@ -95,12 +98,14 @@ public class ProfileController implements Initializable, UserData {
                 heightLabel.textProperty().bind(Bindings.format("%.0f", dataManager.getCurrentUser().heightProperty()));
                 totalDistanceLabel.textProperty().bind(Bindings.format("%.1f", dataManager.getCurrentUser().totalDistanceProperty().divide(1000)));
                 activityCountLabel.textProperty().setValue(Integer.toString(dataManager.getCurrentUser().getActivityList().size()));
+                setMaxSpeedLabel();
                 setActivityGraph();
 
                 dataManager.getCurrentUser().getActivityList().addListener(new ListChangeListener<Activity>() {
                     @Override
                     public void onChanged(Change<? extends Activity> c) {
                         activityCountLabel.textProperty().setValue(Integer.toString(dataManager.getCurrentUser().getActivityList().size()));
+                        setMaxSpeedLabel();
                         setActivityGraph();
                     }
                 });
@@ -153,6 +158,15 @@ public class ProfileController implements Initializable, UserData {
                     });
             }
         }
+    }
+
+    private void setMaxSpeedLabel() {
+        double maxSpeed = 0.0;
+        for (Activity activity : dataManager.getCurrentUser().getActivityList()) {
+            double speed = activity.getTotalDistance() / activity.getTotalTime();
+            maxSpeed = Math.max(maxSpeed, speed);
+        }
+        maxSpeedLabel.textProperty().setValue(Double.toString(Math.round(maxSpeed * 10.0) / 10.0));
     }
 
     private void setActivityGraph() {
