@@ -24,15 +24,13 @@ public class UserDBOperations {
      * @return the User associated with the user id from the data if the user_id exists in the data.
      * @throws SQLException if any error occurs preforming the sql operations on the database.
      */
-    public static User getUserFromRS(int userID) throws SQLException {
+    public static User getUserFromDB(int userID) throws SQLException {
 
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Users WHERE user_id = ?";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
         pQueryStmt.setInt(1, userID);
         ResultSet queryResult = pQueryStmt.executeQuery();
-
-
 
         User retrievedUser = null;
 
@@ -134,7 +132,7 @@ public class UserDBOperations {
     public static boolean updateExistingUser(User user) throws SQLException{
 
         String sqlUpdateStmt = "UPDATE Users SET name = ?, age = ?, height = ?, weight = ? WHERE user_id = ?";
-        if (getUserFromRS(user.getId()) != null) {
+        if (getUserFromDB(user.getId()) != null) {
 
             Connection dbConn = DatabaseOperations.connectToDB();
 
@@ -176,7 +174,7 @@ public class UserDBOperations {
 
         pDeleteStmt.close();
         DatabaseOperations.disconnectFromDB();
-        if (getUserFromRS(userID) == null) {
+        if (getUserFromDB(userID) == null) {
             return true;
         } else {
             return false;
