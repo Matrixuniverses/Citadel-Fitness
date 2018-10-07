@@ -317,6 +317,21 @@ public class User {
     }
 
     /**
+     * Returns a list of the activities that have been completed by the user that have been loaded
+     * in from a csv file.
+     * @return returns an ObservableList of the user's activities that have not be manually entered in by the user.
+     */
+    public ObservableList<Activity> getNonManualActivityList() {
+        ObservableList<Activity> nonManualActivities = FXCollections.observableArrayList();
+        for (Activity activity : activityList) {
+            if (!(activity.isManualEntry())) {
+                nonManualActivities.add(activity);
+            }
+        }
+        return nonManualActivities;
+    }
+
+    /**
      * This returns the current users list of targets
      * @return returns Target targetList
      */
