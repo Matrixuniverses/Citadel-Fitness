@@ -227,7 +227,7 @@ public class LoginController implements Initializable {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     double weight = Double.valueOf(weightField.getText());
-                    if (weight <= 0 || weight >= 650) {
+                    if (weight <= 0 || weight >= 600) {
                         fieldUpdate(weightField, true, 3);
                     } else {
                         fieldUpdate(weightField, false, 3);
