@@ -45,9 +45,9 @@ public class App extends Application
         mainStage.sizeToScene();
         mainStage.setScene(new Scene(root));
 
-        Media startUpMedia = new Media(getClass().getResource("/Sounds/StartUpSound.mp3").toExternalForm());
-        startUpSoundPlayer = new MediaPlayer(startUpMedia);
-        startUpSoundPlayer.play();
+//        Media startUpMedia = new Media(getClass().getResource("/Sounds/StartUpSound.mp3").toExternalForm());
+//        startUpSoundPlayer = new MediaPlayer(startUpMedia);
+//        startUpSoundPlayer.play();
         mainStage.show();
     }
 
