@@ -88,19 +88,26 @@ public class GraphGenerator {
     }
 
     public static XYChart.Data createDataPoint(Activity activity) {
-        String date;
+        String name;
         double distance;
 
-        date = activity.getShortFormattedDate();
+        name = activity.getActivityName().substring(0, Math.min(activity.getActivityName().length(), 11));
         distance = activity.getTotalDistance();
-
-        return new XYChart.Data(date, distance);
+        return new XYChart.Data(name, distance);
     }
 
     public static XYChart.Series createRecentActivitySeries(ArrayList<Activity> activities) {
         XYChart.Series series = new XYChart.Series();
+        int count = 0;
         for (Activity activity : activities) {
             series.getData().add(createDataPoint(activity));
+            count++;
+        }
+        String holder = " ";
+        while (count < 10) {
+            series.getData().add(new XYChart.Data(holder, 0));
+            count++;
+            holder += " ";
         }
         return series;
     }
