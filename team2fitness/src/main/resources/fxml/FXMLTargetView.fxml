@@ -15,16 +15,16 @@
 
 <AnchorPane fx:id="targetView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" styleClass="main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.group2.view.TargetViewController">
     <children>
-        <GridPane layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="972.0">
+        <GridPane layoutX="14.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="972.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="776.0" minWidth="10.0" prefWidth="771.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="479.0" minWidth="10.0" prefWidth="201.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="430.0" vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <TableView fx:id="targetTable" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="413.0" prefWidth="758.0" GridPane.valignment="TOP">
+                <TableView fx:id="targetTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="621.0" prefWidth="756.0" GridPane.valignment="TOP">
                     <columns>
                         <TableColumn fx:id="targetNameCol" minWidth="-Infinity" prefWidth="150.0" text="Name" />
                         <TableColumn fx:id="targetTypeCol" minWidth="-Infinity" prefWidth="105.0" text="Type" />
@@ -33,36 +33,40 @@
                         <TableColumn fx:id="targetStatusCol" minWidth="-Infinity" prefWidth="118.0" text="Status" />
                     </columns>
                 </TableView>
-                <Button fx:id="addTargetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="customButton" text="Add Target" GridPane.valignment="TOP">
-                    <GridPane.margin>
-                        <Insets left="772.0" top="39.0" />
-                    </GridPane.margin>
-                </Button>
-                <Button fx:id="modifyTargetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="customGreenButton" text="Edit Target" GridPane.valignment="TOP">
-                    <GridPane.margin>
-                        <Insets left="772.0" top="89.0" />
-                    </GridPane.margin>
-                </Button>
-                <Button fx:id="deleteTargetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteTarget" prefHeight="36.0" prefWidth="200.0" styleClass="customRedButton" text="Delete Target" GridPane.valignment="TOP">
-                    <GridPane.margin>
-                        <Insets left="772.0" top="139.0" />
-                    </GridPane.margin>
-                </Button>
-                <GridPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="872.0" GridPane.rowIndex="1">
-                    <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints maxHeight="102.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="175.0" minHeight="10.0" prefHeight="161.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-               <GridPane.margin>
-                  <Insets left="50.0" />
-               </GridPane.margin>
-                </GridPane>
+            <AnchorPane prefWidth="201.0" GridPane.columnIndex="1">
+               <children>
+                      <Button fx:id="deleteTargetButton" layoutY="100.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#deleteTarget" prefHeight="36.0" prefWidth="200.0" styleClass="customRedButton" text="Delete Target" GridPane.valignment="TOP">
+                          <GridPane.margin>
+                              <Insets left="772.0" top="139.0" />
+                          </GridPane.margin>
+                      </Button>
+                      <Button fx:id="addTargetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="customButton" text="Add Target" GridPane.valignment="TOP">
+                          <GridPane.margin>
+                              <Insets left="772.0" top="39.0" />
+                          </GridPane.margin>
+                      </Button>
+                      <Button fx:id="modifyTargetButton" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="customGreenButton" text="Edit Target" GridPane.valignment="TOP">
+                          <GridPane.margin>
+                              <Insets left="772.0" top="89.0" />
+                          </GridPane.margin>
+                      </Button>
+                  <AnchorPane layoutY="234.0" prefHeight="120.0" prefWidth="200.0" styleClass="main-panel" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0">
+                     <children>
+                        <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="customLabels" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="60.0" />
+                        <Label alignment="CENTER" styleClass="customLabels" text="Status" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
+                     </children></AnchorPane>
+                  <AnchorPane layoutY="366.0" prefHeight="120.0" prefWidth="200.0" styleClass="main-panel">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" styleClass="customLabels" text="Current Value" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
+                        <Label fx:id="currentValueLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="customLabels" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="60.0" />
+                     </children></AnchorPane>
+                  <AnchorPane layoutY="501.0" prefHeight="120.0" prefWidth="200.0" styleClass="main-panel">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" styleClass="customLabels" text="Target Value" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0" />
+                        <Label fx:id="targetValueLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="customLabels" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="60.0" />
+                     </children></AnchorPane>
+               </children>
+            </AnchorPane>
             </children>
         </GridPane>
     </children>

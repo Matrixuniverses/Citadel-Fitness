@@ -37,6 +37,10 @@ public class Target {
     }
 
 
+    /**
+     * Updates the progress of the target with a new current value and updates the progress percentage
+     * @param newCurrent New current value of the target
+     */
     public void updateProgress(double newCurrent) {
         this.progress.set(calculateProgress(this.initialValue.get(), newCurrent, this.finalValue.get()));
         this.currentValue.set(newCurrent);
@@ -47,6 +51,14 @@ public class Target {
         }
     }
 
+    /**
+     * Used to calculate progress of a value from a given start and final value. Progress is a calculated by finding the
+     * ratio of the differences between the current and start, with the final and start values
+     * @param initialValue Starting value
+     * @param currentValue Current value to calculate progress with
+     * @param finalValue Final value
+     * @return Double in [0,1] with progress
+     */
     private double calculateProgress(double initialValue, double currentValue, double finalValue) {
         System.out.println(initialValue + " "  + currentValue + " " + finalValue);
         double completed = (currentValue - initialValue) / (finalValue - initialValue);
@@ -167,4 +179,6 @@ public class Target {
     public SimpleDoubleProperty progressProperty() {
         return progress;
     }
+
+    //public double displayValue()
 }
