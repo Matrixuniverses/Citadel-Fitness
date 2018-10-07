@@ -4,6 +4,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,11 +18,10 @@ import seng202.group2.model.Activity;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.User;
 import java.net.URL;
-import java.sql.Date;
-import java.sql.SQLException;
+
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.time.ZoneId;
+import java.util.*;
 
 /**
  * Controller for Activity Scene
@@ -69,10 +73,14 @@ public class ActivityViewController implements Initializable, UserData {
     private Label errorLabel;
 
     @FXML
+    private ChoiceBox typePicker;
+
+    @FXML
     private Button addActivityButton;
 
 
 
+    private FilteredList<Activity> filteredList;
 
     /**
      * This initalizes the ActivityView scene
@@ -80,6 +88,7 @@ public class ActivityViewController implements Initializable, UserData {
      * @param resources FXML and css resources for Activity View
      */
     public void initialize(URL location, ResourceBundle resources) {
+
         activityTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         activityTable.setPlaceholder(new Label("No activity data uploaded currently."));
 
@@ -93,7 +102,8 @@ public class ActivityViewController implements Initializable, UserData {
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-                activityTable.setItems(DataManager.getDataManager().getActivityList());
+                filteredList = new FilteredList<>(DataManager.getDataManager().getActivityList());
+                activityTable.setItems(filteredList);
             }
         });
 
@@ -115,6 +125,22 @@ public class ActivityViewController implements Initializable, UserData {
             }
         });
 
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.add("All");
+        typeOptions.add("Run");
+        typeOptions.add("Walk");
+        typeOptions.add("Cycle");
+        typeOptions.add("Swim");
+        typePicker.setItems(typeOptions);
+        typePicker.setValue("All");
+        typePicker.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                runFilters();
+
+            }
+        });
+
 
     }
 
@@ -124,41 +150,40 @@ public class ActivityViewController implements Initializable, UserData {
 
     @FXML
     public void clearPushed(){
-        activityTable.setItems(DataManager.getDataManager().getActivityList());
+        dateToPicker.setValue(null);
+        dateFromPicker.setValue(null);
+        typePicker.setValue("All");
+        runFilters();
     }
 
     @FXML
     public void searchPushed(){
-        try{
-            String dateFromString;
-            String dateToString;
-            User currentUser = DataManager.getDataManager().getCurrentUser();
+        runFilters();
 
-            if (dateToPicker.getValue() != null){
-                dateToString = dateToPicker.getValue().toString();
-            } else {
-                throw new IllegalArgumentException("Must pick a 'To' date to perform a search.");
+    }
+
+    public void runFilters(){
+        filteredList.setPredicate(obj -> {
+
+            if ((dateToPicker.getValue() != null) && (dateFromPicker.getValue() != null)) {
+                Date start = Date.from(dateToPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                Date end = Date.from(dateFromPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                if (obj.getDate().before(end) || obj.getDate().after(start)) {
+                    return false;
+                }
             }
-            if (dateFromPicker.getValue() != null){
-                dateFromString = dateFromPicker.getValue().toString();
-            } else {
-                throw new IllegalArgumentException("Must pick a 'From' date to perform a search.");
+
+            if (typePicker.getSelectionModel().getSelectedIndex() == 0) {
+                return true;
             }
-            Date start = Date.valueOf(dateFromString);
-            Date end = Date.valueOf(dateToString);
 
-            //end date is set to midnight
-            LocalDate modifiedDate = end.toLocalDate().plusDays(1);
-            end = Date.valueOf(modifiedDate);
-
-            int id = currentUser.getId();
-            activityTable.setItems(ActivityDBOperations.getActivitiesBetweenDates(start, end, id));
-
-        } catch (IllegalArgumentException e){
-            errorLabel.setText(e.getMessage());
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+            if (typePicker.getSelectionModel().getSelectedItem().equals(obj.getActivityType())) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     public void delete(){
