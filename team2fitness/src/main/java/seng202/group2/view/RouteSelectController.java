@@ -82,7 +82,6 @@ public class RouteSelectController implements Initializable, UserData {
                 if (event.isStillSincePress() && hasInternet) {
                     errorLabel.setVisible(false);
                     String distanceString = webEngine.executeScript("calculateDistance();").toString();
-                    System.out.println("DistanceString = " + distanceString);
                     distanceArray.add(Double.parseDouble(distanceString));
                     distance.set(Double.parseDouble(distanceString));
                     time.set(calcTime());

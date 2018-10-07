@@ -244,7 +244,6 @@ public class MainController implements Initializable {
         navBarController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //System.out.println("LGFSFDSDSF");
                 status.set("logout");
                 profileView.toFront();
             }

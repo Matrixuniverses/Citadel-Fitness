@@ -99,7 +99,7 @@ public class WarningPanelController implements Initializable {
     }
 
     private void checkWarnings(){
-        if (!(hasBradycardia.get() && hasTachycardia.get() && hasCardiovascular.get())) {
+        if (!(hasBradycardia.get() || hasTachycardia.get() || hasCardiovascular.get())) {
             noWarningsPanel.setVisible(true);
             noWarningsPanel.setManaged(true);
             resolveAllButton.setDisable(true);

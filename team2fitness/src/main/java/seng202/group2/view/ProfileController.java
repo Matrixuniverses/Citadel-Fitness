@@ -120,7 +120,6 @@ public class ProfileController implements Initializable, UserData {
 
     private void setupListeners() {
         for (Target target : dataManager.getCurrentUser().getTargetList()) {
-            System.out.println(target.getName());
             switch(target.getType()) {
                 case "Total Distance (m)":
                     dataManager.getCurrentUser().totalDistanceProperty().addListener(new ChangeListener<Number>() {
