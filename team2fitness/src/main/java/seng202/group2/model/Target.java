@@ -179,6 +179,4 @@ public class Target {
     public SimpleDoubleProperty progressProperty() {
         return progress;
     }
-
-    //public double displayValue()
 }

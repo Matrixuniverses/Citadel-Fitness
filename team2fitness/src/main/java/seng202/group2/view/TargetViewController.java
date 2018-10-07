@@ -85,8 +85,17 @@ public class TargetViewController implements Initializable, UserData {
             public void changed(ObservableValue<? extends Target> observable, Target oldValue, Target newValue) {
                 // TODO - implement getstatus in the thing
                 // statusLabel.setText(newValue.getStatus());
-                currentValueLabel.setText(Double.toString(newValue.getCurrentValue()));
-                targetValueLabel.setText(Double.toString(newValue.getFinalValue()));
+                String type = newValue.getType();
+                System.out.println(type);
+                if(type.equals("Total Distance (m)") || type.equals("Average Speed (m/s")) {
+                    double current = newValue.getCurrentValue() - newValue.getInitialValue();
+                    double target = newValue.getFinalValue() - newValue.getInitialValue();
+                    currentValueLabel.setText(Double.toString(current));
+                    targetValueLabel.setText(Double.toString(target));
+                } else {
+                    currentValueLabel.setText(Double.toString(newValue.getCurrentValue()));
+                    targetValueLabel.setText(Double.toString(newValue.getFinalValue()));
+                }
             }
         });
 
