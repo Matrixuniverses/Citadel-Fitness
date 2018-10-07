@@ -1,25 +1,31 @@
 package seng202.group2.view;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.Chart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import seng202.group2.analysis.GraphGenerator;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Activity;
 import seng202.group2.model.Target;
 import seng202.group2.model.User;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * This controls the buttons and events for the ProfileView Scene
@@ -41,9 +47,6 @@ public class ProfileController implements Initializable, UserData {
     public void setCurrentView(String currentView) {
         this.currentView.set(currentView);
     }
-
-    @FXML
-    private Chart activityGraph;
 
     @FXML
     private Label bmiLabel;
@@ -79,6 +82,10 @@ public class ProfileController implements Initializable, UserData {
     @FXML
     private TableColumn statusColumn;
 
+    // Bar Chart
+    @FXML
+    private BarChart<String, Double> activityGraph;
+
     public void initialize(URL location, ResourceBundle resources) {
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
@@ -88,11 +95,13 @@ public class ProfileController implements Initializable, UserData {
                 heightLabel.textProperty().bind(Bindings.format("%.0f", dataManager.getCurrentUser().heightProperty()));
                 totalDistanceLabel.textProperty().bind(Bindings.format("%.1f", dataManager.getCurrentUser().totalDistanceProperty().divide(1000)));
                 activityCountLabel.textProperty().setValue(Integer.toString(dataManager.getCurrentUser().getActivityList().size()));
+                setActivityGraph();
 
                 dataManager.getCurrentUser().getActivityList().addListener(new ListChangeListener<Activity>() {
                     @Override
                     public void onChanged(Change<? extends Activity> c) {
                         activityCountLabel.textProperty().setValue(Integer.toString(dataManager.getCurrentUser().getActivityList().size()));
+                        setActivityGraph();
                     }
                 });
             }
@@ -146,6 +155,23 @@ public class ProfileController implements Initializable, UserData {
                     });
             }
         }
+    }
+
+    private void setActivityGraph() {
+        int remaining = dataManager.getCurrentUser().getActivityList().size();
+        ArrayList<Activity> recentActivities = new ArrayList<>();
+        for (Activity currentActivity : dataManager.getCurrentUser().getActivityList()) {
+            if (remaining <= 10) {
+                recentActivities.add(currentActivity);
+            }
+            remaining -= 1;
+        }
+        System.out.println("Bar Graph activities size: " + Integer.toString(recentActivities.size()));
+        activityGraph.getData().removeAll(activityGraph.getData());
+        XYChart.Series series = GraphGenerator.createRecentActivitySeries(recentActivities);
+        activityGraph.getData().add(series);
+        activityGraph.getXAxis().setLabel("Activity Date");
+        activityGraph.getYAxis().setLabel("Activity Distance (m)");
     }
 
         @Override

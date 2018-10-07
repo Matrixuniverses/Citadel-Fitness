@@ -265,6 +265,14 @@ public class Activity {
     }
 
     /**
+     * Returns nicely formatted date
+     * @return Date in the format of: 'January 1, 1970'
+     */
+    public String getShortFormattedDate() {
+        return new SimpleDateFormat("d-MM-YYYY").format(this.activityDate);
+    }
+
+    /**
      * Returns nicely formatted time separated into time quantities
      * @return Time in the format of: '1h 20m 30s'
      */

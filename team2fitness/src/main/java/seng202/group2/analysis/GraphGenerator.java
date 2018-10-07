@@ -4,6 +4,9 @@ import javafx.scene.chart.XYChart;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class GraphGenerator {
 
     public static XYChart.Series createTimeSeries(Activity activity) {
@@ -84,6 +87,21 @@ public class GraphGenerator {
         return series;
     }
 
+    public static XYChart.Data createDataPoint(Activity activity) {
+        String date;
+        double distance;
 
+        date = activity.getShortFormattedDate();
+        distance = activity.getTotalDistance();
 
+        return new XYChart.Data(date, distance);
+    }
+
+    public static XYChart.Series createRecentActivitySeries(ArrayList<Activity> activities) {
+        XYChart.Series series = new XYChart.Series();
+        for (Activity activity : activities) {
+            series.getData().add(createDataPoint(activity));
+        }
+        return series;
+    }
 }
