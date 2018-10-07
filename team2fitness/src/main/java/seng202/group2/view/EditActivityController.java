@@ -80,6 +80,7 @@ public class EditActivityController {
             nameErrorLabel.setText("Name cant be empty");
             update = false;
         } if (update){
+            nameErrorLabel.setVisible(false);
             currentActivity.setActivityName(newName);
             currentActivity.setActivityType(newType);
             confirmationLabel.setText("Activity Updated");

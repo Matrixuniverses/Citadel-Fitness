@@ -172,10 +172,6 @@ public class MainController implements Initializable {
             mapMyRunController = loader.getController();
             paneMap.put("Map My Run", mapMyRun);
 
-            loader = new FXMLLoader(getClass().getResource("/fxml/FXMLActivitiesFound.fxml"));
-            activitiesFoundScene = loader.load();
-            activitiesFoundController = loader.getController();
-            paneMap.put("ActivitiesFound", activitiesFoundScene);
 
             loader = new FXMLLoader(getClass().getResource("/fxml/FXMLWarningPanel.fxml"));
             warningPanel = loader.load();
@@ -191,7 +187,7 @@ public class MainController implements Initializable {
             activityInfo.toFront();
 
             mainStack.getChildren().addAll(activityInfo, profileView, addDataView, activityView, targetView,
-                    addTargetView, editTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene, activitiesFoundScene);
+                    addTargetView, editTargetView, mapView, viewGraphScene, editProfile, mapMyRun, calendarScene);
 
             profileView.toFront();
 

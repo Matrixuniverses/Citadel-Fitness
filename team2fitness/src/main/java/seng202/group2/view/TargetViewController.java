@@ -73,6 +73,7 @@ public class TargetViewController implements Initializable, UserData {
             }
         });
 
+        // Adds an event listener to the selected item to change the target information boxes in the activity view
         targetTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Target>() {
             @Override
             public void changed(ObservableValue<? extends Target> observable, Target oldValue, Target newValue) {

@@ -1,5 +1,6 @@
 package seng202.group2.model;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -7,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 import seng202.group2.data.ActivityDBOperations;
 import seng202.group2.data.DataManager;
 import seng202.group2.view.ActivityInfoController;
@@ -37,6 +39,9 @@ public class Activity {
     private ObservableList<DataPoint> activityData = FXCollections.observableArrayList();
     //Will add code functionality later
     private boolean manualEntry = false;
+
+    private Image statusImage;
+    private SimpleBooleanProperty checked = new SimpleBooleanProperty();
 
     /**
      * Initialises an activity with only name as input
@@ -388,4 +393,23 @@ public class Activity {
         this.vo2MAX.set(maxHeartRate);
     }
 
+    public Image getStatusImage() {
+        return this.statusImage;
+    }
+
+    public void setStatusImage(Image statusImage) {
+        this.statusImage = statusImage;
+    }
+
+    public Boolean getChecked() {
+        return this.checked.get();
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked.set(checked);
+    }
+
+    public SimpleBooleanProperty checkedProperty() {
+        return checked;
+    }
 }
