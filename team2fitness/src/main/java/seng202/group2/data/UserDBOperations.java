@@ -16,6 +16,25 @@ import java.sql.SQLException;
  */
 public class UserDBOperations {
 
+    public static ObservableList<User> getUsersFromRS(ResultSet rs) throws SQLException {
+
+        ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            int id = rs.getInt(1);
+            String name = rs.getString(2);
+            int age = rs.getInt(3);
+            double height = rs.getDouble(4);
+            double weight = rs.getDouble(5);
+            String gender = rs.getString(6);
+            User retrievedUser = new User(id,name, age, height, weight, gender);
+
+            retrievedUsers.add(retrievedUser);
+        }
+
+        return retrievedUsers;
+    }
+
     /**
      * Searches the data for a user in the table users using a given user_id and returns the User if the
      * user has be found by the query in the data.
@@ -33,15 +52,9 @@ public class UserDBOperations {
         ResultSet queryResult = pQueryStmt.executeQuery();
 
         User retrievedUser = null;
-
-        if (queryResult.next()) {
-            int id = queryResult.getInt(1);
-            String name = queryResult.getString(2);
-            int age = queryResult.getInt(3);
-            double height = queryResult.getDouble(4);
-            double weight = queryResult.getDouble(5);
-            String gender = queryResult.getString(6);
-            retrievedUser = new User(id,name, age, height, weight, gender);
+        ObservableList<User> retrievedUsers = getUsersFromRS(queryResult);
+        if (retrievedUsers.size() > 0) {
+            retrievedUser = retrievedUsers.get(0);
         }
 
         pQueryStmt.close();
@@ -67,19 +80,9 @@ public class UserDBOperations {
         ResultSet queryResult = pQueryStmt.executeQuery();
 
 
-        ObservableList<User> retrievedUsers = FXCollections.observableArrayList();
+        ObservableList<User> retrievedUsers = getUsersFromRS(queryResult);
 
-        while (queryResult.next()) {
-            int id = queryResult.getInt(1);
-            String name = queryResult.getString(2);
-            int age = queryResult.getInt(3);
-            double height = queryResult.getDouble(4);
-            double weight = queryResult.getDouble(5);
-            String gender = queryResult.getString(6);
-            User retrievedUser = new User(id,name, age, height, weight, gender);
 
-            retrievedUsers.add(retrievedUser);
-        }
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
