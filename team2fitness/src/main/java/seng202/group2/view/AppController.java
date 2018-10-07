@@ -90,6 +90,7 @@ public class AppController implements Initializable {
         mainSceneController.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                mainSceneController.closePopup();
                 logout();
             }
         });

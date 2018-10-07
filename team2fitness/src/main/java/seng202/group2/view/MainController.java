@@ -368,4 +368,10 @@ public class MainController implements Initializable {
     public Button getLogoutButton() {
         return navBarController.getLogoutButton();
     }
+
+    public void closePopup(){
+        activityViewController.closePopup();
+        editTargetController.getCloseButton().fire();
+
+    }
 }

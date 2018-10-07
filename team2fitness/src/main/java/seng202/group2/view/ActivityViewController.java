@@ -285,6 +285,10 @@ public class ActivityViewController implements Initializable  {
         return addActivityButton;
     }
 
+    public void closePopup(){
+        editActivityController.getCancelButton().fire();
+    }
+
 
     public javafx.scene.control.TableView<Activity> getActivityTable() {
         return activityTable;
