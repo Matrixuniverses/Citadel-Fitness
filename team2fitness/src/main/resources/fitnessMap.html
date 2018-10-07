@@ -114,6 +114,11 @@
         });
     }
 
+    /**
+     * Takes a list of (lat, lng) points. Drops a marker on the location of the first and last point.
+     * Draws a polyline between these points, indicating a route.
+     * @param flightPath list of points outlining the route.
+     */
     function displayRoute(flightPath) {
         // Clears any existing markers
         if (marker1 !== undefined && marker2 !== undefined && path !== undefined) {
@@ -152,6 +157,10 @@
         repositionMap(flightPath);
     }
 
+    /**
+     * Repositions the map so that the provided route is at the center.
+     * @param flightPath A list of points outlining the route the polyline models on the map.
+     */
     function repositionMap(flightPath) {
         var bounds = new google.maps.LatLngBounds();
 
@@ -163,6 +172,9 @@
     }
 
 
+    /**
+     * Clears all existing markers from the map.
+     */
     function clearRoute() {
         // Clears any existing markers
         if (marker1 !== undefined && marker2 !== undefined && path !== undefined) {
