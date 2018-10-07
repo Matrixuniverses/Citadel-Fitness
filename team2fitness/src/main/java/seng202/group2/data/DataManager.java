@@ -2,6 +2,8 @@ package seng202.group2.data;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
@@ -34,6 +36,11 @@ public class DataManager {
                         activity.setCaloriesBurned(DataAnalyzer.calcCalories(user, activity));
                     }
                     user.getTargetList().addAll(TargetDBOperations.getAllUserTargets(user.getId()));
+
+                    // Cannot use the addAll() method as each target needs to have a listener added to the users data
+                    for (Target target : TargetDBOperations.getAllUserTargets(user.getId())) {
+                        addTarget(target);
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -145,6 +152,37 @@ public class DataManager {
 
     public void addTarget(Target target){
         currentUser.get().addTarget(target);
+        switch(target.getType()) {
+            case "Target Weight (kg)":
+                currentUser.get().weightProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        target.updateProgress((double) newValue);
+                        try {
+                            TargetDBOperations.updateExistingTarget(target);
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+                break;
+            case "Average Speed (m/s)":
+                currentUser.get().avgSpeedProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        target.updateProgress((double) newValue);
+                    }
+                });
+            case "Total Distance (m)":
+                currentUser.get().totalDistanceProperty().addListener(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        target.updateProgress((double) newValue);
+                    }
+                });
+
+        }
+
         try {
             target.setId(TargetDBOperations.insertNewTarget(target, currentUser.get().getId()));
         } catch (Exception e) {

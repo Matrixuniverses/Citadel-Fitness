@@ -28,11 +28,9 @@
                     <columns>
                         <TableColumn fx:id="targetNameCol" minWidth="-Infinity" prefWidth="150.0" text="Name" />
                         <TableColumn fx:id="targetTypeCol" minWidth="-Infinity" prefWidth="105.0" text="Type" />
-                        <TableColumn fx:id="targetInitValueCol" minWidth="-Infinity" prefWidth="95.0" text="Initial Value" />
-                        <TableColumn fx:id="targetCurrValueCol" minWidth="-Infinity" prefWidth="95.0" text="Current Value" />
-                        <TableColumn fx:id="targetGoalValueCol" minWidth="-Infinity" prefWidth="95.0" text="Goal Value" />
                         <TableColumn fx:id="targetDateEndCol" minWidth="-Infinity" prefWidth="120.0" text="Complete By" />
-                        <TableColumn fx:id="targetStatusCol" minWidth="-Infinity" prefWidth="96.0" text="Status" />
+                  <TableColumn fx:id="targetProgressColumn" prefWidth="264.0" text="Progress" />
+                        <TableColumn fx:id="targetStatusCol" minWidth="-Infinity" prefWidth="118.0" text="Status" />
                     </columns>
                 </TableView>
                 <Button fx:id="addTargetButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="200.0" styleClass="customButton" text="Add Target" GridPane.valignment="TOP">

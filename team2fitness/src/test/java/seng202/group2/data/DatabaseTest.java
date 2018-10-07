@@ -503,7 +503,7 @@ public class DatabaseTest {
     @Test
     public void testUpdateTargetValid() throws SQLException {
         Target targetToUpdate = TargetDBOperations.getTargetFromDB(2);
-        targetToUpdate.updateProgress(new SimpleDoubleProperty(75.0));
+        targetToUpdate.updateProgress(75);
         assertEquals(true, TargetDBOperations.updateExistingTarget(targetToUpdate));
     }
 
