@@ -23,12 +23,13 @@ public class TargetDBOperations {
     private static ObservableList<Target> getResultSetTargets(ResultSet rs) throws SQLException{
 
         ObservableList<Target> collectedTargets = FXCollections.observableArrayList();
-
+        //loop through each record
         while (rs.next()) {
             int targetID = rs.getInt(1);
             String targetName = rs.getString(3);
 
 
+            //Parsing date string to convert it into a java.util.Date object.
             java.util.Date targetDate = null;
             SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
 
@@ -60,7 +61,7 @@ public class TargetDBOperations {
      * @throws SQLException if an sql related error occurs while querying the database
      */
     public static ObservableList<Target> getAllUserTargets(int userID) throws SQLException {
-
+        //executes a query that retrieves targets from the database with a specified user_id foreign key
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Targets WHERE user_id = ?";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -69,6 +70,7 @@ public class TargetDBOperations {
 
         ObservableList<Target> collectedTargets = getResultSetTargets(queryResult);
 
+        //freeing resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
         return collectedTargets;
@@ -86,6 +88,7 @@ public class TargetDBOperations {
      */
     public static Target getTargetFromDB(int targetID) throws SQLException {
 
+        //executes a query that retrieves a target from the database with a specified id.
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Targets WHERE target_id = ?";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -95,10 +98,13 @@ public class TargetDBOperations {
         Target collectedTarget = null;
         ObservableList<Target> collectedTargetList = getResultSetTargets(queryResult);
 
+        //if the collected target list is not empty then the target has been successfully retrieved from the database
+        //and we can extract it.
         if (!(collectedTargetList.isEmpty())) {
             collectedTarget = collectedTargetList.get(0);
         }
 
+        //freeing resources
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
         return collectedTarget;
@@ -124,6 +130,7 @@ public class TargetDBOperations {
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlInsertStmt = "INSERT INTO Targets(user_id, name, date_achieved, type, initial_value, current_value, final_value) VALUES (?,?,?,?,?,?,?)";
 
+        // Execute prepared statement
         PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
         pUpdateStmt.setInt(1, userID);
         pUpdateStmt.setString(2, target.getName());
@@ -134,12 +141,14 @@ public class TargetDBOperations {
         pUpdateStmt.setDouble(7, target.getFinalValue());
         pUpdateStmt.executeUpdate();
 
+        //retrieves the generated primary keys
         ResultSet genKeysRS = pUpdateStmt.getGeneratedKeys();
         genKeysRS.next();
 
         int targetID = genKeysRS.getInt(1);
 
 
+        //freeing resources
         pUpdateStmt.close();
         DatabaseOperations.disconnectFromDB();
         return targetID;
@@ -159,10 +168,12 @@ public class TargetDBOperations {
 
         String sqlUpdateStmt = "UPDATE Targets SET name = ?, date_achieved = ?, type = ?, initial_value = ?, current_value = ?, final_value = ? WHERE target_id = ?";
 
+        //Checking if the Target exists in the database
         if (getTargetFromDB(target.getId()) != null) {
 
             Connection dbConn = DatabaseOperations.connectToDB();
 
+            // Execute prepared statement
             PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStmt.setString(1, target.getName());
             pUpdateStmt.setString(2, target.getCompletionDate().toString());
@@ -173,6 +184,7 @@ public class TargetDBOperations {
             pUpdateStmt.setInt(7, target.getId());
             pUpdateStmt.executeUpdate();
 
+            //freeing resources
             pUpdateStmt.close();
             DatabaseOperations.disconnectFromDB();
 
@@ -198,11 +210,12 @@ public class TargetDBOperations {
 
         String sqlDeleteStmt = "DELETE FROM Targets WHERE target_id = ?";
 
-
+        // Execute prepared statement
         PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteStmt);
         pDeleteStmt.setInt(1, targetID);
         pDeleteStmt.executeUpdate();
 
+        //disconnect from the database
         DatabaseOperations.disconnectFromDB();
 
         return (getTargetFromDB(targetID) == null);
