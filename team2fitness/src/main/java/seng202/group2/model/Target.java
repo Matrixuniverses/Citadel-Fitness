@@ -22,6 +22,7 @@ public class Target {
     private SimpleDoubleProperty currentValue;
     private SimpleDoubleProperty progress;
     private SimpleDoubleProperty finalValue;
+    private SimpleStringProperty status;
     private Date completionDate;
 
     private BooleanProperty completed = new SimpleBooleanProperty(false);
@@ -33,9 +34,23 @@ public class Target {
         this.currentValue = new SimpleDoubleProperty(currentValue);
         this.finalValue = new SimpleDoubleProperty(finalValue);
         this.completionDate = completionDate;
+        this.status = new SimpleStringProperty();
         this.progress = new SimpleDoubleProperty(calculateProgress(initialValue, currentValue, finalValue));
+        generateStatus();
     }
 
+    /**
+     * Helper function to check the status of the target
+     */
+    private void generateStatus() {
+        if (completed.get()) {
+            status.set("Achieved");
+        } else if (new Date(System.currentTimeMillis()).after(completionDate)) {
+            status.set("Failed");
+        } else {
+            status.set("In Progress");
+        }
+    }
 
     /**
      * Updates the progress of the target with a new current value and updates the progress percentage
@@ -105,17 +120,6 @@ public class Target {
 
     public String getFormattedCompletionDate() {
         return new SimpleDateFormat("MMMM d, YYYY").format(this.completionDate);
-    }
-
-    public String getFormattedProgress() {
-        String percentStr;
-        double progress = this.progress.get();
-        if (progress == 1) {
-            percentStr = "COMPLETED";
-        } else {
-            percentStr = Integer.toString((int)Math.round(progress * 100)) + "%";
-        }
-        return percentStr;
     }
 
     public int getId() {
@@ -196,5 +200,9 @@ public class Target {
 
     public SimpleDoubleProperty progressProperty() {
         return progress;
+    }
+
+    public String getStatus() {
+        return status.get();
     }
 }

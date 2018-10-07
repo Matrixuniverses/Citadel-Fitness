@@ -1,6 +1,5 @@
 package seng202.group2.view;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +10,6 @@ import javafx.scene.control.TextField;
 import seng202.group2.data.DataManager;
 import seng202.group2.model.Target;
 import seng202.group2.model.User;
-
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.Calendar;
