@@ -5,7 +5,7 @@ Citadel Fitness is a fitness tracking application designed to help cardio athlet
 #### How to Run
 
 
-To run the app app from jar:
+To run the app app from a Jar file:
 1. Navigate to the directory containing the jar
 2. Open a terminal window
 3. Run "java -jar citadelFitness.jar"
