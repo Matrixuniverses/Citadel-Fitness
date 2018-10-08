@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 /**
  * This edits the title bar at the top of the window
  */
-public class HeaderController implements Initializable, UserData {
+public class HeaderController implements Initializable {
 
     private DataManager dataManager = DataManager.getDataManager();
 
@@ -67,11 +67,6 @@ public class HeaderController implements Initializable, UserData {
                 }
             }
         });
-
-    }
-
-    @Override
-    public void updateUser() {
 
     }
 

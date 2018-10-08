@@ -27,7 +27,7 @@ import static java.lang.Boolean.FALSE;
  * This is the Controller for the Map My Run scene. Initialises and handles scene events.
  */
 
-public class MapMyRunController implements Initializable, UserData {
+public class MapMyRunController implements Initializable {
 
     @FXML
     private Label distanceLabel;
@@ -101,9 +101,6 @@ public class MapMyRunController implements Initializable, UserData {
             errorLabel.setVisible(true);
             errorLabel.setText("Internet connection required for map view.");
         }
-    }
-
-    public void updateUser() {
     }
 
     /**

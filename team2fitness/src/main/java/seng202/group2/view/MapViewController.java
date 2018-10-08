@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 /**
  * This initialises the MapView Scene and handles events within MapView
  */
-public class MapViewController implements Initializable, UserData  {
+public class MapViewController implements Initializable  {
 
     private DataManager dataManager = DataManager.getDataManager();
 
@@ -111,13 +111,4 @@ public class MapViewController implements Initializable, UserData  {
         return webEngine;
     }
 
-    @Override
-    /**
-     * Populates the map table with the user's activities. Done so that the user can select one to view on the map as
-     * a route.
-     * @param user The user who's activity data is to be added to the table.
-     */
-    public void updateUser() {
-
-    }
 }

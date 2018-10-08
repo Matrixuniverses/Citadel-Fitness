@@ -28,7 +28,7 @@ import static java.lang.Boolean.FALSE;
  * Initialises and handles scene events.
  */
 
-public class RouteSelectController implements Initializable, UserData {
+public class RouteSelectController implements Initializable {
 
     @FXML
     private Label distanceLabel;
@@ -112,9 +112,6 @@ public class RouteSelectController implements Initializable, UserData {
             errorLabel.setText("Internet connection required for map view.");
             hasInternet = false;
         }
-    }
-
-    public void updateUser() {
     }
 
     /**

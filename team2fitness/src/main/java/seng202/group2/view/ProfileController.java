@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * This controls the buttons and events for the ProfileView Scene
  */
-public class ProfileController implements Initializable, UserData {
+public class ProfileController implements Initializable {
 
     private StringProperty currentView = new SimpleStringProperty();
 
@@ -195,8 +195,4 @@ public class ProfileController implements Initializable, UserData {
         activityGraph.getYAxis().setLabel("Total Distance (m)");
     }
 
-        @Override
-    public void updateUser() {
-
-    }
 }

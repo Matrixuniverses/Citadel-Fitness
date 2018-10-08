@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class AddTargetController implements Initializable, UserData {
+public class AddTargetController implements Initializable  {
 
     @FXML
     private TextField nameTextField;
@@ -69,10 +69,6 @@ public class AddTargetController implements Initializable, UserData {
         valueErrorLabel.setText("");
         dateErrorLabel.setText("");
         confirmationLabel.setText("");
-    }
-
-    public void updateUser() {
-
     }
 
     /**

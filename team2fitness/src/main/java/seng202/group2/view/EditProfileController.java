@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 /**
  * This is the controller for EditProfile Scene, initializes and handles Scene events
  */
-public class EditProfileController implements Initializable, UserData {
+public class EditProfileController implements Initializable  {
 
     @FXML
     private TextField nameField;
@@ -72,9 +72,6 @@ public class EditProfileController implements Initializable, UserData {
             confirmLabel.setText("");
         });
     }
-
-    @Override
-    public void updateUser() {}
 
     /**
      * Fills the provided fields with the user's current information.

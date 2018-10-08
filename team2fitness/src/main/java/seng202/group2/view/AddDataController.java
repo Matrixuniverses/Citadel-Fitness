@@ -42,7 +42,7 @@ import java.util.concurrent.Executors;
 /**
  * Controller for AddData Scene
  */
-public class AddDataController implements Initializable, UserData {
+public class AddDataController implements Initializable  {
 
     private Executor executionThreads;
     //private IntegerProperty newFile = new SimpleIntegerProperty(0);
@@ -219,11 +219,6 @@ public class AddDataController implements Initializable, UserData {
 
         importInfoLabel.setText("Reading file");
         executionThreads.execute(addDataTask);
-    }
-
-    @Override
-    public void updateUser() {
-
     }
 
     /**

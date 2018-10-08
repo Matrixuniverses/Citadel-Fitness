@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  * Controller class for Edit Target. Handles scene and events.
  */
 
-public class EditTargetController implements Initializable, UserData {
+public class EditTargetController implements Initializable {
 
     @FXML
     private Label nameErrorLabel;
@@ -149,5 +149,4 @@ public class EditTargetController implements Initializable, UserData {
         return closeButton;
     }
 
-    public void updateUser() {}
 }

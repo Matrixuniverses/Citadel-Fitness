@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  * Controller class for target view scene. Handles scene and events.
  */
 
-public class TargetViewController implements Initializable, UserData {
+public class TargetViewController implements Initializable {
 
     @FXML
     private TableView<Target> targetTable;
@@ -168,5 +168,4 @@ public class TargetViewController implements Initializable, UserData {
         return modifyTargetButton;
     }
 
-    public void updateUser() {}
 }
