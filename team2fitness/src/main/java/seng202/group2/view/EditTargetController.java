@@ -140,6 +140,7 @@ public class EditTargetController implements Initializable, UserData {
             currentTarget.setFinalValue(value);
             currentTarget.setCompletionDate(date);
             dataManager.addTarget(currentTarget);
+            currentTarget.updateProgress(currentTarget.getCurrentValue());
             confirmationLabel.setText("Target updated successfully.");
         }
     }
