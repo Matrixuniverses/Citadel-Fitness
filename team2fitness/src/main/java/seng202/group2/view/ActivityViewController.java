@@ -240,6 +240,9 @@ public class ActivityViewController implements Initializable  {
 
     }
 
+    /**
+     * checks if filters have been applied to activity list and if so shows the filtered activity list using predicates
+     */
     public void runFilters(){
         filteredList.setPredicate(obj -> {
             if ((dateToPicker.getValue() != null) && (dateFromPicker.getValue() != null)) {
@@ -265,6 +268,9 @@ public class ActivityViewController implements Initializable  {
         });
     }
 
+    /**
+     * Removes an activity from activity list if conformation is successful.
+     */
     public void delete(){
         Activity activity = activityTable.getSelectionModel().getSelectedItem();
         if (activity != null) {
