@@ -89,7 +89,7 @@ public class AddTargetController implements Initializable, UserData {
         Double value = 0.0;
         Date date = null;
         boolean validTarget = true;
-        Double currVal = 0.0;
+        double currVal = 0.0;
 
         String name = nameTextField.getText();
         if (name.length() == 0) {
@@ -160,6 +160,9 @@ public class AddTargetController implements Initializable, UserData {
                 dateErrorLabel.setText("Completion date cannot be before today.");
                 validTarget = false;
             }
+        }
+        if (dataManager.getActivityList().size() == 0 && (type.equals("Average Speed (m/s)") || type.equals("Total Distance (m)"))) {
+            currVal = 0.0;
         }
 
         if (validTarget) {

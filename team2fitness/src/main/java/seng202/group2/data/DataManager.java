@@ -212,10 +212,10 @@ public class DataManager {
      * @param target Target to add
      */
     public void addTarget(Target target){
-        // Listen to the user properties
-        listenTarget(target, currentUser.get());
         // Add the target to the target list
         currentUser.get().getTargetList().add(target);
+        // Listen to the user properties
+        listenTarget(target, currentUser.get());
         try {
             // Add the target to the database
             target.setId(TargetDBOperations.insertNewTarget(target, currentUser.get().getId()));

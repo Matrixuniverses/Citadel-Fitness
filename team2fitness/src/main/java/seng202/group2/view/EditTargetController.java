@@ -40,9 +40,6 @@ public class EditTargetController implements Initializable, UserData {
     private DatePicker dateDatePicker;
 
     @FXML
-    private Button updateButton;
-
-    @FXML
     public Button closeButton;
 
     private DataManager dataManager = DataManager.getDataManager();
@@ -78,14 +75,13 @@ public class EditTargetController implements Initializable, UserData {
      * Checks the input fields for valid data. Updates the target with the new info if valid.
      */
     public void updateTarget() {
-
         nameErrorLabel.setText("");
         valueErrorLabel.setText("");
         dateErrorLabel.setText("");
         confirmationLabel.setText("");
 
         String type = currentTarget.getType();
-        Double value = 0.0;
+        double value = 0.0;
         Date date = null;
         boolean validTarget = true;
 

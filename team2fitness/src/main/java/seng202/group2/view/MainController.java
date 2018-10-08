@@ -200,7 +200,7 @@ public class MainController implements Initializable {
     /**
      * This initializes the nav bar and adds a listener for navigation to new scenes
      */
-    public void initializeNavBar() {
+    private void initializeNavBar() {
         navBarController.getCurrentView().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.equals("")) {
@@ -321,7 +321,7 @@ public class MainController implements Initializable {
     /**
      * Initializes Activity info as the home scene after login
      */
-    public void initializeActivityInfo() {
+    private void initializeActivityInfo() {
         activityViewController.getDetailButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -344,7 +344,7 @@ public class MainController implements Initializable {
     /**
      * Initializes the Warning Panel Button/Icon
      */
-    public void initializeWarningPanel() {
+    private void initializeWarningPanel() {
         headerController.getNotificationButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
