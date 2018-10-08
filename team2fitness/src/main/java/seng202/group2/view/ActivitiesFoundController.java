@@ -1,11 +1,15 @@
 package seng202.group2.view;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,7 +34,7 @@ public class ActivitiesFoundController implements Initializable {
     private TableColumn nameColumn;
 
     @FXML
-    private TableColumn typeColumn;
+    private TableColumn<Activity, String> typeColumn;
 
     @FXML
     private TableColumn statusColumn;
@@ -44,9 +48,31 @@ public class ActivitiesFoundController implements Initializable {
     @FXML
     private Button importButton;
 
+
     public void initialize(URL location, ResourceBundle resources) {
+
+        ObservableList<String> typeOptions = FXCollections.observableArrayList();
+        typeOptions.add("Run");
+        typeOptions.add("Walk");
+        typeOptions.add("Cycle");
+        typeOptions.add("Swim");
+
+
         nameColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
+
+        //typeColumn = new TableColumn<Activity, String>("Test");
+        typeColumn.setCellValueFactory(cellData -> cellData.getValue().activityTypeProperty());
+
+        typeColumn.setCellFactory(ComboBoxTableCell.forTableColumn("Run", "Walk", "Cycle", "Swim"));
+
+
+
+
+
+
+        //typeColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
+
+
         statusColumn.setCellValueFactory(new PropertyValueFactory<Activity, Image>("statusImage"));
         statusColumn.setCellFactory(new Callback<TableColumn<Activity, Image>, TableCell<Activity, Image>>() {
             @Override
@@ -66,6 +92,7 @@ public class ActivitiesFoundController implements Initializable {
                 return cell;
             }
         });
+
 
         // Tick boxes
         importColumn.setCellValueFactory(new PropertyValueFactory<Activity, Boolean>("checked"));

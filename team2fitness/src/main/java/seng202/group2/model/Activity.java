@@ -45,7 +45,7 @@ public class Activity {
      */
     public Activity(String activityName) {
         this.activityName = new SimpleStringProperty(activityName);
-        this.activityType = new SimpleStringProperty("Exercise");
+        this.activityType = new SimpleStringProperty("Run");
         this.totalTime = new SimpleDoubleProperty(10);
         this.totalDistance = new SimpleDoubleProperty(0);
         this.caloriesBurned = new SimpleDoubleProperty(0);
