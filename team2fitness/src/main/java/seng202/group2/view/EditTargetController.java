@@ -58,6 +58,10 @@ public class EditTargetController implements Initializable, UserData {
         });
     }
 
+    /**
+     * Populates the fields in the edit target controller with selected target's current info.
+     * @param target The target the user wishes to update.
+     */
     public void updateTargetFields(Target target) {
         nameTextField.setText(target.getName());
         String type = target.getType();
@@ -70,6 +74,9 @@ public class EditTargetController implements Initializable, UserData {
         currentTarget = target;
     }
 
+    /**
+     * Checks the input fields for valid data. Updates the target with the new info if valid.
+     */
     public void updateTarget() {
 
         nameErrorLabel.setText("");
@@ -82,6 +89,7 @@ public class EditTargetController implements Initializable, UserData {
         Date date = null;
         boolean validTarget = true;
 
+        // Checks name
         String name = nameTextField.getText();
         if (name.length() == 0) {
             nameErrorLabel.setText("Target must have a name.");
@@ -91,6 +99,7 @@ public class EditTargetController implements Initializable, UserData {
             validTarget = false;
         }
 
+        // Checks weight/speed/distance against valid ranges
         try {
             value = Double.valueOf(valueTextField.getText());
             if (type.equals("Target Weight (kg)") && (value < 0 || value > 600)) {
@@ -108,6 +117,7 @@ public class EditTargetController implements Initializable, UserData {
             validTarget = false;
         }
 
+        // Checks date
         if (dateDatePicker.getValue() == null) {
             dateErrorLabel.setText("Target must have a completion date.");
             validTarget = false;
@@ -123,6 +133,7 @@ public class EditTargetController implements Initializable, UserData {
             }
         }
 
+        // If all the fields are valid, the target is updated with the new values and saved to the data manager.
         if (validTarget) {
             dataManager.deleteTarget(currentTarget);
             currentTarget.setName(name);
