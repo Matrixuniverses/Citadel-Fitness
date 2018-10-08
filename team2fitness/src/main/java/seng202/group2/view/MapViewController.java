@@ -74,7 +74,7 @@ public class MapViewController implements Initializable  {
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-                mapActivityTable.setItems(dataManager.getCurrentUser().getNonManualActivityList());
+                mapActivityTable.setItems(dataManager.getCurrentUser().getActivityList());
                 webEngine.executeScript("clearRoute()");
             }
         });

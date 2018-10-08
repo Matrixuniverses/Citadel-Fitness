@@ -76,7 +76,7 @@ public class ViewGraphController implements Initializable {
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-                activityTable.setItems(dataManager.getCurrentUser().getNonManualActivityList());
+                activityTable.setItems(dataManager.getCurrentUser().getActivityList());
             }
         });
 
