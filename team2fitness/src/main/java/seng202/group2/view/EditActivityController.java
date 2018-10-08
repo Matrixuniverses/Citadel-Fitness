@@ -42,8 +42,8 @@ public class EditActivityController {
     Activity currentActivity;
 
     /**
-     *
-     * @param activity
+     * Populates the fields of the edit activity popup, with the selected activities' current info.
+     * @param activity The activity selected by the user.
      */
     public void editActivity(Activity activity){
         nameErrorLabel.setVisible(false);
@@ -70,6 +70,10 @@ public class EditActivityController {
         return cancelButton;
     }
 
+    /**
+     * Checks the new activity name for validity, then updates the activity.
+     * Displays an error message if name invalid, or a success message if the update is successful.
+     */
     @FXML
     public void editButtonPushed() {
         boolean update = true;

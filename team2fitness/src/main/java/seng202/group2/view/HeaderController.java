@@ -56,6 +56,7 @@ public class HeaderController implements Initializable, UserData {
             }
         });
 
+        // Changes the appearance of the notification icon to add a red dot to the bell if there is a health warning.
         dataManager.newHealthWarningProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {

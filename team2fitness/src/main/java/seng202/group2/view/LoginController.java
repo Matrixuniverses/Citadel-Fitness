@@ -178,6 +178,7 @@ public class LoginController implements Initializable {
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         imageViewLogo.setImage(new Image("/images/citadelLogo.png"));
 
+        // Calls field update to change the appearance of the name field to green if valid, red if not.
         nameField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -190,6 +191,7 @@ public class LoginController implements Initializable {
             }
         });
 
+        // Calls field update to change the appearance of the age field to green if valid, red if not.
         ageField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -205,6 +207,7 @@ public class LoginController implements Initializable {
             }
         });
 
+        // Calls field update to change the appearance of the height field to green if valid, red if not.
         heightField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -222,6 +225,7 @@ public class LoginController implements Initializable {
             }
         });
 
+        // Calls field update to change the appearance of the weight field to green if valid, red if not.
         weightField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
