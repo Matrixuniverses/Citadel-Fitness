@@ -1,4 +1,4 @@
-#Citadel Fitness
+# Citadel Fitness
 
 Citadel Fitness is a fitness tracking application designed to help cardio athletes track their fitness progress. 
 
