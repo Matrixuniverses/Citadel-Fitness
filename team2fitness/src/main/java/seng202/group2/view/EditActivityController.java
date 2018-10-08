@@ -41,6 +41,10 @@ public class EditActivityController {
 
     Activity currentActivity;
 
+    /**
+     *
+     * @param activity
+     */
     public void editActivity(Activity activity){
         nameErrorLabel.setVisible(false);
         confirmationLabel.setVisible(false);
