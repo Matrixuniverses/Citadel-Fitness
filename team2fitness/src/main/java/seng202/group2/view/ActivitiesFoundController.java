@@ -44,8 +44,6 @@ public class ActivitiesFoundController implements Initializable {
     @FXML
     private Button importButton;
 
-
-
     public void initialize(URL location, ResourceBundle resources) {
         nameColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<Activity, String>("activityType"));
@@ -69,12 +67,18 @@ public class ActivitiesFoundController implements Initializable {
             }
         });
 
+        // Tick boxes
         importColumn.setCellValueFactory(new PropertyValueFactory<Activity, Boolean>("checked"));
         importColumn.setCellFactory(CheckBoxTableCell.forTableColumn(importColumn));
         importColumn.setEditable(true);
         activityTable.setEditable(true);
     }
 
+    /**
+     * Adds all parsed activities to the activity table. Sets a green tick next to valid activities and a red tick next
+     * to activites which contain malformed lines.
+     * @param parser
+     */
     public void update(DataParser parser) {
         activityList.removeAll();
         activityTable.getItems().clear();

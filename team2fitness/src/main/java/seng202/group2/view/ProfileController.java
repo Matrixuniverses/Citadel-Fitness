@@ -101,6 +101,7 @@ public class ProfileController implements Initializable, UserData {
                 setMaxSpeedLabel();
                 setActivityGraph();
 
+                // Edits the activity count label on the summary page.
                 dataManager.getCurrentUser().getActivityList().addListener(new ListChangeListener<Activity>() {
                     @Override
                     public void onChanged(Change<? extends Activity> c) {
@@ -122,6 +123,7 @@ public class ProfileController implements Initializable, UserData {
         progressColumn.setCellFactory(ProgressBarTableCell.<Target> forTableColumn());
         statusColumn.setCellValueFactory(new PropertyValueFactory<Target, Double>("status"));
 
+        // Updates the targets with the current user's list of targets, on switching of users.
         dataManager.currentUserProperty().addListener(new ChangeListener<User>() {
             @Override
             public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
@@ -132,6 +134,9 @@ public class ProfileController implements Initializable, UserData {
         setupListeners();
     }
 
+    /**
+     * Listens to the user's profile info and adjusts targets accordingly.
+     */
     private void setupListeners() {
         for (Target target : dataManager.getCurrentUser().getTargetList()) {
             switch(target.getType()) {
@@ -160,6 +165,9 @@ public class ProfileController implements Initializable, UserData {
         }
     }
 
+    /**
+     * Sets the label on the summary page with the user's highest speed activity.
+     */
     private void setMaxSpeedLabel() {
         double maxSpeed = 0.0;
         for (Activity activity : dataManager.getCurrentUser().getActivityList()) {
@@ -169,6 +177,9 @@ public class ProfileController implements Initializable, UserData {
         maxSpeedLabel.textProperty().setValue(Double.toString(Math.round(maxSpeed * 10.0) / 10.0));
     }
 
+    /**
+     * Sets the activity graph on the profile page which shows the user's distance over recent activities.
+     */
     private void setActivityGraph() {
         int remaining = dataManager.getCurrentUser().getActivityList().size();
         ArrayList<Activity> recentActivities = new ArrayList<>();

@@ -13,6 +13,10 @@ import seng202.group2.model.DataPoint;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for view data point scene. Handles scene and events.
+ */
+
 
 public class ViewDataPointsController implements Initializable
 {

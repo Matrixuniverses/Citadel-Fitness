@@ -104,6 +104,7 @@ public class ActivityInfoController implements Initializable {
         vmaxLabel.textProperty().bind(Bindings.format("%.0f", activity.vo2MaxProperty()));
         activityChart.getData().removeAll(activityChart.getData());
 
+        // Displays a message indicating manual data can't be visually represented.
         if (activity.isManualEntry()) {
             mapWebView.setVisible(false);
             errorLabel.setVisible(true);
@@ -113,6 +114,7 @@ public class ActivityInfoController implements Initializable {
             activityChart.setVisible(true);
             activityChart.setTitle("No graph data available.");
 
+            // Displays the route on the mini map.
         } else {
             try {
                 Route path = new Route(activity.getActivityData());
@@ -129,6 +131,7 @@ public class ActivityInfoController implements Initializable {
                 errorLabel.setTextFill(Color.RED);
                 errorLabel.setText("Internet connection required for map view");
             }
+            // Populates the graph with the activity data.
             activityChart.setTitle("Distance/Time");
             XYChart.Series series = GraphGenerator.createTimeSeries(activity);
             activityChart.getData().add(series);

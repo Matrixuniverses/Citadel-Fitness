@@ -91,6 +91,7 @@ public class AddTargetController implements Initializable, UserData {
         boolean validTarget = true;
         double currVal = 0.0;
 
+        // Checks name
         String name = nameTextField.getText();
         if (name.length() == 0) {
             nameErrorLabel.setText("Target must have a name.");
@@ -100,6 +101,7 @@ public class AddTargetController implements Initializable, UserData {
             validTarget = false;
         }
 
+        // Checks type
         String type = "";
         if (typeComboBox.getSelectionModel().getSelectedItem() == null) {
             validTarget = false;
@@ -108,6 +110,7 @@ public class AddTargetController implements Initializable, UserData {
             type = typeComboBox.getValue().toString();
         }
 
+        // Checks weight/speed/distance.
         try {
             value = Double.valueOf(valueTextField.getText());
 
@@ -146,6 +149,7 @@ public class AddTargetController implements Initializable, UserData {
         }
 
 
+        // Checks date.
         if (dateDatePicker.getValue() == null) {
             dateErrorLabel.setText("Target must have a completion date.");
             validTarget = false;
@@ -165,6 +169,7 @@ public class AddTargetController implements Initializable, UserData {
             currVal = 0.0;
         }
 
+        // Adds target if valid.
         if (validTarget) {
             Target userTarget = new Target(name, date, type, currVal, currVal, value);
             dataManager.addTarget(userTarget);
@@ -173,6 +178,9 @@ public class AddTargetController implements Initializable, UserData {
         }
     }
 
+    /**
+     * Clears fields.
+     */
     private void clearFields() {
         nameTextField.setText(null);
         valueTextField.setText(null);

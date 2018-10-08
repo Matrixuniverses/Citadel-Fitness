@@ -400,6 +400,9 @@ public class AddDataController implements Initializable, UserData {
         event.consume();
     }
 
+    /**
+     * Brings the Route select pane up. Allows the user to select distance/time through clicking a route on map.
+     */
     public void openSelectRoute() {
         routeSelectPane.toFront();
         routeSelectPane.setVisible(true);

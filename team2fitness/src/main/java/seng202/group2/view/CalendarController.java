@@ -13,6 +13,10 @@ import seng202.group2.model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the calender. Handles scene and events.
+ */
+
 public class CalendarController implements UserData, Initializable {
     private DataManager dataManager = DataManager.getDataManager();
 

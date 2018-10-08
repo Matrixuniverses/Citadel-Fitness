@@ -16,6 +16,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for Edit Target. Handles scene and events.
+ */
+
 public class EditTargetController implements Initializable, UserData {
 
     @FXML

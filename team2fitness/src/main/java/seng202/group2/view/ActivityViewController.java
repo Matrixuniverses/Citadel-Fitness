@@ -139,7 +139,7 @@ public class ActivityViewController implements Initializable  {
             }
         });
 
-
+        // Sets the logo to pulse. Disables buttons if the selected activity is null.
         activityTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 viewDataPointsButton.setDisable(false);
@@ -174,6 +174,7 @@ public class ActivityViewController implements Initializable  {
             }
         });
 
+        // Sends the edit activity scene to back on 'close' button click.
         editActivityController.getCancelButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -182,7 +183,7 @@ public class ActivityViewController implements Initializable  {
         });
 
 
-
+        // Brings the edit activity popup to front.
         editActivityButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -195,7 +196,7 @@ public class ActivityViewController implements Initializable  {
             }
         });
 
-
+        // Brings the view data point scene forward on button click.
         viewDataPointsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -208,7 +209,7 @@ public class ActivityViewController implements Initializable  {
             }
         });
 
-
+        // Closes the data point scene.
         viewDataPointsController.getCloseButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

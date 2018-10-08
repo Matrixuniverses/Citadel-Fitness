@@ -15,9 +15,10 @@ import java.util.Date;
 import java.time.ZoneId;
 import java.util.InputMismatchException;
 
+/**
+ * Controller class for edit activity scene. Handles scene and events.
+ */
 public class EditActivityController {
-
-
 
     @FXML
     private TextField activityNameField;

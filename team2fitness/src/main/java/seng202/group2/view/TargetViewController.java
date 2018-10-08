@@ -17,6 +17,10 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for target view scene. Handles scene and events.
+ */
+
 public class TargetViewController implements Initializable, UserData {
 
     @FXML

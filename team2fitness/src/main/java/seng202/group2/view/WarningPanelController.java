@@ -19,6 +19,10 @@ import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for warning panel. Handles scene and events.
+ */
+
 public class WarningPanelController implements Initializable {
 
     DataManager dataManager = DataManager.getDataManager();
@@ -98,6 +102,9 @@ public class WarningPanelController implements Initializable {
 
     }
 
+    /**
+     * Sets the panel to display no warnings if the user has no diseases.
+     */
     private void checkWarnings(){
         if (!(hasBradycardia.get() || hasTachycardia.get() || hasCardiovascular.get())) {
             noWarningsPanel.setVisible(true);
