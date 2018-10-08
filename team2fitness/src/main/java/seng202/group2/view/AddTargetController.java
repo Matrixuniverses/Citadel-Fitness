@@ -93,7 +93,7 @@ public class AddTargetController implements Initializable, UserData {
 
         // Checks name
         String name = nameTextField.getText();
-        if (name.length() == 0) {
+        if (name == null || name.length() == 0) {
             nameErrorLabel.setText("Target must have a name.");
             validTarget = false;
         } else if (name.length() > 30) {
@@ -146,6 +146,8 @@ public class AddTargetController implements Initializable, UserData {
 
         } catch (NumberFormatException ex) {
             valueErrorLabel.setText("Target value must be a number.");
+        } catch (NullPointerException e) {
+            valueErrorLabel.setText("Fields cannot be empty.");
         }
 
 
