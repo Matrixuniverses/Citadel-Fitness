@@ -26,6 +26,7 @@ public class DatabaseOperations {
         return sqlConfig;
     }
 
+
     /**
      * Establishes a connection to a sql data with the filename CitadelFitnessLocalDatabase.db which is assigned to
      * the local java.sql.Connection object. The connection is set up with the configuration that Foreign Keys in the
@@ -48,6 +49,7 @@ public class DatabaseOperations {
 
     }
 
+
     /**
      * Sets a new data URL.
      * @param newDatabaseURL The new URL for the data
@@ -55,10 +57,6 @@ public class DatabaseOperations {
     public static void setDatabaseURL(String newDatabaseURL) {
         dbURL = newDatabaseURL;
     }
-
-
-
-
 
 
     /**
@@ -245,7 +243,7 @@ public class DatabaseOperations {
                     + "FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE\n"
                     + ");";
 
-
+            //Prepare and execute each create table statement
             PreparedStatement pCreateTableStmt = dbConn.prepareStatement(sqlCreateUserTableStmt);
             pCreateTableStmt.executeUpdate();
             pCreateTableStmt = dbConn.prepareStatement(sqlCreateActivityTableStmt);
@@ -269,6 +267,7 @@ public class DatabaseOperations {
      */
     public static void resetDatabase(boolean totalReset) throws SQLException {
         connectToDB();
+        //If total reset drop all tables. Used for testing to account for database schema changes between versions
         if (totalReset) {
             String sqlDropUserTableStmt = "DROP TABLE IF EXISTS Users";
             String sqlDropActivityTableStmt = "DROP TABLE IF EXISTS Activities";
@@ -284,7 +283,7 @@ public class DatabaseOperations {
             pDropTableStmt.executeUpdate();
 
         } else {
-
+            //deleting all users will delete all records from the database.
             String sqlDeleteUsersStmt = "DELETE FROM Users";
             PreparedStatement pDeleteStmt = dbConn.prepareStatement(sqlDeleteUsersStmt);
             pDeleteStmt.executeUpdate();

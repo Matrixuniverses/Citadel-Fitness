@@ -99,45 +99,6 @@ public class DataAnalyzerTest {
         DataAnalyzer.calcBMI(0.0, 97.2);
     }
 
-
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void calcVo2MaxReturnsCorrectResult3() {
-//        DataAnalyzer.calcVo2Max(45, 0);
-//    }
-
-//    @Test
-//    public void calcCaloriesReturnsCorrectResult1() {
-//        double calories;
-//
-//        calories = DataAnalyzer.calcCalories(63, 88.4, 130, 45, false);
-//        calories = (double)Math.round(calories * 100d) / 100d;
-//        assertEquals(335.64, calories, 1e-1);
-//    }
-//
-//    @Test
-//    public void calcCaloriesReturnsCorrectResult2() {
-//        double calories;
-//
-//        calories = DataAnalyzer.calcCalories(37, 65, 145, 45, true);
-//        calories = (double)Math.round(calories * 100d) / 100d;
-//        assertEquals(332.31, calories, 1e-1);
-//    }
-//
-//    @Test
-//    public void calcCaloriesReturnsCorrectResult3() {
-//        double calories;
-//
-//        calories = DataAnalyzer.calcCalories(37, 65, 145, 45, false);
-//        calories = (double)Math.round(calories * 100d) / 100d;
-//        assertEquals(418.95, calories, 1e-1);
-//    }
-//
-//    @Test(expected = IllegalArgumentException.class)
-//    public void calcCaloriesReturnsCorrectResult4() {
-//        DataAnalyzer.calcCalories(37, 65, 132, -45, false);
-//    }
-
     @Test
     public void hasTachycardiaReturnsCorrectResult1() {
         boolean result;

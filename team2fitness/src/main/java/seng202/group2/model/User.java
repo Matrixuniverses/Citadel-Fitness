@@ -8,9 +8,11 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.data.UserDBOperations;
-
 import java.sql.SQLException;
 
+/**
+ * Model class for a user
+ */
 public class User {
 
     private int id;
@@ -21,6 +23,8 @@ public class User {
     private DoubleProperty weight;
     private DoubleProperty bmi;
     private DoubleProperty totalDistance;
+    private DoubleProperty totalTime;
+    private DoubleProperty avgSpeed;
 
     private ObservableList<Activity> activityList = FXCollections.observableArrayList();
     private ObservableList<Target> targetList = FXCollections.observableArrayList();
@@ -47,12 +51,20 @@ public class User {
         this.bmi.bind(this.weight.divide(this.height.divide(100).multiply(this.height.divide(100))));
 
         totalDistance = new SimpleDoubleProperty(0);
+        totalTime = new SimpleDoubleProperty(0);
+        avgSpeed = new SimpleDoubleProperty(0);
+
+        // Change listener that will re-calculate the user total distance and time, used for targets
         activityList.addListener(new ListChangeListener<Activity>() {
             @Override
             public void onChanged(Change<? extends Activity> c) {
-                totalDistance.setValue(calculateTotalUserDistance());
+                totalDistance.set(calculateTotalUserDistance());
+                totalTime.set(calculateTotalUserTime());
+                avgSpeed.set(totalDistance.get() / totalTime.get());
             }
         });
+
+        // Creates new event listeners that update the database when the users properties are changed
         setupDatabaseHandlers();
     }
 
@@ -79,8 +91,8 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
+                    // Update the name in the database
                     UserDBOperations.updateExistingUser(User.this);
-                    System.out.println("name update");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -91,6 +103,7 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 try {
+                    // Update age in the database
                     UserDBOperations.updateExistingUser(User.this);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -102,6 +115,7 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 try {
+                    // Update height in the database
                     UserDBOperations.updateExistingUser(User.this);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -113,6 +127,7 @@ public class User {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 try {
+                    // Update weight in the database
                     UserDBOperations.updateExistingUser(User.this);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -134,6 +149,18 @@ public class User {
     }
 
     /**
+     * This returns the total time the user has spent travelling
+     * @return Double containing total time
+     */
+    private double calculateTotalUserTime() {
+        double totalTime = 0;
+        for (Activity activity : activityList) {
+            totalTime += activity.getTotalTime();
+        }
+        return totalTime;
+    }
+
+    /**
      * This calculated the average heart rate and calories for the activity and then adds the activity to the activityList
      * @param activity activity object
      */
@@ -150,10 +177,6 @@ public class User {
      */
     public void deleteActivity(Activity activity) {
         this.activityList.remove(activity);
-    }
-
-    public void addTarget(Target target){
-        this.targetList.add(target);
     }
 
     /**
@@ -301,6 +324,21 @@ public class User {
     }
 
     /**
+     * Returns a list of the activities that have been completed by the user that have been loaded
+     * in from a csv file.
+     * @return returns an ObservableList of the user's activities that have not be manually entered in by the user.
+     */
+    public ObservableList<Activity> getNonManualActivityList() {
+        ObservableList<Activity> nonManualActivities = FXCollections.observableArrayList();
+        for (Activity activity : activityList) {
+            if (!(activity.isManualEntry())) {
+                nonManualActivities.add(activity);
+            }
+        }
+        return nonManualActivities;
+    }
+
+    /**
      * This returns the current users list of targets
      * @return returns Target targetList
      */
@@ -322,5 +360,9 @@ public class User {
      */
     public DoubleProperty totalDistanceProperty() {
         return totalDistance;
+    }
+
+    public DoubleProperty avgSpeedProperty() {
+        return avgSpeed;
     }
 }

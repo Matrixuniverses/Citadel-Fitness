@@ -105,7 +105,7 @@ public class LoginController implements Initializable {
             errorLabel.setText("Name length must be in range 1 - 25");
             fieldUpdate(nameField, true, 0);
         } else if (!fields[1]) {
-            errorLabel.setText("Age must be in range 1 - 115");
+            errorLabel.setText("Age must be in range 0 - 140");
             fieldUpdate(ageField, true, 1);
         } else if (!fields[2]) {
             errorLabel.setText("Invalid height");
@@ -178,6 +178,7 @@ public class LoginController implements Initializable {
         userTableCol.setCellValueFactory(new PropertyValueFactory<User, String>("name"));
         imageViewLogo.setImage(new Image("/images/citadelLogo.png"));
 
+        // Calls field update to change the appearance of the name field to green if valid, red if not.
         nameField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -190,11 +191,12 @@ public class LoginController implements Initializable {
             }
         });
 
+        // Calls field update to change the appearance of the age field to green if valid, red if not.
         ageField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
-                    if (Integer.valueOf(ageField.getText()) <= 0) {
+                    if (Integer.valueOf(ageField.getText()) < 0 || Integer.valueOf(ageField.getText()) > 140) {
                         fieldUpdate(ageField, true,1 );
                     } else {
                         fieldUpdate(ageField, false, 1);
@@ -205,12 +207,13 @@ public class LoginController implements Initializable {
             }
         });
 
+        // Calls field update to change the appearance of the height field to green if valid, red if not.
         heightField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     double height = Double.valueOf(heightField.getText());
-                    if (height <= 0 || height >= 300) {
+                    if (height < 50 || height > 270) {
                         fieldUpdate(heightField, true, 2);
                     } else {
                         fieldUpdate(heightField, false, 2);
@@ -222,12 +225,13 @@ public class LoginController implements Initializable {
             }
         });
 
+        // Calls field update to change the appearance of the weight field to green if valid, red if not.
         weightField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {
                     double weight = Double.valueOf(weightField.getText());
-                    if (weight <= 0 || weight >= 650) {
+                    if (weight <= 0 || weight >= 600) {
                         fieldUpdate(weightField, true, 3);
                     } else {
                         fieldUpdate(weightField, false, 3);

@@ -3,8 +3,6 @@ package seng202.group2.data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seng202.group2.model.DataPoint;
-
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +16,45 @@ import java.util.Locale;
  */
 public class DatapointDBOperations {
 
+    //Helper function to retrieve an Observable list of Datapoints from a resultSet
+    private static ObservableList<DataPoint> getDatapointsFromResultSet(ResultSet rs) throws SQLException{
+
+        ObservableList<DataPoint> activityDatapoints = FXCollections.observableArrayList();
+
+        // Iterate through each of the results and create a datapoint for them
+        while (rs.next()) {
+            int datapointID = rs.getInt(1);
+            java.util.Date datapointDate = null;
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
+
+            // Checked exception handling
+            try {
+                datapointDate = dateFormatter.parse(rs.getString(3));
+            } catch (ParseException e) {
+                System.err.println("Unable to parse date");
+                e.printStackTrace();
+                continue;
+            }
+
+            // No type checking required as this is done before insert into database
+            int dpHeartRate = rs.getInt(5);
+            double dpLatitude = rs.getDouble(6);
+            double dpLongitude = rs.getDouble(7);
+            double dpAltitude = rs.getDouble(8);
+            double dpTimeDelta = rs.getDouble(9);
+            double dpDistDelta = rs.getDouble(10);
+
+            // Create the new Datapoint for this result in the result set
+            DataPoint newDP = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
+            newDP.setTimeDelta(dpTimeDelta);
+            newDP.setDistanceDelta(dpDistDelta);
+            newDP.setId(datapointID);
+
+            activityDatapoints.add(newDP);
+        }
+        return  activityDatapoints;
+    }
+
 
     /**
      * Queries the data for all data points that belong to the Activity represented by an inputted Activity id. The
@@ -30,7 +67,7 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static ObservableList<DataPoint> getAllActivityDatapoints(int activityID) throws SQLException {
-
+        // Executes the query that gets all datapoints with activityID as the foreign key
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Datapoints WHERE activity_id = ? ORDER BY dp_date";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -38,35 +75,10 @@ public class DatapointDBOperations {
 
         ResultSet queryResult = pQueryStmt.executeQuery();
 
+        // Datapoints are all read into an observable list
+        ObservableList<DataPoint> activityDatapoints = getDatapointsFromResultSet(queryResult);
 
-        ObservableList<DataPoint> activityDatapoints = FXCollections.observableArrayList();
-
-        while (queryResult.next()) {
-            int datapointID = queryResult.getInt("dp_id");
-            java.util.Date datapointDate = null;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-
-            try {
-                datapointDate = dateFormatter.parse(queryResult.getString("dp_date_string"));
-            } catch (ParseException e) {
-                System.out.println("Unable to parse date");
-                e.printStackTrace();
-            }
-
-            int dpHeartRate = queryResult.getInt("heart_rate");
-            double dpLatitude = queryResult.getDouble("latitude");
-            double dpLongitude = queryResult.getDouble("longitude");
-            double dpAltitude = queryResult.getDouble("altitude");
-            double dpTimeDelta = queryResult.getDouble("time_delta");
-            double dpDistDelta = queryResult.getDouble("dist_delta");
-
-            DataPoint newDP = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
-            newDP.setTimeDelta(dpTimeDelta);
-            newDP.setDistanceDelta(dpDistDelta);
-            newDP.setId(datapointID);
-
-            activityDatapoints.add(newDP);
-        }
+        // Terminate database connection
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
         return activityDatapoints;
@@ -84,7 +96,7 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static DataPoint getDataPointFromDB(int datapointID) throws SQLException {
-
+        // Executes prepared statement
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT * FROM Datapoints WHERE dp_id = ?";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -92,34 +104,15 @@ public class DatapointDBOperations {
 
         ResultSet queryResult = pQueryStmt.executeQuery();
 
-
+        // The query should only get one Datapoint but extra checking has been implemented in case of database
+        // access issues
         DataPoint retrievedDataPoint = null;
-        if (queryResult.next()) {
-
-            java.util.Date datapointDate = null;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH);
-
-            try {
-                datapointDate = dateFormatter.parse(queryResult.getString("dp_date_string"));
-            } catch (ParseException e) {
-                System.out.println("Unable to parse date");
-                e.printStackTrace();
-            }
-
-            int dpHeartRate = queryResult.getInt("heart_rate");
-            double dpLatitude = queryResult.getDouble("latitude");
-            double dpLongitude = queryResult.getDouble("longitude");
-            double dpAltitude = queryResult.getDouble("altitude");
-            double dpTimeDelta = queryResult.getDouble("time_delta");
-            double distDelta = queryResult.getDouble("dist_delta");
-
-            retrievedDataPoint = new DataPoint(datapointDate, dpHeartRate, dpLatitude, dpLongitude, dpAltitude);
-            retrievedDataPoint.setTimeDelta(dpTimeDelta);
-            retrievedDataPoint.setDistanceDelta(distDelta);
-            retrievedDataPoint.setId(datapointID);
+        ObservableList<DataPoint> retrievedDatapoints = getDatapointsFromResultSet(queryResult);
+        if (retrievedDatapoints.size() > 0) {
+            retrievedDataPoint = retrievedDatapoints.get(0);
         }
 
-
+        // Terminate database connection
         pQueryStmt.close();
         DatabaseOperations.disconnectFromDB();
 
@@ -135,6 +128,7 @@ public class DatapointDBOperations {
      * @throws SQLException If an sql related error occurs while connecting to or querying the database.
      */
     public static int getAverageHR(int activityID) throws SQLException {
+        // Using SQL to get the average HR was faster than using Java methods
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlQueryStmt = "SELECT avg(heart_rate) FROM Datapoints WHERE activity_id = ?";
         PreparedStatement pQueryStmt = dbConn.prepareStatement(sqlQueryStmt);
@@ -142,8 +136,7 @@ public class DatapointDBOperations {
 
         ResultSet queryResult = pQueryStmt.executeQuery();
 
-
-
+        // Average HR of -1 is essential a fail return code, caught in the controller classes
         int averageHR = -1;
         if (queryResult.next()) {
             averageHR = queryResult.getInt(1);
@@ -178,8 +171,7 @@ public class DatapointDBOperations {
                 + "longitude, altitude, time_delta, dist_delta) \n"
                 + "VALUES(?,?,?,?,?,?,?,?,?)";
 
-
-
+        // Execute prepared statement
         PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlInsertStmt);
         pUpdateStmt.setInt(1, activityID);
         pUpdateStmt.setString(2, datapoint.getDate().toString());
@@ -192,10 +184,12 @@ public class DatapointDBOperations {
         pUpdateStmt.setDouble(9, datapoint.getDistanceDelta());
         pUpdateStmt.executeUpdate();
 
+        // IDs for model types are automatically generated by SQLite
         ResultSet result = pUpdateStmt.getGeneratedKeys();
         result.next();
         int datapointID = result.getInt(1);
 
+        // Terminate database connection
         pUpdateStmt.close();
         DatabaseOperations.disconnectFromDB();
         return datapointID;
@@ -216,12 +210,13 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static boolean updateExistingDataPoint(DataPoint updatedDP) throws SQLException {
-
+        // Updates all values for the given Datapoint ID, easier than checking what one was changed
         String sqlUpdateStmt = "UPDATE Datapoints SET dp_date_string = ?, dp_date = ?, heart_rate = ?, latitude = ?, longitude = ?, altitude = ? WHERE dp_id = ?";
         if (getDataPointFromDB(updatedDP.getId()) != null) {
 
             Connection dbConn = DatabaseOperations.connectToDB();
 
+            // Execute prepared statement
             PreparedStatement pUpdateStmt = dbConn.prepareStatement(sqlUpdateStmt);
             pUpdateStmt.setString(1, updatedDP.getDate().toString());
             pUpdateStmt.setDate(2, new java.sql.Date(updatedDP.getDate().getTime()));
@@ -234,22 +229,22 @@ public class DatapointDBOperations {
 
             pUpdateStmt.close();
             DatabaseOperations.disconnectFromDB();
+
             return true;
-
-
+            // Basic error checking, boolean returns were used in development but serve as extra error checking
         } else {
             return false;
         }
     }
 
     /**
-     * Inserts all passed datapoints into database using a SQL manual transaction.
+     * Inserts all passed datapoints into database using a SQL manual transaction, this significantly improved DB performance
      * @param points Datapoints to write to database
      * @param activityID ActivityID to attach the datapoints to
      * @throws SQLException If unable to write to database
      */
     public static ArrayList<Integer> insertDataPointList(ObservableList<DataPoint> points, int activityID) throws SQLException{
-
+        // Execute prepared statement and begin the manual transaction
         Connection dbConn = DatabaseOperations.connectToDB();
         Statement stmt = dbConn.createStatement();
         stmt.execute("BEGIN TRANSACTION;");
@@ -257,6 +252,7 @@ public class DatapointDBOperations {
                 + "longitude, altitude, time_delta, dist_delta) VALUES(?,?,?,?,?,?,?,?,?)");
         ArrayList<Integer>  primaryKeys = new ArrayList<Integer>();
 
+        // Adding all statement executions to the current transaction
         for (DataPoint datapoint : points) {
             prep.setInt(1, activityID);
             prep.setString(2, datapoint.getDate().toString());
@@ -269,10 +265,12 @@ public class DatapointDBOperations {
             prep.setDouble(9, datapoint.getDistanceDelta());
             prep.executeUpdate();
 
+            // Getting the automatically generated IDs
             ResultSet rs = prep.getGeneratedKeys();
             primaryKeys.add(rs.getInt(1));
         }
 
+        // Terminate database connection and commit the transaction to database
         prep.close();
         stmt.execute("END TRANSACTION;");
         stmt.close();
@@ -290,6 +288,7 @@ public class DatapointDBOperations {
      * @throws SQLException If an error occurs when handling the sql operations on the database.
      */
     public static boolean deleteExistingDataPoint(int datapointID) throws SQLException {
+        // Execute prepared statement
         Connection dbConn = DatabaseOperations.connectToDB();
         String sqlDeleteStmt = "DELETE FROM Datapoints WHERE dp_id = ?";
 
@@ -299,12 +298,9 @@ public class DatapointDBOperations {
 
         pDeleteStmt.close();
         DatabaseOperations.disconnectFromDB();
-        if (getDataPointFromDB(datapointID) == null) {
-            return true;
-        } else {
-            return false;
-        }
 
+        // Boolean return was used for development, serves as extra error checking
+        return (getDataPointFromDB(datapointID) == null);
     }
 
 }

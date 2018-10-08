@@ -4,11 +4,10 @@ import javafx.collections.ObservableList;
 import seng202.group2.model.Activity;
 import seng202.group2.model.DataPoint;
 import seng202.group2.model.User;
-
+import java.io.IOException;
 import java.lang.Math;
 import java.awt.Desktop;
 import java.net.URI;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -18,12 +17,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class DataAnalyzer {
 
+    /**
+     * This method calculates the time and distance differences between each point in a given activity list, this is done
+     * through using the Haversine formula for distance calculation and by using getTime() to calculate the time
+     * difference
+     * @param activitiesToUpdate ArrayList of activities containing Data Points to calculate deltas
+     */
     public static void calculateDeltas(ArrayList<Activity> activitiesToUpdate) {
         for (Activity activity : activitiesToUpdate) {
             ObservableList<DataPoint> points = activity.getActivityData();
             double totalDistance = 0;
             int totalTime = 0;
 
+            // Only need to consider activities with more than 1 Data Point
             if (points.size() >= 2) {
                 for (int i = 1; i < points.size(); i++) {
                     double lat1 = points.get(i - 1).getLatitude();
@@ -35,12 +41,14 @@ public class DataAnalyzer {
                     Date time1 = points.get(i - 1).getDate();
                     Date time2 = points.get(i).getDate();
 
+                    // Calculating the difference in time using Epoch time
                     long milliDiff = time2.getTime() - time1.getTime();
                     long time = TimeUnit.SECONDS.convert(milliDiff, TimeUnit.MILLISECONDS);
 
                     points.get(i).setDistanceDelta(dist);
                     points.get(i).setTimeDelta(time);
 
+                    // Heavy calculation done here to avoid CPU usage when loading points from database
                     totalDistance += dist;
                     totalTime += time;
                 }
@@ -114,25 +122,14 @@ public class DataAnalyzer {
         return weight / Math.pow(height, 2.0);
     }
 
-    public static double calcAverageHR(Activity activity) {
-        int totalHR = 0;
-        int count = 0;
-
-        for (DataPoint point : activity.getActivityData()) {
-            totalHR += point.getHeartRate();
-            count += 1;
-        }
-
-        return (double) totalHR / count;
-    }
 
     /**
      * Implements a function that calculates a general estimate of the amount of calories burned during physical exercise
      * based on a persons age, weight, average heard rate while exercising, time spent exercising and their gender. The
      * function is based of the equation supplied from The Journal of Sports Sciences.
      * @see <a href="http://fitnowtraining.com/2012/01/formula-for-calories-burned/">http://fitnowtraining.com/2012/01/formula-for-calories-burned/</a>
-     * @param user
-     * @param activity
+     * @param user User to read person specific information from which are used in calculation
+     * @param activity Activity to read activity specific information from which are used in calculation
      * @return An estimate value of the amount of Calories burned by the person during the physical exercise
      * @throws IllegalArgumentException if the resulted calories burned is a negative value
      */
@@ -157,6 +154,7 @@ public class DataAnalyzer {
                 mets = 590;
         }
 
+        // Gender specific calories calculations
         double weight = weightKgToLbs(user.getWeight());
         if (user.getGender().equals("Male")) {
             result = 66.5 + (13.75 * weight) + (5.003 * user.getHeight())-(6.775 * user.getAge());
@@ -224,11 +222,7 @@ public class DataAnalyzer {
      * @return A boolean value, true if person has Bradycardia, false if person does not have Bradycardia.
      */
     public static boolean hasBradycardia(int age, int restingHR) {
-        if (age < 15 && restingHR <= 60 || age < 18 && restingHR <= 55 || age >= 18 && restingHR <= 50) {
-            return true;
-        } else {
-            return false;
-        }
+        return (age < 15 && restingHR <= 60 || age < 18 && restingHR <= 55 || age >= 18 && restingHR <= 50);
     }
 
     /**
@@ -238,11 +232,7 @@ public class DataAnalyzer {
      * @return A boolean value, true if the user is at risk, false if the user is not at risk.
      */
     public static boolean cardiovascularMortalityProne(int age, int restingHR) {
-        if (age >= 18 && restingHR > 83) {
-            return true;
-        } else {
-            return false;
-        }
+        return (age >= 18 && restingHR > 83);
     }
 
 
@@ -253,11 +243,11 @@ public class DataAnalyzer {
      * @throws IllegalArgumentException if a invalid character is found in the inputted search Term
      */
     private static String genValidURLSearchTerm(String searchTerm) {
-
         ArrayList<Integer> formatPositions = new ArrayList<>();
+
+        // String operations to find a valid web search URL
         for (int i = 0; i < searchTerm.length(); i++) {
             if (!(Character.isDigit(searchTerm.charAt(i)) || Character.isLetter(searchTerm.charAt(i)))) {
-
                 String strChr = Character.toString(searchTerm.charAt(i));
                 if (!(strChr.equals(" "))) {
                     throw new IllegalArgumentException("Search term contains the unexpected character " + strChr);
@@ -270,8 +260,8 @@ public class DataAnalyzer {
         }
         String validURLSearchTerm;
 
+        // Creating a new string buffer in which the valid URL is calculated from
         if (formatPositions.size() > 0) {
-
             StringBuffer sTBuff = new StringBuffer(searchTerm);
             for (int j : formatPositions) {
                 if (Character.toString(searchTerm.charAt(j)).equals(" ")) {
@@ -295,9 +285,13 @@ public class DataAnalyzer {
      * @param searchTerm The text that the google search results will be for.     *
      */
     public static void webSearch_Google(String searchTerm) {
-
         String googleURL;
 
+        /*
+            CODE USED FROM GROUP 5 TO FIX BROWSER ERROR
+         */
+
+        // Catching any error code returned from google servers after POST request
         try {
             googleURL = "https://www.google.com/search?q=" + genValidURLSearchTerm(searchTerm);
         } catch (IllegalArgumentException e) {
@@ -307,11 +301,35 @@ public class DataAnalyzer {
             googleURL = "https://www.google.com/search?q=";
         }
 
+        // Using the command line to attempt to open a browser
         try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI(googleURL));
+            String os = System.getProperty("os.name").toLowerCase();
+
+            // Can use the Terminal Emulator on Linux distributions and MacOS to open browser
+            if (os.indexOf("nix") >=0 || os.indexOf("nux") >=0) {
+                Runtime rt = Runtime.getRuntime();
+                String[] browsers = { "epiphany", "firefox", "mozilla", "konqueror",
+                        "netscape", "opera", "links", "lynx" };
+
+                StringBuffer cmd = new StringBuffer();
+                for (int i = 0; i < browsers.length; i++)
+                    if(i == 0)
+                        cmd.append(String.format(    "%s \"%s\"", browsers[i], googleURL));
+                    else
+                        cmd.append(String.format(" || %s \"%s\"", browsers[i], googleURL));
+                // If the first didn't work, try the next browser and so on
+                try {
+                    rt.exec(new String[] { "sh", "-c", cmd.toString() });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                System.err.println("Java desktop integration is not supported on the current operating system.");
+                // If user is using Windows an event is fired to AutoPlay which opens the browser
+                if (Desktop.isDesktopSupported()) {
+                    Desktop.getDesktop().browse(new URI(googleURL));
+                } else {
+                    System.err.println("Java desktop integration is not supported on the current operating system.");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

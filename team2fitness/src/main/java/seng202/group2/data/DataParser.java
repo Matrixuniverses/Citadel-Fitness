@@ -3,7 +3,6 @@ package seng202.group2.data;
 import com.opencsv.CSVReader;
 import seng202.group2.analysis.DataAnalyzer;
 import seng202.group2.model.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,15 +13,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-// TODO - Need to get multithreading working
-
 /**
  * DataParser designed to read a CSV file for activity data.
  */
 public class DataParser {
     private ArrayList<MalformedLine> malformedLines = new ArrayList<>();
-    private ArrayList<Activity> activitiesRead;
-
+    private ArrayList<Activity> activitiesRead = new ArrayList<>();
 
     /**
      * Creates a new parser object, reading location and fitness information into Activities and Datapoints
@@ -34,6 +30,8 @@ public class DataParser {
         try {
             if (file == null) {
                 throw new FileFormatException("File is null");
+            } else if (file.isDirectory()) {
+                throw new FileFormatException("Please select a file");
             }
 
             FileReader readFile = new FileReader(file);
@@ -42,12 +40,12 @@ public class DataParser {
             String name = file.getName();
             String extension = name.substring(name.lastIndexOf(".") + 1);
 
-            //TODO - Look at this (might not need to ignore all files of the incorrect format)
+            // Checking if the extension is CSV, if not file parsing halted
             if (!extension.equals("csv")) {
                 throw new FileFormatException("Incorrect file format");
             }
 
-            this.activitiesRead = new ArrayList<>();
+            // Reads lines from CSV and checks validity
             readLines(readCSV);
 
             // Updating the activities read by calculating distances for each datapoint and activity
@@ -71,34 +69,79 @@ public class DataParser {
      */
     private DataPoint readLine(String line[], int fields, Activity currentActivity) {
         int lineLength = line.length;
+        String malformedMessage = "";
 
+        //field num check
         if (lineLength != fields) {
-            malformedLines.add(new MalformedLine(line, currentActivity, "Unexpected number of fields"));
-            return null;
+            malformedMessage += "Unexpected number of Fields: Expected " + fields + ", got " + lineLength + "\n";
         }
 
+        //Date format check
         Date date = checkDateTimeFormat(line[0], line[1]);
         if (date == null) {
-            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect date format"));
-            return null;
-        }
 
-        try {
-            int heart = Integer.parseInt(line[2]);
-            double lat = Double.parseDouble(line[3]);
-            double lon = Double.parseDouble(line[4]);
-            double alt = Double.parseDouble(line[5]);
-
-            if (lat >= -90 && lat <= 90 && lon >= -180 && lat <= 180) {
-                return new DataPoint(date, heart, lat, lon, alt);
-            } else {
-                throw new NumberFormatException();
+            if (line[0].trim().equals("")) {
+                line[0] = "No Value";
             }
 
+            if (line[1].trim().equals("")) {
+                line[1] = "No Value";
+            }
+            malformedMessage += "Date Format Error: Expected dd/MM/yyyy, HH:mm:ss format, got " + line[0] +  ", " + line[1] + " \n";
+
+        }
+
+        int heart = 0;
+        double lat = 0.0, lon = 0.0, alt = 0.0;
+
+        //Heart rate check
+        try {
+            heart = Integer.parseInt(line[2]);
+            if (heart < 20 || heart > 300) {
+                malformedMessage += "Unexpected Heart Rate: Expected heart rate between 20 and 300, got " + heart + "\n";
+            }
         } catch (NumberFormatException e) {
-            malformedLines.add(new MalformedLine(line, currentActivity, "Incorrect numerical format"));
+            malformedMessage += "Heart Rate Format Error: Incorrect numerical format + \n";
+        }
+
+        //latitude check
+        try {
+            lat = Double.parseDouble(line[3]);
+            if (lat < -90 || lat > 90) {
+                malformedMessage += "Unexpected Latitude: Expected latitude between -90 and 90, got " + lat + "\n";
+            }
+        } catch (NumberFormatException e) {
+            malformedMessage += "Latitude Format Error: Incorrect numerical format + \n";
+        }
+
+        //longitude check
+        try {
+            lon = Double.parseDouble(line[4]);
+            if (lon < -180 || lon > 180) {
+                malformedMessage += "Unexpected Longitude: Expected longitude between -180 and 180, got " + lon + "\n";
+            }
+        } catch (NumberFormatException e) {
+            malformedMessage += "Longitude Format Error: Incorrect numerical format + \n";
+        }
+
+        //altitude check
+        try {
+            alt = Double.parseDouble(line[5]);
+            if (alt < -1500 || alt > 9000) {
+                malformedMessage += "Unexpected Altitude: Expected longitude between -1500 and 9000, got " + alt + "\n";
+            }
+        } catch (NumberFormatException e) {
+            malformedMessage += "Altitude Format Error: Incorrect numerical format + \n";
+        }
+
+        //If nothing is added to the malformed Message then the datapoint is valid
+        if (malformedMessage.length() == 0) {
+            return new DataPoint(date, heart, lat, lon, alt);
+        } else {
+            malformedLines.add(new MalformedLine(line, currentActivity, malformedMessage));
             return null;
         }
+
     }
 
 
@@ -117,20 +160,28 @@ public class DataParser {
         int totalHR = 0;
         int HRCounts = 0;
 
+        // Iterate through all lines of the CSV
         while ((line = readCSV.readNext()) != null) {
+            // Line length needs to be more than 2 in order to get an activity name
             if (line.length >= 2) {
+                // Activity found
                 if (line[0] != null && line[0].equals("#start")) {
                     currentActivity.setAverageHR((double) totalHR / HRCounts);
                     currentActivity = new Activity("Unnamed");
                     activitiesRead.add(currentActivity);
+                    // Start the average heart rate calculation for the given activity
                     totalHR = 0;
                     HRCounts = 0;
 
+                    // Unnamed activity found
                     if (line[1] != null && !line[1].equals("")) {
                         currentActivity.setActivityName(line[1]);
                     }
 
+                    // Datapoint found
                 } else {
+                    // Reads a Datapoint line and checks for validity, if the line is invalid the returned point is null
+                    // Continue iterating through the loop
                     DataPoint point = readLine(line, fields, currentActivity);
                     if (point != null) {
                         currentActivity.addDataPoint(point);
@@ -152,7 +203,6 @@ public class DataParser {
      */
     private static Date checkDateTimeFormat(String date, String time) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy,HH:mm:ss", Locale.ENGLISH);
-
         try {
             return dateFormatter.parse(date + "," + time);
         } catch (ParseException e) {
@@ -167,40 +217,5 @@ public class DataParser {
 
     public ArrayList<MalformedLine> getMalformedLines() {
         return this.malformedLines;
-    }
-
-    /**
-     * Checks a passed line to see if it is valid or not
-     *
-     * @param line Line to be checked
-     * @return True if line is valid, False if not
-     */
-    public static boolean isValidLine(String[] line) {
-        int lineLength = line.length;
-
-        // Default number of fields that should be contained in the line
-        if (lineLength != 6) {
-            return false;
-        }
-
-        // Checks date
-        Date date = checkDateTimeFormat(line[0], line[1]);
-        if (date == null) {
-            return false;
-        }
-
-        // Checks only the data type of the line fields
-        try {
-            // The return values of these variables is not used, they are dummy calls designed to throw an
-            // exception upon an invalid value being passed
-            Integer.parseInt(line[2]); // HeartRate check
-            Double.parseDouble(line[3]); // Latitude check
-            Double.parseDouble(line[4]); // Longitude check
-            Double.parseDouble(line[5]); // Altitude check
-            return true;
-
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }

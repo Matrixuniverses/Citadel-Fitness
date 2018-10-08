@@ -24,8 +24,6 @@
     var map;
     var polylinePath;
 
-    var currentPoint;
-
     var totalDistance = 0.0;
     var newDistance;
     var start;
@@ -34,6 +32,9 @@
     var markersArray = [];
     var polylineArray = [];
 
+    /**
+     * Initalises the Google Map in Webview. Adds a listener to the map for marker placement.
+     */
     function initMap() {
         var options = {
             center: {lat: -43.522551, lng: 172.581065},
@@ -135,6 +136,12 @@
 
     }
 
+    /**
+     * Adds a marker to the map based on where the user clicked.
+     * Adds the marker to an array of markers.
+     * Calls the calculate route function to display a polyline of the user's selected route.
+     * @param location
+     */
     function placeMarker(location) {
         var marker = new google.maps.Marker({
             position: location,
@@ -144,11 +151,14 @@
         markersArray.push(marker);
 
         calculateRoute(runPath);
-        distanceTest();
 
         map.setCenter(location);
     }
 
+    /**
+     * Creates a polyline to display the route between all the user's markers.
+     * @param runPath An array of (lat,lng) points for the polyline to cover.
+     */
     function calculateRoute(runPath) {
 
         //Do nothing if two markers haven't yet been placed
@@ -172,6 +182,10 @@
 
     }
 
+    /**
+     * Finds the total distance between all the points the user marks on the map.
+     * @returns {number} Total distance as double.
+     */
     function calculateDistance() {
         if (runPath.length > 1) {
             start = runPath[runPath.length - 2];
@@ -184,6 +198,10 @@
         }
     }
 
+    /**
+     * Repositions the map view.
+     * @param flightPath The user's path.
+     */
     function repositionMap(flightPath) {
         var bounds = new google.maps.LatLngBounds();
 
@@ -194,6 +212,9 @@
         map.fitBounds(bounds);
     }
 
+    /**
+     * Clears the map of markers/polylines. Clears the marker and polyline array.
+     */
     function clearMap() {
         for (var i = 0 ; i < markersArray.length ; i++) {
             markersArray[i].setMap(null);
@@ -204,8 +225,42 @@
         polylineArray = [];
         markersArray = [];
         runPath = [];
+
+        totalDistance = 0;
+        newDistance = 0;
     }
 
+    /**
+     * Removes the last marker the user places, as well as the associated polyline.
+     * Recalculates total distance.
+     */
+    function undoMarker() {
+
+        if (runPath.length == 0 || runPath.length == 1 || runPath.length == 2) {
+            totalDistance = 0;
+        } else {
+            totalDistance -= newDistance;
+        }
+
+        if (markersArray.length > 0) {
+            markersArray[markersArray.length - 1].setMap(null);
+            markersArray.splice(-1,1);
+        }
+
+        if (polylineArray.length > 0) {
+            polylineArray[polylineArray.length - 1].setMap(null);
+            polylineArray.splice(-1,1);
+        }
+
+        if (runPath.length > 0) {
+            runPath.splice(-1,1);
+        }
+
+    }
+
+    function getRoute() {
+        return runPath;
+    }
 
 
 </script>

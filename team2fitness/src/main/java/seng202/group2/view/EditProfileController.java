@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 /**
  * This is the controller for EditProfile Scene, initializes and handles Scene events
  */
-public class EditProfileController implements Initializable, UserData {
+public class EditProfileController implements Initializable  {
 
     @FXML
     private TextField nameField;
@@ -73,15 +73,9 @@ public class EditProfileController implements Initializable, UserData {
         });
     }
 
-
     /**
      * Fills the provided fields with the user's current information.
      */
-    @Override
-    public void updateUser() {
-
-    }
-
     private void setFields() {
         nameField.setText(currentUser.getName());
         ageField.setText(Integer.toString(currentUser.getAge()));
@@ -105,6 +99,7 @@ public class EditProfileController implements Initializable, UserData {
         double height = 0.0;
         double weight = 0.0;
 
+        // Checks name
         String name = nameField.getText();
         if (name.length() > 25) {
             nameErrorLabel.setText("Name cannot exceed 25 characters");
@@ -114,10 +109,11 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // Checks age
         try {
             age = Integer.valueOf(ageField.getText());
-            if (age > 105 || age < 0) {
-                ageErrorLabel.setText("Age must be between 0 and 105");
+            if (age > 140 || age < 0) {
+                ageErrorLabel.setText("Age must be between 0 and 140");
                 update = false;
             }
         } catch (NumberFormatException e) {
@@ -125,9 +121,10 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // Checks height
         try {
             height = Double.valueOf(heightField.getText());
-            if (height > 270 || height <= 0) {
+            if (height > 270 || height <= 50) {
                 heightErrorLabel.setText("Height must be between 0 and 270");
                 update = false;
             }
@@ -137,6 +134,7 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // Checks weight
         try {
             weight = Double.valueOf(weightField.getText());
             if (weight > 600 || weight < 0) {
@@ -149,6 +147,7 @@ public class EditProfileController implements Initializable, UserData {
             update = false;
         }
 
+        // If all checks verfiy the input is valid, the current user's profile is updated.
         if (update) {
             currentUser.setName(name);
             currentUser.setAge(age);

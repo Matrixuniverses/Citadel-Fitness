@@ -1,7 +1,12 @@
 package seng202.group2.model;
 
+import javax.xml.bind.annotation.XmlValue;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Model class datapoint stores information about a recoded point in time
+ */
 public class DataPoint {
     private int id;
     private Date date;
@@ -11,7 +16,6 @@ public class DataPoint {
     private double altitude;
     private double distanceDelta;   // Geodetic distance from last point
     private double timeDelta;
-    private double speedDelta;
 
     /** Constructor for a new Datapoint, each of the basic measurements are required
      *
@@ -131,5 +135,13 @@ public class DataPoint {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * This function is called by a CellValueFactory in runtime and does not appear in code.
+     * @return Date containing a neicely formatted date
+     */
+    public String getFormattedDate() {
+        return new SimpleDateFormat("MMMM d, YYYY").format(this.date);
     }
 }
